@@ -29,7 +29,8 @@ reated by https://www.gitignore.io/api/tex,latex,python,pycharm+all
 # *.pdf
 
 ## Generated if empty string is given at "Please type another file name for output:"
-.pdf
+thesis/*.pdf
+thesis/README*
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl

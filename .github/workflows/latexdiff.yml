@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: latexdiff
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout old version
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+          ref: master
+          path: old
+      - name: Change reference of old version
+        run: git checkout HEAD^
+        working-directory: old
+      - name: Checkout new version
+        uses: actions/checkout@v2
+        with:
+          path: new
+          ref: master
+      - name: Install latexdiff
+        run: sudo apt-get install latexdiff
+      - name: Run latexdiff
+        run: latexdiff --flatten old/thesis/thesis.tex new/thesis/thesis.tex > new/thesis/diff.tex
+      - name: Compile LaTeX difference document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: diff.tex
+          working_directory: new/thesis/
+      - name: Check pdf files
+        run: |
+          file new/thesis/diff.pdf | grep -q ' PDF '
+      - name: Upload PDF
+        uses: actions/upload-artifact@master
+        with:
+          name: diff_pdf
+          path: new/thesis/diff.pdf
+        if: always()
+      - name: Upload TEX
+        uses: actions/upload-artifact@master
+        with:
+          name: diff_tex
+          path: new/thesis/diff.tex
+        if: always()

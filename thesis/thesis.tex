@@ -21,7 +21,8 @@
 \usepackage{nag}       % Issues warnings when best practices in writing LaTeX documents are violated.
 \usepackage{todonotes} % Provides tooltip-like todo notes.
 \usepackage{hyperref}  % Enables cross linking in the electronic document version. This package has to be included second to last.
-\usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
+\usepackage[acronym,toc]{glossaries}
+\usepackage{subfiles} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Rafael Sterzinger} % The author name without titles.
@@ -130,21 +131,42 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 % Switch to arabic numbering and start the enumeration of chapters in the table of content.
     \mainmatter
 
+
     \chapter{Introduction}
+
+    \section{Motivation}
+    
+    \section{Problem Statement}
+
+    \section{State of the Art}
+
+    \section{Thesis Outline}
 
     \chapter{Reinforcement Learning Background}
 
+    \section{Reinforcement Learning Problem}
+
+    \subsection{Environment}
+
+    \subsection{Rewards/Goals}
+
+    \section{Markov Chains}
+
+    \chapter{Deep Reinforcement Learning}
+
+    \chapter{Intrinsic Motivation in Reinforcement Learning}
 
 
+    \chapter{Knowledge Acquisition}
 
 
+    \chapter{Evalutation}
 
 
+    \chapter{Implementation}
 
 
-
-
-
+    \chapter{Results and Discussion}
 
 
 % Remove following line for the final thesis.
@@ -161,6 +183,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \listofalgorithms
     \addcontentsline{toc}{chapter}{List of Algorithms}
 
+
 % Add an index.
     \printindex
 
@@ -169,6 +192,6 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 % Add a bibliography.
     \bibliographystyle{alpha}
-    \bibliography{intro}
+    \bibliography{core}
 
 \end{document}

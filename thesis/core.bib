@@ -1,0 +1,201 @@
+
+@article{schulman_proximal_2017,
+	title = {Proximal {Policy} {Optimization} {Algorithms}},
+	url = {http://arxiv.org/abs/1707.06347},
+	abstract = {We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.},
+	author = {Schulman, John and Wolski, Filip and Dhariwal, Prafulla and Radford, Alec and Klimov, Oleg},
+	month = aug,
+	year = {2017},
+	keywords = {Computer Science - Machine Learning},
+	file = {arXiv.org Snapshot:/home/rafael/Zotero/storage/IMBL6B3D/1707.html:text/html;arXiv Fulltext PDF:/home/rafael/Zotero/storage/CTKCQUSZ/Schulman et al. - 2017 - Proximal Policy Optimization Algorithms.pdf:application/pdf}
+}
+
+@article{burda_large-scale_2018,
+	title = {Large-{Scale} {Study} of {Curiosity}-{Driven} {Learning}},
+	url = {http://arxiv.org/abs/1808.04355},
+	abstract = {Reinforcement learning algorithms rely on carefully engineering environment rewards that are extrinsic to the agent. However, annotating each environment with hand-designed, dense rewards is not scalable, motivating the need for developing reward functions that are intrinsic to the agent. Curiosity is a type of intrinsic reward function which uses prediction error as reward signal. In this paper: (a) We perform the first large-scale study of purely curiosity-driven learning, i.e. without any extrinsic rewards, across 54 standard benchmark environments, including the Atari game suite. Our results show surprisingly good performance, and a high degree of alignment between the intrinsic curiosity objective and the hand-designed extrinsic rewards of many game environments. (b) We investigate the effect of using different feature spaces for computing prediction error and show that random features are sufficient for many popular RL game benchmarks, but learned features appear to generalize better (e.g. to novel game levels in Super Mario Bros.). (c) We demonstrate limitations of the prediction-based rewards in stochastic setups. Game-play videos and code are at https://pathak22.github.io/large-scale-curiosity/},
+	author = {Burda, Yuri and Edwards, Harri and Pathak, Deepak and Storkey, Amos and Darrell, Trevor and Efros, Alexei A.},
+	month = aug,
+	year = {2018},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Robotics, Core},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/SATIVCPM/Burda et al. - 2018 - Large-Scale Study of Curiosity-Driven Learning.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/RKK3URTF/1808.html:text/html}
+}
+
+@article{pathak_curiosity-driven_2017,
+	title = {Curiosity-driven {Exploration} by {Self}-supervised {Prediction}},
+	url = {http://arxiv.org/abs/1705.05363},
+	abstract = {In many real-world scenarios, rewards extrinsic to the agent are extremely sparse, or absent altogether. In such cases, curiosity can serve as an intrinsic reward signal to enable the agent to explore its environment and learn skills that might be useful later in its life. We formulate curiosity as the error in an agent's ability to predict the consequence of its own actions in a visual feature space learned by a self-supervised inverse dynamics model. Our formulation scales to high-dimensional continuous state spaces like images, bypasses the difficulties of directly predicting pixels, and, critically, ignores the aspects of the environment that cannot affect the agent. The proposed approach is evaluated in two environments: VizDoom and Super Mario Bros. Three broad settings are investigated: 1) sparse extrinsic reward, where curiosity allows for far fewer interactions with the environment to reach the goal; 2) exploration with no extrinsic reward, where curiosity pushes the agent to explore more efficiently; and 3) generalization to unseen scenarios (e.g. new levels of the same game) where the knowledge gained from earlier experience helps the agent explore new places much faster than starting from scratch. Demo video and code available at https://pathak22.github.io/noreward-rl/},
+	author = {Pathak, Deepak and Agrawal, Pulkit and Efros, Alexei A. and Darrell, Trevor},
+	month = may,
+	year = {2017},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Robotics},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/8Y9K3I9F/Pathak et al. - 2017 - Curiosity-driven Exploration by Self-supervised Pr.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/D9IYF8X8/1705.html:text/html}
+}
+
+@article{aubret_survey_2019,
+	title = {A survey on intrinsic motivation in reinforcement learning},
+	url = {http://arxiv.org/abs/1908.06976},
+	abstract = {The reinforcement learning (RL) research area is very active, with an important number of new contributions; especially considering the emergent field of deep RL (DRL). However a number of scientific and technical challenges still need to be addressed, amongst which we can mention the ability to abstract actions or the difficulty to explore the environment which can be addressed by intrinsic motivation (IM). In this article, we provide a survey on the role of intrinsic motivation in DRL. We categorize the different kinds of intrinsic motivations and detail for each category, its advantages and limitations with respect to the mentioned challenges. Additionnally, we conduct an in-depth investigation of substantial current research questions, that are currently under study or not addressed at all in the considered research area of DRL. We choose to survey these research works, from the perspective of learning how to achieve tasks. We suggest then, that solving current challenges could lead to a larger developmental architecture which may tackle most of the tasks. We describe this developmental architecture on the basis of several building blocks composed of a RL algorithm and an IM module compressing information.},
+	author = {Aubret, Arthur and Matignon, Laetitia and Hassas, Salima},
+	month = nov,
+	year = {2019},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/DM68MHSW/Aubret et al. - 2019 - A survey on intrinsic motivation in reinforcement .pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/WFVUU5FE/1908.html:text/html}
+}
+
+@book{sutton_reinforcement_2018,
+	address = {Cambridge, Massachusetts},
+	edition = {Second edition},
+	series = {Adaptive computation and machine learning series},
+	title = {Reinforcement learning: an introduction},
+	isbn = {978-0-262-03924-6},
+	shorttitle = {Reinforcement learning},
+	abstract = {"Reinforcement learning, one of the most active research areas in artificial intelligence, is a computational approach to learning whereby an agent tries to maximize the total amount of reward it receives while interacting with a complex, uncertain environment. In Reinforcement Learning, Richard Sutton and Andrew Barto provide a clear and simple account of the field's key ideas and algorithms."--},
+	language = {en},
+	publisher = {The MIT Press},
+	author = {Sutton, Richard S. and Barto, Andrew G.},
+	year = {2018},
+	keywords = {Reinforcement learning},
+	file = {Sutton and Barto - 2018 - Reinforcement learning an introduction.pdf:/home/rafael/Zotero/storage/N7MXHSAM/Sutton and Barto - 2018 - Reinforcement learning an introduction.pdf:application/pdf}
+}
+
+@article{francois-lavet_introduction_2018,
+	title = {An {Introduction} to {Deep} {Reinforcement} {Learning}},
+	volume = {11},
+	issn = {1935-8237, 1935-8245},
+	url = {http://arxiv.org/abs/1811.12560},
+	doi = {10.1561/2200000071},
+	abstract = {Deep reinforcement learning is the combination of reinforcement learning (RL) and deep learning. This field of research has been able to solve a wide range of complex decision-making tasks that were previously out of reach for a machine. Thus, deep RL opens up many new applications in domains such as healthcare, robotics, smart grids, finance, and many more. This manuscript provides an introduction to deep reinforcement learning models, algorithms and techniques. Particular focus is on the aspects related to generalization and how deep RL can be used for practical applications. We assume the reader is familiar with basic machine learning concepts.},
+	number = {3-4},
+	author = {Francois-Lavet, Vincent and Henderson, Peter and Islam, Riashat and Bellemare, Marc G. and Pineau, Joelle},
+	year = {2018},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning},
+	pages = {219--354},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/UV7ZPW2A/Francois-Lavet et al. - 2018 - An Introduction to Deep Reinforcement Learning.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/4DMYB594/1811.html:text/html}
+}
+
+@article{linke_adapting_2020,
+	title = {Adapting {Behaviour} via {Intrinsic} {Reward}: {A} {Survey} and {Empirical} {Study}},
+	shorttitle = {Adapting {Behaviour} via {Intrinsic} {Reward}},
+	url = {http://arxiv.org/abs/1906.07865},
+	abstract = {Learning about many things can provide numerous benefits to a reinforcement learning system. For example, learning many auxiliary value functions, in addition to optimizing the environmental reward, appears to improve both exploration and representation learning. The question we tackle in this paper is how to sculpt the stream of experience---how to adapt the learning system's behavior---to optimize the learning of a collection of value functions. A simple answer is to compute an intrinsic reward based on the statistics of each auxiliary learner, and use reinforcement learning to maximize that intrinsic reward. Unfortunately, implementing this simple idea has proven difficult, and thus has been the focus of decades of study. It remains unclear which of the many possible measures of learning would work well in a parallel learning setting where environmental reward is extremely sparse or absent. In this paper, we investigate and compare different intrinsic reward mechanisms in a new bandit-like parallel-learning testbed. We discuss the interaction between reward and prediction learners and highlight the importance of introspective prediction learners: those that increase their rate of learning when progress is possible, and decrease when it is not. We provide a comprehensive empirical comparison of 14 different rewards, including well-known ideas from reinforcement learning and active learning. Our results highlight a simple but seemingly powerful principle: intrinsic rewards based on the amount of learning can generate useful behavior, if each individual learner is introspective.},
+	author = {Linke, Cam and Ady, Nadia M. and White, Martha and Degris, Thomas and White, Adam},
+	month = may,
+	year = {2020},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/E9RK85MA/Linke et al. - 2020 - Adapting Behaviour via Intrinsic Reward A Survey .pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/2IDE4V54/1906.html:text/html}
+}
+
+@article{gregor_variational_2016,
+	title = {Variational {Intrinsic} {Control}},
+	url = {http://arxiv.org/abs/1611.07507},
+	abstract = {In this paper we introduce a new unsupervised reinforcement learning method for discovering the set of intrinsic options available to an agent. This set is learned by maximizing the number of different states an agent can reliably reach, as measured by the mutual information between the set of options and option termination states. To this end, we instantiate two policy gradient based algorithms, one that creates an explicit embedding space of options and one that represents options implicitly. The algorithms also provide an explicit measure of empowerment in a given state that can be used by an empowerment maximizing agent. The algorithm scales well with function approximation and we demonstrate the applicability of the algorithm on a range of tasks.},
+	author = {Gregor, Karol and Rezende, Danilo Jimenez and Wierstra, Daan},
+	month = nov,
+	year = {2016},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Reward Combination},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/866J8JW5/Gregor et al. - 2016 - Variational Intrinsic Control.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/W4TXTLEZ/1611.html:text/html}
+}
+
+@article{vezhnevets_feudal_2017,
+	title = {{FeUdal} {Networks} for {Hierarchical} {Reinforcement} {Learning}},
+	url = {http://arxiv.org/abs/1703.01161},
+	abstract = {We introduce FeUdal Networks (FuNs): a novel architecture for hierarchical reinforcement learning. Our approach is inspired by the feudal reinforcement learning proposal of Dayan and Hinton, and gains power and efficacy by decoupling end-to-end learning across multiple levels -- allowing it to utilise different resolutions of time. Our framework employs a Manager module and a Worker module. The Manager operates at a lower temporal resolution and sets abstract goals which are conveyed to and enacted by the Worker. The Worker generates primitive actions at every tick of the environment. The decoupled structure of FuN conveys several benefits -- in addition to facilitating very long timescale credit assignment it also encourages the emergence of sub-policies associated with different goals set by the Manager. These properties allow FuN to dramatically outperform a strong baseline agent on tasks that involve long-term credit assignment or memorisation. We demonstrate the performance of our proposed system on a range of tasks from the ATARI suite and also from a 3D DeepMind Lab environment.},
+	author = {Vezhnevets, Alexander Sasha and Osindero, Simon and Schaul, Tom and Heess, Nicolas and Jaderberg, Max and Silver, David and Kavukcuoglu, Koray},
+	month = mar,
+	year = {2017},
+	keywords = {Computer Science - Artificial Intelligence, Reward Combination},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/AUKB95TC/Vezhnevets et al. - 2017 - FeUdal Networks for Hierarchical Reinforcement Lea.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/KLNGPKD3/1703.html:text/html}
+}
+
+@article{huang_learning_2019,
+	title = {Learning {Gentle} {Object} {Manipulation} with {Curiosity}-{Driven} {Deep} {Reinforcement} {Learning}},
+	url = {http://arxiv.org/abs/1903.08542},
+	abstract = {Robots must know how to be gentle when they need to interact with fragile objects, or when the robot itself is prone to wear and tear. We propose an approach that enables deep reinforcement learning to train policies that are gentle, both during exploration and task execution. In a reward-based learning environment, a natural approach involves augmenting the (task) reward with a penalty for non-gentleness, which can be defined as excessive impact force. However, augmenting with only this penalty impairs learning: policies get stuck in a local optimum which avoids all contact with the environment. Prior research has shown that combining auxiliary tasks or intrinsic rewards can be beneficial for stabilizing and accelerating learning in sparse-reward domains, and indeed we find that introducing a surprise-based intrinsic reward does avoid the no-contact failure case. However, we show that a simple dynamics-based surprise is not as effective as penalty-based surprise. Penalty-based surprise, based on predicting forceful contacts, has a further benefit: it encourages exploration which is contact-rich yet gentle. We demonstrate the effectiveness of the approach using a complex, tendon-powered robot hand with tactile sensors. Videos are available at http://sites.google.com/view/gentlemanipulation.},
+	author = {Huang, Sandy H. and Zambelli, Martina and Kay, Jackie and Martins, Murilo F. and Tassa, Yuval and Pilarski, Patrick M. and Hadsell, Raia},
+	month = mar,
+	year = {2019},
+	keywords = {Computer Science - Robotics, Reward Combination},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/JFHQDH6X/Huang et al. - 2019 - Learning Gentle Object Manipulation with Curiosity.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/LQMRMPWQ/1903.html:text/html}
+}
+
+@article{kim_curiosity-bottleneck_2019,
+	title = {Curiosity-{Bottleneck}: {Exploration} by {Distilling} {Task}-{Specific} {Novelty}},
+	abstract = {Exploration based on state novelty has brought great success in challenging reinforcement learning problems with sparse rewards. However, existing novelty-based strategies become inefﬁcient in real-world problems where observation contains not only task-dependent state novelty of our interest but also task-irrelevant information that should be ignored. We introduce an informationtheoretic exploration strategy named CuriosityBottleneck that distills task-relevant information from observation. Based on the information bottleneck principle, our exploration bonus is quantiﬁed as the compressiveness of observation with respect to the learned representation of a compressive value network. With extensive experiments on static image classiﬁcation, grid-world and three hard-exploration Atari games, we show that Curiosity-Bottleneck learns an effective exploration strategy by robustly measuring the state novelty in distractive environments where stateof-the-art exploration methods often degenerate.},
+	language = {en},
+	author = {Kim, Youngjin and Nam, Wontae and Kim, Hyunwoo and Kim, Ji-Hoon and Kim, Gunhee},
+	year = {2019},
+	pages = {10},
+	file = {Kim et al. - Curiosity-Bottleneck Exploration by Distilling Ta.pdf:/home/rafael/Zotero/storage/FLGBPRNF/Kim et al. - Curiosity-Bottleneck Exploration by Distilling Ta.pdf:application/pdf}
+}
+
+@article{kim_emi_2019,
+	title = {{EMI}: {Exploration} with {Mutual} {Information}},
+	shorttitle = {{EMI}},
+	url = {http://arxiv.org/abs/1810.01176},
+	abstract = {Reinforcement learning algorithms struggle when the reward signal is very sparse. In these cases, naive random exploration methods essentially rely on a random walk to stumble onto a rewarding state. Recent works utilize intrinsic motivation to guide the exploration via generative models, predictive forward models, or discriminative modeling of novelty. We propose EMI, which is an exploration method that constructs embedding representation of states and actions that does not rely on generative decoding of the full observation but extracts predictive signals that can be used to guide exploration based on forward prediction in the representation space. Our experiments show competitive results on challenging locomotion tasks with continuous control and on image-based exploration tasks with discrete actions on Atari. The source code is available at https://github.com/snu-mllab/EMI .},
+	author = {Kim, Hyoungseok and Kim, Jaekyeom and Jeong, Yeonwoo and Levine, Sergey and Song, Hyun Oh},
+	month = jun,
+	year = {2019},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/RV6VPRB8/Kim et al. - 2019 - EMI Exploration with Mutual Information.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/MR38H97F/1810.html:text/html}
+}
+
+@article{pathak_self-supervised_2019,
+	title = {Self-{Supervised} {Exploration} via {Disagreement}},
+	url = {http://arxiv.org/abs/1906.04161},
+	abstract = {Efficient exploration is a long-standing problem in sensorimotor learning. Major advances have been demonstrated in noise-free, non-stochastic domains such as video games and simulation. However, most of these formulations either get stuck in environments with stochastic dynamics or are too inefficient to be scalable to real robotics setups. In this paper, we propose a formulation for exploration inspired by the work in active learning literature. Specifically, we train an ensemble of dynamics models and incentivize the agent to explore such that the disagreement of those ensembles is maximized. This allows the agent to learn skills by exploring in a self-supervised manner without any external reward. Notably, we further leverage the disagreement objective to optimize the agent's policy in a differentiable manner, without using reinforcement learning, which results in a sample-efficient exploration. We demonstrate the efficacy of this formulation across a variety of benchmark environments including stochastic-Atari, Mujoco and Unity. Finally, we implement our differentiable exploration on a real robot which learns to interact with objects completely from scratch. Project videos and code are at https://pathak22.github.io/exploration-by-disagreement/},
+	author = {Pathak, Deepak and Gandhi, Dhiraj and Gupta, Abhinav},
+	month = jun,
+	year = {2019},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Robotics},
+	file = {arXiv.org Snapshot:/home/rafael/Zotero/storage/S23G78CW/1906.html:text/html;arXiv Fulltext PDF:/home/rafael/Zotero/storage/HDW2GRJK/Pathak et al. - 2019 - Self-Supervised Exploration via Disagreement.pdf:application/pdf}
+}
+
+@article{burda_exploration_2018,
+	title = {Exploration by {Random} {Network} {Distillation}},
+	url = {http://arxiv.org/abs/1810.12894},
+	abstract = {We introduce an exploration bonus for deep reinforcement learning methods that is easy to implement and adds minimal overhead to the computation performed. The bonus is the error of a neural network predicting features of the observations given by a fixed randomly initialized neural network. We also introduce a method to flexibly combine intrinsic and extrinsic rewards. We find that the random network distillation (RND) bonus combined with this increased flexibility enables significant progress on several hard exploration Atari games. In particular we establish state of the art performance on Montezuma's Revenge, a game famously difficult for deep reinforcement learning methods. To the best of our knowledge, this is the first method that achieves better than average human performance on this game without using demonstrations or having access to the underlying state of the game, and occasionally completes the first level.},
+	author = {Burda, Yuri and Edwards, Harrison and Storkey, Amos and Klimov, Oleg},
+	month = oct,
+	year = {2018},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning, Reward Combination},
+	file = {arXiv.org Snapshot:/home/rafael/Zotero/storage/JUSA5GYT/1810.html:text/html;arXiv Fulltext PDF:/home/rafael/Zotero/storage/3RGH6BAW/Burda et al. - 2018 - Exploration by Random Network Distillation.pdf:application/pdf}
+}
+
+@article{stadie_incentivizing_2015,
+	title = {Incentivizing {Exploration} {In} {Reinforcement} {Learning} {With} {Deep} {Predictive} {Models}},
+	url = {http://arxiv.org/abs/1507.00814},
+	abstract = {Achieving efficient and scalable exploration in complex domains poses a major challenge in reinforcement learning. While Bayesian and PAC-MDP approaches to the exploration problem offer strong formal guarantees, they are often impractical in higher dimensions due to their reliance on enumerating the state-action space. Hence, exploration in complex domains is often performed with simple epsilon-greedy methods. In this paper, we consider the challenging Atari games domain, which requires processing raw pixel inputs and delayed rewards. We evaluate several more sophisticated exploration strategies, including Thompson sampling and Boltzman exploration, and propose a new exploration method based on assigning exploration bonuses from a concurrently learned model of the system dynamics. By parameterizing our learned model with a neural network, we are able to develop a scalable and efficient approach to exploration bonuses that can be applied to tasks with complex, high-dimensional state spaces. In the Atari domain, our method provides the most consistent improvement across a range of games that pose a major challenge for prior methods. In addition to raw game-scores, we also develop an AUC-100 metric for the Atari Learning domain to evaluate the impact of exploration on this benchmark.},
+	author = {Stadie, Bradly C. and Levine, Sergey and Abbeel, Pieter},
+	month = nov,
+	year = {2015},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning},
+	file = {arXiv.org Snapshot:/home/rafael/Zotero/storage/8KGPE4P7/1507.html:text/html;arXiv Fulltext PDF:/home/rafael/Zotero/storage/KNZZJJZ9/Stadie et al. - 2015 - Incentivizing Exploration In Reinforcement Learnin.pdf:application/pdf}
+}
+
+@article{bellemare_unifying_2016,
+	title = {Unifying {Count}-{Based} {Exploration} and {Intrinsic} {Motivation}},
+	url = {http://arxiv.org/abs/1606.01868},
+	abstract = {We consider an agent's uncertainty about its environment and the problem of generalizing this uncertainty across observations. Specifically, we focus on the problem of exploration in non-tabular reinforcement learning. Drawing inspiration from the intrinsic motivation literature, we use density models to measure uncertainty, and propose a novel algorithm for deriving a pseudo-count from an arbitrary density model. This technique enables us to generalize count-based exploration algorithms to the non-tabular case. We apply our ideas to Atari 2600 games, providing sensible pseudo-counts from raw pixels. We transform these pseudo-counts into intrinsic rewards and obtain significantly improved exploration in a number of hard games, including the infamously difficult Montezuma's Revenge.},
+	author = {Bellemare, Marc G. and Srinivasan, Sriram and Ostrovski, Georg and Schaul, Tom and Saxton, David and Munos, Remi},
+	month = nov,
+	year = {2016},
+	keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Statistics - Machine Learning},
+	file = {arXiv Fulltext PDF:/home/rafael/Zotero/storage/7KPDT6VM/Bellemare et al. - 2016 - Unifying Count-Based Exploration and Intrinsic Mot.pdf:application/pdf;arXiv.org Snapshot:/home/rafael/Zotero/storage/C4QY6F42/1606.html:text/html}
+}
+
+@article{schmidhuber_formal_2010,
+	title = {Formal {Theory} of {Creativity}, {Fun}, and {Intrinsic} {Motivation}},
+	volume = {2},
+	issn = {1943-0612},
+	doi = {10.1109/TAMD.2010.2056368},
+	abstract = {The simple, but general formal theory of fun and intrinsic motivation and creativity (1990-2010) is based on the concept of maximizing intrinsic reward for the active creation or discovery of novel, surprising patterns allowing for improved prediction or data compression. It generalizes the traditional field of active learning, and is related to old, but less formal ideas in aesthetics theory and developmental psychology. It has been argued that the theory explains many essential aspects of intelligence including autonomous development, science, art, music, and humor. This overview first describes theoretically optimal (but not necessarily practical) ways of implementing the basic computational principles on exploratory, intrinsically motivated agents or robots, encouraging them to provoke event sequences exhibiting previously unknown, but learnable algorithmic regularities. Emphasis is put on the importance of limited computational resources for online prediction and compression. Discrete and continuous time formulations are given. Previous practical, but nonoptimal implementations (1991, 1995, and 1997-2002) are reviewed, as well as several recent variants by others (2005-2010). A simplified typology addresses current confusion concerning the precise nature of intrinsic motivation.},
+	number = {3},
+	journal = {IEEE Transactions on Autonomous Mental Development},
+	author = {Schmidhuber, Jürgen},
+	year = {2010},
+	keywords = {intrinsic motivation, active learning, Active learning, aesthetics, aesthetics theory, art, Art, attention, cognition, Computational intelligence, creativity, data compression, Data compression, developmental psychology, event sequences, Eyes, Feedback, Fingers, formal theory of creativity, fun, humor, Intelligent robots, intrinsic reward, limited computational resources, music, novel patterns, novelty, Pediatrics, Predictive models, Psychology, science, surprise, typology of intrinsic motivation},
+	pages = {230--247},
+	file = {IEEE Xplore Abstract Record:/home/rafael/Zotero/storage/EXHEZ7YW/5508364.html:text/html}
+}

@@ -22,6 +22,7 @@
 \usepackage{todonotes} % Provides tooltip-like todo notes.
 \usepackage{hyperref}  % Enables cross linking in the electronic document version. This package has to be included second to last.
 \usepackage[acronym,toc]{glossaries}
+\usepackage{natbib}
 \usepackage{subfiles} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
@@ -95,6 +96,10 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 %\setsecondreviewerdata{Affiliation, Country}
 
 
+\newacronym{rl}{RL}{Reinforcement Learning}
+\newacronym{mdp}{MDP}{Markov Decision Process}
+
+
 \begin{document}
 
     \frontmatter % Switches to roman numbering.
@@ -134,25 +139,43 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     \chapter{Introduction}
 
+
     \section{Motivation}
-    
+
+
     \section{Problem Statement}
+
 
     \section{State of the Art}
 
+
     \section{Thesis Outline}
+
 
     \chapter{Reinforcement Learning Background}
 
+
     \section{Reinforcement Learning Problem}
+    \gls{rl} as denoted by \citeauthor{sutton_reinforcement_2018}, is about learning the consequences of performed actions and using this knowledge to maximize a reward signal.
+    In opposite to other known machine learning disciplines, RL problems are tackled by performing actions in an environment in a trial and error manner.
+    This means that the learner has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to obtain the highest reward.
+    However, it is also possible that a learner performs an action which seems to be rewarding in the first place but punishing later on, and thus it must also consider all possible future rewards as well.
+    In order to know which actions can be performed at a certain time, the learner must have the ability to observe the environment's current state and to change it by interacting with it.
 
-    \subsection{Environment}
+    This is very different from supervised learning.
+    There, the learner is explicitly told what to do in a given environment state and is trained to use this knowledge in unfamiliar states to e.g. correctly classify a new situation.
+    Even tough this kind of learning is nowadays widely used, it encounters the problem of labeling situations
 
-    \subsection{Rewards/Goals}
 
     \section{Markov Chains}
+    In order to formalize a RL problem, the mathematical notation of Markov Chains is used.
+
+
+    \section{Markov Decision Processes}
+
 
     \chapter{Deep Reinforcement Learning}
+
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}
 
@@ -171,6 +194,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 % Remove following line for the final thesis.
 %\input{intro.tex} % A short introduction to LaTeX.
+
     \backmatter
 % Use an optional list of figures.
     \listoffigures % Starred version, i.e., \listoffigures*, removes the toc entry.
@@ -182,7 +206,6 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 % Use an optional list of alogrithms.
     \listofalgorithms
     \addcontentsline{toc}{chapter}{List of Algorithms}
-
 
 % Add an index.
     \printindex

@@ -25,8 +25,9 @@
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Rafael Sterzinger} % The author name without titles.
-\newcommand{\thesistitle}{Prediction Error based Curiosity} % The title of the thesis. The English version should be used, if it exists.
-\newcommand{\thesissubtitle}{Prediction Error based Curiosity and the Combination of Extrinsic and Intrinsic Rewards in Reinforcement Learning}
+\newcommand{\thesistitle}{Balancing Extrinsic and Intrinsic Rewards in Reinforcement Learning}
+%Prediction Error based Curiosity and How to Combine Extrinsic and Intrinsic Rewards
+\newcommand{\thesissubtitle}{}% The title of the thesis. The English version should be used, if it exists.
 \newcommand{\p}[1]{see p. #1}
 
 % Set PDF document properties
@@ -98,6 +99,10 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \newacronym{im}{IM}{Intrinsic Motivation}
 \newacronym{rl}{RL}{Reinforcement Learning}
 \newacronym{mdp}{MDP}{Markov Decision Process}
+\newacronym{ml}{ML}{Machine Learning}
+\newacronym{drl}{DRL}{Deep Reinforcement Learning}
+
+
 
 \begin{document}
 
@@ -144,7 +149,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
     \\\\
     An approach to tackle these problems is curiosity, an organism's \gls{im} to spontaneously explore its environment.
-    IM allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic, and therefore more general reward function.
+    IM allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore, more general reward function.
     In general, the concept of intrinsic and extrinsic evolves around the question on why an agent performed a certain action in a given state.
     Since IM became an important part of RL, the following challenges were crystallized out by~\cite[\p{6}]{aubret_survey_2019}:
 
@@ -217,26 +222,44 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \section{Thesis Outline}\label{sec:thesis-outline}
 
 
-    \chapter{Reinforcement Learning Background}
+    \chapter{Reinforcement Learning Background}\label{ch:reinforcement-learning-background}
 
 
-    \section{Reinforcement Learning Problem}
-    \gls{rl} as denoted by \citeauthor{sutton_reinforcement_2018}, is about learning the consequences of performed actions and using this knowledge to maximize a reward signal.
-    In opposite to other known machine learning disciplines, RL problems are tackled by performing actions in an environment in a trial and error manner.
-    This means that the learner has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to obtain the highest reward.
-    However, it is also possible that a learner performs an action which seems to be rewarding in the first place but punishing later on, and thus it must also consider all possible future rewards as well.
-    In order to know which actions can be performed at a certain time, the learner must have the ability to observe the environment's current state and to change it by interacting with it.
+    \section{Reinforcement Learning Problem}\label{sec:reinforcement-learning-problem}
+    Reinforcement Learning as denoted by~\cite{sutton_reinforcement_2018} and sometimes also referred to as the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric reward signal.
+    RL problems are tackled through a learner or rather an agent which performs an actions in an environment in a trial and error paradigm.
+    The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to obtain the highest reward and creates the need for a proper weighting between exploration and exploitation.
+    Additionally, the consequences of an action can be delayed over time and might not only affect the immediate reward, but affect all future rewards as well.
 
-    This is very different from supervised learning.
-    There, the learner is explicitly told what to do in a given environment state and is trained to use this knowledge in unfamiliar states to e.g. correctly classify a new situation.
-    Even tough this kind of learning is nowadays widely used, it encounters the problem of labeling situations
+    In opposite to other known machine learning disciplines such as \textit{supervised learning}, there is no supervisor in RL that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
+    This spares the necessity of creating a trainings dataset with corresponding state-action pairs beforehand and thus, RL is the preferred choice in cases where an agent interacts with its environment.
+    Furthermore, teaching an agent based on supervision would mean that it would be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_rl_nodate}.
+    Since RL is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
+    However, this is not applicable for RL because the agent has to maximize a reward function and not to find structure in data and therefore, RL is rightfully classified as a third subfield of \gls{ml}~\citep{sutton_reinforcement_2018}.
 
 
     \section{Markov Chains}
-    In order to formalize a RL problem, the mathematical notation of Markov Chains is used.
+    In order to formalize the RL problem, the idea and notation of a \gls{mdp} is used to notate the interactions between an agent and its environment.
+
+    In order to know which actions can be performed at a certain time, the learner must have the ability to observe the environment's current state and to change it by interacting with it.
 
 
     \section{Markov Decision Processes}
+
+
+    \section{Dynamic Programming}
+
+
+    \section{Functions to Improve Behaviour}
+
+
+    \section{Temporal Difference Leraning}
+
+    \subsection{Q-Learning (Off-Policy)}
+
+    \subsection{SARSA (On-Policy)}
+
+    \subsection{Temporal Difference}
 
 
     \chapter{Deep Reinforcement Learning}

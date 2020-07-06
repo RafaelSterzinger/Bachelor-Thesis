@@ -18,3 +18,8 @@ pdflatex $SOURCE
 echo
 echo
 echo Thesis document compiled.
+cd ../thesis
+shopt -s extglob
+git clean -fx -e !(thesis.pdf)
+shopt -u extglob
+echo Delete build files.

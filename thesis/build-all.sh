@@ -29,3 +29,8 @@ pdflatex $SOURCE
 echo
 echo
 echo Class file and example document compiled.
+cd ../thesis
+shopt -s extglob
+git clean -fx -e !(thesis.pdf)
+shopt -u extglob
+echo Delete build files.

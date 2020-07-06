@@ -97,6 +97,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 
 \newacronym{im}{IM}{Intrinsic Motivation}
+\newacronym{em}{EM}{Extrinsic Motivation}
 \newacronym{rl}{RL}{Reinforcement Learning}
 \newacronym{mdp}{MDP}{Markov Decision Process}
 \newacronym{ml}{ML}{Machine Learning}
@@ -149,9 +150,9 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
     \\\\
     An approach to tackle these problems is curiosity, an organism's \gls{im} to spontaneously explore its environment.
-    IM allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore, more general reward function.
+    \gls{im} allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore, more general reward function.
     In general, the concept of intrinsic and extrinsic evolves around the question on why an agent performed a certain action in a given state.
-    Since IM became an important part of RL, the following challenges were crystallized out by~\cite[\p{6}]{aubret_survey_2019}:
+    Since \gls{im} became an important part of \gls{rl}, the following challenges were crystallized out by~\cite[\p{6}]{aubret_survey_2019}:
 
     \begin{itemize}
         \item \textbf{Sparse rewards:} The agent never reaches a reward signal in case of sparse rewards.
@@ -160,7 +161,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
         \item \textbf{Learning a curriculum:} The agent hardly defines a curriculum among its available goals without expert knowledge.
     \end{itemize}
 
-    Besides a general introduction to IM and its challenges in RL, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
+    Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
     Knowledge acquisition is described as the agents motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
     Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action-tuple.
     This idea is heavily explored by~\cite{burda_large-scale_2018} and its prior work of \cite{pathak_curiosity-driven_2017}, both of which are core references of this thesis.
@@ -169,7 +170,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
     The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: "\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state."\cite[\p{10}]{aubret_survey_2019}
     \\\\
-    The domain of the given problem description is IM in RL with a focus on the model of knowledge acquisition via exploration.
+    The domain of the given problem description is \gls{rl} in \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
 
     \section{Expected Results}\label{sec:expected-results}
@@ -186,8 +187,8 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Optionally, it would be interesting to observe the performance in environments with dense rewards too since there might be an improvement to see as well.
     \\\\
     In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018} mention the limitations of prediction error based curiosity which was earlier introduced with the so called noisy-TV problem.
-    Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with extrinsic motivation.
-    This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that extrinsic motivation has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
+    Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
+    This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that \gls{em} has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
     \\\\
     With the given prospect to beat state of the art approaches to environments with sparse rewards and evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
 
@@ -195,7 +196,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \section{Methodological Approach}\label{sec:methodological-approach}
     In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018} and~\cite{pathak_curiosity-driven_2017} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
     Therefore, this Bachelor's thesis follows a programming approach which relies on the same tools used by the preceding authors, since it guarantees optimal reproducibility of their results.
-    In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the machine learning platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing RL algorithms.
+    In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
     \\\\
     The development progress is structured into the following five mile stones:
 
@@ -226,22 +227,36 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 
     \section{Reinforcement Learning Problem}\label{sec:reinforcement-learning-problem}
-    Reinforcement Learning as denoted by~\cite{sutton_reinforcement_2018} and sometimes also referred to as the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric reward signal.
-    RL problems are tackled through a learner or rather an agent which performs an actions in an environment in a trial and error paradigm.
-    The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to obtain the highest reward and creates the need for a proper weighting between exploration and exploitation.
+    Reinforcement Learning as defined by~\cite{sutton_reinforcement_2018} and sometimes also referred to as the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective.
+    \gls{rl} problems are tackled by a learner or rather an \textit{agent} which performs actions in an \textit{environment} in a trial and error paradigm.
+    The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to maximize the amount of obtainable rewards.
     Additionally, the consequences of an action can be delayed over time and might not only affect the immediate reward, but affect all future rewards as well.
+    This creates the need for a proper weighting between exploration and exploitation as the agent must exploit actions with known consequences to perform well but also explore new ones in order to improve.
 
-    In opposite to other known machine learning disciplines such as \textit{supervised learning}, there is no supervisor in RL that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
-    This spares the necessity of creating a trainings dataset with corresponding state-action pairs beforehand and thus, RL is the preferred choice in cases where an agent interacts with its environment.
-    Furthermore, teaching an agent based on supervision would mean that it would be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_rl_nodate}.
-    Since RL is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
-    However, this is not applicable for RL because the agent has to maximize a reward function and not to find structure in data and therefore, RL is rightfully classified as a third subfield of \gls{ml}~\citep{sutton_reinforcement_2018}.
+    In addition to the aforementioned environment, agent, and reward signal, \gls{rl} consists of further subelements since e.g. it would be desirable to not only know the immediate reward but to also have a measurement for all possible future rewards from a given state onwards.
+    For this, a\textit{value function} is used which acts as a long-term indicator that describes the attractiveness of a state an agent might result in after it interacted with its environment.
+    This measurement is interesting because there might be an action which leads to a high immediate reward but results in an undesirable state with no future rewards.
+    Furthermore, the agent should pick up a \textit{policy} that consists of state-action tuples which should be refined and adjusted depending on the received rewards.
+    Lastly, the agent might want to learn a \textit{model} of its environment which allows it to plan its action ahead since each interaction can result in a different state.
+    This final addition divides the \gls{rl} problem spectrum in to two parts: model-free and model-based approaches~\citep{sutton_reinforcement_2018}.
+
+
+    In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
+    This spares the necessity of creating a trainings dataset with corresponding state-action pairs beforehand and thus, \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
+    Furthermore, teaching based on supervision would mean that an agent would be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_rl_nodate}.
+    Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
+    However, this is not applicable for \gls{rl} because the agent has to maximize a reward function and not to find structure in data and therefore, \gls{rl} is rightfully classified as a third subfield of \gls{ml}~\citep{sutton_reinforcement_2018}.
 
 
     \section{Markov Chains}
-    In order to formalize the RL problem, the idea and notation of a \gls{mdp} is used to notate the interactions between an agent and its environment.
+    In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
 
-    In order to know which actions can be performed at a certain time, the learner must have the ability to observe the environment's current state and to change it by interacting with it.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/rl_problem.png}
+        \caption{The \gls{rl} framework in a \gls{mdp}~\cite[\p{48}]{sutton_reinforcement_2018}}
+        \label{fig:rl_problem}
+    \end{figure}
 
 
     \section{Markov Decision Processes}

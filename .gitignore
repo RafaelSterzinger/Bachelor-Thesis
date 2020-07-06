@@ -35,6 +35,8 @@ thesis/thesis.ist
 thesis/vutinfth.hd
 thesis/lppl.txt
 !thesis/example.pdf
+!thesis/figures
+!thesis/graphics
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl

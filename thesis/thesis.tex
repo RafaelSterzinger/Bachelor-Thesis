@@ -134,6 +134,81 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \chapter{Introduction}
 
 
+    \section{Problem Description}
+    In reinforcement learning (RL), algorithms mainly depend on carefully designed extrinsic reward functions which are comparable with feedback to an agent's behaviour.
+    In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial-and-error.
+    This traditional approach yielded multiple astonishing results over the last decade.
+    Task which award rewards densely, i.e. almost after every performed action, are common for these results.
+    In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely in order for an agent to pick up the needed skills.
+    An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
+    \\\\
+    An approach to tackle these problems is curiosity, an organism's intrinsic motivation (IM) to spontaneously explore its environment.
+    IM allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic, and therefore more general reward function.
+    In general, the concept of intrinsic and extrinsic evolves around the question on why an agent performed a certain action in a given state.
+    Since IM became an important part of RL, the following challenges were crystallized out by \cite{aubret_survey_2019}:
+
+    \begin{itemize}
+        \item \textbf{Sparse rewards:} The agent never reaches a reward signal in case of sparse rewards.
+        \item \textbf{State representation:} The agent does not manage to learn a representation of its observations with independent features or meaningful distance metrics.
+        \item \textbf{Building option:} The agent is unable to learn abstract high-level decisions independently from the task.
+        \item \textbf{Learning a curriculum:} The agent hardly defines a curriculum among its available goals without expert knowledge.
+    \end{itemize}
+
+    Besides a general introduction to IM and its challenges in RL, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
+    Knowledge acquisition is described as the agents motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
+    Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action-tuple.
+    This idea is heavily explored by \cite{burda_large-scale_2018} and its prior work of \cite{pathak_curiosity-driven_2017}, both of which are core references of this thesis.
+    \\\\
+    Building upon the findings of \cite{burda_large-scale_2018}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
+    Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by \cite{schmidhuber_formal_2010}.
+    The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: \textit{random noise attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}
+    \\\\
+    The domain of the given problem description is IM in RL with a focus on the model of knowledge acquisition via exploration.
+
+
+    \section{Expected Results}
+    As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of \cite{burda_large-scale_2018} and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
+    In order to do so, coefficients $\alpha$ and $\beta$ have to be selected accordingly.
+    $$r=\alpha r_{int} + \beta r_{ext}$$
+    From that, an optimal solution to this equation maximizes the agent's overall reward when testing.
+    After a re-implementation of the proposed algorithm, we expect to at least match the mean rewards mentioned in the \textit{Additional Results} section from the underlying paper.
+    In this section \cite{burda_large-scale_2018} explored the performance of combined rewards on 5 Atari games.
+    Since the combination of rewards already proved to yield a higher mean reward, we are almost certain that an exhaustive hyper-parameter tuning improves these results.
+    \\\\
+    However, this raises the question on how the algorithm performs in comparison to comparable approaches such as the paper authored by \cite{kim_emi_2019}.
+    In some of the previously mentioned hard games, e.g. \textit{Frostbite}, the authors achieved only a slightly higher mean score that we anticipate to beat.
+    Optionally, it would be interesting to observe the performance in environments with dense rewards too since there might be an improvement to see as well.
+    \\\\
+    In the \textit{Discussion} section, \cite{burda_large-scale_2018} mention the limitations of prediction error based curiosity which was earlier introduced with the so called noisy-TV problem.
+    Given this problem, we want to pursue the question on whether or not it is possible to tackle the agent's distraction with extrinsic motivation and hypothesize that this is true.
+    However, we believe that extrinsic motivation has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
+    \\\\
+    With the given prospect to beat state of the art approaches to environments with sparse rewards and evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
+
+
+    \section{Methodological Approach}
+    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, we are going to build upon the released source code and environments from \cite{burda_large-scale_2018} which can be observed on their website\footnote{\url{https://pathak22.github.io/large-scale-curiosity}}.
+    Therefore, this Bachelor's thesis follows a programming approach which relies on the same tools as the preceding authors used since it guarantees optimal reproducibility of their results.
+    In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the machine learning platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing RL algorithms.
+    \\\\
+    The development progress is structured into the following five mile stones:
+
+    \begin{enumerate}
+        \item Setting-up of the environment, including the installation of the \textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit
+        \item Implementing a Proximal Policy Optimization (PPO) algorithm according to \cite{schulman_proximal_2017}, using extrinsic rewards
+        \item Adding an Intrinsic Curiosity Module, published by \cite{pathak_curiosity-driven_2017}, in order to allow for intrinsic rewards
+        \item Tuning of the coefficients $\alpha,\beta$ and comparison to state of the art approaches
+        \item Recreation of the synthetic generated noisy-TV problem, proposed by \cite{burda_large-scale_2018}
+    \end{enumerate}
+
+    During this incremental process, an emphasise is laid on two out of five sparse Atari games, categorized by \cite{bellemare_unifying_2016} and picked by \cite{burda_large-scale_2018}.
+    The initial two games are \textit{Montezumas's revenge} and \textit{Freeway}, but with the option to add the remaining ones or games with dense rewards in the future.
+    \\\\
+    Regarding mile stone 3, we will concentrate on \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by \cite{burda_large-scale_2018}.
+    Concerning mile stone 4 and the comparison to state of the art approaches, we will refer to the \textit{State of the Art} section of this proposal.
+    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by an exhaustive literature research with an emphasize on directly comparable approaches to \cite{burda_large-scale_2018}, i.e. prediction error based curiosity.
+
+
     \chapter{Reinforcement Learning Problem}
 
 % Remove following line for the final thesis.
@@ -158,6 +233,6 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 % Add a bibliography.
     \bibliographystyle{alpha}
-    \bibliography{intro}
+    \bibliography{core}
 
 \end{document}

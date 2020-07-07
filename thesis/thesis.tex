@@ -22,6 +22,7 @@
 \usepackage{hyperref}  % Enables cross linking in the electronic document version. This package has to be included second to last.
 \usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
 \usepackage{natbib}
+\usepackage{amsfonts}
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Rafael Sterzinger} % The author name without titles.
@@ -150,7 +151,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
     \\\\
     An approach to tackle these problems is curiosity, an organism's \gls{im} to spontaneously explore its environment.
-    \gls{im} allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore, more general reward function.
+    \gls{im} allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore a more general reward function.
     In general, the concept of intrinsic and extrinsic evolves around the question on why an agent performed a certain action in a given state.
     Since \gls{im} became an important part of \gls{rl}, the following challenges were crystallized out by~\cite[\p{6}]{aubret_survey_2019}:
 
@@ -234,47 +235,123 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     This creates the need for a proper weighting between exploration and exploitation as the agent must exploit actions with known consequences to perform well but also explore new ones in order to improve.
 
     In addition to the aforementioned environment, agent, and reward signal, \gls{rl} consists of further subelements since e.g. it would be desirable to not only know the immediate reward but to also have a measurement for all possible future rewards from a given state onwards.
-    For this, a\textit{value function} is used which acts as a long-term indicator that describes the attractiveness of a state an agent might result in after it interacted with its environment.
+    For this, a \textit{value function} is used which acts as a long-term indicator that describes the attractiveness of a state an agent might result in after it interacted with its environment.
     This measurement is interesting because there might be an action which leads to a high immediate reward but results in an undesirable state with no future rewards.
     Furthermore, the agent should pick up a \textit{policy} that consists of state-action tuples which should be refined and adjusted depending on the received rewards.
     Lastly, the agent might want to learn a \textit{model} of its environment which allows it to plan its action ahead since each interaction can result in a different state.
-    This final addition divides the \gls{rl} problem spectrum in to two parts: model-free and model-based approaches~\citep{sutton_reinforcement_2018}.
+    This final addition divides the \gls{rl} problem spectrum into two parts: model-free and model-based approaches~\citep{sutton_reinforcement_2018}.
 
 
     In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
-    This spares the necessity of creating a trainings dataset with corresponding state-action pairs beforehand and thus, \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
+    This spares the necessity of creating a trainings dataset with corresponding state-action tuples beforehand and thus \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
     Furthermore, teaching based on supervision would mean that an agent would be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_rl_nodate}.
     Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
-    However, this is not applicable for \gls{rl} because the agent has to maximize a reward function and not to find structure in data and therefore, \gls{rl} is rightfully classified as a third subfield of \gls{ml}~\citep{sutton_reinforcement_2018}.
+    However, this is not applicable for \gls{rl} as the agent has to maximize a reward function and not to find structure in data.
+    Therefore, \citeauthor{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
 
 
-    \section{Markov Chains}
+    \section{Markov Decision Processes}
     In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
+    At every discrete time step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}.
+    %Add note concerning R_t wich is nowadays used in DRL
+    After the agent selected an action, it obtains a scalar reward, $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action the environment transitions into a subsequent state, $S_{t+1}$.
+    Through continuous interactions between the agent and the environment a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
 
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/rl_problem.png}
-        \caption{The \gls{rl} framework in a \gls{mdp}~\cite[\p{48}]{sutton_reinforcement_2018}}
+        \caption{The \gls{rl} framework formalized as a \gls{mdp}~\citep[\p{48}]{sutton_reinforcement_2018}}
         \label{fig:rl_problem}
     \end{figure}
 
+    In a finite-horizon, the agent has to plan only a fix number of time-steps ahead and the sets $\mathit{S},\mathit{A}, and \mathit{R}$ are limited~\citep{kaelbling_reinforcement_1996,sutton_reinforcement_2018}.
+    Furthermore, the possibility of occurrence a time step $t+1$ of the values $s'\in \mathit{S}$ and $r \in \mathit{R}$ can be described with a probability~\eqref{eq:distribution} only depending on the action $a \in \mathit{A}(s)$ taken in a preceding state $s \in \mathit{S}$.
 
-    \section{Markov Decision Processes}
+    \begin{equation}
+        p(s',r|s,a) = P\{S_{t+1}=s', R_{t+1}=r | S_t=s, A_t=a\}\label{eq:distribution}
+    \end{equation}
+
+    Since $p$ describes a probability the sum over all possible combination of $s$ and $a$ must be equal to 1.
+    Moreover, the individual probabilities of $p$ describes the dynamics of an \gls{mdp}.
+    Observing this notation shows that the preceding state $s$ must contain all the necessary information and must not depend on states preceding $s$.
+    If this is the case, the a state is called to have the Markov property~\eqref{eq:markov_property}~\citep{silver_rl_nodate}.
+
+    \begin{equation}
+        P\{S_{t+1}|S_t,A_t\} = P\{S_{t+1}|S_1,A_1,\ldots,S_t,A_t\} \label{eq:markov_property}
+    \end{equation}
+
+    With the notation of $p$, properties of the \gls{mdp} like the state-transition probabilities~\eqref{eq:transition} or the expected value of rewards~\eqref{eq:expected_reward} with given state-action tuples can be computed.
+
+    \begin{equation}
+        p(s'|s,a) = P\{S_{t+1}=s'| S_t=s, A_t=a\} = \sum_{r \in \mathit{R}} p(s',r | s,a) \label{eq:transition}
+    \end{equation}
+
+    \begin{equation}
+        r(s',s,a) = \mathbb{E}[R_{t+1} | S_t=s, A_t=a] = \sum_{r\in \mathit{R}} r \sum_{s' \in \mathit{S}} p(s',r | s,a) \label{eq:expected_reward}
+    \end{equation}
+
+    As mentioned in the \refname{sec:reinforcement-learning-problem}, rewards at each time-step, $R_t \in \mathbb{R}$, are used to formalize a goal which the agent should pursue.
+    This is possible due to the rewards hypothesis which states that every goal one can think of, can be formalized through a numeric reward signal and achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
+
+    Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final step.
+
+    \begin{equation}
+        G_t=R_{t+1} + R_{t+2}+ \ldots + R_{T}  =\sum_{t=1}^{T} R_{t}\label{eq:sum_of_rewards}
+    \end{equation}
+
+    However, this notation is only applicable if an environment has a identifiable terminal state.
+    When this state is reached, it breaks a e.g.\ game sequence into multiple ones, where each one is called an episode.
+    Independent of how the agent reached the final state, the environment will reset and start over with an default initial state.
+
+    Sometimes this separation of episodes might not be as clear and the sequence's limit is infinite.
+    In opposite to episodic task where $T$ is finite, this is called an continuing task.
+    Therefore, if the agent acts in an environment with a continuing task, optimizing the equation~\ref{eq:sum_of_rewards} might not be finite.
+    This issue is solved, by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$~\citep{sutton_reinforcement_2018} which also avoids infinite rewards caused by cycle in an \gls{mdp}.
+    Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\eqref{eq:discounted_reward}.
+
+    \begin{equation}
+        G_t = R_{t+1} + \gamma R_{t+2}+ \gamma^2 R_{t+3} + \ldots = R_{t+1} + \gamma G_{t+1} = \sum_{k=1}^{\infty} \gamma^k R_{t+k}\label{eq:discounted_reward}
+    \end{equation}
+
+    With $\gamma$ as newly introduced hyperparamter, the weighting of the rewards can be adjusted according to the given task.
+    A low $\gamma$ means that the agent values the immediate reward and rewards in the near future more.
+    On the other hand, a high $\gamma$ forces the agent to also consider long-term future rewards and thus be more far-sighted.
+
+
+    \section{Functions to Improve the Policy}
+    As mentioned in \refname{sec:reinforcement-learning-problem}, the policy is an important component of the \gls{rl} framework and is usually denoted as $\pi$.
+    By following this policy, the agent's probability to select a specific action at time $t$ is $\pi(a|s) = P\{A_t=a|St=s\}$.
+    Additionally, the aforementioned value function component is dependent on the policy since $\pi$ defines which action-state tuples are considered from the current state onwards.
+    Formally, the value or state-value function for an \gls{mdp} is denoted by $v_\pi(s)$ which stands for the expected future rewards when following the policy, starting in state $s$~\cite{sutton_reinforcement_2018}.
+
+    \begin{equation}
+        v_\pi(s) = \mathbb{E}_\pi[G_t|S_t = s] = \mathbb{E}_\pi \Bigg[\sum_{k=1}^{\infty} \gamma^k R_{t+k} \bigg| S_t = s \Bigg]
+    \end{equation}
+
+    In a similar way, the action-value function $q_\pi(s,a)$ of a \gls{mdp} can be defined.
+    This calculates the expected future reward when the agent takes action $a$ in state $s$ and then follows the policy $\pi$.
+
+    \begin{equation}
+        q_\pi(s,a) = \mathbb{E}_\pi[G_t|S_t = s, A_t = a] = \mathbb{E}_\pi \Bigg[\sum_{k=1}^{\infty} \gamma^k R_{t+k} \bigg| S_t = s | A_t = a \Bigg]
+    \end{equation}
+
+
+
 
 
     \section{Dynamic Programming}
-
-
-    \section{Functions to Improve Behaviour}
 
 
     \section{Temporal Difference Leraning}
 
     \subsection{Q-Learning (Off-Policy)}
 
+    \subsection{Temporal Difference}
+
     \subsection{SARSA (On-Policy)}
 
-    \subsection{Temporal Difference}
+
+    \section{Partial Observability}
 
 
     \chapter{Deep Reinforcement Learning}

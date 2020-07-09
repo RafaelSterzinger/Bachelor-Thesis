@@ -230,7 +230,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 
     \section{Reinforcement Learning Problem}\label{sec:reinforcement-learning-problem}
-    Reinforcement Learning as defined by~\cite{sutton_reinforcement_2018} and sometimes also referred to as the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective.
+    Reinforcement Learning, the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective~\citep{sutton_reinforcement_2018}.
     \gls{rl} problems are tackled by a learner or rather an \textit{agent} that performs actions in an \textit{environment} in a trial and error paradigm.
     The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to maximize the amount of obtainable rewards.
     Additionally, the consequences of an action can be delayed over time and might not only affect the immediate reward but affect all future rewards as well.
@@ -294,7 +294,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \end{equation}
 
     As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step, $R_t \in \mathbb{R}$, are used to formalize a goal which the agent should pursue.
-    This is possible due to the rewards hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
+    This is possible due to the rewards hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
 
     Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final step.
 
@@ -349,7 +349,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
         \item All optimal policies achieve the optimal action-value function, $q_{\pi_*}(s,a) = q_*(s,a)$
     \end{itemize}
 
-    A very simple optimal policy can be derived through the action-value function $q_*(s,a)$ simply by selecting the action with the maximum value.
+    A very simple optimal policy can be derived through the action-value function $q_*(s,a)$, simply by selecting the action with the maximum value.
 
     \begin{equation}
         \pi_*(a|s) =
@@ -375,7 +375,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
         \end{aligned}
     \end{equation}
 
-    The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep{sutton_reinforcement_2018} which can be directly solved since it is a linear equation.
+    The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep{sutton_reinforcement_2018} which can be directly solved due to its linearity.
     However, this calculation is only feasible for small \gls{mdp}s since its complexity is $O(n^3)$ for $n$ states~\citep{silver_lecture_2015-1}.
 
     For larger \gls{mdp}s exist multiple iterative solutions as for example:
@@ -394,6 +394,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \section{Temporal-Difference Learning}
 
     \subsection{Temporal Difference}
+    \gls{td}
 
     \subsection{SARSA (On-Policy)}
 

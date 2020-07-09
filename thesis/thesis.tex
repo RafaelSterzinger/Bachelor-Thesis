@@ -104,6 +104,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \newacronym{ml}{ML}{Machine Learning}
 \newacronym{dp}{DP}{Dynamic Programming}
 \newacronym{drl}{DRL}{Deep Reinforcement Learning}
+\newacronym{mc}{MC}{Monte-Carlo}
 \newacronym{td}{TD}{Temporal-Difference}
 
 
@@ -167,7 +168,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
     Knowledge acquisition is described as the agents motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
     Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action-tuple.
-    This idea is heavily explored by~\cite{burda_large-scale_2018} and its prior work of \cite{pathak_curiosity-driven_2017}, both of which are core references of this thesis.
+    This idea is heavily explored by~\cite{burda_large-scale_2018} and its prior work of~\cite{pathak_curiosity-driven_2017}, both of which are core references of this thesis.
     \\\\
     Building upon the findings of~\citeauthor{burda_large-scale_2018}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
     Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
@@ -233,15 +234,15 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Reinforcement Learning, the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective~\citep{sutton_reinforcement_2018}.
     \gls{rl} problems are tackled by a learner or rather an \textit{agent} that performs actions in an \textit{environment} in a trial and error paradigm.
     The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to maximize the amount of obtainable rewards.
-    Additionally, the consequences of an action can be delayed over time and might not only affect the immediate reward but affect all future rewards as well.
-    This creates the need for a proper weighting between exploration and exploitation as the agent must exploit actions with known consequences to perform well but also explore new ones in order to improve~\citep{kaelbling_reinforcement_1996}.
+    An additional difficulty is added if the reward for an action is delayed because the agent has to understand which of the executed actions actually led to the desirable reward it received far ahead in the future.
+    Lastly, a proper weighting between exploration and exploitation has to be developed as the agent must exploit actions with known consequences to perform well but also explore new ones in order to improve~\citep{kaelbling_reinforcement_1996}.
 
     In addition to the aforementioned environment, agent, and reward signal, \gls{rl} consists of further subelements since it would be desirable e.g. not only to know the immediate reward but also to gain a measurement for all possible future rewards from a given state onward.
     For this purpose, a \textit{value function} is used.
     It acts as a long-term indicator that describes the attractiveness of a state an agent might result in after interacting with its environment.
-    This measurement is interesting because there might be an action which leads to a high immediate reward but results in an undesirable state with no future rewards.
+    This measurement is interesting because there could be an action which leads to a high immediate reward but results in an undesirable state with no future rewards.
     Furthermore, the agent should pick up a \textit{policy} that consists of state-action tuples which should be refined and adjusted depending on the received rewards.
-    Lastly, the agent might want to learn a \textit{model} of its environment which allows it to plan its action in advance since an interaction may result in a different state.
+    Lastly, the agent may want to build a \textit{model} which estimates the environment's behaviour, in order to plan its actions in advance.
     This final addition divides the \gls{rl} problem spectrum into two parts: model-free and model-based approaches~\citep{sutton_reinforcement_2018}.
 
 
@@ -257,7 +258,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
     At every discrete time step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}.
     %Add note concerning R_t wich is nowadays used in DRL
-    Once the agent has selected an action, it obtains a scalar reward, $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action the environment transforms into a subsequent state, $S_{t+1}$.
+    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action the environment transforms into a subsequent state $S_{t+1}$.
     By means of continuous interactions between the agent and the environment a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
 
     \begin{figure}[h]
@@ -293,8 +294,8 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
         r(s',s,a) = \mathbb{E}[R_{t+1} | S_t=s, A_t=a] = \sum_{r\in \mathit{R}} r \sum_{s' \in \mathit{S}} p(s',r | s,a) \label{eq:expected_reward}
     \end{equation}
 
-    As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step, $R_t \in \mathbb{R}$, are used to formalize a goal which the agent should pursue.
-    This is possible due to the rewards hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
+    As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step $R_t$ are used to formalize a goal which the agent should pursue.
+    This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
 
     Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final step.
 
@@ -309,7 +310,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Sometimes, this separation of episodes might not be as clear and the limit of the sequence is infinite.
     This is called a continuing task, in contrast to episodic tasks where $T$ is finite.
     Therefore, if the agent acts in an environment with a continuing task, optimizing the equation~\ref{eq:sum_of_rewards} might not be finite.
-    This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$~\citep{sutton_reinforcement_2018} which also avoids infinite rewards caused by cycles in an \gls{mdp}.
+    This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$~\citep{sutton_reinforcement_2018} which avoids infinite rewards.
     Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\eqref{eq:discounted_reward}.
 
     \begin{equation}
@@ -340,7 +341,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     The policy is improved by adjusting the value functions $v_\pi$ and $q_\pi$ through the agent's obtained experience.
     Since \gls{rl} aims to solve a given objective by maximizing rewards, it implicitly goes along with optimizing the agent's policy.
-    If a policy $\pi$ achieves a higher value than a different policy $\pi'$, $v_\pi(s) \geq v_{\pi'}(s), \forall s \in \mathit{S}$, then it can be ordered partially, $\pi \geq \pi'$.
+    If a policy $\pi$ achieves a higher value than a different policy $\pi'$, which also implies that $v_\pi(s) \geq v_{\pi'}(s), \forall s \in \mathit{S}$, then the two policies can be ordered partially, with $\pi \geq \pi'$.
     However, there can be multiple policies performing equally well~\citep{sutton_reinforcement_2018} and for any \gls{mdp} the following theorem holds true~\citep[\p{43}]{silver_lecture_2015-1}:
 
     \begin{itemize}
@@ -349,7 +350,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
         \item All optimal policies achieve the optimal action-value function, $q_{\pi_*}(s,a) = q_*(s,a)$
     \end{itemize}
 
-    A very simple optimal policy can be derived through the action-value function $q_*(s,a)$, simply by selecting the action with the maximum value.
+    A very simple optimal policy for a given state can be derived through the action-value function $q_*(s,a)$, simply by selecting the action with the maximum value.
 
     \begin{equation}
         \pi_*(a|s) =
@@ -359,17 +360,26 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
         \end{cases}
     \end{equation}
 
+    The optimal value functions are given by the following equations:
+
+    \begin{equation}
+        \begin{aligned}[t]
+            v_*(s) &= \underset{\pi}{\text{max }}v_\pi(s), \forall s \in \mathit{S}, \\
+            q_*(s,a) &= \underset{\pi}{\text{max }}q_\pi(s,a), \forall s \in \mathit{S} \land \forall a \in \mathit{A}\label{eq:optimal}
+        \end{aligned}
+    \end{equation}
+
 
     \section{Dynamic Programming}
 
     The value function, introduced in the previous section~\nameref{sec:functions-to-improve-the-policy}, has a similar recursive property as the equation for the discounted expected reward~\eqref{eq:discounted_reward}.
-    Therefore, the value function can be expressed in a similar manner by decomposing it into the discounted descendant states $\gamma v_\pi(s')$ and the immediate reward $r$:
+    Therefore, the value function can be expressed in an equal manner by decomposing it into the discounted descendant states $\gamma v_\pi(s')$ and the immediate reward $r$:
 
     \begin{equation}
         \begin{aligned}[t]
             v_\pi(s) &= \mathbb{E}_\pi[G_t|S_t=s] = \mathbb{E}_\pi[R_{t+1} + \gamma G_{t+1}|S_t=s] \\
             &  =  \sum_{a} \pi(a|s) \sum_{s'}\sum_{r} p(s',r|s,a) \bigg[r + \gamma \mathbb{E}_\pi[G_{t+1}|S_{t+1} = s'] \bigg] \\
-            &  =  \sum_{a} \pi(a|s) \sum_{s'}\sum_{r} p(s',r|s,a) \bigg[r + \gamma v_{\pi}(s') \bigg], \forall s \in S \\
+            &  =  \sum_{a} \pi(a|s) \sum_{s'}\sum_{r} p(s',r|s,a) \bigg[r + \gamma v_{\pi}(s') \bigg], \forall s \in \mathit{S} \\
             &  =  \mathbb{E}_\pi[R_{t+1} + \gamma v_\pi(S_{t+1})|S_t=s]
             \label{eq:bellman_equation}
         \end{aligned}
@@ -381,24 +391,78 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     For larger \gls{mdp}s exist multiple iterative solutions as for example:
     \begin{itemize}
         \item \gls{dp}
-        \item Monte-Carlo Evaluation
-        \item Temporal-Difference Learning
+        \item \gls{mc} Evaluation
+        \item \gls{td} Learning
     \end{itemize}
 
     The general idea of \gls{dp}, which was developed by \citeauthor{bellman_theory_1954}, is to make use of the property of recursion to simplify the complexity of calculations by storing interim results.
     In that sense, it is a method that aims at solving complex problems by breaking them down into manageable subproblems.
-    \gls{dp} is mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling)~\citep{silver_lecture_2015-2}.
-    This is executed by an iterative process using the Bellman equation~\eqref{eq:bellman_equation}.
+
+    All of the three above mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
+    As for \gls{dp}, an iterative process is is used.
+    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which update the policy~\citep{silver_lecture_2015-2,sutton_reinforcement_2018}.
 
 
     \section{Temporal-Difference Learning}
 
-    \subsection{Temporal Difference}
-    \gls{td}
+    %Write introduction for td using page 119 of sutton
+
+    \subsection{Temporal Difference Prediction}
+    Besides \gls{dp} and \gls{mc} evaluation, \gls{td} prediction is among one of the three mentioned techniques, combining the advantages of the other two for value function predictions.
+    Firstly, it uses the benefit of bootstrapping offered by \gls{dp}~\citep{szepesvari_algorithms_2010}.
+    That is the usage of predictions of the value function as the target during the learning process.
+    Secondly, \gls{td} prediction directly learns from raw experience in a similar way to \gls{mc} evaluation and thus it is model-free.
+    However, it only awaits the reward of one time step to form a target for the value function instead of the every-visit \gls{mc} method which awaits the fully known return for the target.
+
+    \begin{equation}
+        \begin{aligned}[t]
+            \text{\gls{mc} method: } & V(S_t) \leftarrow V(S_t) + \alpha [G_t - V(S_t)]\\
+            \text{\gls{td} method: } & V(S_t) \leftarrow V(S_t) + \alpha [R_{t+1} + \gamma V(S_{t+1})-V(S_t)]\\
+        \end{aligned}\label{eq:td_versus_mc}
+    \end{equation}
+
+    The parameter $\alpha$ is constant which defines the step-size of each adjustment to the value function.
+    The two equations express the above mentioned differences certainly well:
+
+    \begin{quote}
+        Whereas Monte Carlo methods must wait until the end of the episode to determine the increment to $V(S_t)$ (only then is $G_t$ known), TD methods need to wait only until the next time step.
+        At time $t + 1$ they immediately form a target and make a useful update using the observed reward $R_{t+1}$ and the estimate $V(S_{t+1})$.
+
+        \hfill~\cite[\p{120}]{sutton_reinforcement_2018}
+    \end{quote}
+
+    The \gls{td} method is also known as $\text{TD}(0)$ that refers to the general case $\text{TD}(\lambda)$, a method that unifies \gls{td} and \gls{mc}.
 
     \subsection{SARSA (On-Policy)}
 
+    SARSA builds upon the idea of \gls{td} but aims to find an optimal value function and thus solve the control problem.
+    In a similar manner to \gls{td}, SARSA aims to estimate the action-value function $q_\pi(s,a)$, given a current policy $\pi$.
+    Since it only focuses on one policy at a time, it is also known as an on-policy algorithm.
+    The action-value function is optimized by means of the following calculation:
+
+    \begin{equation}
+        Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha [R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_{t},A_{t}) ]
+    \end{equation}
+
+    At each transition between the state-action tuple, the values $S_{t},A_{t},R_{t+1},S_{t+1},A_{t+1}$ are included in the optimization process, eponymous for SARSA~\citep{sutton_reinforcement_2018}.
+    Under the assumption that every state-action tuple is visited infinite times and that new policies are created greedily with respect to the current action-value function, SARSA is guaranteed to converge to the optimal action-value value function and thus to the optimal policy.
+
+
+    %TODO Additionally add pseudo code of sarsa
+
     \subsection{Q-Learning (Off-Policy)}
+
+    Another control algorithm which is build upon the idea of \gls{td} is Q-learning which aims to directly estimate the optimal action-value function $q_*$.
+    As denoted by \citeauthor{watkins_q-learning_1992}, the following calculation is used to update the action-value function $Q$.
+
+    \begin{equation}
+        Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha [R_{t+1} + \gamma \underset{a}{\text{max}} Q(S_{t+1},a) - Q(S_{t},A_{t}) ]
+    \end{equation}
+
+    As it does not optimize for the current policy but directly for the optimal one, Q-learning is considered an off-policy method and the policies must no be interchanged~\citep{szepesvari_algorithms_2010}.
+
+
+%TODO Additionally add pseudo code of q
 
 
     \chapter{Deep Reinforcement Learning}

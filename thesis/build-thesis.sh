@@ -1,4 +1,10 @@
 #!/bin/sh
+cd ../thesis
+shopt -s extglob
+git clean -fx -e !(thesis.pdf)
+shopt -u extglob
+echo Delete build files.
+
 # Copyright (C) 2014-2020 by Thomas Auzinger <thomas@auzinger.name>
 
 # Replace the 'x' in the next line with the name of the thesis' main LaTeX document without the '.tex' extension

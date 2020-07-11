@@ -102,6 +102,8 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \newacronym{rl}{RL}{Reinforcement Learning}
 \newacronym{mdp}{MDP}{Markov Decision Process}
 \newacronym{ml}{ML}{Machine Learning}
+\newacronym{mlp}{MLP}{Multi Layer Perceptron}
+\newacronym{nn}{NN}{Neural Network}
 \newacronym{dp}{DP}{Dynamic Programming}
 \newacronym{dl}{DL}{Deep Learning}
 \newacronym{drl}{DRL}{Deep Reinforcement Learning}
@@ -265,9 +267,11 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/rl_problem.png}
-        \caption{The \gls{rl} framework formalized as a \gls{mdp}~\citep[\p{48}]{sutton_reinforcement_2018}}
+        \caption[The \gls{rl} framework formalized as a \gls{mdp}]{The \gls{rl} framework formalized as a \gls{mdp}\protect\footnotemark}
         \label{fig:rl_problem}
     \end{figure}
+
+    \footnotetext{\cite[\p{48}]{sutton_reinforcement_2018}}
 
     In a finite-horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathit{S},\mathit{A}\text{, and }\mathit{R}$ are limited~\citep{kaelbling_reinforcement_1996,sutton_reinforcement_2018}.
     Furthermore, the possibility that the values $s'\in \mathit{S}$ and $r \in \mathit{R}$ may occur at a time step $t+1$, can be described with a probability~\eqref{eq:distribution} solely depending on the action $a \in \mathit{A}(s)$ taken in a preceding state $s \in \mathit{S}$.
@@ -484,11 +488,36 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     \section{Neural Networks}
 
-    \subsection{Multi Layer Perceptron}
+    \subsection{The Basic Architecture of Neural Networks}
+
+
+    As many ideas presented in this thesis, \gls{nn} are also inspired from nature as its structure is a resemblance of the human brain.
+    The name already indicates that a \gls{nn} is made of \textit{neurons} which are connected with each other by \textit{dendrites} and \textit{axons}.
+    Additional connections between axons and dendrites, called \textit{synapses}, define how important a transferred signal between them is.
+    Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting~\citep{aggarwal_neural_2018}.
+    This idea of representation was initialized by \citeauthor{mcculloch_logical_1943} who started with simple model which was later on adapted and advanced by \citeauthor{rosenblatt_perceptron_1957}~\citep{goodfellow_deep_2016}.
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=\textwidth]{}
+        \includegraphics[width=0.75\textwidth]{figures/neuron_model.png}
+        \caption[From a biological neuron to a mathematical model: an artificial neural network in its simplest form]{From a biological neuron to a mathematical model in its simplest form: an artificial neural network\protect\footnotemark}
+        \label{fig:neuron_model}
+    \end{figure}
+
+    \footnotetext{\url{https://cs231n.github.io/neural-networks-1/}}
+
+    In its simplest form, this \gls{nn} is called a \textit{perceptron}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
+    These input values $x_0,x_1,x_2$ a forward fed to the output axon and in between, the inputs are weighted according to the current strength of the synapses.
+    A general perceptron is of the form $(X^T,y)$, where $X^T=[x_0,x_1,\ldots]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
+    The observed value represents a numerical scalar used for a regression problem, e.g. predicting the price of a house give some numerical input variables such as the amount of rooms and square meter.
+    In the case of classification, this perceptron can be used for binary classification where the observed value $y$ is either $\in [0,1]$ or $\in [-1,1]$.
+    For instance, this can be used to predict whether or not a credit-card transaction was fraudulent given the amount and frequency of the transaction.
+
+
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/neuron_model.png}
         \caption{Example of a simple multi layer perceptron with one hidden unit}
         \label{fig:mlp}
     \end{figure}

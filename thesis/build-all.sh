@@ -1,4 +1,10 @@
 #!/bin/sh
+cd ../thesis
+shopt -s extglob
+git clean -fx -e !(thesis.pdf)
+shopt -u extglob
+echo Delete build files.
+
 # Copyright (C) 2014-2020 by Thomas Auzinger <thomas@auzinger.name>
 
 CLASS=vutinfth

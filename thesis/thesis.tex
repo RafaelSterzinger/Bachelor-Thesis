@@ -103,6 +103,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \newacronym{mdp}{MDP}{Markov Decision Process}
 \newacronym{ml}{ML}{Machine Learning}
 \newacronym{dp}{DP}{Dynamic Programming}
+\newacronym{dl}{DL}{Deep Learning}
 \newacronym{drl}{DRL}{Deep Reinforcement Learning}
 \newacronym{mc}{MC}{Monte-Carlo}
 \newacronym{td}{TD}{Temporal-Difference}
@@ -168,17 +169,17 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
     Knowledge acquisition is described as the agents motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
     Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action-tuple.
-    This idea is heavily explored by~\cite{burda_large-scale_2018} and its prior work of~\cite{pathak_curiosity-driven_2017}, both of which are core references of this thesis.
+    This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
     \\\\
-    Building upon the findings of~\citeauthor{burda_large-scale_2018}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
-    Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
+    Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
+    Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010-1}.
     The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: "\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state."\cite[\p{10}]{aubret_survey_2019}
     \\\\
     The domain of the given problem description is \gls{rl} in \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
 
     \section{Expected Results}\label{sec:expected-results}
-    As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of~\citeauthor{burda_large-scale_2018} and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
+    As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of~\citeauthor{burda_large-scale_2018-1} and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
     In order to do so, coefficients $\alpha$ and $\beta$ have to be selected accordingly.
     \[r=\alpha r_{int} + \beta r_{ext}\]
     From that, an optimal solution to this equation maximizes the agent's overall reward when testing.
@@ -190,7 +191,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     In some of the previously mentioned hard games, e.g. \textit{Frostbite}, the authors achieved only a slightly higher mean score which might be beatable by combining rewards.
     Optionally, it would be interesting to observe the performance in environments with dense rewards too since there might be an improvement to see as well.
     \\\\
-    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018} mention the limitations of prediction error based curiosity which was earlier introduced with the so called noisy-TV problem.
+    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction error based curiosity which was earlier introduced with the so called noisy-TV problem.
     Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
     This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that \gls{em} has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
     \\\\
@@ -198,7 +199,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
 
     \section{Methodological Approach}\label{sec:methodological-approach}
-    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018} and~\cite{pathak_curiosity-driven_2017} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
     Therefore, this Bachelor's thesis follows a programming approach which relies on the same tools used by the preceding authors, since it guarantees optimal reproducibility of their results.
     In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
     \\\\
@@ -207,18 +208,18 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \begin{enumerate}
         \item Setting-up of the environment, including the installation of the \textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
         \item Implementing a Proximal Policy Optimization (PPO) algorithm according to~\cite{schulman_proximal_2017}, using extrinsic rewards
-        \item Adding an Intrinsic Curiosity Module, published by~\cite{pathak_curiosity-driven_2017}, in order to allow for intrinsic rewards
+        \item Adding an Intrinsic Curiosity Module, published by~\cite{pathak_curiosity-driven_2017-1}, in order to allow for intrinsic rewards
         \item Tuning of the coefficients $\alpha,\beta$ and comparison to state of the art approaches
-        \item Recreation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018}
+        \item Recreation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
 
-    During this incremental process, an emphasise is laid on two out of five sparse Atari games, categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018}.
+    During this incremental process, an emphasise is laid on two out of five sparse Atari games, categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}.
     The initial two games are \textit{Montezumas's revenge} and \textit{Freeway}, but with the option to add the remaining ones or games with dense rewards in the future.
     \\\\
     % Eventually add VAE
-    Regarding mile stone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018} are primarily the focus.
+    Regarding mile stone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
     Concerning mile stone four and the comparison to state of the art approaches, the~\nameref{sec:state-of-the-art} section of this thesis allows for a current in-depth overview.
-    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by an exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018}.
+    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by an exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018-1}.
 
 
     \section{State of the Art}\label{sec:state-of-the-art}
@@ -248,7 +249,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
     This spares the necessity of creating a training dataset with corresponding state-action tuples beforehand and thus \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
-    Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_lecture_2015}.
+    Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_lecture_2015-2}.
     Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
     However, this is not applicable for \gls{rl} as the agent has to maximize a reward function and not to find structure in data.
     Therefore, \citeauthor{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
@@ -278,7 +279,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     Since $p$ describes a probability, the sum over all possible combinations of $s$ and $a$ must be equal to 1.
     Moreover, the individual probabilities of $p$ describe the dynamics of a \gls{mdp}.
     Observing this notation shows that the state $s$ must contain all the necessary information and must not depend on states preceding $s$.
-    If this is the case, the state is called to have the Markov property~\eqref{eq:markov_property}~\citep{silver_lecture_2015}.
+    If this is the case, the state is called to have the Markov property~\eqref{eq:markov_property}~\citep{francois-lavet_introduction_2018}.
 
     \begin{equation}
         P\{S_{t+1}|S_t,A_t\} = P\{S_{t+1}|S_1,A_1,\ldots,S_t,A_t\} \label{eq:markov_property}
@@ -309,7 +310,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     Sometimes, this separation of episodes might not be as clear and the limit of the sequence is infinite.
     This is called a continuing task, in contrast to episodic tasks where $T$ is finite.
-    Therefore, if the agent acts in an environment with a continuing task, optimizing the equation~\ref{eq:sum_of_rewards} might not be finite.
+    Therefore, if the agent acts in an environment with a continuing task, optimizing the equation~\eqref{eq:sum_of_rewards} might not be finite.
     This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$~\citep{sutton_reinforcement_2018} which avoids infinite rewards.
     Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\eqref{eq:discounted_reward}.
 
@@ -400,10 +401,10 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     All of the three above mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
     As for \gls{dp}, an iterative process is is used.
-    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which update the policy~\citep{silver_lecture_2015-2,sutton_reinforcement_2018}.
+    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which update the policy~\citep{silver_lecture_2015,sutton_reinforcement_2018}.
 
 
-    \section{Temporal-Difference Learning}
+    \section{Temporal-Difference Methods}
 
     %Write introduction for td using page 119 of sutton
 
@@ -433,7 +434,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     The \gls{td} method is also known as $\text{TD}(0)$ that refers to the general case $\text{TD}(\lambda)$, a method that unifies \gls{td} and \gls{mc}.
 
-    \subsection{SARSA (On-Policy)}
+    \subsection{SARSA (On-Policy)}\label{subsec:sarsanullon-policynull}
 
     SARSA builds upon the idea of \gls{td} but aims to find an optimal value function and thus solve the control problem.
     In a similar manner to \gls{td}, SARSA aims to estimate the action-value function $q_\pi(s,a)$, given a current policy $\pi$.
@@ -450,7 +451,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     %TODO Additionally add pseudo code of sarsa
 
-    \subsection{Q-Learning (Off-Policy)}
+    \subsection{Q-Learning (Off-Policy)}\label{subsec:q-learningnulloff-policynull}
 
     Another control algorithm which is build upon the idea of \gls{td} is Q-learning which aims to directly estimate the optimal action-value function $q_*$.
     As denoted by \citeauthor{watkins_q-learning_1992}, the following calculation is used to update the action-value function $Q$.
@@ -461,11 +462,55 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     As it does not optimize for the current policy but directly for the optimal one, Q-learning is considered an off-policy method and the policies must no be interchanged~\citep{szepesvari_algorithms_2010}.
 
+    %TODO Additionally add pseudo code of q
 
-%TODO Additionally add pseudo code of q
+
+    \section{Policy Gradient Methods}
 
 
-    \chapter{Deep Reinforcement Learning}
+    \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
+
+    In the preceding chapter about the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
+    However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathit{S}$ is visited countless times in order for these methods to estimate the optimal policy $\pi$.
+    In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible.
+    That is because each frame consists of thousands of pixels and each of this pixels can accept various values.
+    This issue is solved by applying \gls{dl} techniques to \gls{rl} due to there capability to estimate very complex functions as the value function for a high dimensional state-space.
+    By combining these techniques the field of \gls{drl} emerged which allows for superhuman-like problem solving capabilities~\citep{francois-lavet_introduction_2018}.
+
+    Instead of directly going through adapted traditional \gls{rl} approaches, the~\nameref{ch:deep-reinforcement-learning} chapter starts with an introduction to \gls{dl}.
+    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\nameref{sec:trust-region-policy-optimization} and~\nameref{sec:proximal-policy-optimization}.
+    A focus is laid on these two approaches because they represent the two algorithms used in the work of \citeauthor{burda_large-scale_2018-1} on which this Bachelor's thesis builds upon.
+
+
+    \section{Neural Networks}
+
+    \subsection{Multi Layer Perceptron}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{}
+        \caption{Example of a simple multi layer perceptron with one hidden unit}
+        \label{fig:mlp}
+    \end{figure}
+
+    \subsubsection{Activation Functions}
+
+    \subsubsection{Loss Functions}
+
+    \subsection{Convolutional Neural Networks}
+
+    \subsection{Variational Auto Encoders}
+
+    \subsection{Optimization Methods}
+
+
+    \section{Deep Learning Approach to Reinforcement Learning}
+
+
+    \section{Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
+
+
+    \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
 
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}
@@ -476,15 +521,13 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     \chapter{Evalutation}
 
+    %TODO chapter of an introduction to drl for evalutation
+
 
     \chapter{Implementation}
 
 
     \chapter{Results and Discussion}
-
-
-% Remove following line for the final thesis.
-%\input{intro.tex} % A short introduction to LaTeX.
 
     \backmatter
 % Use an optional list of figures.

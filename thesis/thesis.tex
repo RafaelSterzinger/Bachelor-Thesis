@@ -508,21 +508,26 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     In its simplest form, this \gls{nn} is called a \textit{perceptron}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
     These input values $x_0,x_1,x_2$ a forward fed to the output axon and in between, the inputs are weighted according to the current strength of the synapses.
-    A general perceptron is of the form $(X^T,y)$, where $X^T=[x_0,x_1,\ldots]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
+    A general perceptron is of the form $(\bar{\mathbf{X}},y)$, where $\bar{\mathbf{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
     The observed value represents a numerical scalar used for a regression problem, e.g. predicting the price of a house give some numerical input variables such as the amount of rooms and square meter.
-    In the case of classification, this perceptron can be used for binary classification where the observed value $y$ is either $\in [0,1]$ or $\in [-1,1]$.
+    In the case of classification, this perceptron can be used for binary classification where the observed value is $y$ $\in [-1,1]$.
     For instance, this can be used to predict whether or not a credit-card transaction was fraudulent given the amount and frequency of the transaction.
+    Given the input values $\bar{\mathbf{X}}$ and the weights $\bar{\mathbf{W}}=[w_0,w_1,\ldots,w_d]$, a prediction $\hat{y}$ for $y$ is performed by the following equation.
+
+    \begin{equation}
+        \hat{y}= \bar{\mathbf{X}}\cdot\bar{\mathbf{W}}=\sum_{j=0}^{d}x_j*w_j
+    \end{equation}
+
+    Lastly, the result of the equation is being activated using an \textit{activation function}.
+    For instance, in classification the sign function is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
+    After the output value has been activated, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}.
+    If the case that the error is nonzero, the weights must be adapted in order to perform a closer prediction next time.
 
 
 
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=\textwidth]{figures/neuron_model.png}
-        \caption{Example of a simple multi layer perceptron with one hidden unit}
-        \label{fig:mlp}
-    \end{figure}
 
     \subsubsection{Activation Functions}
+    Concerning the sign functionl
 
     \subsubsection{Loss Functions}
 

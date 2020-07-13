@@ -276,15 +276,14 @@ class MakeEnvDynamic(gym.ObservationWrapper):
         super(MakeEnvDynamic, self).__init__(env)
         self.origShape = env.observation_space.shape
         newside = int(round(max(self.origShape[:-1]) * 100. / (100. - percentPad)))
-        self.newShape = [newside, newside, 3]
-        self.observation_space = Box(0.0, 255.0, self.newShape)
+        self.newShape = [newside, newside, 4]
+        self.observation_space = Box(0.0, 255.0, self.newShape, dtype=np.uint8)
         self.bottomIgnore = 20  # doom 20px bottom is useless
-        self.ob = None
 
-    def _observation(self, obs):
-        imNoise = np.random.randint(0, 256, self.newShape).astype(obs.dtype)
+    def observation(self, obs):
+        imNoise = np.random.randint(0, 256, self.newShape).astype(np.uint8)
         imNoise[:self.origShape[0] - self.bottomIgnore, :self.origShape[1], :] = obs[:-self.bottomIgnore, :, :]
-        self.ob = imNoise
+        return imNoise
 
 
 class RetroALEActions(gym.ActionWrapper):

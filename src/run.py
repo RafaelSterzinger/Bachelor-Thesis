@@ -20,7 +20,7 @@ from cppo_agent import PpoOptimizer
 from dynamics import Dynamics, UNet
 from utils import random_agent_ob_mean_std
 from wrappers import MontezumaInfoWrapper, make_mario_env, AddRandomStateToInfo, MaxAndSkipEnv, ProcessFrame84, \
-    ExtraTimeLimit
+    ExtraTimeLimit, MakeEnvDynamic
 
 
 def start_experiment(**args):
@@ -127,6 +127,8 @@ def make_env_all_params(rank, add_monitor, args):
         env = ProcessFrame84(env, crop=False)
         env = FrameStack(env, 4)
         env = ExtraTimeLimit(env, args['max_episode_steps'])
+        if args["dyn_env"]:
+            env = MakeEnvDynamic(env)
         if 'Montezuma' in args['env']:
             env = MontezumaInfoWrapper(env)
         env = AddRandomStateToInfo(env)
@@ -193,11 +195,12 @@ if __name__ == '__main__':
     parser.add_argument('--seed', help='RNG seed', type=int, default=0)
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
-    parser.add_argument('--ext_coeff', type=float, default=0.)
-    parser.add_argument('--int_coeff', type=float, default=1.)
+    parser.add_argument('--ext_coeff', type=float, default=1.)
+    parser.add_argument('--int_coeff', type=float, default=0.)
     parser.add_argument('--layernorm', type=int, default=0)
     parser.add_argument('--feat_learning', type=str, default="none",
                         choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
+    parser.add_argument('--dyn_env', type=bool, default=True)
 
     args = parser.parse_args()
 

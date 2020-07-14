@@ -192,11 +192,14 @@ def add_experiment_params(parser):
 
     parser.add_argument('--dyn_env', type=bool, default=False)
 
-    parser.add_argument('--num_timesteps', type=int, default=int(1e6))
+    # DEFAULT VALUE = 1e8
+    parser.add_argument('--num_timesteps', type=int, default=int(1e2))
 
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
     parser.add_argument('--layernorm', type=int, default=0)
+    parser.add_argument('--ext_coeff', type=float, default=1.)
+    parser.add_argument('--int_coeff', type=float, default=0.)
 
 
 if __name__ == '__main__':
@@ -207,17 +210,16 @@ if __name__ == '__main__':
     add_rollout_params(parser)
     add_experiment_params(parser)
 
-    MAX = 1.0
-    MIN = 0.0
-    delta = (MAX - MIN) / 10.0
+    MAX = 0.3
+    MIN = 0.7
+    # delta = (MAX - MIN) / 10.0
     EXPERIMENT_NAME = "Freeway"
 
     for i in range(11):
         args = parser.parse_args()
-        ext_coeff = round(MIN + delta * i, 3)
-        int_coeff = round(MAX - delta * i, 3)
+        int_coeff = args.__dict__["int_coeff"]
+        ext_coeff = args.__dict__["ext_coeff"]
         args.__setattr__("dir",
                          f"/run/media/rafael/HDD/experiments/{EXPERIMENT_NAME}/openai_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_INT-{int_coeff}_EXT-{ext_coeff}")
-        args.__setattr__("ext_coeff", ext_coeff)
-        args.__setattr__("int_coeff", int_coeff)
+
         start_experiment(**args.__dict__)

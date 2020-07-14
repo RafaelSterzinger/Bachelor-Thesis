@@ -5,6 +5,7 @@ except:
     print("no OpenGL.GLU")
 import functools
 import os.path as osp
+import argparse
 from functools import partial
 
 import gym
@@ -13,6 +14,7 @@ from baselines import logger
 from baselines.bench import Monitor
 from baselines.common.atari_wrappers import NoopResetEnv, FrameStack
 from mpi4py import MPI
+from datetime import datetime
 
 from auxiliary_tasks import FeatureExtractor, InverseDynamics, VAE, JustPixels
 from cnn_policy import CnnPolicy
@@ -149,7 +151,7 @@ def get_experiment_environment(**args):
     set_global_seeds(process_seed)
     setup_mpi_gpus()
 
-    logger_context = logger.scoped_configure(dir=None,
+    logger_context = logger.scoped_configure(dir=args["dir"],
                                              format_strs=['stdout', 'log',
                                                           'csv'] if MPI.COMM_WORLD.Get_rank() == 0 else ['log'])
     tf_context = setup_tensorflow_session()
@@ -157,8 +159,6 @@ def get_experiment_environment(**args):
 
 
 def add_environments_params(parser):
-    parser.add_argument('--env', help='environment ID', default='BreakoutNoFrameskip-v4',
-                        type=str)
     parser.add_argument('--max-episode-steps', help='maximum number of timesteps for episode', default=4500, type=int)
     parser.add_argument('--env_kind', type=str, default="atari")
     parser.add_argument('--noop_max', type=int, default=30)
@@ -173,7 +173,6 @@ def add_optimization_params(parser):
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--ent_coeff', type=float, default=0.001)
     parser.add_argument('--nepochs', type=int, default=3)
-    parser.add_argument('--num_timesteps', type=int, default=int(1e8))
 
 
 def add_rollout_params(parser):
@@ -183,25 +182,42 @@ def add_rollout_params(parser):
     parser.add_argument('--nlumps', type=int, default=1)
 
 
-if __name__ == '__main__':
-    import argparse
+def add_experiment_params(parser):
+    parser.add_argument('--env', help='environment ID', default='FreewayNoFrameskip-v4',
+                        type=str)
+    parser.add_argument('--seed', help='RNG seed', type=int, default=0)
+    parser.add_argument('--feat_learning', type=str, default="none",
+                        choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
+    parser.add_argument('--exp_name', type=str, default='')
 
+    parser.add_argument('--dyn_env', type=bool, default=False)
+
+    parser.add_argument('--num_timesteps', type=int, default=int(1e6))
+
+    parser.add_argument('--dyn_from_pixels', type=int, default=0)
+    parser.add_argument('--use_news', type=int, default=0)
+    parser.add_argument('--layernorm', type=int, default=0)
+
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
     add_environments_params(parser)
     add_optimization_params(parser)
     add_rollout_params(parser)
+    add_experiment_params(parser)
 
-    parser.add_argument('--exp_name', type=str, default='')
-    parser.add_argument('--seed', help='RNG seed', type=int, default=0)
-    parser.add_argument('--dyn_from_pixels', type=int, default=0)
-    parser.add_argument('--use_news', type=int, default=0)
-    parser.add_argument('--ext_coeff', type=float, default=1.)
-    parser.add_argument('--int_coeff', type=float, default=0.)
-    parser.add_argument('--layernorm', type=int, default=0)
-    parser.add_argument('--feat_learning', type=str, default="none",
-                        choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
-    parser.add_argument('--dyn_env', type=bool, default=True)
+    MAX = 1.0
+    MIN = 0.0
+    delta = (MAX - MIN) / 10.0
+    EXPERIMENT_NAME = "Freeway"
 
-    args = parser.parse_args()
-
-    start_experiment(**args.__dict__)
+    for i in range(11):
+        args = parser.parse_args()
+        ext_coeff = round(MIN + delta * i, 3)
+        int_coeff = round(MAX - delta * i, 3)
+        args.__setattr__("dir",
+                         f"/run/media/rafael/HDD/experiments/{EXPERIMENT_NAME}/openai_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_INT-{int_coeff}_EXT-{ext_coeff}")
+        args.__setattr__("ext_coeff", ext_coeff)
+        args.__setattr__("int_coeff", int_coeff)
+        start_experiment(**args.__dict__)

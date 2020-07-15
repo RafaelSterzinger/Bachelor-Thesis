@@ -183,7 +183,7 @@ def add_rollout_params(parser):
 
 
 def add_experiment_params(parser):
-    parser.add_argument('--env', help='environment ID', default='FreewayNoFrameskip-v4',
+    parser.add_argument('--env', help='environment ID', default='MontezumaRevengeNoFrameskip-v4',
                         type=str)
     parser.add_argument('--seed', help='RNG seed', type=int, default=0)
     parser.add_argument('--feat_learning', type=str, default="none",
@@ -193,13 +193,14 @@ def add_experiment_params(parser):
     parser.add_argument('--dyn_env', type=bool, default=False)
 
     # DEFAULT VALUE = 1e8
-    parser.add_argument('--num_timesteps', type=int, default=int(1e2))
+    # AMOUNT FOR FINAL EVALUATION = 1e8/4
+    parser.add_argument('--num_timesteps', type=int, default=int(1e6))
 
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
     parser.add_argument('--layernorm', type=int, default=0)
-    parser.add_argument('--ext_coeff', type=float, default=1.)
-    parser.add_argument('--int_coeff', type=float, default=0.)
+    parser.add_argument('--ext_coeff', type=float, default=0.)
+    parser.add_argument('--int_coeff', type=float, default=1.)
 
 
 if __name__ == '__main__':
@@ -210,16 +211,11 @@ if __name__ == '__main__':
     add_rollout_params(parser)
     add_experiment_params(parser)
 
-    MAX = 0.3
-    MIN = 0.7
-    # delta = (MAX - MIN) / 10.0
-    EXPERIMENT_NAME = "Freeway"
+    args = parser.parse_args()
+    EXPERIMENT_NAME = f"MontezumaRevenge2-none-{args.__dict__['seed']}"
+    int_coeff = args.__dict__["int_coeff"]
+    ext_coeff = args.__dict__["ext_coeff"]
+    args.__setattr__("dir",
+                     f"/run/media/rafael/HDD/experiments/{EXPERIMENT_NAME}/openai_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_INT-{int_coeff}_EXT-{ext_coeff}")
 
-    for i in range(11):
-        args = parser.parse_args()
-        int_coeff = args.__dict__["int_coeff"]
-        ext_coeff = args.__dict__["ext_coeff"]
-        args.__setattr__("dir",
-                         f"/run/media/rafael/HDD/experiments/{EXPERIMENT_NAME}/openai_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_INT-{int_coeff}_EXT-{ext_coeff}")
-
-        start_experiment(**args.__dict__)
+    start_experiment(**args.__dict__)

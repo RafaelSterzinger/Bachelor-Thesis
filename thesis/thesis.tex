@@ -109,6 +109,8 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \newacronym{drl}{DRL}{Deep Reinforcement Learning}
 \newacronym{mc}{MC}{Monte-Carlo}
 \newacronym{td}{TD}{Temporal-Difference}
+\newacronym{ppo}{PPO}{Proximal Policy Optimization}
+\newacronym{trpo}{TRPO}{Trust Region Policy Optimization}
 
 
 
@@ -483,7 +485,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     Instead of directly going through adapted traditional \gls{rl} approaches, the~\nameref{ch:deep-reinforcement-learning} chapter starts with an introduction to \gls{dl}.
     Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\nameref{sec:trust-region-policy-optimization} and~\nameref{sec:proximal-policy-optimization}.
-    A focus is laid on these two approaches because they represent the two algorithms used in the work of \citeauthor{burda_large-scale_2018-1} on which this Bachelor's thesis builds upon.
+    A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
 
 
     \section{Neural Networks}
@@ -506,30 +508,52 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     \footnotetext{\url{https://cs231n.github.io/neural-networks-1/}}
 
-    In its simplest form, this \gls{nn} is called a \textit{perceptron}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
-    These input values $x_0,x_1,x_2$ a forward fed to the output axon and in between, the inputs are weighted according to the current strength of the synapses.
+    In its simplest form, this \gls{nn} is called a \textit{perceptron} or \textit{feed-forward network}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
+    In this form, the \gls{nn} allows for a generalized variation of a linear function.
     A general perceptron is of the form $(\bar{\mathbf{X}},y)$, where $\bar{\mathbf{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
     The observed value represents a numerical scalar used for a regression problem, e.g. predicting the price of a house give some numerical input variables such as the amount of rooms and square meter.
-    In the case of classification, this perceptron can be used for binary classification where the observed value is $y$ $\in [-1,1]$.
+    In the case of classification, this perceptron can be used for binary classification where the observed value is $y$ $\in [-1,+1]$.
     For instance, this can be used to predict whether or not a credit-card transaction was fraudulent given the amount and frequency of the transaction.
-    Given the input values $\bar{\mathbf{X}}$ and the weights $\bar{\mathbf{W}}=[w_0,w_1,\ldots,w_d]$, a prediction $\hat{y}$ for $y$ is performed by the following equation.
+    Given the input values $\bar{\mathbf{X}}$ and the weights $\bar{\mathbf{W}}=[w_0,w_1,\ldots,w_d]$, a result of a linear function is calculated by the following a prediction.
 
     \begin{equation}
-        \hat{y}= \bar{\mathbf{X}}\cdot\bar{\mathbf{W}}=\sum_{j=0}^{d}x_j*w_j
+        \bar{\mathbf{X}}\cdot\bar{\mathbf{W}}=\sum_{j=0}^{d}x_j*w_j\label{eq:feed_forward_equation}
     \end{equation}
 
-    Lastly, the result of the equation is being activated using an \textit{activation function}.
-    For instance, in classification the sign function is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
-    After the output value has been activated, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}.
-    If the case that the error is nonzero, the weights must be adapted in order to perform a closer prediction next time.
+    Lastly, a prediction $\hat{y}$ for $y$, which based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result using an \textit{activation function}.
+    In the case of classification the sign function is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
+    After the output value has been activated, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
+    If its the case that the error $E(\bar{\mathbf{X}})$ is nonzero, the weights must be adapted in order to perform a closer prediction next time.
+    This is executed by optimizing the error function which is carried out by performing an update of the weights according to the negative direction of the function's gradient.
+
+    As the perceptron represents a linear function, it must not only learn the slope but also the intercept, the invariant part.
+    The intercept value is also called bias and is especially necessary in scenarios where the the values of the target class are not centered around the origin.
+    To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight.
+    This additional neuron solely has the purpose to feed the scalar 1 to the output node.
+    However, the weight between the bias neuron and the output is refined by the error optimization process which allows to learn the intercept value.
+    By incorporating the bias neuron, the following equation emerges.
+
+    \begin{equation}
+        \bar{\mathbf{X}}\cdot\bar{\mathbf{W} + b}=\sum_{j=0}^{d}x_j*w_j + b
+    \end{equation}
 
 
+    COPIED:
+    However, the goal was always to minimize the error in prediction, even if a for-mal optimization formulation was not presented. The perceptron algorithm was, therefore,heuristically designed to minimize the number of misclassifications, and convergence proofswere available that provided correctness guarantees of the learning algorithm in simplifiedsettings. Therefore, we can still write the (heuristically motivated) goal of the perceptronalgorithm in least-squares form with respect to all training instances in a data setDcon-
+    1.2. THE BASIC ARCHITECTURE OF NEURAL NETWORKS7taining feature-label pairs:MinimizeWL=∑(X,y)∈D(y−ˆy)2=∑(X,y)∈D(y−sign{W·X})2
 
+    For now, we will assume that theperceptron algorithm optimizes some unknown smooth function with the use of gradientdescent.
+
+    Although the above objective function is defined over the entire training data, the train-ing algorithm of neural networks works by feeding each input data instanceXinto thenetwork one by one (or in small batches) to create the prediction ˆy. The weights are thenupdated, based on the error valueE(X)=(y−ˆy). Specifically, when the data pointXisfed into the network, the weight vectorWis updated as follows:W⇐W+α(y−ˆy)X(1.4)The parameterαregulates the learning rate of the neural network. The perceptron algorithmrepeatedly cycles through all the training examples in random order and iteratively adjuststhe weights until convergence is reached
+
+    The basic perceptron algorithm can be considered astochastic gradient-descentmethod
 
     \subsubsection{Activation Functions}
-    Concerning the sign functionl
+    Concerning the sign function
 
     \subsubsection{Loss Functions}
+
+    \subsection{Multi Layer Neural Networks}
 
     \subsection{Convolutional Neural Networks}
 
@@ -540,11 +564,15 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     \section{Deep Learning Approach to Reinforcement Learning}
 
+    \citep{francois-lavet_introduction_2018}
+    \citep{aggarwal_neural_2018}
+
 
     \section{Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
+    \cite{schulman_proximal_2017}
 
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}

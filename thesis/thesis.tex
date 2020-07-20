@@ -474,6 +474,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Policy Gradient Methods}
 
 
+    %TODO make separate chapter
+
+
     \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
 
     In the preceding chapter about the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
@@ -524,7 +527,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In the case of classification the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
     After the output value has been activated, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
     If the error $E(\bar{\mathbf{X}})$ is nonzero, the weights must be adapted in order to perform a closer prediction next time.
-    By optimizing the error function or \textit{loss function} the classification error is reduced.
+    By optimizing the error function or \textit{loss function}, the classification error is reduced.
     The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input and is formally described by the following notation.
 
     \begin{equation}
@@ -548,7 +551,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     \subsubsection{Activation Functions}
-    In general, the activation functions play an important role in \gls{nn}s as they define the output values of neurons.
+    In general, activation functions play an important role in \gls{nn}s as they define the output values of neurons.
     However, they are especially significant for \gls{mlp}s as they determine the modeling power of the network.
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
     %p. 13
@@ -583,14 +586,50 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is due to the fact that it facilitates the training process of \gls{mlp}s as they are less expensive to compute.
 
     \subsubsection{Loss Functions}
+    In the previous subsection on~\nameref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
+    However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
+    For instance, regression tasks modeled by \gls{nn}s with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
+    In the case of classification tasks with multiple class labels, output values are normally activated using the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\mathbf{v}$ being the $n$ pre-activated output values.
+
+    \begin{equation}
+        \text{Softmax: } \sigma(\mathbf{v})_i = \frac{e^{v_i}}{\sum_{j=0}^{n}e^{v_j}}
+    \end{equation}
+
+    This function allows for a probabilistic output which means that it maps the pre-activated values to a probability distribution.
+    Since the output of the softmax function is a vector of probabilities instead of a scalar value, a different loss function is needed as well.
+    Additionally, classification tasks can have binary or categorical/multiple targets which further defines and differentiates which loss function will be used.
+
+    For binary targets different combinations of activation and loss functions can be used to obtain the same result for prediction.
+    For example, binary targets can be classified using \textit{logistic regression} which uses the identity activation function to predict $\hat{y}$.
+    A loss function for this prediction is define by the following equation:
+
+    \begin{equation}
+        L=\text{log}(1+e^{-y\cdot\hat{y}})
+    \end{equation}
+
+    Another option is to simply use the sigmoid activation function which maps the output $\hat{y}$ between $0 \text{ and } 1$.
+    Under the assumption that the observed value $y$ is normalized between $-1 \text{ and } 1$, the negative logarithm of $|\frac{y}{2}-\frac{1}{2}+\hat{y}|$ is used as a loss function.
+    This loss function provides a measurement on how likely it is that the target has correctly been classified.
+
+    Concerning categorical targets, post-activated values $\hat{y}_0,\ldots,\hat{y}_n$ are examined one by one.
+    The loss function for the $i$th prediction is given by the following equation:
+
+    \begin{equation}
+        L=-\text{log}(\hat{y}_i)
+    \end{equation}
+
+    This definition is known as the \textit{cross-entropy loss} and represents expansion of logistic regression~\citep{aggarwal_neural_2018}.
+    %p. 15
 
     \subsection{Multi Layer Neural Networks}
+
+    \subsubsection{Backpropagation}
+
+    %TODO pseudo code from deep learning book godwell
 
     \subsection{Convolutional Neural Networks}
 
     \subsection{Variational Auto Encoders}
-
-    \subsection{Optimization Methods}
 
 
     \section{Deep Learning Approach to Reinforcement Learning}

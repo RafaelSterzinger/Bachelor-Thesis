@@ -37,8 +37,8 @@ pdfpagelayout   = TwoPageRight,           % How the document is shown in PDF vie
 linkbordercolor = {Melon},                % The color of the borders of boxes around crosslinks (optional).
 pdfauthor       = {\authorname},          % The author's name in the document properties (optional).
 pdftitle        = {\thesistitle},         % The document's title in the document properties (optional).
-pdfsubject      = {Subject},              % The document's subject in the document properties (optional).
-pdfkeywords     = {a, list, of, keywords} % The document's keywords in the document properties (optional).
+pdfsubject      = {Bachelor's thesis on \thesistitle; Written by \authorname in the context of TARO/INSO research group},         % The document's subject in the document properties (optional).
+pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, prediction error based curiosity, balancing extrinsic and intrinsic rewards} % The document's keywords in the document properties (optional).
 }
 
 \setpnumwidth{2.5em}        % Avoid overfull hboxes in the table of contents (see memoir manual).
@@ -59,7 +59,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \setadvisor{Ao.Univ.Prof. Dipl.-Ing. Dr.techn.}{Thomas Grechenig}{}{male}
 
 % For bachelor and master theses:
-\setfirstassistant{Dipl.-Ing.}{Michael Ressmann}{Posttitle}{male}
+\setfirstassistant{Dipl.-Ing.}{Michael Ressmann}{}{male}
 
 % For dissertations:
 %\setfirstreviewer{Pretitle}{Forename Surname}{Posttitle}{male}
@@ -111,7 +111,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 \newacronym{td}{TD}{Temporal-Difference}
 \newacronym{ppo}{PPO}{Proximal Policy Optimization}
 \newacronym{trpo}{TRPO}{Trust Region Policy Optimization}
-
+\newacronym{relu}{ReLU}{Rectified Linear Unit}
 
 
 \begin{document}
@@ -490,7 +490,7 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
 
     \section{Neural Networks}
 
-    \subsection{The Basic Architecture of Neural Networks}
+    \subsection{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
 
 
     As many ideas presented in this thesis, \gls{nn} are also inspired from nature as its structure is a resemblance of the human brain.
@@ -521,35 +521,66 @@ pdfkeywords     = {a, list, of, keywords} % The document's keywords in the docum
     \end{equation}
 
     Lastly, a prediction $\hat{y}$ for $y$, which based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result using an \textit{activation function}.
-    In the case of classification the sign function is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
+    In the case of classification the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
     After the output value has been activated, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
-    If its the case that the error $E(\bar{\mathbf{X}})$ is nonzero, the weights must be adapted in order to perform a closer prediction next time.
-    This is executed by optimizing the error function which is carried out by performing an update of the weights according to the negative direction of the function's gradient.
+    If the error $E(\bar{\mathbf{X}})$ is nonzero, the weights must be adapted in order to perform a closer prediction next time.
+    By optimizing the error function or \textit{loss function} the classification error is reduced.
+    The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input and is formally described by the following notation.
+
+    \begin{equation}
+        \bar{\mathbf{W}} \Leftarrow \bar{\mathbf{W}} + \alpha E(\bar{\mathbf{X}})\bar{\mathbf{X}}\label{eq:weight_adjusting}
+    \end{equation}
+
+    The parameter $\alpha$ is the \textit{learning rate} which defines how large the updates to the weights should be.
+    A large value of $\alpha$ allows for faster convergence to a local optima with the accompanying risk of never reaching one at all.
+    On the other hand, a small value steadily approaches the optima but takes longer.
+
 
     As the perceptron represents a linear function, it must not only learn the slope but also the intercept, the invariant part.
-    The intercept value is also called bias and is especially necessary in scenarios where the the values of the target class are not centered around the origin.
-    To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight.
-    This additional neuron solely has the purpose to feed the scalar 1 to the output node.
-    However, the weight between the bias neuron and the output is refined by the error optimization process which allows to learn the intercept value.
+    The intercept value is also called bias and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep{aggarwal_neural_2018}.
+    %p. 6
+    To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight which is adjusted during the error optimization process.
+    This additional neuron solely has the purpose to feed the scalar 1 to the output node and by refining the weight in between, the intercept value is learned.
     By incorporating the bias neuron, the following equation emerges.
 
     \begin{equation}
-        \bar{\mathbf{X}}\cdot\bar{\mathbf{W} + b}=\sum_{j=0}^{d}x_j*w_j + b
+        \bar{\mathbf{X}}\cdot\bar{\mathbf{W}} + b=\sum_{j=0}^{d}x_j*w_j + b\label{eq:linear_function_equation}
     \end{equation}
 
-
-    COPIED:
-    However, the goal was always to minimize the error in prediction, even if a for-mal optimization formulation was not presented. The perceptron algorithm was, therefore,heuristically designed to minimize the number of misclassifications, and convergence proofswere available that provided correctness guarantees of the learning algorithm in simplifiedsettings. Therefore, we can still write the (heuristically motivated) goal of the perceptronalgorithm in least-squares form with respect to all training instances in a data setDcon-
-    1.2. THE BASIC ARCHITECTURE OF NEURAL NETWORKS7taining feature-label pairs:MinimizeWL=∑(X,y)∈D(y−ˆy)2=∑(X,y)∈D(y−sign{W·X})2
-
-    For now, we will assume that theperceptron algorithm optimizes some unknown smooth function with the use of gradientdescent.
-
-    Although the above objective function is defined over the entire training data, the train-ing algorithm of neural networks works by feeding each input data instanceXinto thenetwork one by one (or in small batches) to create the prediction ˆy. The weights are thenupdated, based on the error valueE(X)=(y−ˆy). Specifically, when the data pointXisfed into the network, the weight vectorWis updated as follows:W⇐W+α(y−ˆy)X(1.4)The parameterαregulates the learning rate of the neural network. The perceptron algorithmrepeatedly cycles through all the training examples in random order and iteratively adjuststhe weights until convergence is reached
-
-    The basic perceptron algorithm can be considered astochastic gradient-descentmethod
-
     \subsubsection{Activation Functions}
-    Concerning the sign function
+    In general, the activation functions play an important role in \gls{nn}s as they define the output values of neurons.
+    However, they are especially significant for \gls{mlp}s as they determine the modeling power of the network.
+    By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
+    %p. 13
+
+    Besides the aforementioned sign function, other activation functions are used and a selection of them can be observed in figure~\eqref{fig:activation_functions}.
+    As mentioned in subsection on~\nameref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
+    To be able to also evaluate the certitude of a \gls{nn}, the \textit{sigmoid activation function} is used instead.
+    Using this function allows to map the pre-activated value to a range between $[0,1]$, allowing to estimate the network's certainty.
+    Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
+    In contrast to this, the \textit{identity activation function} is used to predict real numbers.
+    By using the identity function, the \gls{nn} is equivalent to the \textit{least-squares regression} algorithm.
+    An important property that all activation functions have in common is monotonicity and besides the identity function they also \textit{"saturate at large absolute values at which increasing further does not change the activation much."}\citep[\p{13}]{aggarwal_neural_2018}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/various_activation_functions.png}
+        \caption[Various activation functions and their relation between the domain and the codomain]{Various activation functions and their relation between the domain and the codomain\protect\footnotemark}
+        \label{fig:activation_functions}
+    \end{figure}
+
+    \footnotetext{\cite[\p{13}]{aggarwal_neural_2018}}
+
+    Activation functions are applied on the pre-activated value and therefore a formal notation of $\hat{y}$ is denoted by $\hat{y}=\phi(\bar{\mathbf{W}}\cdot\bar{\mathbf{X}})$.
+    Over the course of the advancement of \gls{nn}, initial activation functions such as the Sigmoid and the \textit{Tangens-Hyperbolicus} activation function have been replace by piecewise linear functions such as the \textit{\gls{relu} activation function}.
+
+    \begin{align*}
+        &\text{Sigmoid: } &  \phi(v) & = \frac{1}{1+e^{-v}} \\
+        &\text{Tangens-Hyperbolicus: } &  \phi(v) &= \frac{e^{2v}-1}{e^{2v}+1} \\
+        &\text{\gls{relu}: } &  \phi(v)& = \vphantom{\frac11} \max\{v,0\}
+    \end{align*}
+
+    This is due to the fact that it facilitates the training process of \gls{mlp}s as they are less expensive to compute.
 
     \subsubsection{Loss Functions}
 

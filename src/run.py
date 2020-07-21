@@ -215,9 +215,9 @@ if __name__ == '__main__':
     EXPERIMENT_NAME = f"MontezumaRevenge2-none-{args.__dict__['seed']}"
     int_coeff = args.__dict__["int_coeff"]
     ext_coeff = args.__dict__["ext_coeff"]
-    EXPERIMENT_NAME = f"FreewayFINAL-{args.__dict__['seed']}-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    EXPERIMENT_NAME = f"MontezumaRevengeFINAL-{args.__dict__['seed']}-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
 
     args.__setattr__("dir",
-                     f"/home/rafael/Documents/experiments/FreewayFINAL/{EXPERIMENT_NAME}/openai_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_INT-{int_coeff}_EXT-{ext_coeff}")
+                     f"/home/rafael/Documents/experiments/MontezumaRevengeFINAL/{EXPERIMENT_NAME}/openai_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_INT-{int_coeff}_EXT-{ext_coeff}")
 
     start_experiment(**args.__dict__)

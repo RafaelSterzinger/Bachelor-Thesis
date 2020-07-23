@@ -149,6 +149,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Introduction}
 
+    %TODO write introduction
+
 
     \section{Problem Description}\label{sec:problem-description}
     In \gls{rl}, algorithms mainly depend on carefully designed extrinsic reward functions which are comparable with feedback to an agent's behaviour.
@@ -233,6 +235,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \chapter{Reinforcement Learning Background}\label{ch:reinforcement-learning-background}
+
+    %TODO write introduction
 
 
     \section{Reinforcement Learning Problem}\label{sec:reinforcement-learning-problem}
@@ -479,21 +483,20 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
 
+
     In the preceding chapter about the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
     However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathit{S}$ is visited countless times in order for these methods to estimate the optimal policy $\pi$.
-    In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible.
+    In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible which is also known as the curse of dimensionality~\citep{goodfellow_deep_2016}.
     That is because each frame consists of thousands of pixels and each of this pixels can accept various values.
-    This issue is solved by applying \gls{dl} techniques to \gls{rl} due to there capability to estimate very complex functions as the value function for a high dimensional state-space.
+    To solve this issue, \gls{dl} techniques are applied to \gls{rl} due to there capability to estimate very complex functions as the value function for a high dimensional state-space.
     By combining these techniques the field of \gls{drl} emerged which allows for superhuman-like problem solving capabilities~\citep{francois-lavet_introduction_2018}.
 
-    Instead of directly going through adapted traditional \gls{rl} approaches, the~\nameref{ch:deep-reinforcement-learning} chapter starts with an introduction to \gls{dl}.
+    Instead of directly going through adapted traditional \gls{rl} approaches, the~\nameref{ch:deep-reinforcement-learning} chapter starts with an introduction to \gls{nn} and \gls{dl}.
     Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\nameref{sec:trust-region-policy-optimization} and~\nameref{sec:proximal-policy-optimization}.
     A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
 
 
-    \section{Neural Networks}
-
-    \subsection{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
+    \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
 
 
     As many ideas presented in this thesis, \gls{nn} are also inspired from nature as its structure is a resemblance of the human brain.
@@ -550,7 +553,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \bar{\mathbf{X}}\cdot\bar{\mathbf{W}} + b=\sum_{j=0}^{d}x_j*w_j + b\label{eq:linear_function_equation}
     \end{equation}
 
-    \subsubsection{Activation Functions}
+    \subsection{Activation Functions}
     In general, activation functions play an important role in \gls{nn}s as they define the output values of neurons.
     However, they are especially significant for \gls{mlp}s as they determine the modeling power of the network.
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
@@ -585,7 +588,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     This is due to the fact that it facilitates the training process of \gls{mlp}s as they are less expensive to compute.
 
-    \subsubsection{Loss Functions}
+    \subsection{Loss Functions}
     In the previous subsection on~\nameref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
     For instance, regression tasks modeled by \gls{nn}s with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
@@ -612,27 +615,64 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This loss function provides a measurement on how likely it is that the target has correctly been classified.
 
     Concerning categorical targets, post-activated values $\hat{y}_0,\ldots,\hat{y}_n$ are examined one by one.
-    The loss function for the $i$th prediction is given by the following equation:
+    The loss for the $i$th prediction is given by the following equation:
 
     \begin{equation}
         L=-\text{log}(\hat{y}_i)
     \end{equation}
 
-    This definition is known as the \textit{cross-entropy loss} and represents expansion of logistic regression~\citep{aggarwal_neural_2018}.
+    This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep{aggarwal_neural_2018}.
     %p. 15
 
-    \subsection{Multi Layer Neural Networks}
 
-    \subsubsection{Backpropagation}
+    \section{Multi Layer Neural Networks}
+    When comparing a simple perceptron to an \gls{mlp}, the major difference is the usage of multiple layers, so called \textit{hidden layers}.
+    Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep{aggarwal_neural_2018}.
+    However, the \gls{mlp} still is a feedforward network and the perceptron as well as the \gls{mlp} can both be described as a \textit{directed acyclic graph}.
+    The additional layers in an \gls{mlp} can be described as a composition of multiple functions, in opposition to a perceptron where the input is directly transmitted to the output layer.
+    By composing the additional layers via chain like structures, the input is feed through multiple layers before it allows a prediction of $\hat{y}$.
+    For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\mathbf{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\mathbf{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
+    %p. 163
+    The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
+    As mentioned in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}, only \gls{mlp}s with their ability to chain multiple functions allow for the approximation of a complex value function for a high dimensional state-space.
 
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.75\textwidth]{figures/xor_problem.png}
+        \caption[The XOR problem with the left plot being the original space using an \gls{mlp} and the right plot being the learned space using an \gls{mlp}]{The XOR problem with the left plot being the original space using an \gls{mlp} and the right plot being the learned space using an \gls{mlp}\protect\footnotemark}
+        \label{fig:xor_problem}
+    \end{figure}
+
+    \footnotetext{\cite[\p{168}]{goodfellow_deep_2016}}
+    The reason why \gls{mlp}s are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
+    In detail, the XOR functions takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
+    This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function the \gls{nn} should approximate.
+    Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able correctly implement the XOR function.
+    When applying the model learned by the perceptron to the left, original space, an approximated linear function cannot separate these values and thus would not be able to return the correct fot $y$.
+    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function to the space seen on the right side, the XOR function can be solved~\citep{goodfellow_deep_2016}.
+    This shows that an \gls{mlp} allows for much more complex function approximation as stated in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}.
+
+    %\subsubsection{Backpropagation}
+    %TODO either write section on backpropagation or write short notice that learning is different
     %TODO pseudo code from deep learning book godwell
 
-    \subsection{Convolutional Neural Networks}
+    %\subsection{Convolutional Neural Networks}
 
-    \subsection{Variational Auto Encoders}
+
+    %\subsection{Variational Auto Encoders}
 
 
     \section{Deep Learning Approach to Reinforcement Learning}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/drl_taxonomy.png}
+        \caption[]{Various activation functions and their relation between the domain and the codomain\protect\footnotemark}
+        \label{fig:drl_taxonomy}
+    \end{figure}
+
+    \footnotetext{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}
+
 
     \citep{francois-lavet_introduction_2018}
     \citep{aggarwal_neural_2018}
@@ -648,7 +688,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \chapter{Intrinsic Motivation in Reinforcement Learning}
 
 
-    \chapter{Knowledge Acquisition}
+    \section{Knowledge Acquisition}
 
 
     \chapter{Evalutation}

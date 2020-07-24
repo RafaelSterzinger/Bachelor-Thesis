@@ -126,9 +126,26 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \addstatementpage
 
     \begin{danksagung*}
-    \end{danksagung*}
+
+Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben. Insbesondere während der Verfassung dieser Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
+
+Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme. Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund zeitlicher Beschränkungen meinerseits notwendig war.
+
+Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
+Zu guter Letzt
+% wöchentlichen treffen um energie zu tanken für weiteres verfassen
+%TODO danke für korrektur lesen
+	        \end{danksagung*}
 
     \begin{acknowledgements*}
+	    I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies. In particular while writing this Bachelor's thesis, I would like to thank both of you for always being there for me and for encouraging me in my endeavors.
+
+	    I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made sure that I did not take on too much during my project. I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
+
+	    Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
+	    Last but not least, 
+%TODO danke für korrektur lesen
+
     \end{acknowledgements*}
 
     \begin{kurzfassung}
@@ -233,6 +250,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Thesis Outline}\label{sec:thesis-outline}
 
+
+    \glsresetall
 
     \chapter{Reinforcement Learning Background}\label{ch:reinforcement-learning-background}
 
@@ -397,9 +416,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep{sutton_reinforcement_2018} which can be directly solved due to its linearity.
-    However, this calculation is only feasible for small \gls{mdp}s since its complexity is $O(n^3)$ for $n$ states~\citep{silver_lecture_2015-1}.
+    However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citep{silver_lecture_2015-1}.
 
-    For larger \gls{mdp}s exist multiple iterative solutions as for example:
+    For larger \glspl{mdp} exist multiple iterative solutions as for example:
     \begin{itemize}
         \item \gls{dp}
         \item \gls{mc} Evaluation
@@ -480,6 +499,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     %TODO make separate chapter
 
+    \glsresetall
 
     \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
 
@@ -488,13 +508,18 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathit{S}$ is visited countless times in order for these methods to estimate the optimal policy $\pi$.
     In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible which is also known as the curse of dimensionality~\citep{goodfellow_deep_2016}.
     That is because each frame consists of thousands of pixels and each of this pixels can accept various values.
-    To solve this issue, \gls{dl} techniques are applied to \gls{rl} due to there capability to estimate very complex functions as the value function for a high dimensional state-space.
+    To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to there capability to estimate very complex functions such as the value function for a high dimensional state-space.
     By combining these techniques the field of \gls{drl} emerged which allows for superhuman-like problem solving capabilities~\citep{francois-lavet_introduction_2018}.
 
-    Instead of directly going through adapted traditional \gls{rl} approaches, the~\nameref{ch:deep-reinforcement-learning} chapter starts with an introduction to \gls{nn} and \gls{dl}.
-    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\nameref{sec:trust-region-policy-optimization} and~\nameref{sec:proximal-policy-optimization}.
-    A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
+    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
+    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method,~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
+    A focus is laid on this approach because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1}, the core literature of this thesis.
 
+    %TODO write trpo
+%    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
+%    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\gls{trpo}~\eqref{sec:trust-region-policy-optimization} and~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
+%    A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
+ 
 
     \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
 
@@ -554,13 +579,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     \subsection{Activation Functions}
-    In general, activation functions play an important role in \gls{nn}s as they define the output values of neurons.
-    However, they are especially significant for \gls{mlp}s as they determine the modeling power of the network.
+    In general, activation functions play an important role in \glspl{nn} as they define the output values of neurons.
+    However, they are especially significant for \glspl{mlp} as they determine the modeling power of the network.
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
     %p. 13
 
-    Besides the aforementioned sign function, other activation functions are used and a selection of them can be observed in figure~\eqref{fig:activation_functions}.
-    As mentioned in subsection on~\nameref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
+    Besides the aforementioned sign function, other activation functions are used and a selection of them can be observed in figure~\ref{fig:activation_functions}.
+    As mentioned in subsection \ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
     To be able to also evaluate the certitude of a \gls{nn}, the \textit{sigmoid activation function} is used instead.
     Using this function allows to map the pre-activated value to a range between $[0,1]$, allowing to estimate the network's certainty.
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
@@ -586,12 +611,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         &\text{\gls{relu}: } &  \phi(v)& = \vphantom{\frac11} \max\{v,0\}
     \end{align*}
 
-    This is due to the fact that it facilitates the training process of \gls{mlp}s as they are less expensive to compute.
+    This is due to the fact that it facilitates the training process of \glspl{mlp} as they are less expensive to compute.
 
     \subsection{Loss Functions}
-    In the previous subsection on~\nameref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
+    In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
-    For instance, regression tasks modeled by \gls{nn}s with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
+    For instance, regression tasks modeled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
     In the case of classification tasks with multiple class labels, output values are normally activated using the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\mathbf{v}$ being the $n$ pre-activated output values.
 
     \begin{equation}
@@ -634,72 +659,103 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\mathbf{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\mathbf{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
     %p. 163
     The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
-    As mentioned in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}, only \gls{mlp}s with their ability to chain multiple functions allow for the approximation of a complex value function for a high dimensional state-space.
+    As aforementioned in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability to chain multiple functions allow for the approximation of a complex value function for a high dimensional state-space.
 
     \begin{figure}[h]
         \centering
         \includegraphics[width=0.75\textwidth]{figures/xor_problem.png}
-        \caption[The XOR problem with the left plot being the original space using an \gls{mlp} and the right plot being the learned space using an \gls{mlp}]{The XOR problem with the left plot being the original space using an \gls{mlp} and the right plot being the learned space using an \gls{mlp}\protect\footnotemark}
+        \caption[The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}]{The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}\protect\footnotemark}
         \label{fig:xor_problem}
     \end{figure}
 
     \footnotetext{\cite[\p{168}]{goodfellow_deep_2016}}
-    The reason why \gls{mlp}s are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
+    The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
     In detail, the XOR functions takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
-    This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function the \gls{nn} should approximate.
+    This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function, the \gls{nn} should approximate.
     Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able correctly implement the XOR function.
     When applying the model learned by the perceptron to the left, original space, an approximated linear function cannot separate these values and thus would not be able to return the correct fot $y$.
-    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function to the space seen on the right side, the XOR function can be solved~\citep{goodfellow_deep_2016}.
+    This is also known under the terme of \textit{linear separability}.
+    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space seen on the right side, the XOR function can be solved as the space is now linear separable~\citep{goodfellow_deep_2016,aggarwal_neural_2018}.
     This shows that an \gls{mlp} allows for much more complex function approximation as stated in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}.
+    With the newly introduced capability, the learning process mentioned in equation \ref{eq:weight_adjusting} in section \ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
+    Instead, a new algorithm named \textit{backpropagation} is used which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
-    %\subsubsection{Backpropagation}
-    %TODO either write section on backpropagation or write short notice that learning is different
-    %TODO pseudo code from deep learning book godwell
-
-    %\subsection{Convolutional Neural Networks}
+    %TODO \subsection{Convolutional Neural Networks}
 
 
-    %\subsection{Variational Auto Encoders}
+    %TODO \subsection{Variational Auto Encoders}
 
+    \section{Deep Learning Approach in Reinforcement Learning}
+    The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well. 
+    Especially through the previously mentioned combination of these two fields and the newly creation of the \gls{drl} domain, many astonishing accomplishments were achived \citep{francois-lavet_introduction_2018}. 
+    A summary of four different achivements which was selected by \citeauthor{aggarwal_neural_2018} is listed in the following.
+    %p. 374
 
-    \section{Deep Learning Approach to Reinforcement Learning}
+    \begin{itemize}
+	    \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
+		    Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithm are applied, receiving only the raw pixels as an input.
+		    Based on the pixels, a state representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
+		    This procedure is very familiar to the traditional \gls{rl} approach known from chapter \ref{ch:reinforcement-learning-background}.
+		    However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent is able to surpass humans in these games \citep{mnih_playing_2013,schulman_trust_2015}.
+		    Furthermore, the reason why video games are even so popular in modern \gls{rl} is because they function as simulations of real life microcosms that are perfectly suitable for testing algorithms in advance before they are applied in the real world.
 
+	    \item   Another very famous breakthrough happend in 2016, when an algorithm by the name \textit{AlphaGo} \citep{silver_mastering_2017} defeated the top-ranked players in the boardgame Go.
+		    The reason why this event was so remarkable is because Go is a very complex game and being good at it takes a lot of human-like intuition.
+		    Additionally, the state space is very large when compared to other board games such as chess.
+		    However, it really was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against itself.
+
+	    \item   \gls{drl} is also viewd as a viable option for self-driving cars.
+		    Although a more common approach to this problem is the utilization of supervised learning, the usage of various carsensors for decision making allows these automated cars to have a lower error rate when compared to humans.
+	    \item   Another important domain where \gls{drl} plays a key factor is the creation of self-learning robots.
+		    Here, the difficulty relies in teaching a robot basic human-like motions such as walking.
+		    Fortunately, the task of teaching a robot to walk can be described in the \gls{rl} framework as the robots goal is to reach a given position as fast as possible.
+		    The robot's state is a description of its available limbs and motors in a continous space.
+		    Therefore, \gls{dl} techniqes must be applied as well to reach good performance.
+		    This does not only allow the robot to learn how to walk but also how to roll and crawl.
+    \end{itemize}
+
+    All of these acomplishments are based on different \gls{drl} approaches. 
+    However, an exaustive explanation of each of these algorithms would go beyond the scope of this thesis. Therefore, solely an overview is provided by figure \ref{fig:drl_taxonomy}.
+    For further infromations the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
+    
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/drl_taxonomy.png}
-        \caption[]{Various activation functions and their relation between the domain and the codomain\protect\footnotemark}
+	    \caption[A non-exaustive taxonomy of \gls{drl} algorithms]{A non-exaustive taxonomy of \gls{drl} algorithms\protect\footnotemark}
         \label{fig:drl_taxonomy}
     \end{figure}
 
-    \footnotetext{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}
+    \footnotetext{\url{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}}
 
-
-    \citep{francois-lavet_introduction_2018}
-    \citep{aggarwal_neural_2018}
-
-
-    \section{Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
+%    \section{Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
     \cite{schulman_proximal_2017}
 
 
+    \glsresetall
     \chapter{Intrinsic Motivation in Reinforcement Learning}
 
 
     \section{Knowledge Acquisition}
 
 
+    \glsresetall
     \chapter{Evalutation}
 
     %TODO chapter of an introduction to drl for evalutation
 
 
+    \glsresetall
     \chapter{Implementation}
 
 
-    \chapter{Results and Discussion}
+    \glsresetall
+    \chapter{Results}
+    
+    \glsresetall
+    \chapter{Discussion}
 
     \backmatter
 % Use an optional list of figures.

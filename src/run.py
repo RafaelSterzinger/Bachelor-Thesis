@@ -212,7 +212,6 @@ if __name__ == '__main__':
     add_experiment_params(parser)
 
     args = parser.parse_args()
-    EXPERIMENT_NAME = f"MontezumaRevenge2-none-{args.__dict__['seed']}"
     int_coeff = args.__dict__["int_coeff"]
     ext_coeff = args.__dict__["ext_coeff"]
     EXPERIMENT_NAME = f"MontezumaRevengeFINAL-{args.__dict__['seed']}-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"

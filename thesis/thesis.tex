@@ -127,23 +127,23 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{danksagung*}
 
-Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben. Insbesondere während der Verfassung dieser Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
+        Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben. Insbesondere während der Verfassung dieser Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
 
-Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme. Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund zeitlicher Beschränkungen meinerseits notwendig war.
+        Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme. Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund zeitlicher Beschränkungen meinerseits notwendig war.
 
-Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
-Zu guter Letzt
+        Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
+        Zu guter Letzt
 % wöchentlichen treffen um energie zu tanken für weiteres verfassen
 %TODO danke für korrektur lesen
-	        \end{danksagung*}
+    \end{danksagung*}
 
     \begin{acknowledgements*}
-	    I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies. In particular while writing this Bachelor's thesis, I would like to thank both of you for always being there for me and for encouraging me in my endeavors.
+        I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies. In particular while writing this Bachelor's thesis, I would like to thank both of you for always being there for me and for encouraging me in my endeavors.
 
-	    I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made sure that I did not take on too much during my project. I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
+        I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made sure that I did not take on too much during my project. I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
 
-	    Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
-	    Last but not least, 
+        Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
+        Last but not least,
 %TODO danke für korrektur lesen
 
     \end{acknowledgements*}
@@ -253,6 +253,7 @@ Zu guter Letzt
 
     \glsresetall
 
+
     \chapter{Reinforcement Learning Background}\label{ch:reinforcement-learning-background}
 
     %TODO write introduction
@@ -276,7 +277,7 @@ Zu guter Letzt
 
     In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
     This spares the necessity of creating a training dataset with corresponding state-action tuples beforehand and thus \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
-    Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of the supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_lecture_2015-2}.
+    Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of its supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_lecture_2015-2}.
     Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
     However, this is not applicable for \gls{rl} as the agent has to maximize a reward function and not to find structure in data.
     Therefore, \citeauthor{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
@@ -284,10 +285,10 @@ Zu guter Letzt
 
     \section{Markov Decision Processes}
     In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
-    At every discrete time step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}.
+    At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}.
     %Add note concerning R_t wich is nowadays used in DRL
-    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action the environment transforms into a subsequent state $S_{t+1}$.
-    By means of continuous interactions between the agent and the environment a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
+    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$.
+    By means of continuous interactions between the agent and the environment, a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
 
     \begin{figure}[h]
         \centering
@@ -299,7 +300,7 @@ Zu guter Letzt
     \footnotetext{\cite[\p{48}]{sutton_reinforcement_2018}}
 
     In a finite-horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathit{S},\mathit{A}\text{, and }\mathit{R}$ are limited~\citep{kaelbling_reinforcement_1996,sutton_reinforcement_2018}.
-    Furthermore, the possibility that the values $s'\in \mathit{S}$ and $r \in \mathit{R}$ may occur at a time step $t+1$, can be described with a probability~\eqref{eq:distribution} solely depending on the action $a \in \mathit{A}(s)$ taken in a preceding state $s \in \mathit{S}$.
+    Furthermore, the possibility that the values $s'\in \mathit{S}$ and $r \in \mathit{R}$ may occur at a time-step $t+1$, can be described with a probability~\eqref{eq:distribution} solely depending on the action $a \in \mathit{A}(s)$ taken in a preceding state $s \in \mathit{S}$.
 
     \begin{equation}
         p(s',r|s,a) = P\{S_{t+1}=s', R_{t+1}=r | S_t=s, A_t=a\}\label{eq:distribution}
@@ -327,20 +328,20 @@ Zu guter Letzt
     As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step $R_t$ are used to formalize a goal which the agent should pursue.
     This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
 
-    Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final step.
+    Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final time-step.
 
     \begin{equation}
         G_t=R_{t+1} + R_{t+2}+ \ldots + R_{T}  =\sum_{t=1}^{T} R_{t}\label{eq:sum_of_rewards}
     \end{equation}
 
     However, this notation is only applicable if an environment has an identifiable terminal state.
-    When this state is reached, it breaks for instance a game sequence into multiple ones, where each one is called an episode.
-    No matter how the agent reached the final state, the environment will reset and start over with an default initial state.
+    When this state is reached, it breaks for instance a game sequence into multiple ones where each one is called an episode.
+    No matter how the agent reached the final state, the environment will reset and start over with a default initial state.
 
     Sometimes, this separation of episodes might not be as clear and the limit of the sequence is infinite.
-    This is called a continuing task, in contrast to episodic tasks where $T$ is finite.
+    This is called a \textit{continuing task}, in contrast to \textit{episodic tasks} where $T$ is finite.
     Therefore, if the agent acts in an environment with a continuing task, optimizing the equation~\eqref{eq:sum_of_rewards} might not be finite.
-    This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$~\citep{sutton_reinforcement_2018} which avoids infinite rewards.
+    This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$ which avoids infinite rewards~\citep{sutton_reinforcement_2018}.
     Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\eqref{eq:discounted_reward}.
 
     \begin{equation}
@@ -353,7 +354,7 @@ Zu guter Letzt
 
 
     \section{Functions to Improve the Policy}\label{sec:functions-to-improve-the-policy}
-    As mentioned in the~\nameref{sec:reinforcement-learning-problem} section, the policy forms an important component of the \gls{rl} framework and is usually denoted as $\pi$.
+    As mentioned in section~\ref{sec:reinforcement-learning-problem}, the policy forms an important component of the \gls{rl} framework and is usually denoted as $\pi$.
     By following a policy, the agent's probability to select a specific action at time-step $t$ is $\pi(a|s) = P\{A_t=a|S_t=s\}$ and therefore $\pi$ describes a probability distribution over actions given states~\citep{silver_lecture_2015-1}.
     Additionally, the aforementioned value function component is dependent on the policy, since $\pi$ defines which action-state tuples are considered from the current state onwards.
     Formally, the state-value function for an \gls{mdp} is denoted by $v_\pi(s)$ which stands for the expected future rewards when following the policy, starting in state $s$~\citep{sutton_reinforcement_2018}.
@@ -362,7 +363,7 @@ Zu guter Letzt
         v_\pi(s) = \mathbb{E}_\pi[G_t|S_t = s] = \mathbb{E}_\pi \Bigg[\sum_{k=1}^{\infty} \gamma^k R_{t+k} \bigg| S_t = s \Bigg]\label{eq:value_function}
     \end{equation}
 
-    In a similar way, the action-value function $q_\pi(s,a)$ of a \gls{mdp} can be defined.
+    In a similar way, the action-value function $q_\pi(s,a)$ of an \gls{mdp} can be defined.
     This calculates the expected future reward when the agent takes action $a$ in state $s$ and then follows the policy $\pi$.
 
     \begin{equation}
@@ -402,7 +403,7 @@ Zu guter Letzt
 
     \section{Dynamic Programming}
 
-    The value function, introduced in the previous section~\nameref{sec:functions-to-improve-the-policy}, has a similar recursive property as the equation for the discounted expected reward~\eqref{eq:discounted_reward}.
+    The value function, introduced in section~\ref{sec:functions-to-improve-the-policy}, has a similar recursive property as the equation for the discounted expected reward~\eqref{eq:discounted_reward}.
     Therefore, the value function can be expressed in an equal manner by decomposing it into the discounted descendant states $\gamma v_\pi(s')$ and the immediate reward $r$:
 
     \begin{equation}
@@ -430,7 +431,7 @@ Zu guter Letzt
 
     All of the three above mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
     As for \gls{dp}, an iterative process is is used.
-    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which update the policy~\citep{silver_lecture_2015,sutton_reinforcement_2018}.
+    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which updates the policy~\citep{silver_lecture_2015,sutton_reinforcement_2018}.
 
 
     \section{Temporal-Difference Methods}
@@ -442,7 +443,7 @@ Zu guter Letzt
     Firstly, it uses the benefit of bootstrapping offered by \gls{dp}~\citep{szepesvari_algorithms_2010}.
     That is the usage of predictions of the value function as the target during the learning process.
     Secondly, \gls{td} prediction directly learns from raw experience in a similar way to \gls{mc} evaluation and thus it is model-free.
-    However, it only awaits the reward of one time step to form a target for the value function instead of the every-visit \gls{mc} method which awaits the fully known return for the target.
+    However, it only awaits the reward of one time-step to form a target for the value function instead of the every-visit \gls{mc} method which awaits the fully known return for the target.
 
     \begin{equation}
         \begin{aligned}[t]
@@ -451,11 +452,11 @@ Zu guter Letzt
         \end{aligned}\label{eq:td_versus_mc}
     \end{equation}
 
-    The parameter $\alpha$ is constant which defines the step-size of each adjustment to the value function.
+    The parameter $\alpha$ is a constant which defines the step-size of each adjustment to the value function.
     The two equations express the above mentioned differences certainly well:
 
     \begin{quote}
-        Whereas Monte Carlo methods must wait until the end of the episode to determine the increment to $V(S_t)$ (only then is $G_t$ known), TD methods need to wait only until the next time step.
+        Whereas Monte Carlo methods must wait until the end of the episode to determine the increment to $V(S_t)$ (only then is $G_t$ known), TD methods need to wait only until the next time-step.
         At time $t + 1$ they immediately form a target and make a useful update using the observed reward $R_{t+1}$ and the estimate $V(S_{t+1})$.
 
         \hfill~\cite[\p{120}]{sutton_reinforcement_2018}
@@ -477,8 +478,34 @@ Zu guter Letzt
     At each transition between the state-action tuple, the values $S_{t},A_{t},R_{t+1},S_{t+1},A_{t+1}$ are included in the optimization process, eponymous for SARSA~\citep{sutton_reinforcement_2018}.
     Under the assumption that every state-action tuple is visited infinite times and that new policies are created greedily with respect to the current action-value function, SARSA is guaranteed to converge to the optimal action-value value function and thus to the optimal policy.
 
+    \begin{algorithm}
+        \caption[SARSA for estimating $Q \approx q_*$]{SARSA for estimating $Q \approx q_*$\protect\footnotemark}
+        \label{alg:sarsa}
+        \SetKw{Init}{Initialize}
+        \SetKw{Choose}{Choose}
+        \SetKw{Take}{Take}
+        \SetKw{Observe}{Observe}
+        \SetKw{Update}{Update}
 
-    %TODO Additionally add pseudo code of sarsa
+        \KwIn{Step size $\alpha \in (0,1]$, small $\epsilon > 0$}
+        \Init{$Q(s,a)$, for all $s \in \mathit{S^+}, a \in \mathit{A}(s)$, arbitrarily except that $Q(\text{terminal},\cdot)=0$}\;
+        \ForAll{episodes}{
+        \Init{$S$}\;
+        \Choose{$A$ from $S$ using policy derived from $Q$ (e.g. $\epsilon$-greedy)}\;
+        \While{$S$ is non-terminal}{
+        \Take{action $A$}\;
+        \Observe{$R,S'$}\;
+        \Choose{$A'$ from $S'$ using policy derived from $Q$ (e.g. $\epsilon$-greedy)}\;
+        \Update{$Q(S,A) \leftarrow Q(S,A) + \alpha [R + \gamma Q(S',A') - Q(S,A) ]$}\;
+        \Update{$S\leftarrow S'$, $A\leftarrow A'$\;}
+        }
+            }
+
+
+    \end{algorithm}
+
+    \footnotetext{\citep[\p{130}]{sutton_reinforcement_2018}}
+    \newpage
 
     \subsection{Q-Learning (Off-Policy)}\label{subsec:q-learningnulloff-policynull}
 
@@ -491,15 +518,40 @@ Zu guter Letzt
 
     As it does not optimize for the current policy but directly for the optimal one, Q-learning is considered an off-policy method and the policies must no be interchanged~\citep{szepesvari_algorithms_2010}.
 
-    %TODO Additionally add pseudo code of q
+    \begin{algorithm}
+        \caption[Q-learning for estimating $\pi \approx \pi_*$]{Q-learning for estimating $\pi \approx \pi_*$\protect\footnotemark}
+        \label{alg:q_learning}
+        \SetKw{Init}{Initialize}
+        \SetKw{Choose}{Choose}
+        \SetKw{Take}{Take}
+        \SetKw{Observe}{Observe}
+        \SetKw{Update}{Update}
+
+        \KwIn{Step size $\alpha \in (0,1]$, small $\epsilon > 0$}
+        \Init{$Q(s,a)$, for all $s \in \mathit{S^+}, a \in \mathit{A}(s)$, arbitrarily except that $Q(\text{terminal},\cdot)=0$}\;
+        \ForAll{episodes}{
+        \Init{$S$}\;
+        \While{$S$ is non-terminal}{
+        \Choose{$A$ from $S$ using policy derived from $Q$ (e.g. $\epsilon$-greedy)}\;
+        \Take{action $A$}\;
+        \Observe{$R,S'$}\;
+        \Update{$Q(S,A) \leftarrow Q(S,A) + \alpha [R + \gamma \underset{a}{\text{max}} Q(S',a) - Q(S,A) ]$}\;
+        \Update{$S\leftarrow S'$\;}
+        }
+            }
+
+
+
+    \end{algorithm}
+
+    \footnotetext{\citep[\p{131}]{sutton_reinforcement_2018}}
 
 
     \section{Policy Gradient Methods}
 
 
-    %TODO make separate chapter
-
     \glsresetall
+
 
     \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
 
@@ -519,7 +571,7 @@ Zu guter Letzt
 %    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
 %    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\gls{trpo}~\eqref{sec:trust-region-policy-optimization} and~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
 %    A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
- 
+
 
     \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
 
@@ -585,7 +637,7 @@ Zu guter Letzt
     %p. 13
 
     Besides the aforementioned sign function, other activation functions are used and a selection of them can be observed in figure~\ref{fig:activation_functions}.
-    As mentioned in subsection \ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
+    As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
     To be able to also evaluate the certitude of a \gls{nn}, the \textit{sigmoid activation function} is used instead.
     Using this function allows to map the pre-activated value to a range between $[0,1]$, allowing to estimate the network's certainty.
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
@@ -674,60 +726,61 @@ Zu guter Letzt
     This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function, the \gls{nn} should approximate.
     Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able correctly implement the XOR function.
     When applying the model learned by the perceptron to the left, original space, an approximated linear function cannot separate these values and thus would not be able to return the correct fot $y$.
-    This is also known under the terme of \textit{linear separability}.
+    This is also known under the term of \textit{linear separability}.
     However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space seen on the right side, the XOR function can be solved as the space is now linear separable~\citep{goodfellow_deep_2016,aggarwal_neural_2018}.
     This shows that an \gls{mlp} allows for much more complex function approximation as stated in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}.
-    With the newly introduced capability, the learning process mentioned in equation \ref{eq:weight_adjusting} in section \ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
+    With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section \ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
     Instead, a new algorithm named \textit{backpropagation} is used which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
-    %TODO \subsection{Convolutional Neural Networks}
+    \subsection{(Optional)Convolutional Neural Networks}
 
 
-    %TODO \subsection{Variational Auto Encoders}
+    \subsection{(Optional)Variational Auto Encoders}
+
 
     \section{Deep Learning Approach in Reinforcement Learning}
-    The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well. 
-    Especially through the previously mentioned combination of these two fields and the newly creation of the \gls{drl} domain, many astonishing accomplishments were achived \citep{francois-lavet_introduction_2018}. 
-    A summary of four different achivements which was selected by \citeauthor{aggarwal_neural_2018} is listed in the following.
+    The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well.
+    Especially through the previously mentioned combination of these two fields and the newly creation of the \gls{drl} domain, many astonishing accomplishments were achieved \citep{francois-lavet_introduction_2018}.
+    A summary of four different achievements which was selected by \citeauthor{aggarwal_neural_2018} is listed in the following.
     %p. 374
 
     \begin{itemize}
-	    \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
-		    Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithm are applied, receiving only the raw pixels as an input.
-		    Based on the pixels, a state representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
-		    This procedure is very familiar to the traditional \gls{rl} approach known from chapter \ref{ch:reinforcement-learning-background}.
-		    However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent is able to surpass humans in these games \citep{mnih_playing_2013,schulman_trust_2015}.
-		    Furthermore, the reason why video games are even so popular in modern \gls{rl} is because they function as simulations of real life microcosms that are perfectly suitable for testing algorithms in advance before they are applied in the real world.
+        \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
+        Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithm are applied, receiving only the raw pixels as an input.
+        Based on the pixels, a state representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
+        This procedure is very familiar to the traditional \gls{rl} approach known from chapter \ref{ch:reinforcement-learning-background}.
+        However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent is able to surpass humans in these games \citep{mnih_playing_2013,schulman_trust_2015}.
+        Furthermore, the reason why video games are even so popular in modern \gls{rl} is because they function as simulations of real life microcosms that are perfectly suitable for testing algorithms in advance before they are applied in the real world.
 
-	    \item   Another very famous breakthrough happend in 2016, when an algorithm by the name \textit{AlphaGo} \citep{silver_mastering_2017} defeated the top-ranked players in the boardgame Go.
-		    The reason why this event was so remarkable is because Go is a very complex game and being good at it takes a lot of human-like intuition.
-		    Additionally, the state space is very large when compared to other board games such as chess.
-		    However, it really was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against itself.
+        \item   Another very famous breakthrough happened in 2016, when an algorithm by the name \textit{AlphaGo} \citep{silver_mastering_2017} defeated the top-ranked players in the board game Go.
+        The reason why this event was so remarkable is because Go is a very complex game and being good at it takes a lot of human-like intuition.
+        Additionally, the state space is very large when compared to other board games such as chess.
+        However, it really was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against itself.
 
-	    \item   \gls{drl} is also viewd as a viable option for self-driving cars.
-		    Although a more common approach to this problem is the utilization of supervised learning, the usage of various carsensors for decision making allows these automated cars to have a lower error rate when compared to humans.
-	    \item   Another important domain where \gls{drl} plays a key factor is the creation of self-learning robots.
-		    Here, the difficulty relies in teaching a robot basic human-like motions such as walking.
-		    Fortunately, the task of teaching a robot to walk can be described in the \gls{rl} framework as the robots goal is to reach a given position as fast as possible.
-		    The robot's state is a description of its available limbs and motors in a continous space.
-		    Therefore, \gls{dl} techniqes must be applied as well to reach good performance.
-		    This does not only allow the robot to learn how to walk but also how to roll and crawl.
+        \item   \gls{drl} is also viewed as a viable option for self-driving cars.
+        Although a more common approach to this problem is the utilization of supervised learning, the usage of various car sensors for decision making allows these automated cars to have a lower error rate when compared to humans.
+        \item   Another important domain where \gls{drl} plays a key factor is the creation of self-learning robots.
+        Here, the difficulty relies in teaching a robot basic human-like motions such as walking.
+        Fortunately, the task of teaching a robot to walk can be described in the \gls{rl} framework as the robots goal is to reach a given position as fast as possible.
+        The robot's state is a description of its available limbs and motors in a continuous space.
+        Therefore, \gls{dl} techniques must be applied as well to reach good performance.
+        This does not only allow the robot to learn how to walk but also how to roll and crawl.
     \end{itemize}
 
-    All of these acomplishments are based on different \gls{drl} approaches. 
-    However, an exaustive explanation of each of these algorithms would go beyond the scope of this thesis. Therefore, solely an overview is provided by figure \ref{fig:drl_taxonomy}.
-    For further infromations the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
-    
+    All of these accomplishments are based on different \gls{drl} approaches.
+    However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis. Therefore, solely an overview is provided by figure \ref{fig:drl_taxonomy}.
+    For further information, the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
+
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/drl_taxonomy.png}
-	    \caption[A non-exaustive taxonomy of \gls{drl} algorithms]{A non-exaustive taxonomy of \gls{drl} algorithms\protect\footnotemark}
+        \caption[A non-exhaustive taxonomy of \gls{drl} algorithms]{A non-exhaustive taxonomy of \gls{drl} algorithms\protect\footnotemark}
         \label{fig:drl_taxonomy}
     \end{figure}
 
     \footnotetext{\url{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}}
 
-%    \section{Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
+    \section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
@@ -735,6 +788,8 @@ Zu guter Letzt
 
 
     \glsresetall
+
+
     \chapter{Intrinsic Motivation in Reinforcement Learning}
 
 
@@ -742,19 +797,27 @@ Zu guter Letzt
 
 
     \glsresetall
+
+
     \chapter{Evalutation}
 
     %TODO chapter of an introduction to drl for evalutation
 
 
     \glsresetall
+
+
     \chapter{Implementation}
 
 
     \glsresetall
+
+
     \chapter{Results}
-    
+
     \glsresetall
+
+
     \chapter{Discussion}
 
     \backmatter

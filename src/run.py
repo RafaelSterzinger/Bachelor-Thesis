@@ -214,7 +214,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     int_coeff = args.__dict__["int_coeff"]
     ext_coeff = args.__dict__["ext_coeff"]
-    EXPERIMENT_NAME = f"BreakoutTV-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    EXPERIMENT_NAME = f"BreakoutTV1-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
 
     args.__setattr__("dir",
                      f"/home/rafael/Documents/experiments/BreakoutTV/{EXPERIMENT_NAME}")

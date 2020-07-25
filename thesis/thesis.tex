@@ -289,9 +289,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Markov Decision Processes}
     In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
-    At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action in a given state, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}. Sometimes this notation is simplified to $A_t \in \mathit{A}$ assuming that the action set $\mathit{A}$ does not depend on the state.
-    %Add note concerning R_t wich is nowadays used in DRL
-    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$.
+    At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action in a given state, $A_t \in \mathit{A}(s)$.
+    Sometimes this notation is simplified to $A_t \in \mathit{A}$ assuming that the action set $\mathit{A}$ does not depend on the state~\citep[\p{48}]{sutton_reinforcement_2018}.
+    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$~\eqref{fig:rl_problem}.
     By means of continuous interactions between the agent and the environment, a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
 
     \begin{figure}[h]
@@ -554,6 +554,38 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Policy Gradient Methods}
+    The algorithms introduced until now had all one thing in common as they were all action-value based methods.
+    This means that values for given actions must be estimated in advance before a policy, based on the best achievable value in each state, can be derived.
+    Thus, a policy would not even exist without these estimations~\citep[\p{321}]{sutton_reinforcement_2018}.
+
+    In contrast, this section considers methods that directly learn a \textit{parameterized policy} which is not based on a previously learned value function.
+    However, their are also methods which consider the best of both worlds similar to action-value based approaches, but the policy is not implicitly derived and the value function is not required to select an action.
+    Moreover, the value function is rather used to facilitate the learning process of the policy's parameters.
+    These methods are so-called \textit{actor-critic methods}~\citep{silver_lecture_2015-3} where the 'actor' stands for the learned policy and the 'critic' is a reference to the approximated value function~\citep[\p{321}]{sutton_reinforcement_2018}.
+
+    The parameter of a policy $\pi$ are normally denoted in vector notation by $\mathbf{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\mathbf{\theta})=P\{A_t=a|S_t=s,\mathbf{\theta}_t=\mathbf{\theta}\}$.
+    More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameter $\mathbf{\theta}$.
+    In order to directly learn the policy, the parameter is adapted based on the derivative with respect to $\mathbf{\theta}$ of an numeric performance measure $J(\mathbf{\theta})$.
+    In opposite to algorithms discussed in chapter~\ref{ch:deep-reinforcement-learning}, this derivative or rather this gradient is used to maximize the policy's performance.
+    By the usage of \textit{gradient ascent} in $J$ the parameter is updated by the following equation:
+
+    \begin{equation}
+        \mathbf{\theta}_{t+1}=\mathbf{\theta}_{t} + \alpha \hat{\nabla J(\mathbf{\theta_t})}
+    \end{equation}
+
+    The expectation of $\hat{\nabla J(\mathbf{\theta_t})} \in R^{d'}$ is an estimation of the performance measure's gradient $J(\mathbf{\theta_t})$.
+    Methods which use this gradient ascent approach to learn the parameter $\mathbf{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
+
+    In an discrete action space which few choices, state-action pairs are usually parameterized by using a scalar preference $h(s,a,\mathbf{\theta})$ for each one.
+    Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtain the highest probability to be selected, e.g. by a soft-max distribution~\eqref{eq:soft_max_policy}. See also subsection~\ref{subsec:loss-functions}).
+
+    \begin{equation}
+        \pi(a|s,\mathbf{\theta})=\frac{e^{h(s,a,\mathbf{\theta})}}{\sum_{b}e^{h(s,b,\mathbf{\theta}}}\label{eq:soft_max_policy}
+    \end{equation}
+
+
+
+
 
 
     \glsresetall
@@ -671,7 +703,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     This is due to the fact that it facilitates the training process of \glspl{mlp} as they are less expensive to compute.
 
-    \subsection{Loss Functions}
+    \subsection{Loss Functions}\label{subsec:loss-functions}
     In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
     For instance, regression tasks modeled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
@@ -738,14 +770,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section~\ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
     Instead, a new algorithm named \textit{backpropagation} is introduced which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
-    \subsection{(Optional)Convolutional Neural Networks}
+    %\subsection{(Optional)Convolutional Neural Networks}
 
-    \subsection{(Optional)Variational Auto Encoders}
+    %\subsection{(Optional)Variational Auto Encoders}
 
 
     \section{Deep Learning Approach in Reinforcement Learning}
     The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well.
-    Especially through the previously mentioned combination of these two fields and the new creation of the \gls{drl} domain, many astonishing accomplishments were achieved \citep{francois-lavet_introduction_2018}.
+    Especially through the previously mentioned combination of these two fields and the new creation of the \gls{drl} domain, many astonishing accomplishments were achieved~\citep{francois-lavet_introduction_2018}.
     A summary of four different achievements which were selected by \citeauthor{aggarwal_neural_2018} are listed in the following enumeration.
     %p. 374
 
@@ -786,7 +818,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\url{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}}
 
 
-    \section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
+    %\section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}

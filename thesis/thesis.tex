@@ -21,8 +21,9 @@
 \usepackage{nag}       % Issues warnings when best practices in writing LaTeX documents are violated.
 \usepackage{hyperref}  % Enables cross linking in the electronic document version. This package has to be included second to last.
 \usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
-\usepackage{natbib}
+\usepackage[round]{natbib}
 \usepackage{amsfonts}
+\usepackage{multibib}
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Rafael Sterzinger} % The author name without titles.
@@ -113,6 +114,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{trpo}{TRPO}{Trust Region Policy Optimization}
 \newacronym{relu}{ReLU}{Rectified Linear Unit}
 
+\newcites{online}{Non-Scientific Resources}
 
 \begin{document}
 
@@ -481,11 +483,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{algorithm}
         \caption[SARSA for estimating $Q \approx q_*$]{SARSA for estimating $Q \approx q_*$\protect\footnotemark}
         \label{alg:sarsa}
-        \SetKw{Init}{Initialize}
-        \SetKw{Choose}{Choose}
-        \SetKw{Take}{Take}
-        \SetKw{Observe}{Observe}
-        \SetKw{Update}{Update}
+        \SetKw{Init}{initialize}
+        \SetKw{Choose}{choose}
+        \SetKw{Take}{take}
+        \SetKw{Observe}{observe}
+        \SetKw{Update}{update}
 
         \KwIn{Step size $\alpha \in (0,1]$, small $\epsilon > 0$}
         \Init{$Q(s,a)$, for all $s \in \mathit{S^+}, a \in \mathit{A}(s)$, arbitrarily except that $Q(\text{terminal},\cdot)=0$}\;
@@ -500,6 +502,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \Update{$S\leftarrow S'$, $A\leftarrow A'$\;}
         }
             }
+
 
 
     \end{algorithm}
@@ -521,11 +524,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{algorithm}
         \caption[Q-learning for estimating $\pi \approx \pi_*$]{Q-learning for estimating $\pi \approx \pi_*$\protect\footnotemark}
         \label{alg:q_learning}
-        \SetKw{Init}{Initialize}
-        \SetKw{Choose}{Choose}
-        \SetKw{Take}{Take}
-        \SetKw{Observe}{Observe}
-        \SetKw{Update}{Update}
+        \SetKw{Init}{initialize}
+        \SetKw{Choose}{choose}
+        \SetKw{Take}{take}
+        \SetKw{Observe}{observe}
+        \SetKw{Update}{update}
 
         \KwIn{Step size $\alpha \in (0,1]$, small $\epsilon > 0$}
         \Init{$Q(s,a)$, for all $s \in \mathit{S^+}, a \in \mathit{A}(s)$, arbitrarily except that $Q(\text{terminal},\cdot)=0$}\;
@@ -556,16 +559,16 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
 
 
-    In the preceding chapter about the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
-    However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathit{S}$ is visited countless times in order for these methods to estimate the optimal policy $\pi$.
+    In the preceding chapter dealing with the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
+    However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathit{S}$ is visited countless times in order to estimate the optimal policy $\pi$.
     In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible which is also known as the curse of dimensionality~\citep{goodfellow_deep_2016}.
-    That is because each frame consists of thousands of pixels and each of this pixels can accept various values.
-    To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to there capability to estimate very complex functions such as the value function for a high dimensional state-space.
-    By combining these techniques the field of \gls{drl} emerged which allows for superhuman-like problem solving capabilities~\citep{francois-lavet_introduction_2018}.
+    That is because each frame consists of thousands of pixels and each of these pixels can accept various values ranging from 0 to 255.
+    To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to their capability of estimating very complex functions such as the value function for a high dimensional state-space.
+    By combining these techniques the field of \gls{drl} emerged which enables superhuman-like problem solving skills~\citep{francois-lavet_introduction_2018}.
 
-    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
-    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method,~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
-    A focus is laid on this approach because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1}, the core literature of this thesis.
+    Instead of presenting right away adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
+    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
+    A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1}, the core literature of this thesis.
 
     %TODO write trpo
 %    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
@@ -576,11 +579,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
 
 
-    As many ideas presented in this thesis, \gls{nn} are also inspired from nature as its structure is a resemblance of the human brain.
-    The name already indicates that a \gls{nn} is made of \textit{neurons} which are connected with each other by \textit{dendrites} and \textit{axons}.
+    As many ideas presented in this thesis, \gls{nn} are also inspired by nature as its structure is a resemblance of the human brain.
+    The name already indicates that a \gls{nn} is composed by \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
     Additional connections between axons and dendrites, called \textit{synapses}, define how important a transferred signal between them is.
-    Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting~\citep{aggarwal_neural_2018}.
-    This idea of representation was initialized by \citeauthor{mcculloch_logical_1943} who started with simple model which was later on adapted and advanced by \citeauthor{rosenblatt_perceptron_1957}~\citep{goodfellow_deep_2016}.
+    Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting of the signal~\citep{aggarwal_neural_2018}.
+    This idea of representation was introduced by \citeauthor{mcculloch_logical_1943} who started with a simple model which was later on adapted and improved by \citeauthor{rosenblatt_perceptron_1957}~\citep{goodfellow_deep_2016}.
 
     \begin{figure}[h]
         \centering
@@ -594,21 +597,21 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In its simplest form, this \gls{nn} is called a \textit{perceptron} or \textit{feed-forward network}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
     In this form, the \gls{nn} allows for a generalized variation of a linear function.
     A general perceptron is of the form $(\bar{\mathbf{X}},y)$, where $\bar{\mathbf{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
-    The observed value represents a numerical scalar used for a regression problem, e.g. predicting the price of a house give some numerical input variables such as the amount of rooms and square meter.
-    In the case of classification, this perceptron can be used for binary classification where the observed value is $y$ $\in [-1,+1]$.
+    The observed value stands for a numerical scalar used for a regression problem, e.g. predicting the price of a house given some numerical input variables such as the amount of rooms and square meters.
+    In the case of classification, this perceptron allows for binary classification where the observed value is $y$ $\in [-1,+1]$.
     For instance, this can be used to predict whether or not a credit-card transaction was fraudulent given the amount and frequency of the transaction.
-    Given the input values $\bar{\mathbf{X}}$ and the weights $\bar{\mathbf{W}}=[w_0,w_1,\ldots,w_d]$, a result of a linear function is calculated by the following a prediction.
+    Given the input values $\bar{\mathbf{X}}$ and the weights $\bar{\mathbf{W}}=[w_0,w_1,\ldots,w_d]$, a result of a linear function is calculated by the following prediction:
 
     \begin{equation}
         \bar{\mathbf{X}}\cdot\bar{\mathbf{W}}=\sum_{j=0}^{d}x_j*w_j\label{eq:feed_forward_equation}
     \end{equation}
 
-    Lastly, a prediction $\hat{y}$ for $y$, which based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result using an \textit{activation function}.
+    Finally, a prediction $\hat{y}$ for $y$, based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result making usage of an \textit{activation function}.
     In the case of classification the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
-    After the output value has been activated, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
-    If the error $E(\bar{\mathbf{X}})$ is nonzero, the weights must be adapted in order to perform a closer prediction next time.
+    After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
+    If the error $E(\bar{\mathbf{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction for the next time.
     By optimizing the error function or \textit{loss function}, the classification error is reduced.
-    The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input and is formally described by the following notation.
+    The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input and is formally described by the following notation:
 
     \begin{equation}
         \bar{\mathbf{W}} \Leftarrow \bar{\mathbf{W}} + \alpha E(\bar{\mathbf{X}})\bar{\mathbf{X}}\label{eq:weight_adjusting}
@@ -620,11 +623,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     As the perceptron represents a linear function, it must not only learn the slope but also the intercept, the invariant part.
-    The intercept value is also called bias and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep{aggarwal_neural_2018}.
+    The intercept value is also called \textit{bias} and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep{aggarwal_neural_2018}.
     %p. 6
     To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight which is adjusted during the error optimization process.
     This additional neuron solely has the purpose to feed the scalar 1 to the output node and by refining the weight in between, the intercept value is learned.
-    By incorporating the bias neuron, the following equation emerges.
+    By incorporating the bias neuron, the following equation emerges:
 
     \begin{equation}
         \bar{\mathbf{X}}\cdot\bar{\mathbf{W}} + b=\sum_{j=0}^{d}x_j*w_j + b\label{eq:linear_function_equation}
@@ -636,14 +639,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
     %p. 13
 
-    Besides the aforementioned sign function, other activation functions are used and a selection of them can be observed in figure~\ref{fig:activation_functions}.
+    Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in figure~\ref{fig:activation_functions}.
     As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
-    To be able to also evaluate the certitude of a \gls{nn}, the \textit{sigmoid activation function} is used instead.
-    Using this function allows to map the pre-activated value to a range between $[0,1]$, allowing to estimate the network's certainty.
+    Furthermore, to enable the evaluation of the certitude of a \gls{nn}, the \textit{sigmoid activation function} is employed instead.
+    Using this function allows for a mapping of the pre-activated value to a range between $[0,1]$, enabling an estimation of the network's certainty.
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
     In contrast to this, the \textit{identity activation function} is used to predict real numbers.
     By using the identity function, the \gls{nn} is equivalent to the \textit{least-squares regression} algorithm.
-    An important property that all activation functions have in common is monotonicity and besides the identity function they also \textit{"saturate at large absolute values at which increasing further does not change the activation much."}\citep[\p{13}]{aggarwal_neural_2018}
+    An important property that all activation functions have in common is monotonicity and besides the identity function, they also \textit{"saturate at large absolute values at which increasing further does not change the activation much."}\citep[\p{13}]{aggarwal_neural_2018}
 
     \begin{figure}[h]
         \centering
@@ -655,7 +658,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\cite[\p{13}]{aggarwal_neural_2018}}
 
     Activation functions are applied on the pre-activated value and therefore a formal notation of $\hat{y}$ is denoted by $\hat{y}=\phi(\bar{\mathbf{W}}\cdot\bar{\mathbf{X}})$.
-    Over the course of the advancement of \gls{nn}, initial activation functions such as the Sigmoid and the \textit{Tangens-Hyperbolicus} activation function have been replace by piecewise linear functions such as the \textit{\gls{relu} activation function}.
+    Over the course of the advancement of \gls{nn}, initial activation functions such as the Sigmoid and the \textit{Tangens-Hyperbolicus} activation function have been replaced by piecewise linear functions such as the \textit{\gls{relu} activation function}.
 
     \begin{align*}
         &\text{Sigmoid: } &  \phi(v) & = \frac{1}{1+e^{-v}} \\
@@ -669,26 +672,26 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
     For instance, regression tasks modeled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
-    In the case of classification tasks with multiple class labels, output values are normally activated using the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\mathbf{v}$ being the $n$ pre-activated output values.
+    In the case of classification tasks with multiple class labels, output values are normally activated employing the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\mathbf{v}$ being the $n$ pre-activated output values.
 
-    \begin{equation}
+    \[
         \text{Softmax: } \sigma(\mathbf{v})_i = \frac{e^{v_i}}{\sum_{j=0}^{n}e^{v_j}}
-    \end{equation}
+    \]
 
     This function allows for a probabilistic output which means that it maps the pre-activated values to a probability distribution.
     Since the output of the softmax function is a vector of probabilities instead of a scalar value, a different loss function is needed as well.
-    Additionally, classification tasks can have binary or categorical/multiple targets which further defines and differentiates which loss function will be used.
+    Additionally, classification tasks can have binary or categorical/multiple targets which further define and differentiate which loss function will be used.
 
-    For binary targets different combinations of activation and loss functions can be used to obtain the same result for prediction.
-    For example, binary targets can be classified using \textit{logistic regression} which uses the identity activation function to predict $\hat{y}$.
-    A loss function for this prediction is define by the following equation:
+    For binary targets different combinations of activation and loss functions can be utilized to obtain the same result for prediction.
+    For example, binary targets are classified by means of \textit{logistic regression} which makes usage of the identity activation function to predict $\hat{y}$.
+    A loss function for this prediction is defined by the following equation:
 
     \begin{equation}
         L=\text{log}(1+e^{-y\cdot\hat{y}})
     \end{equation}
 
-    Another option is to simply use the sigmoid activation function which maps the output $\hat{y}$ between $0 \text{ and } 1$.
-    Under the assumption that the observed value $y$ is normalized between $-1 \text{ and } 1$, the negative logarithm of $|\frac{y}{2}-\frac{1}{2}+\hat{y}|$ is used as a loss function.
+    A further option is to simply use the sigmoid activation function which maps the output $\hat{y}$ between $0 \text{ and } 1$.
+    Under the assumption that the observed value $y$ is normalized between $-1 \text{ and } 1$, the negative logarithm of $|\frac{y}{2}-\frac{1}{2}+\hat{y}|$ is deployed as a loss function.
     This loss function provides a measurement on how likely it is that the target has correctly been classified.
 
     Concerning categorical targets, post-activated values $\hat{y}_0,\ldots,\hat{y}_n$ are examined one by one.
@@ -703,15 +706,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Multi Layer Neural Networks}
-    When comparing a simple perceptron to an \gls{mlp}, the major difference is the usage of multiple layers, so called \textit{hidden layers}.
+    Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
     Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep{aggarwal_neural_2018}.
-    However, the \gls{mlp} still is a feedforward network and the perceptron as well as the \gls{mlp} can both be described as a \textit{directed acyclic graph}.
+    However, the \gls{mlp} still is a feedforward network and the perceptron as well as the \gls{mlp} can both be denoted as a \textit{directed acyclic graph}.
     The additional layers in an \gls{mlp} can be described as a composition of multiple functions, in opposition to a perceptron where the input is directly transmitted to the output layer.
-    By composing the additional layers via chain like structures, the input is feed through multiple layers before it allows a prediction of $\hat{y}$.
+    By composing the additional layers via chain like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
     For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\mathbf{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\mathbf{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
     %p. 163
     The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
-    As aforementioned in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability to chain multiple functions allow for the approximation of a complex value function for a high dimensional state-space.
+    As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability of chaining multiple functions enable the approximation of a complex value function in a high dimensional state-space.
 
     \begin{figure}[h]
         \centering
@@ -723,52 +726,51 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\cite[\p{168}]{goodfellow_deep_2016}}
     The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
     In detail, the XOR functions takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
-    This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function, the \gls{nn} should approximate.
-    Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able correctly implement the XOR function.
-    When applying the model learned by the perceptron to the left, original space, an approximated linear function cannot separate these values and thus would not be able to return the correct fot $y$.
+    This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function the \gls{nn} should approximate.
+    Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
+    Applying the model learned by the perceptron to the left, the original space, an approximated linear function cannot separate these values and thus would not be able to return the correct $y$.
     This is also known under the term of \textit{linear separability}.
-    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space seen on the right side, the XOR function can be solved as the space is now linear separable~\citep{goodfellow_deep_2016,aggarwal_neural_2018}.
-    This shows that an \gls{mlp} allows for much more complex function approximation as stated in the introduction to the chapter~\nameref{ch:deep-reinforcement-learning}.
-    With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section \ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
-    Instead, a new algorithm named \textit{backpropagation} is used which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
+    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep{goodfellow_deep_2016,aggarwal_neural_2018}.
+    This shows that an \gls{mlp} allows for much more complex function approximation.
+    With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section~\ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
+    Instead, a new algorithm named \textit{backpropagation} is introduced which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
     \subsection{(Optional)Convolutional Neural Networks}
-
 
     \subsection{(Optional)Variational Auto Encoders}
 
 
     \section{Deep Learning Approach in Reinforcement Learning}
     The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well.
-    Especially through the previously mentioned combination of these two fields and the newly creation of the \gls{drl} domain, many astonishing accomplishments were achieved \citep{francois-lavet_introduction_2018}.
-    A summary of four different achievements which was selected by \citeauthor{aggarwal_neural_2018} is listed in the following.
+    Especially through the previously mentioned combination of these two fields and the new creation of the \gls{drl} domain, many astonishing accomplishments were achieved \citep{francois-lavet_introduction_2018}.
+    A summary of four different achievements which were selected by \citeauthor{aggarwal_neural_2018} are listed in the following enumeration.
     %p. 374
 
     \begin{itemize}
         \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
-        Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithm are applied, receiving only the raw pixels as an input.
+        Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithms are applied, receiving only the raw pixels as an input.
         Based on the pixels, a state representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
-        This procedure is very familiar to the traditional \gls{rl} approach known from chapter \ref{ch:reinforcement-learning-background}.
-        However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent is able to surpass humans in these games \citep{mnih_playing_2013,schulman_trust_2015}.
-        Furthermore, the reason why video games are even so popular in modern \gls{rl} is because they function as simulations of real life microcosms that are perfectly suitable for testing algorithms in advance before they are applied in the real world.
+        This procedure is equivalent to the traditional \gls{rl} approach known from chapter~\ref{ch:reinforcement-learning-background}.
+        However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent is able to surpass humans in these games~\citep{mnih_playing_2013,schulman_trust_2015}.
+        Furthermore, the reason why video games are so popular even in modern \gls{rl} is because they function as simulations of real life microcosms that are perfectly suitable for testing algorithms before being applied in the real world.
 
-        \item   Another very famous breakthrough happened in 2016, when an algorithm by the name \textit{AlphaGo} \citep{silver_mastering_2017} defeated the top-ranked players in the board game Go.
+        \item   Another very famous breakthrough occurred in 2016, when an algorithm by the name \textit{AlphaGo}~\citep{silver_mastering_2017} defeated the top-ranked players in the board game Go.
         The reason why this event was so remarkable is because Go is a very complex game and being good at it takes a lot of human-like intuition.
-        Additionally, the state space is very large when compared to other board games such as chess.
-        However, it really was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against itself.
+        Additionally, the state space is very large when compared to other board games such as e.g. chess.
+        However, it was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against another version of itself.
 
-        \item   \gls{drl} is also viewed as a viable option for self-driving cars.
+        \item   \gls{drl} is also considered viable option for self-driving cars.
         Although a more common approach to this problem is the utilization of supervised learning, the usage of various car sensors for decision making allows these automated cars to have a lower error rate when compared to humans.
         \item   Another important domain where \gls{drl} plays a key factor is the creation of self-learning robots.
-        Here, the difficulty relies in teaching a robot basic human-like motions such as walking.
-        Fortunately, the task of teaching a robot to walk can be described in the \gls{rl} framework as the robots goal is to reach a given position as fast as possible.
+        Here, the difficulty relies on teaching a robot basic human-like motions such as walking.
+        Fortunately, the task of teaching a robot to walk can be described in the \gls{rl} framework as the robot's goal is to reach a given position as fast as possible.
         The robot's state is a description of its available limbs and motors in a continuous space.
-        Therefore, \gls{dl} techniques must be applied as well to reach good performance.
-        This does not only allow the robot to learn how to walk but also how to roll and crawl.
+        Therefore, \gls{dl} techniques must be applied as well to reach good performance which does not only allow the robot to learn how to walk but also how to roll and crawl.
     \end{itemize}
 
     All of these accomplishments are based on different \gls{drl} approaches.
-    However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis. Therefore, solely an overview is provided by figure \ref{fig:drl_taxonomy}.
+    However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis.
+    Therefore, solely an overview is provided by figure \ref{fig:drl_taxonomy}.
     For further information, the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
 
     \begin{figure}[h]
@@ -779,6 +781,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{figure}
 
     \footnotetext{\url{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}}
+
 
     \section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
 

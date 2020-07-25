@@ -129,23 +129,24 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{danksagung*}
 
-        Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben. Insbesondere während der Verfassung dieser Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
+        %    Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben. Insbesondere während der Verfassung dieser %Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
 
-        Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme. Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund zeitlicher Beschränkungen meinerseits notwendig war.
+        %    Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch %darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme. Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund %zeitlicher Beschränkungen meinerseits notwendig war.
 
-        Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
-        Zu guter Letzt
+        %    Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
+
+        %Zu guter Letzt
 % wöchentlichen treffen um energie zu tanken für weiteres verfassen
 %TODO danke für korrektur lesen
     \end{danksagung*}
 
     \begin{acknowledgements*}
-        I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies. In particular while writing this Bachelor's thesis, I would like to thank both of you for always being there for me and for encouraging me in my endeavors.
+        % I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies. In particular while writing this Bachelor's thesis, I would like to thank both of you% for always being there for me and for encouraging me in my endeavors.
 
-        I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made sure that I did not take on too much during my project. I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
+        % I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made %sure that I did not take on too much during my project. I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
 
-        Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
-        Last but not least,
+        % Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
+        % Last but not least,
 %TODO danke für korrektur lesen
 
     \end{acknowledgements*}
@@ -175,7 +176,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In \gls{rl}, algorithms mainly depend on carefully designed extrinsic reward functions which are comparable with feedback to an agent's behaviour.
     In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial-and-error.
     This traditional approach yielded multiple astonishing results over the last decade.
-    Task which award rewards densely, i.e.\ almost after every performed action, are common for these results.
+    Tasks which award rewards densely, i.e.\ almost after every performed action, are common for these results.
     In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely in order for an agent to pick up the needed skills.
     An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
     \\\\
@@ -198,9 +199,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \\\\
     Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
     Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010-1}.
-    The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: "\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state."\cite[\p{10}]{aubret_survey_2019}
+    The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: "\textit{\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}"\cite[\p{10}]{aubret_survey_2019}
     \\\\
-    The domain of the given problem description is \gls{rl} in \gls{rl} with a focus on the model of knowledge acquisition via exploration.
+    The domain of the given problem description is \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
 
     \section{Expected Results}\label{sec:expected-results}
@@ -238,13 +239,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item Recreation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
 
-    During this incremental process, an emphasise is laid on two out of five sparse Atari games, categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}.
-    The initial two games are \textit{Montezumas's revenge} and \textit{Freeway}, but with the option to add the remaining ones or games with dense rewards in the future.
+    During this incremental process, an emphasise is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge} and \textit{Freeway}.
     \\\\
     % Eventually add VAE
     Regarding mile stone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
     Concerning mile stone four and the comparison to state of the art approaches, the~\nameref{sec:state-of-the-art} section of this thesis allows for a current in-depth overview.
     Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by an exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018-1}.
+
+    % TODO change section of state to the art to 3 chapter
 
 
     \section{State of the Art}\label{sec:state-of-the-art}
@@ -287,7 +289,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Markov Decision Processes}
     In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
-    At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}.
+    At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action in a given state, $A_t \in \mathit{A}(s)$~\eqref{fig:rl_problem}. Sometimes this notation is simplified to $A_t \in \mathit{A}$ assuming that the action set $\mathit{A}$ does not depend on the state.
     %Add note concerning R_t wich is nowadays used in DRL
     Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$.
     By means of continuous interactions between the agent and the environment, a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
@@ -359,7 +361,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     As mentioned in section~\ref{sec:reinforcement-learning-problem}, the policy forms an important component of the \gls{rl} framework and is usually denoted as $\pi$.
     By following a policy, the agent's probability to select a specific action at time-step $t$ is $\pi(a|s) = P\{A_t=a|S_t=s\}$ and therefore $\pi$ describes a probability distribution over actions given states~\citep{silver_lecture_2015-1}.
     Additionally, the aforementioned value function component is dependent on the policy, since $\pi$ defines which action-state tuples are considered from the current state onwards.
-    Formally, the state-value function for an \gls{mdp} is denoted by $v_\pi(s)$ which stands for the expected future rewards when following the policy, starting in state $s$~\citep{sutton_reinforcement_2018}.
+    Formally, the state-value function for an \gls{mdp} is denoted by $v_\pi(s)$ which stands for the expected future rewards when following the policy, starting in state $s$ and "\textit{$\mathbb{E}_\pi[\cdot]$ denotes the expected value of a random variable given that the agent follows policy $\pi$}"~\citep[\p{58}]{sutton_reinforcement_2018}.
 
     \begin{equation}
         v_\pi(s) = \mathbb{E}_\pi[G_t|S_t = s] = \mathbb{E}_\pi \Bigg[\sum_{k=1}^{\infty} \gamma^k R_{t+k} \bigg| S_t = s \Bigg]\label{eq:value_function}
@@ -445,7 +447,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Firstly, it uses the benefit of bootstrapping offered by \gls{dp}~\citep{szepesvari_algorithms_2010}.
     That is the usage of predictions of the value function as the target during the learning process.
     Secondly, \gls{td} prediction directly learns from raw experience in a similar way to \gls{mc} evaluation and thus it is model-free.
-    However, it only awaits the reward of one time-step to form a target for the value function instead of the every-visit \gls{mc} method which awaits the fully known return for the target.
+    However, it only awaits the reward of one time-step to form a target for the estimated value function $V$ instead of the every-visit \gls{mc} method which awaits the fully known return for the target before approximation~\citep{sutton_reinforcement_2018}.
+    %p. 120
 
     \begin{equation}
         \begin{aligned}[t]
@@ -646,7 +649,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
     In contrast to this, the \textit{identity activation function} is used to predict real numbers.
     By using the identity function, the \gls{nn} is equivalent to the \textit{least-squares regression} algorithm.
-    An important property that all activation functions have in common is monotonicity and besides the identity function, they also \textit{"saturate at large absolute values at which increasing further does not change the activation much."}\citep[\p{13}]{aggarwal_neural_2018}
+    An important property that all activation functions have in common is monotonicity and besides the identity function, they also "\textit{saturate at large absolute values at which increasing further does not change the activation much.}"\citep[\p{13}]{aggarwal_neural_2018}
 
     \begin{figure}[h]
         \centering

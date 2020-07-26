@@ -24,6 +24,7 @@
 \usepackage[round]{natbib}
 \usepackage{amsfonts}
 \usepackage{multibib}
+\usepackage{bm}
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Rafael Sterzinger} % The author name without titles.
@@ -563,30 +564,47 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Moreover, the value function is rather used to facilitate the learning process of the policy's parameters.
     These methods are so-called \textit{actor-critic methods}~\citep{silver_lecture_2015-3} where the 'actor' stands for the learned policy and the 'critic' is a reference to the approximated value function~\citep[\p{321}]{sutton_reinforcement_2018}.
 
-    The parameter of a policy $\pi$ are normally denoted in vector notation by $\mathbf{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\mathbf{\theta})=P\{A_t=a|S_t=s,\mathbf{\theta}_t=\mathbf{\theta}\}$.
-    More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameter $\mathbf{\theta}$.
-    In order to directly learn the policy, the parameter is adapted based on the derivative with respect to $\mathbf{\theta}$ of an numeric performance measure $J(\mathbf{\theta})$.
+    The parameters of a policy $\pi$ are normally denoted in vector notation by $\boldsymbol{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\boldsymbol{\theta})=P\{A_t=a|S_t=s,\boldsymbol{\theta}_t=\boldsymbol{\theta}\}$.
+    More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameters $\boldsymbol{\theta}$.
+    In order to directly learn the policy, the parameters are adapted based on the derivative with respect to $\boldsymbol{\theta}$ of an numeric performance measure $J(\boldsymbol{\theta})$.
     In opposite to algorithms discussed in chapter~\ref{ch:deep-reinforcement-learning}, this derivative or rather this gradient is used to maximize the policy's performance.
-    By the usage of \textit{gradient ascent} in $J$ the parameter is updated by the following equation:
+    By the usage of \textit{gradient ascent} in $J$, the parameters are updated by the following equation:
 
     \begin{equation}
-        \mathbf{\theta}_{t+1}=\mathbf{\theta}_{t} + \alpha \hat{\nabla J(\mathbf{\theta_t})}
+        \boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_{t} + \alpha \widehat{\nabla J(\boldsymbol{\theta_t})}
     \end{equation}
 
-    The expectation of $\hat{\nabla J(\mathbf{\theta_t})} \in R^{d'}$ is an estimation of the performance measure's gradient $J(\mathbf{\theta_t})$.
-    Methods which use this gradient ascent approach to learn the parameter $\mathbf{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
+    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the performance measure's $J(\boldsymbol{\theta_t})$ gradient.
+    Methods which use this gradient ascent approach to learn the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
 
-    In an discrete action space which few choices, state-action pairs are usually parameterized by using a scalar preference $h(s,a,\mathbf{\theta})$ for each one.
-    Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtain the highest probability to be selected, e.g. by a soft-max distribution~\eqref{eq:soft_max_policy}. See also subsection~\ref{subsec:loss-functions}).
+    In a discrete action space which few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citep{silver_lecture_2015-3}.
+    Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtain the highest probability to be selected, e.g.\ by a softmax distribution~\eqref{eq:soft_max_policy}.
+    See also subsection~\ref{subsec:loss-functions}).
 
     \begin{equation}
-        \pi(a|s,\mathbf{\theta})=\frac{e^{h(s,a,\mathbf{\theta})}}{\sum_{b}e^{h(s,b,\mathbf{\theta}}}\label{eq:soft_max_policy}
+        \pi(a|s,\boldsymbol{\theta})=\frac{e^{h(s,a,\boldsymbol{\theta})}}{\sum_{b}e^{h(s,b,\boldsymbol{\theta})}}\label{eq:soft_max_policy}
     \end{equation}
 
 
+    The utilization of policy gradient based methods yield in summary four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
 
-
-
+    \begin{enumerate}
+        \item The parametrization of the policy under the usage of softmax for defining action preferences, allows for the approximation of deterministic policies.
+        Action-value based methods which select actions with an $\epsilon\text{-greedy}$ approach on the other hand must always leave the option open for a random action to be selected with probability $\epsilon$.
+        Therefore, these methods cannot approach a deterministic policy.
+        Even if the selection of actions with respect to action-value tuples is based on the softmax distribution as well, the policy would not approach a deterministic one.
+        Rather, it would converge to the action-value tuples' true values which would result in values differing the probabilities 0 and 1.
+        \item In comparision to the previous advantage, it also allows for arbitrary action selection which may be useful in certain types of tasks.
+        For instance, playing the game of rock, paper, scissors with a deterministic policy, e.g.\ always selecting rock, the strategy would be easily exploitable.
+        In this case, a stochastic, uniform random policy is much better suited which does not allow for predictions~\citep{silver_lecture_2015-3}.
+        \item In certain situations, it might be more efficient to parameterize the policy instead of the action-value parametrization as the approximation of policies could be less complex.
+        %TODO ref to image of breakout
+        For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout} from one point onward when moving left might be very difficult.
+        However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citep{silver_lecture_2015-3}.
+        In these situations, policy-based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
+        \item Lastly, the initial configuration of a policy's parameters enables the possibility to give an agent prior knowledge about an optimal policy.
+        Based on this property, this is usually the main reason why policy based methods are considered.
+    \end{enumerate}
 
     \glsresetall
 
@@ -605,7 +623,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
     A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1}, the core literature of this thesis.
 
-    %TODO write trpo
+%TODO write trpo
 %    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
 %    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\gls{trpo}~\eqref{sec:trust-region-policy-optimization} and~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
 %    A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
@@ -631,25 +649,25 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In its simplest form, this \gls{nn} is called a \textit{perceptron} or \textit{feed-forward network}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
     In this form, the \gls{nn} allows for a generalized variation of a linear function.
-    A general perceptron is of the form $(\bar{\mathbf{X}},y)$, where $\bar{\mathbf{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
+    A general perceptron is of the form $(\bar{\boldsymbol{X}},y)$, where $\bar{\boldsymbol{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
     The observed value stands for a numerical scalar used for a regression problem, e.g. predicting the price of a house given some numerical input variables such as the amount of rooms and square meters.
     In the case of classification, this perceptron allows for binary classification where the observed value is $y$ $\in [-1,+1]$.
     For instance, this can be used to predict whether or not a credit-card transaction was fraudulent given the amount and frequency of the transaction.
-    Given the input values $\bar{\mathbf{X}}$ and the weights $\bar{\mathbf{W}}=[w_0,w_1,\ldots,w_d]$, a result of a linear function is calculated by the following prediction:
+    Given the input values $\bar{\boldsymbol{X}}$ and the weights $\bar{\boldsymbol{W}}=[w_0,w_1,\ldots,w_d]$, a result of a linear function is calculated by the following prediction:
 
     \begin{equation}
-        \bar{\mathbf{X}}\cdot\bar{\mathbf{W}}=\sum_{j=0}^{d}x_j*w_j\label{eq:feed_forward_equation}
+        \bar{\boldsymbol{X}}\cdot\bar{\boldsymbol{W}}=\sum_{j=0}^{d}x_j*w_j\label{eq:feed_forward_equation}
     \end{equation}
 
     Finally, a prediction $\hat{y}$ for $y$, based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result making usage of an \textit{activation function}.
     In the case of classification the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
-    After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\mathbf{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
-    If the error $E(\bar{\mathbf{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction for the next time.
+    After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\boldsymbol{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
+    If the error $E(\bar{\boldsymbol{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction for the next time.
     By optimizing the error function or \textit{loss function}, the classification error is reduced.
     The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input and is formally described by the following notation:
 
     \begin{equation}
-        \bar{\mathbf{W}} \Leftarrow \bar{\mathbf{W}} + \alpha E(\bar{\mathbf{X}})\bar{\mathbf{X}}\label{eq:weight_adjusting}
+        \bar{\boldsymbol{W}} \Leftarrow \bar{\boldsymbol{W}} + \alpha E(\bar{\boldsymbol{X}})\bar{\boldsymbol{X}}\label{eq:weight_adjusting}
     \end{equation}
 
     The parameter $\alpha$ is the \textit{learning rate} which defines how large the updates to the weights should be.
@@ -659,20 +677,20 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     As the perceptron represents a linear function, it must not only learn the slope but also the intercept, the invariant part.
     The intercept value is also called \textit{bias} and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep{aggarwal_neural_2018}.
-    %p. 6
+%p. 6
     To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight which is adjusted during the error optimization process.
     This additional neuron solely has the purpose to feed the scalar 1 to the output node and by refining the weight in between, the intercept value is learned.
     By incorporating the bias neuron, the following equation emerges:
 
     \begin{equation}
-        \bar{\mathbf{X}}\cdot\bar{\mathbf{W}} + b=\sum_{j=0}^{d}x_j*w_j + b\label{eq:linear_function_equation}
+        \bar{\boldsymbol{X}}\cdot\bar{\boldsymbol{W}} + b=\sum_{j=0}^{d}x_j*w_j + b\label{eq:linear_function_equation}
     \end{equation}
 
     \subsection{Activation Functions}
     In general, activation functions play an important role in \glspl{nn} as they define the output values of neurons.
     However, they are especially significant for \glspl{mlp} as they determine the modeling power of the network.
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
-    %p. 13
+%p. 13
 
     Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in figure~\ref{fig:activation_functions}.
     As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
@@ -692,7 +710,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \footnotetext{\cite[\p{13}]{aggarwal_neural_2018}}
 
-    Activation functions are applied on the pre-activated value and therefore a formal notation of $\hat{y}$ is denoted by $\hat{y}=\phi(\bar{\mathbf{W}}\cdot\bar{\mathbf{X}})$.
+    Activation functions are applied on the pre-activated value and therefore a formal notation of $\hat{y}$ is denoted by $\hat{y}=\phi(\bar{\boldsymbol{W}}\cdot\bar{\boldsymbol{X}})$.
     Over the course of the advancement of \gls{nn}, initial activation functions such as the Sigmoid and the \textit{Tangens-Hyperbolicus} activation function have been replaced by piecewise linear functions such as the \textit{\gls{relu} activation function}.
 
     \begin{align*}
@@ -704,13 +722,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is due to the fact that it facilitates the training process of \glspl{mlp} as they are less expensive to compute.
 
     \subsection{Loss Functions}\label{subsec:loss-functions}
-    In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\mathbf{X}})$ has been introduced.
+    In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ has been introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
     For instance, regression tasks modeled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
-    In the case of classification tasks with multiple class labels, output values are normally activated employing the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\mathbf{v}$ being the $n$ pre-activated output values.
+    In the case of classification tasks with multiple class labels, output values are normally activated employing the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\boldsymbol{v}$ being the $n$ pre-activated output values.
 
     \[
-        \text{Softmax: } \sigma(\mathbf{v})_i = \frac{e^{v_i}}{\sum_{j=0}^{n}e^{v_j}}
+        \text{Softmax: } \sigma(\boldsymbol{v})_i = \frac{e^{v_i}}{\sum_{j=0}^{n}e^{v_j}}
     \]
 
     This function allows for a probabilistic output which means that it maps the pre-activated values to a probability distribution.
@@ -737,7 +755,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep{aggarwal_neural_2018}.
-    %p. 15
+%p. 15
 
 
     \section{Multi Layer Neural Networks}
@@ -746,8 +764,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, the \gls{mlp} still is a feedforward network and the perceptron as well as the \gls{mlp} can both be denoted as a \textit{directed acyclic graph}.
     The additional layers in an \gls{mlp} can be described as a composition of multiple functions, in opposition to a perceptron where the input is directly transmitted to the output layer.
     By composing the additional layers via chain like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
-    For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\mathbf{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\mathbf{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
-    %p. 163
+    For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
+%p. 163
     The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
     As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability of chaining multiple functions enable the approximation of a complex value function in a high dimensional state-space.
 
@@ -761,7 +779,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\cite[\p{168}]{goodfellow_deep_2016}}
     The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
     In detail, the XOR functions takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
-    This described behaviour is also known as the target function $f^*(\bar{\mathbf{X}})$ of the XOR function the \gls{nn} should approximate.
+    This described behaviour is also known as the target function $f^*(\bar{\boldsymbol{X}})$ of the XOR function the \gls{nn} should approximate.
     Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
     Applying the model learned by the perceptron to the left, the original space, an approximated linear function cannot separate these values and thus would not be able to return the correct $y$.
     This is also known under the term of \textit{linear separability}.
@@ -770,16 +788,16 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section~\ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
     Instead, a new algorithm named \textit{backpropagation} is introduced which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
-    %\subsection{(Optional)Convolutional Neural Networks}
+%\subsection{(Optional)Convolutional Neural Networks}
 
-    %\subsection{(Optional)Variational Auto Encoders}
+%\subsection{(Optional)Variational Auto Encoders}
 
 
     \section{Deep Learning Approach in Reinforcement Learning}
     The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well.
     Especially through the previously mentioned combination of these two fields and the new creation of the \gls{drl} domain, many astonishing accomplishments were achieved~\citep{francois-lavet_introduction_2018}.
     A summary of four different achievements which were selected by \citeauthor{aggarwal_neural_2018} are listed in the following enumeration.
-    %p. 374
+%p. 374
 
     \begin{itemize}
         \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
@@ -818,7 +836,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\url{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}}
 
 
-    %\section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
+%\section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
@@ -839,7 +857,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Evalutation}
 
-    %TODO chapter of an introduction to drl for evalutation
+%TODO chapter of an introduction to drl for evalutation
 
 
     \glsresetall

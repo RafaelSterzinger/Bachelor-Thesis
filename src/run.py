@@ -190,11 +190,11 @@ def add_experiment_params(parser):
                         choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
     parser.add_argument('--exp_name', type=str, default='')
 
-    parser.add_argument('--dyn_env', type=bool, default=True)
+    parser.add_argument('--dyn_env', type=bool, default=False)
 
     # DEFAULT VALUE = 1e8
     # AMOUNT FOR FINAL EVALUATION = 1e8/4
-    parser.add_argument('--num_timesteps', type=int, default=int(1e6))
+    parser.add_argument('--num_timesteps', type=int, default=int(1e8))
 
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
@@ -214,9 +214,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     int_coeff = args.__dict__["int_coeff"]
     ext_coeff = args.__dict__["ext_coeff"]
-    EXPERIMENT_NAME = f"BreakoutTV1-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    EXPERIMENT_NAME = f"Breakout{args.__dict__['seed']}-{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
 
     args.__setattr__("dir",
-                     f"/home/rafael/Documents/experiments/BreakoutTV/{EXPERIMENT_NAME}")
+                     f"/home/rafael/Documents/experiments/BreakoutFINAL/{EXPERIMENT_NAME}")
 
     start_experiment(**args.__dict__)

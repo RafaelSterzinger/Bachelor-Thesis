@@ -462,8 +462,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The two equations express the above mentioned differences certainly well:
 
     \begin{quote}
-        Whereas Monte Carlo methods must wait until the end of the episode to determine the increment to $V(S_t)$ (only then is $G_t$ known), TD methods need to wait only until the next time-step.
-        At time $t + 1$ they immediately form a target and make a useful update using the observed reward $R_{t+1}$ and the estimate $V(S_{t+1})$.
+        "Whereas Monte Carlo methods must wait until the end of the episode to determine the increment to $V(S_t)$ (only then is $G_t$ known), TD methods need to wait only until the next time-step.
+        At time $t + 1$ they immediately form a target and make a useful update using the observed reward $R_{t+1}$ and the estimate $V(S_{t+1})$."
 
         \hfill~\cite[\p{120}]{sutton_reinforcement_2018}
     \end{quote}
@@ -555,30 +555,30 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Policy Gradient Methods}\label{sec:policy-gradient-methods}
-    The algorithms introduced until now had all one thing in common as they were all action-value based methods.
+    The algorithms introduced until now had all one thing in common: they were all action-value based methods.
     This means that values for given actions must be estimated in advance before a policy, based on the best achievable value in each state, can be derived.
     Thus, a policy would not even exist without these estimations~\citep[\p{321}]{sutton_reinforcement_2018}.
 
-    In contrast, this section considers methods that directly learn a \textit{parameterized policy} which is not based on a previously learned value function.
-    However, their are also methods which consider the best of both worlds similar to action-value based approaches, but the policy is not implicitly derived and the value function is not required to select an action.
+    In contrast, this section takes methods into account that directly learn a \textit{parameterized policy} which is not based on a previously learned value function.
+    However, there are also methods which consider the best of both worlds similar to action-value based approaches, but the policy is not implicitly derived and the value function is not required for the selection of an action.
     Moreover, the value function is rather used to facilitate the learning process of the policy's parameters.
     These methods are so-called \textit{actor-critic methods}~\citep{silver_lecture_2015-3} where the 'actor' stands for the learned policy and the 'critic' is a reference to the approximated value function~\citep[\p{321}]{sutton_reinforcement_2018}.
 
     The parameters of a policy $\pi$ are normally denoted in vector notation by $\boldsymbol{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\boldsymbol{\theta})=P\{A_t=a|S_t=s,\boldsymbol{\theta}_t=\boldsymbol{\theta}\}$.
     More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameters $\boldsymbol{\theta}$.
-    In order to directly learn the policy, the parameters are adapted based on the derivative with respect to $\boldsymbol{\theta}$ of an numeric performance measure $J(\boldsymbol{\theta})$.
+    In order to learn a policy directly, the parameters are adapted based on the derivative with respect to $\boldsymbol{\theta}$ of an numeric performance measure $J(\boldsymbol{\theta})$.
     In opposite to algorithms discussed in chapter~\ref{ch:deep-reinforcement-learning}, this derivative or rather this gradient is used to maximize the policy's performance.
-    By the usage of \textit{gradient ascent} in $J$, the parameters are updated by the following equation:
+    With the usage of \textit{gradient ascent} in $J$, the parameters are updated by the following equation:
 
     \begin{equation}
         \boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_{t} + \alpha \widehat{\nabla J(\boldsymbol{\theta_t})}\label{eq:parameter_update}
     \end{equation}
 
-    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the performance measure's $J(\boldsymbol{\theta_t})$ gradient and $\alpha$ specifies a step-size parameter~\citep{silver_lecture_2015-3}.
-    Methods which use this gradient ascent approach to learn the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
+    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the gradient of the performance measure $J(\boldsymbol{\theta_t})$ and $\alpha$ specifies a step-size parameter~\citep{silver_lecture_2015-3}.
+    Methods which use this gradient ascent to approach the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
 
-    In a discrete action space which few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citep{silver_lecture_2015-3}.
-    Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtain the highest probability to be selected, e.g.\ by a softmax distribution~\eqref{eq:soft_max_policy}.
+    In a discrete action space with few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citep{silver_lecture_2015-3}.
+    Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtains the highest probability to be selected, e.g.\ by a softmax distribution~\eqref{eq:soft_max_policy}.
     See also subsection~\ref{subsec:loss-functions}).
 
     \begin{equation}
@@ -586,24 +586,24 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
 
-    The utilization of policy gradient based methods yield in summary four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
+    In summary, the utilization of policy gradient based methods gain four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
 
     \begin{enumerate}
         \item The parametrization of the policy under the usage of softmax for defining action preferences, allows for the approximation of deterministic policies.
-        Action-value based methods which select actions with an $\epsilon\text{-greedy}$ approach on the other hand must always leave the option open for a random action to be selected with probability $\epsilon$.
+        Action-value based methods which select actions with an $\epsilon\text{-greedy}$ approach on the other hand must always leave the option open for a random action to be selected, with probability $\epsilon$.
         Therefore, these methods cannot approach a deterministic policy.
         Even if the selection of actions with respect to action-value tuples is based on the softmax distribution as well, the policy would not approach a deterministic one.
-        Rather, it would converge to the action-value tuples' true values which would result in values differing the probabilities 0 and 1.
-        \item In comparision to the previous advantage, it also allows for arbitrary action selection which may be useful in certain types of tasks.
+        Rather, it would converge to the action-value tuples' true values which results in values differing the probabilities 0 and 1.
+        \item In comparison to the previous advantage, it furthermore allows for arbitrary action selection which may be useful in certain types of tasks.
         For instance, playing the game of rock, paper, scissors with a deterministic policy, e.g.\ always selecting rock, the strategy would be easily exploitable.
-        In this case, a stochastic, uniform random policy is much better suited which does not allow for predictions~\citep{silver_lecture_2015-3}.
+        In this case, a stochastic, uniform random policy, which does not allow for predictions, is much better suited ~\citep{silver_lecture_2015-3}.
         \item In certain situations, it might be more efficient to parameterize the policy instead of the action-value parametrization as the approximation of policies could be less complex.
         %TODO ref to image of breakout
         For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout} from one point onward when moving left might be very difficult.
         However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citep{silver_lecture_2015-3}.
         In these situations, policy-based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
-        \item Lastly, the initial configuration of a policy's parameters enables the possibility to give an agent prior knowledge about an optimal policy.
-        Based on this property, this is usually the main reason why policy based methods are considered.
+        \item Lastly, the initial configuration of a policy's parameters enables the possibility to supply an agent with prior knowledge about an optimal policy.
+        Based on this property, this is usually the main reason why policy based methods are taken into consideration.
     \end{enumerate}
 
     \glsresetall
@@ -757,6 +757,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep{aggarwal_neural_2018}.
 %p. 15
 
+    \newpage %TODO remove if possible
 
     \section{Multi Layer Neural Networks}
     Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
@@ -770,6 +771,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability of chaining multiple functions enable the approximation of a complex value function in a high dimensional state-space.
 
     \begin{figure}[h]
+        \vspace{0.5cm}
         \centering
         \includegraphics[width=0.75\textwidth]{figures/xor_problem.png}
         \caption[The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}]{The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}\protect\footnotemark}
@@ -823,7 +825,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of these accomplishments are based on different \gls{drl} approaches.
     However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis.
-    Therefore, solely an overview is provided by figure~\ref{fig:drl_taxonomy}.
+    Therefore, solely an overview is provided by figure~\ref{fig:drl_taxonomy} and solely \gls{ppo} is introduced.
     For further information, the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
 
     \begin{figure}[h]
@@ -836,12 +838,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\url{https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html}}
 
 
-%\section{(Optional)Trust Region Policy Optimization}\label{sec:trust-region-policy-optimization}
-
-
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
-    \gls{ppo} belongs to the family of policy gradient~\eqref{sec:policy-gradient-methods}, model-free based methods\footnote{see figure \ref{fig:drl_taxonomy}} that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
-    In comparision to equation~\ref{eq:parameter_update}, \citeauthor{schulman_proximal_2017} denotes the estimator for the gradient slightly different:
+    \gls{ppo} belongs to the family of policy gradient~\eqref{sec:policy-gradient-methods}, model-free based methods\footnote{see figure~\ref{fig:drl_taxonomy}} that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
+    In comparison to equation~\ref{eq:parameter_update}, \citeauthor{schulman_proximal_2017} denote the estimator for the gradient slightly different:
 
     \begin{equation}
         \hat{g}=\hat{\mathbb{E}}_t \bigg [\nabla_\theta \text{log}\pi_\theta(a_t|s_t)\hat{A}_t\bigg]\label{eq:policy_gradient_method_maximization}
@@ -852,14 +851,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In general, it is denoted by $A^\pi(s,a)=Q^\pi(s,a)-V^\pi(s)$ for a given policy, according to \citeauthor{francois-lavet_introduction_2018}.
     Furthermore, $\hat{\mathbb{E}}_t[\cdot]$ is the empirical mean over some batch samples of interactions with the environment.
 
-    In software, the estimation of the gradient $\hat{g}$ is obtained by creating a similar objective function that functions as the estimator.
-    This is done by differentiating the the following loss function:
+    In software, the estimation of the gradient $\hat{g}$ is obtained by creating a similar objective function that acts as the estimator.
+    This is done by differentiating the following loss function:
 
     \begin{equation}
-        L^{PG}(\theta)=\hat{\mathbb{E}}_t\bigg [\text{log}\pi(a_t|s_t)\hat{A}_t\bigg]
+        L^{PG}(\theta)=\hat{\mathbb{E}}_t\bigg [\text{log}\pi(a_t|s_t)\hat{A}_t\bigg]\label{eq:no_clip_no_penalty}
     \end{equation}
 
-    Additionally, \gls{ppo} is based on an idea named \gls{trpo} where objective function~\ref{eq:policy_gradient_method_maximization} is replaced by a surrogate objective~\eqref{eq:trpo_optimization} with an additional constraint~\eqref{eq:trpo_constraint} on policy's update size~\citep{schulman_trust_2015}.
+    Additionally, \gls{ppo} is based on an idea named \gls{trpo} where objective function~\ref{eq:policy_gradient_method_maximization} is replaced by a surrogate objective~\eqref{eq:trpo_optimization} with an additional constraint~\eqref{eq:trpo_constraint} on the update size of the policy~\citep{schulman_trust_2015}.
 
     \begin{equation}
         \hat{\mathbb{E}}_t\bigg [\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t\bigg]\label{eq:trpo_optimization}
@@ -874,15 +873,42 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     With the ratio $r_t(\theta)=\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t$ the main objective for \gls{ppo} can now be constructed:
 
     \begin{equation}
-        L^{CLIP}(\theta)=\hat{\mathbb{E_t}}\bigg[\text{min}(r_t(\theta)\hat{A}_t,\text{clip}(r_t(\theta),1-\epsilon,1+\epsilon)\hat{A}_t)\bigg]\label{eq:ppo_clip}
+        L^{CLIP}(\theta)=\hat{\mathbb{E}}_t\bigg[\text{min}(r_t(\theta)\hat{A}_t,\text{clip}(r_t(\theta),1-\epsilon,1+\epsilon)\hat{A}_t)\bigg]\label{eq:ppo_clip}
     \end{equation}
 
     The main objective of the \gls{ppo} differs mainly from the surrogate objective of \gls{trpo}~\eqref{eq:trpo_optimization} as it does not allow for excessively large changes to the policy.
-    This is done by clipping the initial objective, if the probability ratio $r_t$ moves to far away from 1 and whether or not the advantage $\hat{A}_t$ is negative or positive.
-    Thus, the incentive is removed to move outside of $[1-\epsilon,1+\epsilon]$, with $\epsilon$ being a hyperparameter.
-    Moreover, the minimum of equation~\ref{eq:ppo_clip} functions as a lower bound for the objective~\ref{eq:trpo_optimization}.
+    This is done by clipping the initial objective, if the probability ratio $r_t$ moves too far away from 1 and whether or not the advantage $\hat{A}_t$ is negative or positive.
+    Thus, a restriction is placed upon the incentive to move outside of $[1-\epsilon,1+\epsilon]$, with $\epsilon$ being a hyperparameter.
+    Moreover, the minimum of the equation~\ref{eq:ppo_clip} functions as a lower bound for the objective~\ref{eq:trpo_optimization}.
 
-    In \gls{drl} application where \gls{nn} share parameters between a value function and a policy, the both must be combined to form one uniform loss function.
+    Referring to the results of \citeauthor{francois-lavet_introduction_2018} where the authors tried different surrogate objectives on seven environments with three different seeds, clipping the objective~\eqref{eq:ppo_clip} with an $\epsilon=0.2$ resulted in the best normalized, averaged score of 0.82.
+    By using different $\epsilon \in [0.1,0.3]$ the score varies between $[0.70,0.82]$ whereas KL-penalized objectives achieved scores between $[0.62,0.72]$ and a non clipped and penalized objective~\eqref{eq:no_clip_no_penalty} performed the worst with an average score of $-0.39$~\citep[see Table 1]{francois-lavet_introduction_2018}.
+
+    When comparing \gls{ppo} algorithms to similar approaches such as \gls{trpo}, \citeauthor{francois-lavet_introduction_2018} list the following advantages:
+
+    \begin{quote}
+        "[T]hey are much simpler to implement, more general and have better sample complexity (empirically). [Furthermore,] \ldots PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time."
+
+        \hfill ~\citep[\p{1}]{francois-lavet_introduction_2018}
+    \end{quote}
+
+    In \gls{drl} applications where \gls{nn} share parameters between a value function and a policy, they both must be combined to form one uniform loss function.
+    Additionally, to construct the objective which \gls{ppo} tries to maximize, a bonus in the form of an entropy is added to ensure enough exploration, resulting in a final target that is given by the following equation:
+
+    \begin{equation}
+        L_t^{CLIP+VF+S}(\theta) = \hat{\mathbb{E}}_t\bigg[L_t^{CLIP}(\theta) - c_1L_t^{VF}(\theta) + c_2S[\pi_\theta](s_t)\bigg]\label{eq:ppo_objective}
+    \end{equation}
+
+    In this equation, $S$ is the bonus in form of an entropy, $L_t^{VF}$ denotes the squared-error loss $(V_\theta(s_t)-V_t^{\text{targ}})^2$ and $c_1,c_2$ are coefficients which control the influence of these two terms.
+    Implementing and optimizing the objective~\ref{eq:ppo_objective} is carried out by following the policy and collecting samples of interactions with the environment for $T$ time-steps.
+    The gathered data is then used to apply an update to~\ref{eq:ppo_objective}.
+    Additionally, the advantage function needed for objective~\ref{eq:ppo_clip} is approximated by an estimator which only considers $T$ time-steps with an index $t\in [0,T]$ as well and is denoted as follows:
+
+    \begin{equation}
+        \hat{A}_t=-V(s_t)+r_t+\gamma r_{t+1} + \dots + \gamma^{T-t+1}r_{T-1} + \gamma^{T-t}V(s_T)\label{eq:advantage_estimator}
+    \end{equation}
+
+    The \gls{ppo} algorithm shown below~\eqref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
 
     \begin{algorithm}
         \caption[\gls{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
@@ -903,7 +929,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         }
 
 
+
     \end{algorithm}
+
 
     \glsresetall
 

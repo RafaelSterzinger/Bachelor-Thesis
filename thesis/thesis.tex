@@ -554,7 +554,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\citep[\p{131}]{sutton_reinforcement_2018}}
 
 
-    \section{Policy Gradient Methods}
+    \section{Policy Gradient Methods}\label{sec:policy-gradient-methods}
     The algorithms introduced until now had all one thing in common as they were all action-value based methods.
     This means that values for given actions must be estimated in advance before a policy, based on the best achievable value in each state, can be derived.
     Thus, a policy would not even exist without these estimations~\citep[\p{321}]{sutton_reinforcement_2018}.
@@ -571,10 +571,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     By the usage of \textit{gradient ascent} in $J$, the parameters are updated by the following equation:
 
     \begin{equation}
-        \boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_{t} + \alpha \widehat{\nabla J(\boldsymbol{\theta_t})}
+        \boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_{t} + \alpha \widehat{\nabla J(\boldsymbol{\theta_t})}\label{eq:parameter_update}
     \end{equation}
 
-    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the performance measure's $J(\boldsymbol{\theta_t})$ gradient.
+    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the performance measure's $J(\boldsymbol{\theta_t})$ gradient and $\alpha$ specifies a step-size parameter~\citep{silver_lecture_2015-3}.
     Methods which use this gradient ascent approach to learn the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
 
     In a discrete action space which few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citep{silver_lecture_2015-3}.
@@ -823,7 +823,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of these accomplishments are based on different \gls{drl} approaches.
     However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis.
-    Therefore, solely an overview is provided by figure \ref{fig:drl_taxonomy}.
+    Therefore, solely an overview is provided by figure~\ref{fig:drl_taxonomy}.
     For further information, the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
 
     \begin{figure}[h]
@@ -840,8 +840,70 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
-    \cite{schulman_proximal_2017}
+    \gls{ppo} belongs to the family of policy gradient~\eqref{sec:policy-gradient-methods}, model-free based methods\footnote{see figure \ref{fig:drl_taxonomy}} that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
+    In comparision to equation~\ref{eq:parameter_update}, \citeauthor{schulman_proximal_2017} denotes the estimator for the gradient slightly different:
 
+    \begin{equation}
+        \hat{g}=\hat{\mathbb{E}}_t \bigg [\nabla_\theta \text{log}\pi_\theta(a_t|s_t)\hat{A}_t\bigg]\label{eq:policy_gradient_method_maximization}
+    \end{equation}
+
+    Here, $\hat{A}_t$ estimates an advantage function for a time-step $t$ where the advantage function describes
+    how good an action $a$ might be, given the expected return if the policy $\pi$ is followed directly.
+    In general, it is denoted by $A^\pi(s,a)=Q^\pi(s,a)-V^\pi(s)$ for a given policy, according to \citeauthor{francois-lavet_introduction_2018}.
+    Furthermore, $\hat{\mathbb{E}}_t[\cdot]$ is the empirical mean over some batch samples of interactions with the environment.
+
+    In software, the estimation of the gradient $\hat{g}$ is obtained by creating a similar objective function that functions as the estimator.
+    This is done by differentiating the the following loss function:
+
+    \begin{equation}
+        L^{PG}(\theta)=\hat{\mathbb{E}}_t\bigg [\text{log}\pi(a_t|s_t)\hat{A}_t\bigg]
+    \end{equation}
+
+    Additionally, \gls{ppo} is based on an idea named \gls{trpo} where objective function~\ref{eq:policy_gradient_method_maximization} is replaced by a surrogate objective~\eqref{eq:trpo_optimization} with an additional constraint~\eqref{eq:trpo_constraint} on policy's update size~\citep{schulman_trust_2015}.
+
+    \begin{equation}
+        \hat{\mathbb{E}}_t\bigg [\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t\bigg]\label{eq:trpo_optimization}
+    \end{equation}
+    \begin{equation}
+        \hat{\mathbb{E}}_t\bigg [\text{KL}[\pi_{\theta_{\text{old}}}(\cdot|s_t),\pi_{\theta}(\cdot|s_t)]\bigg]\leq\delta\label{eq:trpo_constraint}
+    \end{equation}
+
+    Instead of the constraint~\ref{eq:trpo_constraint}, a penalty is sometimes integrated with a corresponding weighting as well, combining the equations~\ref{eq:trpo_optimization} and~\ref{eq:trpo_constraint}.
+    Furthermore, KL in equation~\ref{eq:trpo_constraint} stands for the Kullback-Leibler divergence.
+
+    With the ratio $r_t(\theta)=\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t$ the main objective for \gls{ppo} can now be constructed:
+
+    \begin{equation}
+        L^{CLIP}(\theta)=\hat{\mathbb{E_t}}\bigg[\text{min}(r_t(\theta)\hat{A}_t,\text{clip}(r_t(\theta),1-\epsilon,1+\epsilon)\hat{A}_t)\bigg]\label{eq:ppo_clip}
+    \end{equation}
+
+    The main objective of the \gls{ppo} differs mainly from the surrogate objective of \gls{trpo}~\eqref{eq:trpo_optimization} as it does not allow for excessively large changes to the policy.
+    This is done by clipping the initial objective, if the probability ratio $r_t$ moves to far away from 1 and whether or not the advantage $\hat{A}_t$ is negative or positive.
+    Thus, the incentive is removed to move outside of $[1-\epsilon,1+\epsilon]$, with $\epsilon$ being a hyperparameter.
+    Moreover, the minimum of equation~\ref{eq:ppo_clip} functions as a lower bound for the objective~\ref{eq:trpo_optimization}.
+
+    In \gls{drl} application where \gls{nn} share parameters between a value function and a policy, the both must be combined to form one uniform loss function.
+
+    \begin{algorithm}
+        \caption[\gls{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
+        \label{alg:ppo}
+        \SetKw{Run}{run}
+        \SetKw{Comp}{compute}
+        \SetKw{Opt}{optimize}
+        \SetKw{Update}{update}
+
+        \For{
+        $iteration=1,2,\dots$}{
+        \For{$actor=1,2,\dots,N$}{
+        \Run{policy $\pi_{\theta_\text{old}}$ in environment for $T$ time-steps}\;
+        \Comp{advantage estimates $\hat{A}_1,\hat{A}_2,\dots,\hat{A}_T$}\;
+        }
+            \Opt{surrogate $L$ wrt $\theta$, with $K$ epochs and minibatch size $M \leq NT$}\;
+            \Update{$\theta_\text{old}\leftarrow \theta$}\;
+        }
+
+
+    \end{algorithm}
 
     \glsresetall
 

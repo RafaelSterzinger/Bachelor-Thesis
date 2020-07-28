@@ -26,6 +26,8 @@
 \usepackage{multibib}
 \usepackage{bm}
 
+\newcites{Online}{Non-Scientific Bibliography}
+
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Rafael Sterzinger} % The author name without titles.
 \newcommand{\thesistitle}{Balancing Extrinsic and Intrinsic Rewards in Reinforcement Learning}
@@ -115,8 +117,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{trpo}{TRPO}{Trust Region Policy Optimization}
 \newacronym{relu}{ReLU}{Rectified Linear Unit}
 
-\newcites{online}{Non-Scientific Resources}
-
 \begin{document}
 
     \frontmatter % Switches to roman numbering.
@@ -199,7 +199,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
     \\\\
     Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
-    Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010-1}.
+    Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
     The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: "\textit{\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}"\cite[\p{10}]{aubret_survey_2019}
     \\\\
     The domain of the given problem description is \gls{rl} with a focus on the model of knowledge acquisition via exploration.
@@ -244,13 +244,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \\\\
     % Eventually add VAE
     Regarding mile stone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
-    Concerning mile stone four and the comparison to state of the art approaches, the~\nameref{sec:state-of-the-art} section of this thesis allows for a current in-depth overview.
+    Concerning mile stone four and the comparison to state of the art approaches, chapter~\ref{sec:state_of_the_art} of this thesis allows for a current in-depth overview on methods based on knowledge acquisition via exploration.
     Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by an exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018-1}.
-
-    % TODO change section of state to the art to 3 chapter
-
-
-    \section{State of the Art}\label{sec:state-of-the-art}
 
 
     \section{Thesis Outline}\label{sec:thesis-outline}
@@ -282,7 +277,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
     This spares the necessity of creating a training dataset with corresponding state-action tuples beforehand and thus \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
-    Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of its supervisor which is another reason why it must be able to learn from its own experiences~\citep{silver_lecture_2015-2}.
+    Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of its supervisor which is another reason why it must be able to learn from its own experiences~\citepOnline{silver_lecture_2015-2}.
     Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
     However, this is not applicable for \gls{rl} as the agent has to maximize a reward function and not to find structure in data.
     Therefore, \citeauthor{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
@@ -360,7 +355,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Functions to Improve the Policy}\label{sec:functions-to-improve-the-policy}
     As mentioned in section~\ref{sec:reinforcement-learning-problem}, the policy forms an important component of the \gls{rl} framework and is usually denoted as $\pi$.
-    By following a policy, the agent's probability to select a specific action at time-step $t$ is $\pi(a|s) = P\{A_t=a|S_t=s\}$ and therefore $\pi$ describes a probability distribution over actions given states~\citep{silver_lecture_2015-1}.
+    By following a policy, the agent's probability to select a specific action at time-step $t$ is $\pi(a|s) = P\{A_t=a|S_t=s\}$ and therefore $\pi$ describes a probability distribution over actions given states~\citepOnline{silver_lecture_2015-1}.
     Additionally, the aforementioned value function component is dependent on the policy, since $\pi$ defines which action-state tuples are considered from the current state onwards.
     Formally, the state-value function for an \gls{mdp} is denoted by $v_\pi(s)$ which stands for the expected future rewards when following the policy, starting in state $s$ and "\textit{$\mathbb{E}_\pi[\cdot]$ denotes the expected value of a random variable given that the agent follows policy $\pi$}"~\citep[\p{58}]{sutton_reinforcement_2018}.
 
@@ -378,7 +373,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The policy is improved by adjusting the value functions $v_\pi$ and $q_\pi$ through the agent's obtained experience.
     Since \gls{rl} aims to solve a given objective by maximizing rewards, it implicitly goes along with optimizing the agent's policy.
     If a policy $\pi$ achieves a higher value than a different policy $\pi'$, which also implies that $v_\pi(s) \geq v_{\pi'}(s), \forall s \in \mathit{S}$, then the two policies can be ordered partially, with $\pi \geq \pi'$.
-    However, there can be multiple policies performing equally well~\citep{sutton_reinforcement_2018} and for any \gls{mdp} the following theorem holds true~\citep[\p{43}]{silver_lecture_2015-1}:
+    However, there can be multiple policies performing equally well~\citep{sutton_reinforcement_2018} and for any \gls{mdp} the following theorem holds true~\citepOnline[\p{43}]{silver_lecture_2015-1}:
 
     \begin{itemize}
         \item There exists an optimal policy $\pi_*$ that is better than or equal to all other policies, $\pi_* \geq \pi, \forall\pi$
@@ -422,7 +417,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep{sutton_reinforcement_2018} which can be directly solved due to its linearity.
-    However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citep{silver_lecture_2015-1}.
+    However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citepOnline{silver_lecture_2015-1}.
 
     For larger \glspl{mdp} exist multiple iterative solutions as for example:
     \begin{itemize}
@@ -436,7 +431,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of the three above mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
     As for \gls{dp}, an iterative process is is used.
-    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which updates the policy~\citep{silver_lecture_2015,sutton_reinforcement_2018}.
+    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which updates the policy~\citepOnline{silver_lecture_2015}.
 
 
     \section{Temporal-Difference Methods}
@@ -562,7 +557,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In contrast, this section takes methods into account that directly learn a \textit{parameterized policy} which is not based on a previously learned value function.
     However, there are also methods which consider the best of both worlds similar to action-value based approaches, but the policy is not implicitly derived and the value function is not required for the selection of an action.
     Moreover, the value function is rather used to facilitate the learning process of the policy's parameters.
-    These methods are so-called \textit{actor-critic methods}~\citep{silver_lecture_2015-3} where the 'actor' stands for the learned policy and the 'critic' is a reference to the approximated value function~\citep[\p{321}]{sutton_reinforcement_2018}.
+    These methods are so-called \textit{actor-critic methods}~\citepOnline{silver_lecture_2015-3} where the 'actor' stands for the learned policy and the 'critic' is a reference to the approximated value function~\citep[\p{321}]{sutton_reinforcement_2018}.
 
     The parameters of a policy $\pi$ are normally denoted in vector notation by $\boldsymbol{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\boldsymbol{\theta})=P\{A_t=a|S_t=s,\boldsymbol{\theta}_t=\boldsymbol{\theta}\}$.
     More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameters $\boldsymbol{\theta}$.
@@ -574,10 +569,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_{t} + \alpha \widehat{\nabla J(\boldsymbol{\theta_t})}\label{eq:parameter_update}
     \end{equation}
 
-    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the gradient of the performance measure $J(\boldsymbol{\theta_t})$ and $\alpha$ specifies a step-size parameter~\citep{silver_lecture_2015-3}.
+    The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the gradient of the performance measure $J(\boldsymbol{\theta_t})$ and $\alpha$ specifies a step-size parameter~\citepOnline{silver_lecture_2015-3}.
     Methods which use this gradient ascent to approach the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
 
-    In a discrete action space with few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citep{silver_lecture_2015-3}.
+    In a discrete action space with few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citepOnline{silver_lecture_2015-3}.
     Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtains the highest probability to be selected, e.g.\ by a softmax distribution~\eqref{eq:soft_max_policy}.
     See also subsection~\ref{subsec:loss-functions}).
 
@@ -596,11 +591,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         Rather, it would converge to the action-value tuples' true values which results in values differing the probabilities 0 and 1.
         \item In comparison to the previous advantage, it furthermore allows for arbitrary action selection which may be useful in certain types of tasks.
         For instance, playing the game of rock, paper, scissors with a deterministic policy, e.g.\ always selecting rock, the strategy would be easily exploitable.
-        In this case, a stochastic, uniform random policy, which does not allow for predictions, is much better suited ~\citep{silver_lecture_2015-3}.
+        In this case, a stochastic, uniform random policy, which does not allow for predictions, is much better suited ~\citepOnline{silver_lecture_2015-3}.
         \item In certain situations, it might be more efficient to parameterize the policy instead of the action-value parametrization as the approximation of policies could be less complex.
         %TODO ref to image of breakout
         For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout} from one point onward when moving left might be very difficult.
-        However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citep{silver_lecture_2015-3}.
+        However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citepOnline{silver_lecture_2015-3}.
         In these situations, policy-based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
         \item Lastly, the initial configuration of a policy's parameters enables the possibility to supply an agent with prior knowledge about an optimal policy.
         Based on this property, this is usually the main reason why policy based methods are taken into consideration.
@@ -623,11 +618,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
     A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1}, the core literature of this thesis.
 
-%TODO write trpo
-%    Instead of directly going through adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
-%    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with two specific optimizations methods,~\gls{trpo}~\eqref{sec:trust-region-policy-optimization} and~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
-%    A focus is laid on these two approaches because \gls{ppo} represent the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} and \gls{trpo} as \gls{ppo} is based on this idea.
-
 
     \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
 
@@ -636,7 +626,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The name already indicates that a \gls{nn} is composed by \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
     Additional connections between axons and dendrites, called \textit{synapses}, define how important a transferred signal between them is.
     Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting of the signal~\citep{aggarwal_neural_2018}.
-    This idea of representation was introduced by \citeauthor{mcculloch_logical_1943} who started with a simple model which was later on adapted and improved by \citeauthor{rosenblatt_perceptron_1957}~\citep{goodfellow_deep_2016}.
+    This idea of representation was introduced by \citeauthor{mcculloch_logical_1943} who started with a simple model which was later on adapted and improved by \citeauthor{rosenblatt_perceptron_1957}~\citep[\p{167}]{awad_deep_2015}.
 
     \begin{figure}[h]
         \centering
@@ -757,7 +747,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep{aggarwal_neural_2018}.
 %p. 15
 
-    \newpage %TODO remove if possible
 
     \section{Multi Layer Neural Networks}
     Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
@@ -788,7 +777,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep{goodfellow_deep_2016,aggarwal_neural_2018}.
     This shows that an \gls{mlp} allows for much more complex function approximation.
     With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section~\ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
-    Instead, a new algorithm named \textit{backpropagation} is introduced which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
+    Instead, a new algorithm named \textit{backpropagation} was introduced by \citeauthor{rumelhart_learning_1986} which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
 %\subsection{(Optional)Convolutional Neural Networks}
 
@@ -909,7 +898,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     The \gls{ppo} algorithm shown below~\eqref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
-
+    \newpage
     \begin{algorithm}
         \caption[\gls{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
         \label{alg:ppo}
@@ -932,14 +921,42 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \end{algorithm}
 
+    \footnotetext{\citep[\p{5}]{schulman_proximal_2017}}
 
     \glsresetall
 
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}
+    The idea of including \gls{im} into the \gls{rl} framework has been around since the early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected~\citep{schmidhuber_formal_2010}.
+    However, by including \gls{im}
 
 
-    \section{Knowledge Acquisition}
+
+
+    \section{Challenges}
+
+
+    \section{Embedding}
+
+
+    \section{Classification}
+
+
+    \chapter{Exploration}\label{sec:state_of_the_art}
+
+
+    \section{Prediction Error}
+    \cite[\p{7}]{schmidhuber_formal_2010}
+
+
+    \section{State Novelty}
+
+
+    \section{Novelty as Discrepancy towards other States}
+
+
+    \section{Information Gain}
+
 
 
     \glsresetall
@@ -947,19 +964,35 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Evalutation}
 
-%TODO chapter of an introduction to drl for evalutation
-
+%TODO 9. Benchmarking Deep RL
+    \citep{francois-lavet_introduction_2018}
 
     \glsresetall
 
 
     \chapter{Implementation}
+    \citep{burda_large-scale_2018-1}
 
+
+    \section{Proximal Policy Optimization}
+
+
+    \section{Intrinsic Curiosity Module}
+    \citep{pathak_curiosity-driven_2017-1}
+
+
+    \section{Hyper-Parameter Tuning}
+    %TODO Gridsearch
+
+
+    \section{Noizy-TV Problem}
+    \citep{schmidhuber_formal_2010}
 
     \glsresetall
 
 
     \chapter{Results}
+
 
     \glsresetall
 
@@ -988,4 +1021,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \bibliographystyle{apalike}
     \bibliography{core}
 
+    \bibliographystyleOnline{apalike}
+    \bibliographyOnline{online}
 \end{document}

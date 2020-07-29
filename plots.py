@@ -1,4 +1,6 @@
 import os
+from decimal import Decimal
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
@@ -50,81 +52,20 @@ class Experiment(object):
     def __init__(self, directory, reload_log):
         self.directory = directory
         _, self.exp_name = os.path.split(self.directory)
-        self.env_name, self.method, self.seed = self.parse_name(name=self.exp_name)
+        self.env_name, self.method, self.seed, self.int, self.ext = self.parse_name(name=self.exp_name)
         self.log = self.load_log(regenerate=reload_log)
-        # self.exp_details = self.load_exp_info()
         self._timeseries = {}
 
     def parse_name(self, name):
-        if name.startswith('mariogen'):
-            return self.parse_name_mariogen(name)
-        elif name == 'mz8gpu':
-            return 'MontezumaRevenge', 'idf', 0
-        elif name == 'mario16gpurf-00':
-            return 'Mario', 'rf_large', 0
-        elif name == 'mario1gpurf':
-            return 'Mario', 'rf_small', 0
-        else:
-            if '_' in self.exp_name:
-                return self.parse_name_yura_convention(name)
-            else:
-                return self.parse_name_rafael_convention(name)
-
-    def parse_name_yura_convention(self, name):
-        env, method, seed, *extra = name.split('_')
-        if method == 'randfeat':
+        env, seed, method, int, ext = name.split('_')
+        int = Decimal(int.split('-')[1])
+        ext = Decimal(ext.split('-')[1])
+        if method == 'none':
             method = 'rf'
-        if extra != []:
-            method += '_' + '_'.join(extra)
-        return env, method, seed
-
-    def parse_name_rafael_convention(self, name):
-        envs = {'mz': 'MontezumaRevenge',
-                'mario': 'Mario',
-                }
-        methods = ['vaesph', 'pix2pixbn', 'pix2pix', 'idfbnnontrainable', 'idfbntrainable', 'idf', 'rf', 'vaenonsph',
-                   'randfeatbn', 'ext']  # the order matters
-        method = [m for m in methods if m in name]
-        method = method[0]
-        seed = int(name[-1]) - 1
-        env = name[:-(1 + len(method))]
-        env = envs[env]
-        return env, method, seed
-
-    def parse_name_mariogen(self, name):
-        name = name[len('mariogen'):]
-        env = 'MarioGen'
-        if name.startswith('fixed'):
-            extra_method = '_fixed'
-            name = name[len('fixed'):]
-        else:
-            extra_method = ''
-        method = name[:len('1to1')]
-        name = name[len('1to1'):]
-        assert name.startswith('idf') or name.startswith('rf'), self.directory
-        if name.startswith('idf'):
-            feat_method = 'idf'
-        elif name.startswith('rf'):
-            feat_method = 'rf'
-        method += '_{}'.format(feat_method)
-        method += extra_method
-        name = name[len(feat_method):]
-        seed = int(name) - 1
-        return env, method, seed
-
-    def load_exp_info(self):
-        directory = os.path.join(self.directory, 'exp_details.pkl')
-        if os.path.exists(directory):
-            with open(directory, 'rb') as f:
-                try:
-                    exp_details = pickle.load(f)
-                    if not exp_details:
-                        exp_details = None
-                except:
-                    exp_details = None
-        else:
-            exp_details = None
-        return exp_details
+        if ext == 1 and int == 0:
+            method = 'none'
+        method = f"{method}_{int}_{ext}"
+        return env, method, seed, int, ext
 
     def load_log(self, regenerate=False):
         pickle_of_log = os.path.join(self.directory, 'log.pickle')
@@ -234,41 +175,45 @@ class AxesWithPlots(object):
         self.ax.autoscale(enable=True, axis='y', tight=tight_y)
 
 
-colors = {'idf': 'orange',
-          'idf_3epochs': 'orange',
-          'idf_6epochs': 'red',
-          'vaesph': 'cornflowerblue',
-          'rf': 'seagreen',
-          'rf_6epochs': 'seagreen',
-          'rf_3epochs': 'black',
-          'extrew': 'gray',
-          'ext': 'gray',
-          'pix2pix': 'lightcoral'
-          }
-labels = {'idf': 'Inverse Dynamics\nfeatures',
-          'idf_3epochs': 'Inverse Dynamics features 3 ep',
-          'idf_6epochs': 'Inverse Dynamics features',
-          'pix2pix': 'Pixels',
-          'rf': 'Random CNN\nfeatures',
-          'rf_3epochs': 'Random CNN features 3 ep',
-          'rf_6epochs': 'Random CNN features',
-          'extrew': 'Extrinsic rewards',
-          'ext': 'Extrinsic rewards',
-          'vaesph': 'VAE features'
-          }
+def label(method):
+    method, int, ext = method.split('_')
+    if method == 'none':
+        return labels[method]
+    else:
+        return f"{labels[method]}: INT={int},EXT={ext}"
+
+
+def color(method):
+    method, int, ext = method.split('_')
+    int = Decimal(int)
+    if method == 'none':
+        return 'black'
+    if method == 'idf':
+        if int == 1:
+            return 'sienna'
+        return 'red'
+    if method == 'rf':
+        if int == 1:
+            return 'darkorchid'
+        return 'blue'
+
+
+labels = {
+    'rf': 'Random Features',
+    'idf': 'Inverse Dynamic Features',
+    'none': 'Extrinsic Only'
+}
 
 
 def generate_three_seed_graphs(three_seed_exps, y_series='eprew_recent', smoothen=51, alpha=1.0):
     num_envs = len(three_seed_exps.grouped_experiments)
     print(num_envs)
-    fig, axes = plt.subplots(nrows=2, ncols=5, sharex=True, figsize=(12, 6))
+    fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
-    envs = [env for env in three_seed_exps.grouped_experiments if env not in ['Unity-Sparse']]
-    envs = ['BeamRider', 'Breakout', 'MontezumaRevenge', 'Pong', 'Mario', 'Qbert', 'Riverraid', 'Seaquest',
-            'SpaceInvaders']
-    # envs.remove('Mario')
+    envs = ['Freeway']
+    # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
+
     for env, ax in zip(envs, np.ravel(axes)):
-        # import ipdb; ipdb.set_trace()
         ax.tick_params(labelsize=7, pad=0.001)
         ax_with_plots = AxesWithPlots(ax)
         all_axes.append(ax_with_plots)
@@ -276,18 +221,18 @@ def generate_three_seed_graphs(three_seed_exps, y_series='eprew_recent', smoothe
             if method != 'extrew':
                 print("generating graph ", env, method)
                 xs, ys = three_seed_exps.grouped_experiments[env][method].get_xs_ys(y_series)
-                ax_with_plots.add_std_plot(xs, ys, color=colors[method], label=labels[method], smoothen=smoothen,
+                ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
                                            alpha=alpha)
         ax_with_plots.finish_up(title=env)
-    axes[1, 4].set_visible(False)
+    # axes[1, 4].set_visible(False)
     # fig.set_xlabel('Number of training steps (in millions)', fontsize=14)
     # fig.set_ylabel('Extrinsic Rewards per Episode', fontsize=14)
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
     # plt.tight_layout()
-    fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.82, 0.2), ncol=1)
+    fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
     fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
     fig.text(0.007, 0.5, 'Extrinsic Reward per Episode', va='center', rotation='vertical')
-    save_filename = os.path.join(results_folder, 'three_seeds_{}.png'.format(y_series))
+    save_filename = os.path.join(results_folder, '{}_{}.png'.format(envs[0], y_series))
     print("saving ", save_filename)
     plt.savefig(save_filename, dpi=300)
     plt.close()
@@ -336,14 +281,12 @@ def generate_unitytv_graphs(unity_exps, y_series='eprew_recent', smoothen=51, al
 
 def main():
     # Code for Figure-2
-    three_seed_exps = Experiments(os.path.join(results_folder, 'three_seed_main_envs'), reload_logs=False)
-    generate_three_seed_graphs(three_seed_exps, 'eprew_recent')
-    generate_three_seed_graphs(three_seed_exps, 'recent_best_ext_ret', smoothen=False, alpha=0.7)
-    generate_three_seed_graphs(three_seed_exps, 'best_ext_ret', smoothen=False)
-    generate_three_seed_graphs(three_seed_exps, 'eplen')
+    experiment = Experiments(os.path.join(results_folder), reload_logs=False)
+    generate_three_seed_graphs(experiment, 'eprew_recent')
+    generate_three_seed_graphs(experiment, 'best_ext_ret', smoothen=False)
 
 
 if __name__ == '__main__':
-    results_folder = os.chdir("/tmp")
-    results_folder = '/tmp'
+    results_folder = '../../test/FreewayFINAL'
+    os.chdir(results_folder)
     main()

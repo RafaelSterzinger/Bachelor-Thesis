@@ -29,4 +29,5 @@ cd ../thesis
 shopt -s extglob
 git clean -fx -e !(thesis.pdf)
 shopt -u extglob
+rm Online.aux
 echo Delete build files.

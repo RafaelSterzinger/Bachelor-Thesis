@@ -186,15 +186,15 @@ def color(method):
     method, int, ext = method.split('_')
     int = Decimal(int)
     if method == 'none':
-        return 'black'
+        return 'green'
     if method == 'idf':
         if int == 1:
-            return 'sienna'
-        return 'red'
+            return 'red'
+        return 'orange'
     if method == 'rf':
         if int == 1:
-            return 'darkorchid'
-        return 'blue'
+            return 'blue'
+        return 'purple'
 
 
 labels = {
@@ -209,7 +209,7 @@ def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, 
     print(num_envs)
     fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
-    envs = ['Breakout']
+    envs = ['Freeway']
     # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
 
     for env, ax in zip(envs, np.ravel(axes)):
@@ -225,9 +225,9 @@ def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, 
         ax_with_plots.finish_up(title=env, xlim=xlim)
 
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
-    fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
+    # fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
     fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
-    fig.text(0.007, 0.5, 'Extrinsic Reward per Episode', va='center', rotation='vertical')
+    fig.text(0.001, 0.5, 'Extrinsic Reward per Episode', va='center', rotation='vertical')
 
     save_filename = os.path.join(results_folder, '{}_{}.png'.format(envs[0], y_series))
     print("saving ", save_filename)
@@ -237,12 +237,13 @@ def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, 
 
 def main():
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    generate_three_seed_graph(experiment, 'eprew_recent', xlim=100)
-    generate_three_seed_graph(experiment, 'best_ext_ret', smoothen=False, xlim=100)
+    generate_three_seed_graph(experiment, 'retmean', xlim=100)
+    generate_three_seed_graph(experiment, 'rew_mean', xlim=100)
+#    generate_three_seed_graph(experiment, 'best_ext_ret', smoothen=False, xlim=100)
     print('parsed')
 
 
 if __name__ == '__main__':
-    results_folder = '../../test/BreakoutFINAL'
+    results_folder = '../../test/FreewayFINAL'
     os.chdir(results_folder)
     main()

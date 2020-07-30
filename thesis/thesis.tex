@@ -559,7 +559,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     The parameters of a policy $\pi$ are normally denoted in vector notation by $\boldsymbol{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\boldsymbol{\theta})=P\{A_t=a|S_t=s,\boldsymbol{\theta}_t=\boldsymbol{\theta}\}$.
     More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameters $\boldsymbol{\theta}$.
-    In order to learn a policy directly, the parameters are adapted based on the derivative with respect to $\boldsymbol{\theta}$ of an numeric performance measure $J(\boldsymbol{\theta})$.
+    In order to learn a policy directly, the parameters are adapted based on the derivative with respect to $\boldsymbol{\theta}$ of a numeric performance measure $J(\boldsymbol{\theta})$.
     In opposite to algorithms discussed in chapter~\ref{ch:deep-reinforcement-learning}, this derivative or rather this gradient is used to maximize the policy's performance.
     With the usage of \textit{gradient ascent} in $J$, the parameters are updated by the following equation:
 
@@ -570,12 +570,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The expectation of $\widehat{\nabla J(\boldsymbol{\theta_t})} \in R^{d'}$ is an estimation of the gradient of the performance measure $J(\boldsymbol{\theta_t})$ and $\alpha$ specifies a step-size parameter~\citepOnline{silver_lecture_2015-3}.
     Methods which use this gradient ascent to approach the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \textit{policy gradient methods}
 
-    In a discrete action space with few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $\boldsymbol{\theta})^T\boldsymbol{x}(s,a)$~\citepOnline{silver_lecture_2015-3}.
+    In a discrete action space with few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $h(s,a,\boldsymbol{\theta})=\boldsymbol{\theta}^T\boldsymbol{x}(s,a)$~\citep[\p{321}]{sutton_reinforcement_2018},~\citepOnline{silver_lecture_2015-3}.
     Moreover, policies are required to be stochastic and thus the most preferred action in a given state obtains the highest probability to be selected, e.g.\ by a softmax distribution~\eqref{eq:soft_max_policy}.
-    See also subsection~\ref{subsec:loss-functions}).
+    For additional information, see also subsection~\ref{subsec:loss-functions}.
 
     \begin{equation}
-        \pi(a|s,\boldsymbol{\theta})=\frac{e^{h(s,a,\boldsymbol{\theta})}}{\sum_{b}e^{h(s,b,\boldsymbol{\theta})}}\label{eq:soft_max_policy}
+        \pi(a|s,\boldsymbol{\theta})=\frac{e^{h(s,a,\boldsymbol{\theta})}}{\sum_{b}e^{h(s,b,\boldsymbol{\theta})}}=\frac{e^{\boldsymbol{\theta}^T\boldsymbol{x}(s,a)}}{\sum_{b}e^{\boldsymbol{\theta}^T\boldsymbol{x}(s,b)}}\label{eq:soft_max_policy}
     \end{equation}
 
 
@@ -607,7 +607,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In the preceding chapter dealing with the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
     However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathit{S}$ is visited countless times in order to estimate the optimal policy $\pi$.
-    In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible which is also known as the curse of dimensionality~\citep{goodfellow_deep_2016}.
+    In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible which is also known as the curse of dimensionality~\citep[\p{151}]{goodfellow_deep_2016}.
     That is because each frame consists of thousands of pixels and each of these pixels can accept various values ranging from 0 to 255.
     To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to their capability of estimating very complex functions such as the value function for a high dimensional state-space.
     By combining these techniques the field of \gls{drl} emerged which enables superhuman-like problem solving skills~\citep{francois-lavet_introduction_2018}.
@@ -623,7 +623,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     As many ideas presented in this thesis, \gls{nn} are also inspired by nature as its structure is a resemblance of the human brain.
     The name already indicates that a \gls{nn} is composed by \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
     Additional connections between axons and dendrites, called \textit{synapses}, define how important a transferred signal between them is.
-    Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting of the signal~\citep{aggarwal_neural_2018}.
+    Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting of the signal~\citep[\p{1f}]{aggarwal_neural_2018}.
     This idea of representation was introduced by \citeauthor{mcculloch_logical_1943} who started with a simple model which was later on adapted and improved by \citeauthor{rosenblatt_perceptron_1957}~\citep[\p{167}]{awad_deep_2015}.
 
     \begin{figure}[h]
@@ -649,10 +649,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Finally, a prediction $\hat{y}$ for $y$, based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result making usage of an \textit{activation function}.
     In the case of classification the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
-    After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\boldsymbol{X}}) = y - \hat{y}$~\citep{aggarwal_neural_2018}.
+    After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\boldsymbol{X}}) = y - \hat{y}$~\citep[\p{5ff}]{aggarwal_neural_2018}.
     If the error $E(\bar{\boldsymbol{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction for the next time.
     By optimizing the error function or \textit{loss function}, the classification error is reduced.
-    The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input and is formally described by the following notation:
+    The optimization process is also known as \textit{gradient descent} which updates the weights according to the negative direction of the function's gradient with respect to each input~\citep[\p{7}]{aggarwal_neural_2018} and is formally described by the following notation:
 
     \begin{equation}
         \bar{\boldsymbol{W}} \Leftarrow \bar{\boldsymbol{W}} + \alpha E(\bar{\boldsymbol{X}})\bar{\boldsymbol{X}}\label{eq:weight_adjusting}
@@ -664,8 +664,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     As the perceptron represents a linear function, it must not only learn the slope but also the intercept, the invariant part.
-    The intercept value is also called \textit{bias} and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep{aggarwal_neural_2018}.
-%p. 6
+    The intercept value is also called \textit{bias} and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep[\p{6}]{aggarwal_neural_2018}.
     To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight which is adjusted during the error optimization process.
     This additional neuron solely has the purpose to feed the scalar 1 to the output node and by refining the weight in between, the intercept value is learned.
     By incorporating the bias neuron, the following equation emerges:
@@ -677,8 +676,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \subsection{Activation Functions}
     In general, activation functions play an important role in \glspl{nn} as they define the output values of neurons.
     However, they are especially significant for \glspl{mlp} as they determine the modeling power of the network.
-    By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep{aggarwal_neural_2018}.
-%p. 13
+    By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep[\p{13}]{aggarwal_neural_2018}.
 
     Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in figure~\ref{fig:activation_functions}.
     As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
@@ -711,9 +709,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Loss Functions}\label{subsec:loss-functions}
     In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ has been introduced.
-    However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep{aggarwal_neural_2018}.
+    However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep[\p{15}]{aggarwal_neural_2018}.
     For instance, regression tasks modeled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
-    In the case of classification tasks with multiple class labels, output values are normally activated employing the \textit{softmax activation function}~\citep{goodfellow_deep_2016}, with $\boldsymbol{v}$ being the $n$ pre-activated output values.
+    In the case of classification tasks with multiple class labels, output values are normally activated employing the \textit{softmax activation function}~\citep[\p{78}]{goodfellow_deep_2016}, with $\boldsymbol{v}$ being the $n$ pre-activated output values.
 
     \[
         \text{Softmax: } \sigma(\boldsymbol{v})_i = \frac{e^{v_i}}{\sum_{j=0}^{n}e^{v_j}}
@@ -732,7 +730,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     A further option is to simply use the sigmoid activation function which maps the output $\hat{y}$ between $0 \text{ and } 1$.
-    Under the assumption that the observed value $y$ is normalized between $-1 \text{ and } 1$, the negative logarithm of $|\frac{y}{2}-\frac{1}{2}+\hat{y}|$ is deployed as a loss function.
+    Under the assumption that the observed value $y$ is normalized between $-1 \text{ and } 1$, the negative logarithm of $|\frac{y}{2}-\frac{1}{2}+\hat{y}|$ is deployed as a loss function~\citep[\p{15}]{aggarwal_neural_2018}.
     This loss function provides a measurement on how likely it is that the target has correctly been classified.
 
     Concerning categorical targets, post-activated values $\hat{y}_0,\ldots,\hat{y}_n$ are examined one by one.
@@ -742,17 +740,16 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         L=-\text{log}(\hat{y}_i)
     \end{equation}
 
-    This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep{aggarwal_neural_2018}.
-%p. 15
+    This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep[\p{15}]{aggarwal_neural_2018}.
 
 
     \section{Multi Layer Neural Networks}
     Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
-    Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep{aggarwal_neural_2018}.
+    Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep[\p{17}]{aggarwal_neural_2018}.
     However, the \gls{mlp} still is a feed-forward network and the perceptron as well as the \gls{mlp} can both be denoted as a \textit{directed acyclic graph}.
     The additional layers in an \gls{mlp} can be described as a composition of multiple functions, in opposition to a perceptron where the input is directly transmitted to the output layer.
     By composing the additional layers via chain like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
-    For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
+    For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep[\p{163f}]{goodfellow_deep_2016}.
 %p. 163
     The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
     As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability of chaining multiple functions enable the approximation of a complex value function in a high dimensional state-space.
@@ -772,7 +769,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
     Applying the model learned by the perceptron to the left, the original space, an approximated linear function cannot separate these values and thus would not be able to return the correct $y$.
     This is also known under the term of \textit{linear separability}.
-    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep{goodfellow_deep_2016,aggarwal_neural_2018}.
+    However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep[\p{166ff}; \p{32ff}]{goodfellow_deep_2016,aggarwal_neural_2018}.
     This shows that an \gls{mlp} allows for much more complex function approximation.
     With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section~\ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
     Instead, a new algorithm named \textit{backpropagation} was introduced by \citeauthor{rumelhart_learning_1986} which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
@@ -785,8 +782,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Deep Learning Approach in Reinforcement Learning}
     The advancements of \gls{dl} over the last couple of years, starting around 2010, allowed the domain of \gls{rl} to evolve as well.
     Especially through the previously mentioned combination of these two fields and the new creation of the \gls{drl} domain, many astonishing accomplishments were achieved~\citep{francois-lavet_introduction_2018}.
-    A summary of four different achievements which were selected by \citeauthor{aggarwal_neural_2018} are listed in the following enumeration.
-%p. 374
+    A summary of four different achievements which were selected by \citet[\p{374}]{aggarwal_neural_2018} are listed in the following enumeration.
 
     \begin{itemize}
         \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
@@ -826,7 +822,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
-    \gls{ppo} belongs to the family of policy gradient~\eqref{sec:policy-gradient-methods}, model-free based methods\footnote{see figure~\ref{fig:drl_taxonomy}} that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
+    \gls{ppo} belongs to the family of policy gradient~\eqref{sec:policy-gradient-methods}, model-free based methods (see Figure~\ref{fig:drl_taxonomy}) that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
     In comparison to equation~\ref{eq:parameter_update}, \citeauthor{schulman_proximal_2017} denote the estimator for the gradient slightly different:
 
     \begin{equation}
@@ -896,7 +892,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     The \gls{ppo} algorithm shown below~\eqref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
-    \newpage
+
     \begin{algorithm}
         \caption[\gls{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
         \label{alg:ppo}
@@ -924,10 +920,17 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \glsresetall
 
 
-    \chapter{Intrinsic Motivation in Reinforcement Learning}
+    \chapter{Intrinsic Motivation in Reinforcement Learning}\label{ch:intrinsic-motivation-in-reinforcement-learning}
     The idea of including \gls{im} into the \gls{rl} framework has been around since the early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected.
     With its roots deeply involved in psychology, \gls{im} was initially used due to the ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
     This phenomenon is based on a discovery from nature as animals were observed to engage in curiosity-driven, exploratory, and playful behaviour despite the fact that they would not obtain a reward or a reinforcement~\citep{white_motivation_1959}.
+
+    This chapter is started by introducing the psychological aspects of \gls{im} and is continued with the role of \gls{im} in the \gls{rl} framework.
+    Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out and the embedding of \gls{im} in \gls{drl} is presented.
+    Finally, this chapter is concluded with the classification of \gls{im} in gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply explored in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
+
+
+    \section{Natural Human Motivation}
 
     In a digression to psychology, \gls{im} is described as the natural propensity of humans to gather knowledge and assimilate.
     Furthermore, activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
@@ -939,31 +942,36 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Moreover, research pointed out that the quality of performance and experience is dependant on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
-    On the other side, \gls{em} motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses identifiable value.
-    Continuing with the previously made example on the pupils' motivation, for instance, it is the teachers job promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active form in order for the pupils to identify the action's value.
+    On the other side, \gls{em} motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value.
+    Continuing with the previously made example on the pupils' motivation, for instance, it is the teachers job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
+    By doing this, the pupils are more likely to identify the action's value such that they internalize the behaviour, allowing for an improved learning experience.
 
     Finally, \citeauthor{ryan_intrinsic_2000} add a third type of motivation to the taxonomy of natural human motivation, the so-called \textit{amotivation} which describes activities that are perceived as irrelevant.
-    Amotivation has different origins such as a feeling of incompetence to carry out a task, an action not yielding any value, or a desired outcome.
+    Amotivation has different origins such as a feeling of incompetence to carry out a task, an action not yielding any value, or any desired outcome.
     Therefore, the taxonomy of human motivation consists of three branches: amotivation, extrinsic motivation, and intrinsic motivation, ranging "\textit{from amotivation or unwillingness, to passive compliance, to active personal commitment. With increasing internalization (and its associated sense of personal commitment) come[s] greater persistence, more positive self-perceptions, and better quality of engagement.}"~\citep[\p{60f}]{ryan_intrinsic_2000}
 
-    With the help of \gls{im}, existing challenges of \gls{rl} such as the abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the very promising capabilities of \gls{nn}.
+
+    \section[The Role of IM in RL]{The Role of \gls{im} in \gls{rl}}
+
+    With the help of \gls{im}, existing challenges of \gls{rl} such as abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the very promising capabilities of \gls{nn}.
     As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in in settings where rewards are scattered.
     Furthermore, even in dense environments, the agent's learned behaviour is rather not reusable in similar or completely different tasks.
     This is due to the fact that an agent finds it very challenging to generalize obtained skills and thus is incapable of high-level decision making.
     For instance, \citeauthor{todorov_mujoco_2012} indicate that the abstract trajectory of a robot to open a door could be describe as low-level decisions of movements in four directions.
 
+    As earlier described, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
+    However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects an \gls{rl}-agent in an unknown environment.
+    For instance, in order for the baby to avoid hunger or thirst, it has to learn the consequences of its interactions.
+    Although, immediate needs might be satisfied for some time, the baby still continues to explore by conducting different experiments.
+    Questions on certain movements, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
+    Ultimately, this facilitates the baby's ability of prediction which allows for easier planning of movement trajectories.
+    Furthermore, the baby constantly strive to discover new effects, as it eventually gets bored by the things it understands, allowing it to learn very complex behaviour by building on previous gathered knowledge.
+    By following this simple algorithm of maximizing the internal joy of discovering or creating new patterns, eventually the baby might become a computer scientist~\citep{schmidhuber_formal_2010}.
+    Concerning \gls{rl}, this process allows an agent to autonomously gather new skills and knowledge which then facilitates the mastering of a novel task.
 
-    On another side, unlike RL, developmental learning is based on the trend that ba-bies, or more broadly organisms, have to spontaneouslyexplore their environment and acquire new skills
-
-    Thisis commonly called intrinsic motivation (IM), which canbe derived from an intrinsic reward. This kind of moti-vation allows to gain autonomously new knowledge andskills, which then makes the learning process of new taskseasier
-
-    %TODO use other literature introduction
+    Specifically, \gls{im} is used
 
     For several years now, IM is increasingly used in RL,fostered by important results and the emergence of deeplearning. This paradigm offers a greater learning flexibil-ity, through the use of a more general reward function,allowing to tackle the issues raised above when only anextrinsic reward is used. Typically, IM improves the agentability to explore its environment, to incrementally learnskills (options) independently of its main task, to choosean adequate skill to be improved and even to create arepresentation of its state with meaningful properties. Inaddition, as a consequence of its definition, IM does notrequire additional expert supervision, making it easilygeneralizable across environments.
-
-    4.2 Classification of the use of IM in RLOudeyer and Kaplan (2008) already proposed a classifica-tion of the different IMs where the two major models are ei-ther knowledge-based or competence-based. The first oneconsists of a comparison between agent’s predictions andreality, and the second one refers to the performance onself-generated goals. We propose a slightly different clas-sification to include skill abstraction and highlight skill ac-quisition. Our classification emphasizes two major kindsof IM in RL and is summarized in the Table 2.Knowledge acquisition: With this motivation, the agentstrives to find new knowledge about its environment.This knowledge can concern what it can/cannot con-trol, the functioning of the world, discovering newareas or understanding the sense of proximity. It isvery close to the knowledge-based classification ofOudeyer and Kaplan (2008). We will see that: 1- itcan improveexplorationin sparse rewards environ-ments, e.g. by computing an intrinsic reward basedon the novelty of the states or the information gain; 2-it can push the agent to maximize itsempowermentby rewarding the agent if it is heading towards areaswhere it controls its environment; 3- it can help theagent to learn a relevantstate representation.Skill learning: We define skill learning as the agent’sability to construct task-independent and reusableskills in an efficient way. There are two core com-ponents taking advantage of this motivation: one isabout the ability of an agent to learn arepresentationof diverse skillsin order to achieve them, the otherone is about wisely choosing the skills to learn withacurriculum. Thereby, unlike previous classifica-tions, we differentiate the motivation which builds theabstract meaning of a skill and the motivation whichchooses the skill.In figure 4, we summarize the relations between differentchallenges. For each relation, we refer to the appropriatesection in which we discuss this relation.Apart from our classification, some social motivations re-ward inequity or peace[Perolatet al., 2017; Hugheset al.,2018]. They deviate from the standard definition of an IMand are very specific to cooperative games. In this case, thereward is independent from the human, but still depends onthe feedback of another agent. Therefore, we will not detailthese works.In the next two sections, we review the state-of-the-art byfollowing the classification proposed in Table 2.
-
-    %TODO add table
 
 
     \section{Challenges}
@@ -973,6 +981,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Classification}
+    4.2 Classification of the use of IM in RLOudeyer and Kaplan (2008) already proposed a classifica-tion of the different IMs where the two major models are ei-ther knowledge-based or competence-based. The first oneconsists of a comparison between agent’s predictions andreality, and the second one refers to the performance onself-generated goals. We propose a slightly different clas-sification to include skill abstraction and highlight skill ac-quisition. Our classification emphasizes two major kindsof IM in RL and is summarized in the Table 2.Knowledge acquisition: With this motivation, the agentstrives to find new knowledge about its environment.This knowledge can concern what it can/cannot con-trol, the functioning of the world, discovering newareas or understanding the sense of proximity. It isvery close to the knowledge-based classification ofOudeyer and Kaplan (2008). We will see that: 1- itcan improveexplorationin sparse rewards environ-ments, e.g. by computing an intrinsic reward basedon the novelty of the states or the information gain; 2-it can push the agent to maximize itsempowermentby rewarding the agent if it is heading towards areaswhere it controls its environment; 3- it can help theagent to learn a relevantstate representation.Skill learning: We define skill learning as the agent’sability to construct task-independent and reusableskills in an efficient way. There are two core com-ponents taking advantage of this motivation: one isabout the ability of an agent to learn arepresentationof diverse skillsin order to achieve them, the otherone is about wisely choosing the skills to learn withacurriculum. Thereby, unlike previous classifica-tions, we differentiate the motivation which builds theabstract meaning of a skill and the motivation whichchooses the skill.In figure 4, we summarize the relations between differentchallenges. For each relation, we refer to the appropriatesection in which we discuss this relation.Apart from our classification, some social motivations re-ward inequity or peace[Perolatet al., 2017; Hugheset al.,2018]. They deviate from the standard definition of an IMand are very specific to cooperative games. In this case, thereward is independent from the human, but still depends onthe feedback of another agent. Therefore, we will not detailthese works.In the next two sections, we review the state-of-the-art byfollowing the classification proposed in Table 2.
+
+    %TODO add table
 
 
     \chapter{Exploration}\label{sec:state_of_the_art}
@@ -1003,7 +1014,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \glsresetall
 
 
-    \chapter{Implementation}
+    \chapter{Implementation}\label{ch:implementation}
     \citep{burda_large-scale_2018-1}
 
 
@@ -1018,7 +1029,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     %TODO Gridsearch
 
 
-    \section{Noizy-TV Problem}
+    \section{Noisy-TV Problem}
     \citep{schmidhuber_formal_2010}
 
     \glsresetall

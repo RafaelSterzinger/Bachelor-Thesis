@@ -191,6 +191,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item \textbf{State representation:} The agent does not manage to learn a representation of its observations with independent features or meaningful distance metrics.
         \item \textbf{Building option:} The agent is unable to learn abstract high-level decisions independently from the task.
         \item \textbf{Learning a curriculum:} The agent hardly defines a curriculum among its available goals without expert knowledge.
+        \label{enm:challenges}
     \end{itemize}
 
     Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
@@ -438,7 +439,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Temporal Difference Prediction}
     Besides \gls{dp} and \gls{mc} evaluation, \gls{td} prediction is among one of the three mentioned techniques, combining the advantages of the other two for value function predictions.
-    Firstly, it uses the benefit of bootstrapping offered by \gls{dp}~\citep{szepesvari_algorithms_2010}.
+    Firstly, it uses the benefit of bootstrapping offered by \gls{dp}~\citep[\p{18}]{szepesvari_algorithms_2010}.
     That is the usage of predictions of the value function as the target during the learning process.
     Secondly, \gls{td} prediction directly learns from raw experience in a similar way to \gls{mc} evaluation and thus it is model-free.
     However, it only awaits the reward of one time-step to form a target for the estimated value function $V$ instead of the every-visit \gls{mc} method which awaits the fully known return for the target before approximation~\citep{sutton_reinforcement_2018}.
@@ -516,7 +517,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha [R_{t+1} + \gamma \underset{a}{\text{max}} Q(S_{t+1},a) - Q(S_{t},A_{t}) ]
     \end{equation}
 
-    As it does not optimize for the current policy but directly for the optimal one, Q-learning is considered an off-policy method and the policies must no be interchanged~\citep{szepesvari_algorithms_2010}.
+    As it does not optimize for the current policy but directly for the optimal one, Q-learning is considered an off-policy method and the policies must no be interchanged~\citep[\p{57}]{szepesvari_algorithms_2010}.
 
     \begin{algorithm}
         \caption[Q-learning for estimating $\pi \approx \pi_*$]{Q-learning for estimating $\pi \approx \pi_*$\protect\footnotemark}
@@ -925,9 +926,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     With its roots deeply involved in psychology, \gls{im} was initially used due to the ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
     This phenomenon is based on a discovery from nature as animals were observed to engage in curiosity-driven, exploratory, and playful behaviour despite the fact that they would not obtain a reward or a reinforcement~\citep{white_motivation_1959}.
 
-    This chapter is started by introducing the psychological aspects of \gls{im} and is continued with the role of \gls{im} in the \gls{rl} framework.
-    Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out and the embedding of \gls{im} in \gls{drl} is presented.
-    Finally, this chapter is concluded with the classification of \gls{im} in gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply explored in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
+    This chapter is started by introducing the psychological aspects of \gls{im} as well as motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
+    Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges}), and the embedding of \gls{im} in \gls{drl} is presented.
+    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply explored in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
 
 
     \section{Natural Human Motivation}
@@ -953,28 +954,57 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section[The Role of IM in RL]{The Role of \gls{im} in \gls{rl}}
 
-    With the help of \gls{im}, existing challenges of \gls{rl} such as abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the very promising capabilities of \gls{nn}.
-    As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in in settings where rewards are scattered.
+    With the help of \gls{im}, existing challenges of \gls{rl} such as abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the promising capabilities of \gls{nn}.
+    As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in settings where rewards are scattered.
     Furthermore, even in dense environments, the agent's learned behaviour is rather not reusable in similar or completely different tasks.
     This is due to the fact that an agent finds it very challenging to generalize obtained skills and thus is incapable of high-level decision making.
-    For instance, \citeauthor{todorov_mujoco_2012} indicate that the abstract trajectory of a robot to open a door could be describe as low-level decisions of movements in four directions.
+    For instance, \citeauthor{todorov_mujoco_2012} indicate that such a high-level abstraction could be the trajectory of a robot to open a door which consists of low-level actions or rather movements in four directions.
 
     As earlier described, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
     However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects an \gls{rl}-agent in an unknown environment.
     For instance, in order for the baby to avoid hunger or thirst, it has to learn the consequences of its interactions.
     Although, immediate needs might be satisfied for some time, the baby still continues to explore by conducting different experiments.
-    Questions on certain movements, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
-    Ultimately, this facilitates the baby's ability of prediction which allows for easier planning of movement trajectories.
-    Furthermore, the baby constantly strive to discover new effects, as it eventually gets bored by the things it understands, allowing it to learn very complex behaviour by building on previous gathered knowledge.
+    Questions on certain movements of, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
+    Ultimately, this facilitates the baby's ability of prediction which allows for easier planning of actions.
+    Furthermore, the baby constantly strives to discover new effects, as it eventually gets bored by the things it already grasps, allowing it to learn very complex behaviour by building on previous gathered knowledge.
     By following this simple algorithm of maximizing the internal joy of discovering or creating new patterns, eventually the baby might become a computer scientist~\citep{schmidhuber_formal_2010}.
     Concerning \gls{rl}, this process allows an agent to autonomously gather new skills and knowledge which then facilitates the mastering of a novel task.
 
-    Specifically, \gls{im} is used
+    Besides the improved exploration, \gls{im} yields other benefits as well.
+    For instance, an agent can learn skills incrementally and independently while not being dependant on its given main task.
+    Furthermore, the agent can decide on which skill might be adequate for a certain task and thus improve them selectively and additionally it might as well come up with meaningful state representation.
+    This is all possible due to the broader intrinsic reward function and the fact that this spares the necessity of an additional expert or supervisor.
+    Therefore, making learning more flexible and \gls{rl} generalize more across different environments~\citep{aubret_survey_2019}.
 
-    For several years now, IM is increasingly used in RL,fostered by important results and the emergence of deeplearning. This paradigm offers a greater learning flexibil-ity, through the use of a more general reward function,allowing to tackle the issues raised above when only anextrinsic reward is used. Typically, IM improves the agentability to explore its environment, to incrementally learnskills (options) independently of its main task, to choosean adequate skill to be improved and even to create arepresentation of its state with meaningful properties. Inaddition, as a consequence of its definition, IM does notrequire additional expert supervision, making it easilygeneralizable across environments.
+    Additionally to the classification of subfields in \gls{ml} in section~\ref{sec:reinforcement-learning-problem}, \citeauthor{aubret_survey_2019} add a fourth field to the spectrum of learning types, differentiating between reinforced and intrinsically motivated learning (see Table~\ref{tab:type_learning}).
+    Therefore, a distinction is drawn depending on whether or not expert supervision is involved.
+
+    \begin{table}
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            & With \textit{feedback} & Without \textit{feedback} \\
+            \hline
+            Active  & Reinforcement          & Intrinsic motivation      \\
+            Passive & Supervised             & Unsupervised              \\
+            \hline
+        \end{tabular}
+        \caption[A taxonomy on the different types of learning]{A taxonomy on the different types of learning\protect\footnotemark}
+        \label{tab:type_learning}
+    \end{table}
+
+    \footnotetext{\citep[\p{4}]{aubret_survey_2019}}
 
 
     \section{Challenges}
+
+    \subsection{Sparse Rewards}
+
+    \subsection{Building a Good State Representation}
+
+    \subsection{Temporal Abstraction of Actions}
+
+    \subsection{Building a Curriculum}
 
 
     \section{Embedding}

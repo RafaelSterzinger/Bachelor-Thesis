@@ -1,9 +1,9 @@
 import os
-from decimal import Decimal
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
+
+from decimal import Decimal
 
 
 class Experiments(object):
@@ -139,8 +139,7 @@ def group_timeseries(list_of_xs, list_of_ys):
 def smooth(x, extent):
     from scipy import signal
     if extent is not 0:
-        return signal.savgol_filter(np.nan_to_num(x), extent,
-                                    3)  # TODO: change the smoothing back to 101 when all the datapoints are in
+        return signal.savgol_filter(np.nan_to_num(x), extent, 3)
     else:
         return np.nan_to_num(x)
 
@@ -205,8 +204,8 @@ labels = {
 }
 
 
-def generate_three_seed_graphs(three_seed_exps, y_series='eprew_recent', smoothen=51, alpha=1.0):
-    num_envs = len(three_seed_exps.grouped_experiments)
+def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, alpha=1.0, xlim=100):
+    num_envs = len(experiment.grouped_experiments)
     print(num_envs)
     fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
@@ -217,73 +216,30 @@ def generate_three_seed_graphs(three_seed_exps, y_series='eprew_recent', smoothe
         ax.tick_params(labelsize=7, pad=0.001)
         ax_with_plots = AxesWithPlots(ax)
         all_axes.append(ax_with_plots)
-        for method in three_seed_exps.grouped_experiments[env]:
+        for method in experiment.grouped_experiments[env]:
             if method != 'extrew':
                 print("generating graph ", env, method)
-                xs, ys = three_seed_exps.grouped_experiments[env][method].get_xs_ys(y_series)
+                xs, ys = experiment.grouped_experiments[env][method].get_xs_ys(y_series)
                 ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
                                            alpha=alpha)
-        ax_with_plots.finish_up(title=env)
-    # axes[1, 4].set_visible(False)
-    # fig.set_xlabel('Number of training steps (in millions)', fontsize=14)
-    # fig.set_ylabel('Extrinsic Rewards per Episode', fontsize=14)
+        ax_with_plots.finish_up(title=env, xlim=xlim)
+
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
-    # plt.tight_layout()
     fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
     fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
     fig.text(0.007, 0.5, 'Extrinsic Reward per Episode', va='center', rotation='vertical')
+
     save_filename = os.path.join(results_folder, '{}_{}.png'.format(envs[0], y_series))
     print("saving ", save_filename)
     plt.savefig(save_filename, dpi=300)
     plt.close()
 
 
-def generate_unitytv_graphs(unity_exps, y_series='eprew_recent', smoothen=51, alpha=1.0):
-    colors = {
-        'rf-TV0': 'seagreen',
-        'rf-TV2': 'cornflowerblue',
-        'idf-TV0': 'orange',
-        'idf-TV2': 'lightcoral'
-    }
-    labels = {
-        'rf-TV0': 'RF with TV off',
-        'rf-TV2': 'RF with TV on',
-        'idf-TV0': 'IDF with TV off',
-        'idf-TV2': 'IDF with TV on'
-    }
-    fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True)
-    ax = axes
-    envs = [env for env in unity_exps.grouped_experiments]
-    for env in envs:
-        # import ipdb; ipdb.set_trace()
-        ax.tick_params(labelsize=12, pad=0.001)
-        ax_with_plots = AxesWithPlots(ax)
-        for method in unity_exps.grouped_experiments[env]:
-            print("generating graph ", env, method)
-            xs, ys = unity_exps.grouped_experiments[env][method].get_xs_ys(y_series)
-            method = method + '-' + env[-3:]
-            ax_with_plots.add_std_plot(xs, ys, color=colors[method], label=labels[method], smoothen=smoothen,
-                                       alpha=alpha, clip=[0., 1.])
-        ax_with_plots.finish_up(title='Unity maze', fontsize=18)
-    ax.set_xlim([0, 8.5])
-    # fig.set_xlabel('Number of training steps (in millions)', fontsize=14)
-    # fig.set_ylabel('Extrinsic Rewards per Episode', fontsize=14)
-    plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.01, 0.01, 1, 0.925])
-    # plt.tight_layout()
-    fig.legend(borderaxespad=0., fontsize=12, loc='upper center', ncol=2)
-    fig.text(0.5, 0.01, 'Frames (millions)', ha='center', fontsize=18)
-    fig.text(0.007, 0.5, 'Extrinsic Reward per Episode', va='center', rotation='vertical', fontsize=18)
-    save_filename = os.path.join(results_folder, 'three_seeds_unitytv_{}.png'.format(y_series))
-    print("saving ", save_filename)
-    plt.savefig(save_filename, dpi=300)
-    plt.close()
-
-
 def main():
-    # Code for Figure-2
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    generate_three_seed_graphs(experiment, 'eprew_recent')
-    generate_three_seed_graphs(experiment, 'best_ext_ret', smoothen=False)
+    generate_three_seed_graph(experiment, 'eprew_recent', xlim=100)
+    generate_three_seed_graph(experiment, 'best_ext_ret', smoothen=False, xlim=100)
+    print('parsed')
 
 
 if __name__ == '__main__':

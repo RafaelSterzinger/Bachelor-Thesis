@@ -1,6 +1,6 @@
 #!/bin/sh
-INT_COEFF=0.1
-EXT_COEFF=0.9
+INT_COEFF=0
+EXT_COEFF=1
 SECONDS=0
 for ((j = 0; j < 3; j++)); do
   echo "START WITH SEED $j"

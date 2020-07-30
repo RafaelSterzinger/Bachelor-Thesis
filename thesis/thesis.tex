@@ -175,7 +175,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Problem Description}\label{sec:problem-description}
     In \gls{rl}, algorithms mainly depend on carefully designed extrinsic reward functions which are comparable with feedback to an agent's behaviour.
-    In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial-and-error.
+    In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial and error.
     This traditional approach yielded multiple astonishing results over the last decade.
     Tasks which award rewards densely, i.e.\ almost after every performed action, are common for these results.
     In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely in order for an agent to pick up the needed skills.
@@ -195,7 +195,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
     Knowledge acquisition is described as the agents motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
-    Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action-tuple.
+    Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action tuple.
     This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
     \\\\
     Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
@@ -210,15 +210,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In order to do so, coefficients $\alpha$ and $\beta$ have to be selected accordingly.
     \[r=\alpha r_{int} + \beta r_{ext}\]
     From that, an optimal solution to this equation maximizes the agent's overall reward when testing.
+    \\\\
     After a re-implementation of the proposed algorithms, the benchmarks are expected to at least match the mean rewards mentioned in the \textit{Additional Results} section from the underlying paper.
-    In this section, the authors explored the performance of combined rewards on five different Atari games and already showed that the combination of rewards yield a higher mean reward.
-    Therefore, an exhaustive hyper-parameter tuning should certainly improve these results.
+    In this section, the authors explored the performance of combined rewards on five different Atari games and already showed that the combination of rewards yield a higher mean reward and thus an exhaustive hyper-parameter tuning should certainly improve these results.
+    However, this poses the question on how algorithms with combined rewards perform in densely rewarding environments as well.
+    Therefore, it would be interesting to observe the performance in environments with dense rewards too since if there might be an improvement to see as well.
     \\\\
-    However, this raises the question on how the algorithm performs in comparison to comparable approaches such as the paper authored by~\cite{kim_emi_2019}.
-    In some of the previously mentioned hard games, e.g. \textit{Frostbite}, the authors achieved only a slightly higher mean score which might be beatable by combining rewards.
-    Optionally, it would be interesting to observe the performance in environments with dense rewards too since there might be an improvement to see as well.
-    \\\\
-    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction error based curiosity which was earlier introduced with the so called noisy-TV problem.
+    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction error based curiosity which was earlier introduced with the so-called noisy-TV problem.
     Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
     This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that \gls{em} has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
     \\\\
@@ -228,12 +226,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Methodological Approach}\label{sec:methodological-approach}
     In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
     Therefore, this Bachelor's thesis follows a programming approach which relies on the same tools used by the preceding authors, since it guarantees optimal reproducibility of their results.
-    In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
+    In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
     \\\\
     The development progress is structured into the following five mile stones:
 
     \begin{enumerate}
-        \item Setting-up of the environment, including the installation of the \textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
+        \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
         \item Implementing a Proximal Policy Optimization (PPO) algorithm according to~\cite{schulman_proximal_2017}, using extrinsic rewards
         \item Adding an Intrinsic Curiosity Module, published by~\cite{pathak_curiosity-driven_2017-1}, in order to allow for intrinsic rewards
         \item Tuning of the coefficients $\alpha,\beta$ and comparison to state of the art approaches
@@ -284,7 +282,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Markov Decision Processes}
-    In order to formalize the \gls{rl} problem, the idea and notation of a \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
+    In order to formalize the \gls{rl} problem, the idea and notation of an \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
     At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action in a given state, $A_t \in \mathit{A}(s)$.
     Sometimes this notation is simplified to $A_t \in \mathit{A}$ assuming that the action set $\mathit{A}$ does not depend on the state~\citep[\p{48}]{sutton_reinforcement_2018}.
     Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathit{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$~\eqref{fig:rl_problem}.
@@ -293,13 +291,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/rl_problem.png}
-        \caption[The \gls{rl} framework formalized as a \gls{mdp}]{The \gls{rl} framework formalized as a \gls{mdp}\protect\footnotemark}
+        \caption[The \gls{rl} framework formalized as an \gls{mdp}]{The \gls{rl} framework formalized as an \gls{mdp}\protect\footnotemark}
         \label{fig:rl_problem}
     \end{figure}
 
     \footnotetext{\cite[\p{48}]{sutton_reinforcement_2018}}
 
-    In a finite-horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathit{S},\mathit{A}\text{, and }\mathit{R}$ are limited~\citep{kaelbling_reinforcement_1996,sutton_reinforcement_2018}.
+    In a finite horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathit{S},\mathit{A}\text{, and }\mathit{R}$ are limited~\citep{kaelbling_reinforcement_1996,sutton_reinforcement_2018}.
     Furthermore, the possibility that the values $s'\in \mathit{S}$ and $r \in \mathit{R}$ may occur at a time-step $t+1$, can be described with a probability~\eqref{eq:distribution} solely depending on the action $a \in \mathit{A}(s)$ taken in a preceding state $s \in \mathit{S}$.
 
     \begin{equation}
@@ -307,7 +305,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     Since $p$ describes a probability, the sum over all possible combinations of $s$ and $a$ must be equal to 1.
-    Moreover, the individual probabilities of $p$ describe the dynamics of a \gls{mdp}.
+    Moreover, the individual probabilities of $p$ describe the dynamics of an \gls{mdp}.
     Observing this notation shows that the state $s$ must contain all the necessary information and must not depend on states preceding $s$.
     If this is the case, the state is called to have the Markov property~\eqref{eq:markov_property}~\citep{francois-lavet_introduction_2018}.
 
@@ -751,7 +749,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Multi Layer Neural Networks}
     Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
     Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep{aggarwal_neural_2018}.
-    However, the \gls{mlp} still is a feedforward network and the perceptron as well as the \gls{mlp} can both be denoted as a \textit{directed acyclic graph}.
+    However, the \gls{mlp} still is a feed-forward network and the perceptron as well as the \gls{mlp} can both be denoted as a \textit{directed acyclic graph}.
     The additional layers in an \gls{mlp} can be described as a composition of multiple functions, in opposition to a perceptron where the input is directly transmitted to the output layer.
     By composing the additional layers via chain like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
     For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep{goodfellow_deep_2016}.
@@ -927,10 +925,45 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}
-    The idea of including \gls{im} into the \gls{rl} framework has been around since the early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected~\citep{schmidhuber_formal_2010}.
-    However, by including \gls{im}
+    The idea of including \gls{im} into the \gls{rl} framework has been around since the early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected.
+    With its roots deeply involved in psychology, \gls{im} was initially used due to the ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
+    This phenomenon is based on a discovery from nature as animals were observed to engage in curiosity-driven, exploratory, and playful behaviour despite the fact that they would not obtain a reward or a reinforcement~\citep{white_motivation_1959}.
+
+    In a digression to psychology, \gls{im} is described as the natural propensity of humans to gather knowledge and assimilate.
+    Furthermore, activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
+    Therefore, the reward in \gls{im} relies in the activity itself.
+    In opposite to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
+    Motivation in general is very unique for different people~\citep{ryan_intrinsic_2000}.
+    Not only can it vary in the amount or rather the \textit{level of motivation} a person can have, but the \textit{orientation of motivation} can be different as well.
+    The question on the orientation of a person's motivation is very significant since e.g.\ pupils may be very motivated to excel in a subject out of curiosity (\gls{im}) or rather out of the possibility of achieving good grades (\gls{em}) which might yield further positive benefits for them or avoid sanctions.
+
+    Moreover, research pointed out that the quality of performance and experience is dependant on the kind of motivation propelling behaviour.
+    For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
+    On the other side, \gls{em} motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses identifiable value.
+    Continuing with the previously made example on the pupils' motivation, for instance, it is the teachers job promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active form in order for the pupils to identify the action's value.
+
+    Finally, \citeauthor{ryan_intrinsic_2000} add a third type of motivation to the taxonomy of natural human motivation, the so-called \textit{amotivation} which describes activities that are perceived as irrelevant.
+    Amotivation has different origins such as a feeling of incompetence to carry out a task, an action not yielding any value, or a desired outcome.
+    Therefore, the taxonomy of human motivation consists of three branches: amotivation, extrinsic motivation, and intrinsic motivation, ranging "\textit{from amotivation or unwillingness, to passive compliance, to active personal commitment. With increasing internalization (and its associated sense of personal commitment) come[s] greater persistence, more positive self-perceptions, and better quality of engagement.}"~\citep[\p{60f}]{ryan_intrinsic_2000}
+
+    With the help of \gls{im}, existing challenges of \gls{rl} such as the abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the very promising capabilities of \gls{nn}.
+    As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in in settings where rewards are scattered.
+    Furthermore, even in dense environments, the agent's learned behaviour is rather not reusable in similar or completely different tasks.
+    This is due to the fact that an agent finds it very challenging to generalize obtained skills and thus is incapable of high-level decision making.
+    For instance, \citeauthor{todorov_mujoco_2012} indicate that the abstract trajectory of a robot to open a door could be describe as low-level decisions of movements in four directions.
 
 
+    On another side, unlike RL, developmental learning is based on the trend that ba-bies, or more broadly organisms, have to spontaneouslyexplore their environment and acquire new skills
+
+    Thisis commonly called intrinsic motivation (IM), which canbe derived from an intrinsic reward. This kind of moti-vation allows to gain autonomously new knowledge andskills, which then makes the learning process of new taskseasier
+
+    %TODO use other literature introduction
+
+    For several years now, IM is increasingly used in RL,fostered by important results and the emergence of deeplearning. This paradigm offers a greater learning flexibil-ity, through the use of a more general reward function,allowing to tackle the issues raised above when only anextrinsic reward is used. Typically, IM improves the agentability to explore its environment, to incrementally learnskills (options) independently of its main task, to choosean adequate skill to be improved and even to create arepresentation of its state with meaningful properties. Inaddition, as a consequence of its definition, IM does notrequire additional expert supervision, making it easilygeneralizable across environments.
+
+    4.2 Classification of the use of IM in RLOudeyer and Kaplan (2008) already proposed a classifica-tion of the different IMs where the two major models are ei-ther knowledge-based or competence-based. The first oneconsists of a comparison between agent’s predictions andreality, and the second one refers to the performance onself-generated goals. We propose a slightly different clas-sification to include skill abstraction and highlight skill ac-quisition. Our classification emphasizes two major kindsof IM in RL and is summarized in the Table 2.Knowledge acquisition: With this motivation, the agentstrives to find new knowledge about its environment.This knowledge can concern what it can/cannot con-trol, the functioning of the world, discovering newareas or understanding the sense of proximity. It isvery close to the knowledge-based classification ofOudeyer and Kaplan (2008). We will see that: 1- itcan improveexplorationin sparse rewards environ-ments, e.g. by computing an intrinsic reward basedon the novelty of the states or the information gain; 2-it can push the agent to maximize itsempowermentby rewarding the agent if it is heading towards areaswhere it controls its environment; 3- it can help theagent to learn a relevantstate representation.Skill learning: We define skill learning as the agent’sability to construct task-independent and reusableskills in an efficient way. There are two core com-ponents taking advantage of this motivation: one isabout the ability of an agent to learn arepresentationof diverse skillsin order to achieve them, the otherone is about wisely choosing the skills to learn withacurriculum. Thereby, unlike previous classifica-tions, we differentiate the motivation which builds theabstract meaning of a skill and the motivation whichchooses the skill.In figure 4, we summarize the relations between differentchallenges. For each relation, we refer to the appropriatesection in which we discuss this relation.Apart from our classification, some social motivations re-ward inequity or peace[Perolatet al., 2017; Hugheset al.,2018]. They deviate from the standard definition of an IMand are very specific to cooperative games. In this case, thereward is independent from the human, but still depends onthe feedback of another agent. Therefore, we will not detailthese works.In the next two sections, we review the state-of-the-art byfollowing the classification proposed in Table 2.
+
+    %TODO add table
 
 
     \section{Challenges}
@@ -1015,12 +1048,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \printindex
 
 % Add a glossary.
-    \printglossaries
+    % \printglossaries
 
 % Add a bibliography.
-    \bibliographystyle{apalike}
+    \bibliographystyle{abbrvnat}
     \bibliography{core}
 
-    \bibliographystyleOnline{apalike}
+    \bibliographystyleOnline{abbrvnat}
     \bibliographyOnline{online}
 \end{document}

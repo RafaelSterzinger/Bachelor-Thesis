@@ -169,8 +169,8 @@ class AxesWithPlots(object):
 
         self.max_xs.append(x[-1])
 
-    def finish_up(self, title, fontsize=8, xlim=400, tight_y=True):
-        self.ax.set_xlim([0, min(xlim, max(*self.max_xs))])
+    def finish_up(self, title, fontsize=8, xlim=300, tight_y=True):
+        self.ax.set_xlim([0, xlim])
         self.ax.set_title(title, fontsize=fontsize)
         self.ax.autoscale(enable=True, axis='y', tight=tight_y)
 
@@ -210,7 +210,7 @@ def generate_three_seed_graphs(three_seed_exps, y_series='eprew_recent', smoothe
     print(num_envs)
     fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
-    envs = ['Freeway']
+    envs = ['Breakout']
     # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
 
     for env, ax in zip(envs, np.ravel(axes)):
@@ -287,6 +287,6 @@ def main():
 
 
 if __name__ == '__main__':
-    results_folder = '../../test/FreewayFINAL'
+    results_folder = '../../test/BreakoutFINAL'
     os.chdir(results_folder)
     main()

@@ -259,7 +259,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Reinforcement Learning Problem}\label{sec:reinforcement-learning-problem}
-    Reinforcement Learning, the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective~\citep{sutton_reinforcement_2018}.
+    Reinforcement Learning, the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective~\citep[\p{1f}]{sutton_reinforcement_2018}.
     \gls{rl} problems are tackled by a learner or rather an \textit{agent} that performs actions in an \textit{environment} in a trial and error paradigm.
     The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to maximize the amount of obtainable rewards.
     An additional difficulty is added if the reward for an action is delayed because the agent has to understand which of the executed actions actually led to the desirable reward it received far ahead in the future.
@@ -271,7 +271,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This measurement is interesting because there could be an action which leads to a high immediate reward but results in an undesirable state with no future rewards.
     Furthermore, the agent should pick up a \textit{policy} that consists of state-action tuples which should be refined and adjusted depending on the received rewards.
     Lastly, the agent may want to build a \textit{model} which estimates the environment's behaviour, in order to plan its actions in advance.
-    This final addition divides the \gls{rl} problem spectrum into two parts: model-free and model-based approaches~\citep{sutton_reinforcement_2018}.
+    This final addition divides the \gls{rl} problem spectrum into two parts: model-free and model-based approaches~\citep[6f]{sutton_reinforcement_2018}.
 
 
     In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
@@ -279,7 +279,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of its supervisor which is another reason why it must be able to learn from its own experiences~\citepOnline{silver_lecture_2015-2}.
     Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
     However, this is not applicable for \gls{rl} as the agent has to maximize a reward function and not to find structure in data.
-    Therefore, \citeauthor{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
+    Therefore, \citet[\p{2}]{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
 
 
     \section{Markov Decision Processes}
@@ -298,7 +298,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \footnotetext{\cite[\p{48}]{sutton_reinforcement_2018}}
 
-    In a finite horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathit{S},\mathit{A}\text{, and }\mathit{R}$ are limited~\citep{kaelbling_reinforcement_1996,sutton_reinforcement_2018}.
+    In a finite horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathit{S},\mathit{A}\text{, and }\mathit{R}$ are limited~\citep[\p{47f}]{sutton_reinforcement_2018,kaelbling_reinforcement_1996}.
     Furthermore, the possibility that the values $s'\in \mathit{S}$ and $r \in \mathit{R}$ may occur at a time-step $t+1$, can be described with a probability~\eqref{eq:distribution} solely depending on the action $a \in \mathit{A}(s)$ taken in a preceding state $s \in \mathit{S}$.
 
     \begin{equation}
@@ -325,7 +325,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step $R_t$ are used to formalize a goal which the agent should pursue.
-    This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep{sutton_reinforcement_2018}.
+    This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep[\p{53}]{sutton_reinforcement_2018}.
 
     Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final time-step.
 
@@ -340,7 +340,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Sometimes, this separation of episodes might not be as clear and the limit of the sequence is infinite.
     This is called a \textit{continuing task}, in contrast to \textit{episodic tasks} where $T$ is finite.
     Therefore, if the agent acts in an environment with a continuing task, optimizing the equation~\eqref{eq:sum_of_rewards} might not be finite.
-    This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$ which avoids infinite rewards~\citep{sutton_reinforcement_2018}.
+    This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$ which avoids infinite rewards~\citep[\p{54f}]{sutton_reinforcement_2018}.
     Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\eqref{eq:discounted_reward}.
 
     \begin{equation}
@@ -372,7 +372,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The policy is improved by adjusting the value functions $v_\pi$ and $q_\pi$ through the agent's obtained experience.
     Since \gls{rl} aims to solve a given objective by maximizing rewards, it implicitly goes along with optimizing the agent's policy.
     If a policy $\pi$ achieves a higher value than a different policy $\pi'$, which also implies that $v_\pi(s) \geq v_{\pi'}(s), \forall s \in \mathit{S}$, then the two policies can be ordered partially, with $\pi \geq \pi'$.
-    However, there can be multiple policies performing equally well~\citep{sutton_reinforcement_2018} and for any \gls{mdp} the following theorem holds true~\citepOnline[\p{43}]{silver_lecture_2015-1}:
+    However, there can be multiple policies performing equally well~\citep[\p{62f}]{sutton_reinforcement_2018} and for any \gls{mdp} the following theorem holds true~\citepOnline[\p{43}]{silver_lecture_2015-1}:
 
     \begin{itemize}
         \item There exists an optimal policy $\pi_*$ that is better than or equal to all other policies, $\pi_* \geq \pi, \forall\pi$
@@ -415,7 +415,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \end{aligned}
     \end{equation}
 
-    The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep{sutton_reinforcement_2018} which can be directly solved due to its linearity.
+    The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
     However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citepOnline{silver_lecture_2015-1}.
 
     For larger \glspl{mdp} exist multiple iterative solutions as for example:
@@ -442,8 +442,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Firstly, it uses the benefit of bootstrapping offered by \gls{dp}~\citep[\p{18}]{szepesvari_algorithms_2010}.
     That is the usage of predictions of the value function as the target during the learning process.
     Secondly, \gls{td} prediction directly learns from raw experience in a similar way to \gls{mc} evaluation and thus it is model-free.
-    However, it only awaits the reward of one time-step to form a target for the estimated value function $V$ instead of the every-visit \gls{mc} method which awaits the fully known return for the target before approximation~\citep{sutton_reinforcement_2018}.
-    %p. 120
+    However, it only awaits the reward of one time-step to form a target for the estimated value function $V$ instead of the every-visit \gls{mc} method which awaits the fully known return for the target before approximation~\citep[\p{120}]{sutton_reinforcement_2018}.
 
     \begin{equation}
         \begin{aligned}[t]
@@ -475,7 +474,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha [R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_{t},A_{t}) ]
     \end{equation}
 
-    At each transition between the state-action tuple, the values $S_{t},A_{t},R_{t+1},S_{t+1},A_{t+1}$ are included in the optimization process, eponymous for SARSA~\citep{sutton_reinforcement_2018}.
+    At each transition between the state-action tuple, the values $S_{t},A_{t},R_{t+1},S_{t+1},A_{t+1}$ are included in the optimization process, eponymous for SARSA~\citep[\p{129}]{sutton_reinforcement_2018}.
     Under the assumption that every state-action tuple is visited infinite times and that new policies are created greedily with respect to the current action-value function, SARSA is guaranteed to converge to the optimal action-value value function and thus to the optimal policy.
 
     \begin{algorithm}

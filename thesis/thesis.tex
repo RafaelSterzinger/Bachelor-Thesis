@@ -921,7 +921,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}\label{ch:intrinsic-motivation-in-reinforcement-learning}
-    The idea of including \gls{im} into the \gls{rl} framework has been around since the early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected.
+    The idea of including \gls{im} into the \gls{rl} framework has been around since early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected.
     With its roots deeply involved in psychology, \gls{im} was initially used due to the ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
     This phenomenon is based on a discovery from nature as animals were observed to engage in curiosity-driven, exploratory, and playful behaviour despite the fact that they would not obtain a reward or a reinforcement~\citep{white_motivation_1959}.
 
@@ -934,9 +934,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In a digression to psychology, \gls{im} is described as the natural propensity of humans to gather knowledge and assimilate.
     Furthermore, activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
-    Therefore, the reward in \gls{im} relies in the activity itself.
+    Therefore, the reward in \gls{im} relies on the activity itself.
     In opposite to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
-    Motivation in general is very unique for different people~\citep{ryan_intrinsic_2000}.
+    Motivation, in general, is very unique for different people~\citep{ryan_intrinsic_2000}.
     Not only can it vary in the amount or rather the \textit{level of motivation} a person can have, but the \textit{orientation of motivation} can be different as well.
     The question on the orientation of a person's motivation is very significant since e.g.\ pupils may be very motivated to excel in a subject out of curiosity (\gls{im}) or rather out of the possibility of achieving good grades (\gls{em}) which might yield further positive benefits for them or avoid sanctions.
 
@@ -1065,13 +1065,31 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Embedding}
 
+    In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
+
+
+
+
+     Agent-environment interactions in reinforcement learning; adapted
+from [3]. Left panel: Primary reward is supplied to the agent from its
+environment. Right panel: A refinement in which the environment is factored
+into and internal and external environment, with all reward coming form the
+former.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}
+        \caption[Adapting the classic \gls{rl} framework to incorporate \gls{im}]{Adapting the classic \gls{rl} framework to incorporate \gls{im}\protect\footnotemark}
+        \label{fig:adapted_rl_framework}
+    \end{figure}
+
+    \footnotetext{\citep[\p{2}]{singh_intrinsically_2010}}
 
     \section{Classification}
     4.2 Classification of the use of IM in RLOudeyer and Kaplan (2008) already proposed a classifica-tion of the different IMs where the two major models are ei-ther knowledge-based or competence-based. The first oneconsists of a comparison between agent’s predictions andreality, and the second one refers to the performance onself-generated goals. We propose a slightly different clas-sification to include skill abstraction and highlight skill ac-quisition. Our classification emphasizes two major kindsof IM in RL and is summarized in the Table 2.Knowledge acquisition: With this motivation, the agentstrives to find new knowledge about its environment.This knowledge can concern what it can/cannot con-trol, the functioning of the world, discovering newareas or understanding the sense of proximity. It isvery close to the knowledge-based classification ofOudeyer and Kaplan (2008). We will see that: 1- itcan improveexplorationin sparse rewards environ-ments, e.g. by computing an intrinsic reward basedon the novelty of the states or the information gain; 2-it can push the agent to maximize itsempowermentby rewarding the agent if it is heading towards areaswhere it controls its environment; 3- it can help theagent to learn a relevantstate representation.Skill learning: We define skill learning as the agent’sability to construct task-independent and reusableskills in an efficient way. There are two core com-ponents taking advantage of this motivation: one isabout the ability of an agent to learn arepresentationof diverse skillsin order to achieve them, the otherone is about wisely choosing the skills to learn withacurriculum. Thereby, unlike previous classifica-tions, we differentiate the motivation which builds theabstract meaning of a skill and the motivation whichchooses the skill.In figure 4, we summarize the relations between differentchallenges. For each relation, we refer to the appropriatesection in which we discuss this relation.Apart from our classification, some social motivations re-ward inequity or peace[Perolatet al., 2017; Hugheset al.,2018]. They deviate from the standard definition of an IMand are very specific to cooperative games. In this case, thereward is independent from the human, but still depends onthe feedback of another agent. Therefore, we will not detailthese works.In the next two sections, we review the state-of-the-art byfollowing the classification proposed in Table 2.
 
     % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
-\begin{table}[]
+\begin{table}[h]
 \begin{tabular}{|l|ll}
 \cline{1-1} \cline{3-3}
 \multicolumn{1}{|c|}{\textbf{Knowledge Acquisition}}                                                                                                       & \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{\textbf{Skill Learning}}                                                                                                                                   \\ \cline{1-1} \cline{3-3}

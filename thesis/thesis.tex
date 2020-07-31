@@ -178,12 +178,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial and error.
     This traditional approach yielded multiple astonishing results over the last decade.
     Tasks which award rewards densely, i.e.\ almost after every performed action, are common for these results.
-    In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely in order for an agent to pick up the needed skills.
+    In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely for an agent to pick up the needed skills.
     An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
     \\\\
     An approach to tackle these problems is curiosity, an organism's \gls{im} to spontaneously explore its environment.
     \gls{im} allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore a more general reward function.
-    In general, the concept of intrinsic and extrinsic evolves around the question on why an agent performed a certain action in a given state.
+    In general, the concept of intrinsic and extrinsic evolves around the question of why an agent performed a certain action in a given state.
     Since \gls{im} became an important part of \gls{rl}, the following challenges were crystallized out by~\cite[\p{6}]{aubret_survey_2019}:
 
     \begin{itemize}
@@ -195,33 +195,33 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{itemize}
 
     Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
-    Knowledge acquisition is described as the agents motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
-    Concerning exploration, one approach is error prediction which is the agents difficulty to predict the state following a state-action tuple.
+    Knowledge acquisition is described as the agent's motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
+    Concerning exploration, one approach is error prediction which is the agent's difficulty to predict the state following a state-action tuple.
     This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
     \\\\
     Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
     Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
-    The noisy-TV problem, also known as the white-noise problem, is an algorithms inability to handle the local stochasticity of the environment: "\textit{\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}"\cite[\p{10}]{aubret_survey_2019}
+    The noisy-TV problem, also known as the white-noise problem, is an algorithm's inability to handle the local stochasticity of the environment: "\textit{\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}"\cite[\p{10}]{aubret_survey_2019}
     \\\\
     The domain of the given problem description is \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
 
     \section{Expected Results}\label{sec:expected-results}
     As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of~\citeauthor{burda_large-scale_2018-1} and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
-    In order to do so, coefficients $\alpha$ and $\beta$ have to be selected accordingly.
+    In order to do so, the coefficients $\alpha$ and $\beta$ have to be selected accordingly.
     \[r=\alpha r_{int} + \beta r_{ext}\]
     From that, an optimal solution to this equation maximizes the agent's overall reward when testing.
     \\\\
     After a re-implementation of the proposed algorithms, the benchmarks are expected to at least match the mean rewards mentioned in the \textit{Additional Results} section from the underlying paper.
-    In this section, the authors explored the performance of combined rewards on five different Atari games and already showed that the combination of rewards yield a higher mean reward and thus an exhaustive hyper-parameter tuning should certainly improve these results.
-    However, this poses the question on how algorithms with combined rewards perform in densely rewarding environments as well.
+    In this section, the authors explored the performance of combined rewards on five different Atari games and already showed that the combination of rewards yield a higher mean reward and thus an exhaustive hyperparameter tuning should certainly improve these results.
+    However, this poses the question of how algorithms with combined rewards perform in densely rewarding environments as well.
     Therefore, it would be interesting to observe the performance in environments with dense rewards too since if there might be an improvement to see as well.
     \\\\
     In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction error based curiosity which was earlier introduced with the so-called noisy-TV problem.
     Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
     This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that \gls{em} has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
     \\\\
-    With the given prospect to beat state of the art approaches to environments with sparse rewards and evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
+    With the given prospect to beat state-of-the-art approaches to environments with sparse rewards and evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
 
 
     \section{Methodological Approach}\label{sec:methodological-approach}
@@ -229,22 +229,21 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Therefore, this Bachelor's thesis follows a programming approach which relies on the same tools used by the preceding authors, since it guarantees optimal reproducibility of their results.
     In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
     \\\\
-    The development progress is structured into the following five mile stones:
+    The development progress is structured into the following five milestones:
 
     \begin{enumerate}
         \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
         \item Implementing a Proximal Policy Optimization (PPO) algorithm according to~\cite{schulman_proximal_2017}, using extrinsic rewards
         \item Adding an Intrinsic Curiosity Module, published by~\cite{pathak_curiosity-driven_2017-1}, in order to allow for intrinsic rewards
-        \item Tuning of the coefficients $\alpha,\beta$ and comparison to state of the art approaches
+        \item Tuning of the coefficients $\alpha,\beta$ and comparison to state-of-the-art approaches
         \item Recreation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
 
-    During this incremental process, an emphasise is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge} and \textit{Freeway}.
+    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge} and \textit{Freeway}.
     \\\\
-    % Eventually add VAE
-    Regarding mile stone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
-    Concerning mile stone four and the comparison to state of the art approaches, chapter~\ref{sec:state_of_the_art} of this thesis allows for a current in-depth overview on methods based on knowledge acquisition via exploration.
-    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by an exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018-1}.
+    Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
+    Concerning milestone four and the comparison to state-of-the-art approaches, chapter~\ref{sec:state_of_the_art} of this thesis allows for a current in-depth overview of methods based on knowledge acquisition via exploration.
+    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018-1}.
 
 
     \section{Thesis Outline}\label{sec:thesis-outline}
@@ -261,25 +260,25 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Reinforcement Learning Problem}\label{sec:reinforcement-learning-problem}
     Reinforcement Learning, the science of decision making, is about learning the consequences of performed actions and using this knowledge to maximize a numeric \textit{reward signal} which should direct the search for a given objective~\citep[\p{1f}]{sutton_reinforcement_2018}.
     \gls{rl} problems are tackled by a learner or rather an \textit{agent} that performs actions in an \textit{environment} in a trial and error paradigm.
-    The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to maximize the amount of obtainable rewards.
-    An additional difficulty is added if the reward for an action is delayed because the agent has to understand which of the executed actions actually led to the desirable reward it received far ahead in the future.
+    The agent has no prior knowledge of the consequences of the possible actions but has to explore which action to take in a certain situation to maximize the number of obtainable rewards.
+    An additional difficulty is added if the reward for an action is delayed because the agent has to understand which of the executed actions led to the desirable reward it received far ahead in the future.
     Lastly, a proper weighting between exploration and exploitation has to be developed as the agent must exploit actions with known consequences to perform well but also explore new ones in order to improve~\citep{kaelbling_reinforcement_1996}.
 
-    In addition to the aforementioned environment, agent, and reward signal, \gls{rl} consists of further subelements since it would be desirable e.g. not only to know the immediate reward but also to gain a measurement for all possible future rewards from a given state onward.
+    In addition to the aforementioned environment, agent, and reward signal, \gls{rl} consists of further subelements since it would be desirable e.g. not only to know the immediate reward but also to gain measurement for all possible future rewards from a given state onward.
     For this purpose, a \textit{value function} is used.
     It acts as a long-term indicator that describes the attractiveness of a state an agent might result in after interacting with its environment.
     This measurement is interesting because there could be an action which leads to a high immediate reward but results in an undesirable state with no future rewards.
     Furthermore, the agent should pick up a \textit{policy} that consists of state-action tuples which should be refined and adjusted depending on the received rewards.
-    Lastly, the agent may want to build a \textit{model} which estimates the environment's behaviour, in order to plan its actions in advance.
+    Lastly, the agent may want to build a \textit{model} which estimates the environment's behaviour, in order to plan its actions.
     This final addition divides the \gls{rl} problem spectrum into two parts: model-free and model-based approaches~\citep[6f]{sutton_reinforcement_2018}.
 
 
-    In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its own policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
+    In opposite to other known \gls{ml} disciplines such as \textit{supervised learning}, there is no supervisor in \gls{rl} that explicitly tells the agent which action would be correct in a given state and because of that, the agent has to come up with its policy based on the repeated feedback it receives from the immediate reward and the following state~\citep{kaelbling_reinforcement_1996}.
     This spares the necessity of creating a training dataset with corresponding state-action tuples beforehand and thus \gls{rl} is the preferred choice in cases where an agent interacts with and influences its environment.
     Furthermore, teaching based on supervision would also mean that an agent will be limited to the labelling ability of its supervisor which is another reason why it must be able to learn from its own experiences~\citepOnline{silver_lecture_2015-2}.
     Since \gls{rl} is quite distinct from supervised learning and does not rely on labelled examples, it is sometimes misclassified as \textit{unsupervised learning} which has the purpose to find structure in unlabelled data.
     However, this is not applicable for \gls{rl} as the agent has to maximize a reward function and not to find structure in data.
-    Therefore, \citet[\p{2}]{sutton_reinforcement_2018} classified \gls{rl}  as a third subfield of \gls{ml}.
+    Therefore, \citet[\p{2}]{sutton_reinforcement_2018} classified \gls{rl} as the third subfield of \gls{ml}.
 
 
     \section{Markov Decision Processes}
@@ -325,7 +324,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step $R_t$ are used to formalize a goal which the agent should pursue.
-    This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized by means of a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep[\p{53}]{sutton_reinforcement_2018}.
+    This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized through a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep[\p{53}]{sutton_reinforcement_2018}.
 
     Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final time-step.
 
@@ -334,7 +333,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     However, this notation is only applicable if an environment has an identifiable terminal state.
-    When this state is reached, it breaks for instance a game sequence into multiple ones where each one is called an episode.
+    When this state is reached, it breaks, for instance, a game sequence into multiple ones where each one is called an episode.
     No matter how the agent reached the final state, the environment will reset and start over with a default initial state.
 
     Sometimes, this separation of episodes might not be as clear and the limit of the sequence is infinite.
@@ -415,7 +414,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \end{aligned}
     \end{equation}
 
-    The above mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
+    The above-mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
     However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citepOnline{silver_lecture_2015-1}.
 
     For larger \glspl{mdp} exist multiple iterative solutions as for example:
@@ -429,7 +428,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In that sense, it is a method that aims at solving complex problems by breaking them down into manageable subproblems.
 
     All of the three above mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
-    As for \gls{dp}, an iterative process is is used.
+    As for \gls{dp}, an iterative process is used.
     This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\eqref{eq:optimal} which updates the policy~\citepOnline{silver_lecture_2015}.
 
 
@@ -452,11 +451,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     The parameter $\alpha$ is a constant which defines the step-size of each adjustment to the value function.
-    The two equations express the above mentioned differences certainly well:
+    The two equations express the above-mentioned differences certainly well:
 
     \begin{quote}
         "Whereas Monte Carlo methods must wait until the end of the episode to determine the increment to $V(S_t)$ (only then is $G_t$ known), TD methods need to wait only until the next time-step.
-        At time $t + 1$ they immediately form a target and make a useful update using the observed reward $R_{t+1}$ and the estimate $V(S_{t+1})$."
+        At time $t + 1$, they immediately form a target and make a useful update using the observed reward $R_{t+1}$ and the estimate $V(S_{t+1})$."
 
         \hfill~\cite[\p{120}]{sutton_reinforcement_2018}
     \end{quote}
@@ -509,7 +508,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Q-Learning (Off-Policy)}\label{subsec:q-learningnulloff-policynull}
 
-    Another control algorithm which is build upon the idea of \gls{td} is Q-learning which aims to directly estimate the optimal action-value function $q_*$.
+    Another control algorithm which is built upon the idea of \gls{td} is Q-learning which aims to directly estimate the optimal action-value function $q_*$.
     As denoted by \citeauthor{watkins_q-learning_1992}, the following calculation is used to update the action-value function $Q$.
 
     \begin{equation}
@@ -579,24 +578,24 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
 
-    In summary, the utilization of policy gradient based methods gain four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
+    In summary, the utilization of policy gradient-based methods gain four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
 
     \begin{enumerate}
-        \item The parametrization of the policy under the usage of softmax for defining action preferences, allows for the approximation of deterministic policies.
-        Action-value based methods which select actions with an $\epsilon\text{-greedy}$ approach on the other hand must always leave the option open for a random action to be selected, with probability $\epsilon$.
+        \item The parametrization of the policy under the usage of softmax for defining action preferences allows for the approximation of deterministic policies.
+        Action-value based methods which select actions with an $\epsilon\text{-greedy}$ approach, on the other hand, must always leave the option open for a random action to be selected, with probability $\epsilon$.
         Therefore, these methods cannot approach a deterministic policy.
         Even if the selection of actions with respect to action-value tuples is based on the softmax distribution as well, the policy would not approach a deterministic one.
         Rather, it would converge to the action-value tuples' true values which results in values differing the probabilities 0 and 1.
         \item In comparison to the previous advantage, it furthermore allows for arbitrary action selection which may be useful in certain types of tasks.
         For instance, playing the game of rock, paper, scissors with a deterministic policy, e.g.\ always selecting rock, the strategy would be easily exploitable.
-        In this case, a stochastic, uniform random policy, which does not allow for predictions, is much better suited ~\citepOnline{silver_lecture_2015-3}.
+        In this case, a stochastic, uniform random policy, which does not allow for predictions, is much better-suited ~\citepOnline{silver_lecture_2015-3}.
         \item In certain situations, it might be more efficient to parameterize the policy instead of the action-value parametrization as the approximation of policies could be less complex.
         %TODO ref to image of breakout
         For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout} from one point onward when moving left might be very difficult.
         However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citepOnline{silver_lecture_2015-3}.
         In these situations, policy-based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
         \item Lastly, the initial configuration of a policy's parameters enables the possibility to supply an agent with prior knowledge about an optimal policy.
-        Based on this property, this is usually the main reason why policy based methods are taken into consideration.
+        Based on this property, this is usually the main reason why policy-based methods are taken into consideration.
     \end{enumerate}
 
     \glsresetall
@@ -610,7 +609,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathit{S}$ is intangible which is also known as the curse of dimensionality~\citep[\p{151}]{goodfellow_deep_2016}.
     That is because each frame consists of thousands of pixels and each of these pixels can accept various values ranging from 0 to 255.
     To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to their capability of estimating very complex functions such as the value function for a high dimensional state-space.
-    By combining these techniques the field of \gls{drl} emerged which enables superhuman-like problem solving skills~\citep{francois-lavet_introduction_2018}.
+    By combining these techniques the field of \gls{drl} emerged which enables superhuman-like problem-solving skills~\citep{francois-lavet_introduction_2018}.
 
     Instead of presenting right away adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
     Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
@@ -621,7 +620,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     As many ideas presented in this thesis, \gls{nn} are also inspired by nature as its structure is a resemblance of the human brain.
-    The name already indicates that a \gls{nn} is composed by \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
+    The name already indicates that a \gls{nn} is composed of \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
     Additional connections between axons and dendrites, called \textit{synapses}, define how important a transferred signal between them is.
     Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting of the signal~\citep[\p{1f}]{aggarwal_neural_2018}.
     This idea of representation was introduced by \citeauthor{mcculloch_logical_1943} who started with a simple model which was later on adapted and improved by \citeauthor{rosenblatt_perceptron_1957}~\citep[\p{167}]{awad_deep_2015}.
@@ -638,7 +637,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In its simplest form, this \gls{nn} is called a \textit{perceptron} or \textit{feed-forward network}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
     In this form, the \gls{nn} allows for a generalized variation of a linear function.
     A general perceptron is of the form $(\bar{\boldsymbol{X}},y)$, where $\bar{\boldsymbol{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
-    The observed value stands for a numerical scalar used for a regression problem, e.g. predicting the price of a house given some numerical input variables such as the amount of rooms and square meters.
+    The observed value stands for a numerical scalar used for a regression problem, e.g. predicting the price of a house given some numerical input variables such as the number of rooms and square meters.
     In the case of classification, this perceptron allows for binary classification where the observed value is $y$ $\in [-1,+1]$.
     For instance, this can be used to predict whether or not a credit-card transaction was fraudulent given the amount and frequency of the transaction.
     Given the input values $\bar{\boldsymbol{X}}$ and the weights $\bar{\boldsymbol{W}}=[w_0,w_1,\ldots,w_d]$, a result of a linear function is calculated by the following prediction:
@@ -648,7 +647,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     Finally, a prediction $\hat{y}$ for $y$, based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result making usage of an \textit{activation function}.
-    In the case of classification the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
+    In the case of classification, the \textit{sign activation function} is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
     After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\boldsymbol{X}}) = y - \hat{y}$~\citep[\p{5ff}]{aggarwal_neural_2018}.
     If the error $E(\bar{\boldsymbol{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction for the next time.
     By optimizing the error function or \textit{loss function}, the classification error is reduced.
@@ -659,12 +658,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     The parameter $\alpha$ is the \textit{learning rate} which defines how large the updates to the weights should be.
-    A large value of $\alpha$ allows for faster convergence to a local optima with the accompanying risk of never reaching one at all.
+    A large value of $\alpha$ allows for faster convergence to a local optimum with the accompanying risk of never reaching one at all.
     On the other hand, a small value steadily approaches the optima but takes longer.
 
 
     As the perceptron represents a linear function, it must not only learn the slope but also the intercept, the invariant part.
-    The intercept value is also called \textit{bias} and is especially necessary in scenarios where all the features are centered around the mean and the values of the target class are not centered around the origin~\citep[\p{6}]{aggarwal_neural_2018}.
+    The intercept value is also called \textit{bias} and is especially necessary in scenarios where all the features are centred around the mean and the values of the target class are not centred around the origin~\citep[\p{6}]{aggarwal_neural_2018}.
     To solve this issue, the bias variable is introduced to the perceptron as an additional neuron and an extra weight which is adjusted during the error optimization process.
     This additional neuron solely has the purpose to feed the scalar 1 to the output node and by refining the weight in between, the intercept value is learned.
     By incorporating the bias neuron, the following equation emerges:
@@ -675,7 +674,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Activation Functions}
     In general, activation functions play an important role in \glspl{nn} as they define the output values of neurons.
-    However, they are especially significant for \glspl{mlp} as they determine the modeling power of the network.
+    However, they are especially significant for \glspl{mlp} as they determine the modelling power of the network.
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep[\p{13}]{aggarwal_neural_2018}.
 
     Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in figure~\ref{fig:activation_functions}.
@@ -690,7 +689,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/various_activation_functions.png}
-        \caption[Various activation functions and their relation between the domain and the codomain]{Various activation functions and their relation between the domain and the codomain\protect\footnotemark}
+        \caption[Various activation functions and their relationship between the domain and the codomain]{Various activation functions and their relationship between the domain and the codomain\protect\footnotemark}
         \label{fig:activation_functions}
     \end{figure}
 
@@ -710,7 +709,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \subsection{Loss Functions}\label{subsec:loss-functions}
     In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ has been introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep[\p{15}]{aggarwal_neural_2018}.
-    For instance, regression tasks modeled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
+    For instance, regression tasks modelled by \glspl{nn} with an identity activation function commonly use the \textit{squared loss} $(y - \hat{y})^2$ as an error measurement.
     In the case of classification tasks with multiple class labels, output values are normally activated employing the \textit{softmax activation function}~\citep[\p{78}]{goodfellow_deep_2016}, with $\boldsymbol{v}$ being the $n$ pre-activated output values.
 
     \[
@@ -721,7 +720,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Since the output of the softmax function is a vector of probabilities instead of a scalar value, a different loss function is needed as well.
     Additionally, classification tasks can have binary or categorical/multiple targets which further define and differentiate which loss function will be used.
 
-    For binary targets different combinations of activation and loss functions can be utilized to obtain the same result for prediction.
+    For binary targets, different combinations of activation and loss functions can be utilized to obtain the same result for prediction.
     For example, binary targets are classified by means of \textit{logistic regression} which makes usage of the identity activation function to predict $\hat{y}$.
     A loss function for this prediction is defined by the following equation:
 
@@ -746,13 +745,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Multi Layer Neural Networks}
     Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
     Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep[\p{17}]{aggarwal_neural_2018}.
-    However, the \gls{mlp} still is a feed-forward network and the perceptron as well as the \gls{mlp} can both be denoted as a \textit{directed acyclic graph}.
+    However, the \gls{mlp} still is a feed-forward network and the perceptron, as well as the \gls{mlp}, can both be denoted as a \textit{directed acyclic graph}.
     The additional layers in an \gls{mlp} can be described as a composition of multiple functions, in opposition to a perceptron where the input is directly transmitted to the output layer.
-    By composing the additional layers via chain like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
+    By composing the additional layers via chain-like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
     For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep[\p{163f}]{goodfellow_deep_2016}.
 
     The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
-    As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability of chaining multiple functions enable the approximation of a complex value function in a high dimensional state-space.
+    As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability to chain multiple functions enable the approximation of a complex value function in a high dimensional state-space.
 
     \begin{figure}[h]
         \vspace{0.5cm}
@@ -787,17 +786,17 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{itemize}
         \item Video games are a classical example where \gls{drl} excelled over the course of the last few years.
         Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithms are applied, receiving only the raw pixels as an input.
-        Based on the pixels, a state representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
+        Based on the pixels, a state-representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
         This procedure is equivalent to the traditional \gls{rl} approach known from chapter~\ref{ch:reinforcement-learning-background}.
-        However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent is able to surpass humans in these games~\citep{mnih_playing_2013,schulman_trust_2015}.
-        Furthermore, the reason why video games are so popular even in modern \gls{rl} is because they function as simulations of real life microcosms that are perfectly suitable for testing algorithms before being applied in the real world.
+        However, it is now applied to a much richer state-space and thanks to \gls{dl}, the agent can surpass humans in these games~\citep{mnih_playing_2013,schulman_trust_2015}.
+        Furthermore, the reason why video games are so popular even in modern \gls{rl} is that they function as simulations of real-life microcosms that are perfectly suitable for testing algorithms before being applied in the real world.
 
-        \item   Another very famous breakthrough occurred in 2016, when an algorithm by the name \textit{AlphaGo}~\citep{silver_mastering_2017} defeated the top-ranked players in the board game Go.
-        The reason why this event was so remarkable is because Go is a very complex game and being good at it takes a lot of human-like intuition.
+        \item   Another very famous breakthrough occurred in 2016 when an algorithm by the name \textit{AlphaGo}~\citep{silver_mastering_2017} defeated the top-ranked players in the board game Go.
+        The reason why this event was so remarkable is that Go is a very complex game and being good at it takes a lot of human-like intuition.
         Additionally, the state space is very large when compared to other board games such as e.g. chess.
         However, it was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against another version of itself.
 
-        \item   \gls{drl} is also considered viable option for self-driving cars.
+        \item   \gls{drl} is also considered a viable option for self-driving cars.
         Although a more common approach to this problem is the utilization of supervised learning, the usage of various car sensors for decision making allows these automated cars to have a lower error rate when compared to humans.
         \item   Another important domain where \gls{drl} plays a key factor is the creation of self-learning robots.
         Here, the difficulty relies on teaching a robot basic human-like motions such as walking.
@@ -865,7 +864,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Moreover, the minimum of the equation~\ref{eq:ppo_clip} functions as a lower bound for the objective~\ref{eq:trpo_optimization}.
 
     Referring to the results of \citeauthor{francois-lavet_introduction_2018} where the authors tried different surrogate objectives on seven environments with three different seeds, clipping the objective~\eqref{eq:ppo_clip} with an $\epsilon=0.2$ resulted in the best normalized, averaged score of 0.82.
-    By using different $\epsilon \in [0.1,0.3]$ the score varies between $[0.70,0.82]$ whereas KL-penalized objectives achieved scores between $[0.62,0.72]$ and a non clipped and penalized objective~\eqref{eq:no_clip_no_penalty} performed the worst with an average score of $-0.39$~\citep[see Table 1]{francois-lavet_introduction_2018}.
+    By using different $\epsilon \in [0.1,0.3]$, the score varies between $[0.70,0.82]$ whereas KL-penalized objectives achieved scores between $[0.62,0.72]$ and a non clipped and penalized objective~\eqref{eq:no_clip_no_penalty} performed the worst with an average score of $-0.39$~\citep[see Table 1]{francois-lavet_introduction_2018}.
 
     When comparing \gls{ppo} algorithms to similar approaches such as \gls{trpo}, \citeauthor{francois-lavet_introduction_2018} list the following advantages:
 
@@ -885,13 +884,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In this equation, $S$ is the bonus in form of an entropy, $L_t^{VF}$ denotes the squared-error loss $(V_\theta(s_t)-V_t^{\text{targ}})^2$ and $c_1,c_2$ are coefficients which control the influence of these two terms.
     Implementing and optimizing the objective~\ref{eq:ppo_objective} is carried out by following the policy and collecting samples of interactions with the environment for $T$ time-steps.
     The gathered data is then used to apply an update to~\ref{eq:ppo_objective}.
-    Additionally, the advantage function needed for objective~\ref{eq:ppo_clip} is approximated by an estimator which only considers $T$ time-steps with an index $t\in [0,T]$ as well and is denoted as follows:
+    Additionally, the advantage function, needed for objective~\ref{eq:ppo_clip}, is approximated by an estimator which only considers $T$ time-steps with an index $t\in [0,T]$ as well and is denoted as follows:
 
     \begin{equation}
         \hat{A}_t=-V(s_t)+r_t+\gamma r_{t+1} + \dots + \gamma^{T-t+1}r_{T-1} + \gamma^{T-t}V(s_T)\label{eq:advantage_estimator}
     \end{equation}
 
-    The \gls{ppo} algorithm shown below~\eqref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
+    The \gls{ppo} algorithm, shown below~\eqref{alg:ppo}, puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
     \newpage
     \begin{algorithm}
         \caption[\gls{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
@@ -943,7 +942,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Moreover, research pointed out that the quality of performance and experience is dependant on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
     On the other side, \gls{em} motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value.
-    Continuing with the previously made example on the pupils' motivation, for instance, it is the teachers job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
+    Continuing with the previously made example on the pupils' motivation, for instance, it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
     By doing this, the pupils are more likely to identify the action's value such that they internalize the behaviour, allowing for an improved learning experience.
 
     Finally, \citeauthor{ryan_intrinsic_2000} add a third type of motivation to the taxonomy of natural human motivation, the so-called \textit{amotivation} which describes activities that are perceived as irrelevant.
@@ -962,11 +961,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     As earlier described, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
     However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects an \gls{rl}-agent in an unknown environment.
     For instance, in order for the baby to avoid hunger or thirst, it has to learn the consequences of its interactions.
-    Although, immediate needs might be satisfied for some time, the baby still continues to explore by conducting different experiments.
+    Although immediate needs might be satisfied for some time, the baby continues to explore by conducting different experiments.
     Questions on certain movements of, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
     Ultimately, this facilitates the baby's ability of prediction which allows for easier planning of actions.
-    Furthermore, the baby constantly strives to discover new effects, as it eventually gets bored by the things it already grasps, allowing it to learn very complex behaviour by building on previous gathered knowledge.
-    By following this simple algorithm of maximizing the internal joy of discovering or creating new patterns, eventually the baby might become a computer scientist~\citep{schmidhuber_formal_2010}.
+    Furthermore, the baby constantly strives to discover new effects, as it eventually gets bored by the things it already grasps, allowing it to learn very complex behaviour by building on previously gathered knowledge.
+    By following this simple algorithm of maximizing the internal joy of discovering or creating new patterns, eventually, the baby might become a computer scientist~\citep{schmidhuber_formal_2010}.
     Concerning \gls{rl}, this process allows an agent to autonomously gather new skills and knowledge which then facilitates the mastering of a novel task.
 
     Besides the improved exploration, \gls{im} yields other benefits as well.
@@ -1000,13 +999,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \subsection{Sparse Rewards}
 
     As noticed in section~\ref{sec:problem-description}, traditional \gls{rl} algorithms perform best in environments which reward the agent densely.
-    By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add a \textit{Gaussian noise} to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
+    By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add \textit{Gaussian noise} to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
     However, even these improved exploration methods are incapable to achieve a good performance in sparsely rewarding settings such as \textit{Montezuma's Revenge} which is a typical benchmark for such environments.
     In order for the agent to receive a reward in this game, it has to collect different items such as keys and use them to open doors.
-    These event occur rather rarely and thus the agent does not receive an immediate feedback concerning the impact of its performed action (e.g.\ moving in a certain direction).
+    These events occur rather rarely and thus the agent does not receive immediate feedback concerning the impact of its performed action (e.g.\ moving in a certain direction).
     Therefore, it is not uncommon that an agent never reaches such a reward, preventing the creation of a good policy~\citep{aubret_survey_2019}.
 
-    This issue can be tackled by shaping a task specific, intermediary function which rewards densely.
+    This issue can be tackled by shaping a task-specific, intermediary function which rewards densely.
     Hence, additional rewards are created which should point the agent in the right direction.
     Although this approach might work out well, this is usually not the case as in order to craft this function, very high expert knowledge is needed to carefully design this rewarding system.
     Yet, these function commonly yield many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the rewarding system.
@@ -1015,18 +1014,18 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     According to \citeauthor{bohmer_autonomous_2015}, a good state representation allows for good generalization, is low-dimensional, should represent values of a policy truthfully, and be markovian.
     By employing a good representation, the agent's learning process can be considerably accelerated.
-    For instance, considering a navigation task, is makes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly creating solely the need to check the distance between itself and the target.
+    For instance, considering a navigation task, it makes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly creating solely the need to check the distance between itself and the target.
 
     Normally, a state representation can be build using expert knowledge of a specific domain.
     However, not task-specific, hence generic, priors can be used as well with the benefit that these priors can be learned by representation-learning algorithms, creating disentangled, minimal feature spaces~\cite{bengio_representation_2014}.
     In traditional \gls{rl}, the problem of learning a good state representation is exacerbated as in order for the agent to improve, it depends on optimizing the reward signal via backpropagation, thus depending on receiving rewards densely.
     With the additional possible obstacle of noise in the raw state representation, the agent will learn nothing from the interactions it made in a sparse rewarding environment, although they might be rich in information.
     Moreover, even if the agent learns a state representation based on a reward signal, the representation will not generalize across different tasks.
-    Hence, \gls{im} is a key component as this learned state representation is independent from the actual task and therefore generalizable~\citep{aubret_survey_2019}.
+    Hence, \gls{im} is a key component as this learned state representation is independent of the actual task and therefore generalizable~\citep{aubret_survey_2019}.
 
     \subsection{Temporal Abstraction of Actions}
 
-    In temporal abstraction of actions, a sequence of low-level actions is summarized with a so-called \textit{intra-option policy} that is referenced to a high-level action.
+    In the temporal abstraction of actions, a sequence of low-level actions is summarized with a so-called \textit{intra-option policy} that is referenced to a high-level action.
     Therefore, a high-level action or a so-called option consists of multiple low-level actions or rather other options.
     By choosing an option in a certain state, the intra-option policy defines which low-level actions must be carried out in each subsequent state until the high-level action is completely carried out.
     Furthermore, the sequence length of these actions is usually fixed~\citep{aubret_survey_2019}.
@@ -1038,7 +1037,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         "[L]et us assume that a robot is trying to reach a cake on a table which is far from the robot.
         If the robot has an option \texttt{get to the table} and follows it, the robot will then only have to take the cake to be rewarded.
         Then it will be easy to associate the acquisition of the cake (the reward) to the option \texttt{get to the table}.
-        In contrast, if the robot has to learn to handle each of its joints (low-level or primitives actions), it will be difficult to determine which action is responsible of the acquisition of the cake, among all executed actions."
+        In contrast, if the robot has to learn to handle each of its joints (low-level or primitives actions), it will be difficult to determine which action is responsible for the acquisition of the cake, among all executed actions."
 
         \hfill~\cite[\p{5f}]{aubret_survey_2019}
     \end{quote}
@@ -1046,18 +1045,18 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Another benefit of temporal abstractions of actions is that they allow for better exploration.
     Similarly to the previously made example, an exploration task can easily be combined to an option enabling it to immediately receive a reward and therefore "making a sparse reward function dense".
     In order to obtain such an intra-option policy, there are two options: define it manually using expert knowledge or learn it using a reward function.
-    However, the latter has the problem that the learned options are not generalizable across multiple task and hence are useless for exploration tasks~\citep{aubret_survey_2019}.
+    However, the latter has the problem that the learned options are not generalizable across multiple tasks and hence are useless for exploration tasks~\citep{aubret_survey_2019}.
     Similar to the problem of~\nameref{subsec:building-a-good-state-representation}, by using \gls{im} this challenge can be tackled.
 
     \subsection{Building a Curriculum}
     The challenge of building a curriculum is concerned with structuring tasks in a multi-task \gls{rl} scenario, a scenario where an agent has to solve multiple tasks at once.
     In such scenarios, a so-called curriculum is employed that acts as a schedule defining the order in which different tasks should be solved.
-    This idea stems from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitates mastering more difficult ones~\citep{aubret_survey_2019}.
+    This idea stems from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitate mastering more difficult ones~\citep{aubret_survey_2019}.
 
     For instance, a general task for an agent could be that it has to store objects such as cubes in boxes.
     However, this task can be divided in subtasks such as grabbing the cube and then putting it into a box.
     By splitting up this task into the two subtasks, the agent can take advantage of the prior learnt skill of grabbing a cube for the task of storing it in a box.
-    Without this differentiation, the agent might be unable to ever fulfill the general task as it would took the agent a long list of subsequent actions or rather joint movements to succeed.
+    Without this differentiation, the agent might be unable to ever fulfil the general task as it would take the agent a long list of subsequent actions or rather joint movements to succeed.
 
     Usually, standard methods for decomposing a general task mostly rely on export knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue.
     Not only does this speed up the learning process but also facilitate exploration.

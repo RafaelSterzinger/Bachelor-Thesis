@@ -25,6 +25,23 @@
 \usepackage{amsfonts}
 \usepackage{multibib}
 \usepackage{bm}
+\definecolor{tab:green}{RGB}{0,128,0}
+\definecolor{tab:red}{RGB}{214,39,32}
+\definecolor{tab:orange}{RGB}{255,127,0}
+\definecolor{tab:blue}{RGB}{31,119,176}
+\definecolor{tab:purple}{RGB}{148,103,176}
+
+\usepackage{soul}
+\usepackage[outline]{contour}
+\DeclareRobustCommand{\colorindicator}[2]{ {%
+  \begingroup%
+  \setul{0.25ex}{0.4ex}%
+  \contourlength{0.2ex}%
+  \setulcolor{#1}%
+\ul{{\phantom{#2}}}\llap{\contour{white}{#2}} %
+%  \ul{{\phantom{#2}}}\llap{\contour{white}{#2}} \textcolor{#1}{\tiny{$\blacksquare$}}%
+  \endgroup%
+}}
 
 \newcites{Online}{Non-Scientific Bibliography}
 
@@ -1169,6 +1186,35 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Results}
 
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}
+       \begin{scriptsize}
+            \vspace{0.2cm}
+                   \begin{tabular}{|lcc|}
+                       \hline
+                       & &  \\
+                 \textbf{Extrinsic Only:} & & \colorindicator{tab:green}{INT=0.00, EXT=1.00}\\
+        \textbf{Random Features:} & \colorindicator{tab:red}{INT=1.0, EXT=0.0} & \colorindicator{tab:orange}{INT=0.43, EXT=0.57}\\
+                   \textbf{Inverse Dynamic Features:} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0} & \colorindicator{tab:purple}{INT=0.43, EXT=0.57}\\
+                  & &  \\
+                       \hline
+            \end{tabular}
+
+        \end{scriptsize}
+        \def\arraystretch{1.3}
+        \begin{scriptsize}
+                   \begin{tabular}{|ccc|}
+                       \hline
+                        \textbf{Random Features} & \textbf{Extrinsic Only} & \textbf{Inverse Dynamic Features}\\
+                       \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} &\colorindicator{tab:green}{INT=0.0, EXT=1.0}  & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57}\\
+                       \hline
+            \end{tabular}
+
+        \end{scriptsize} \caption{This is a test for the caption}
+
+
+    \end{figure}
 
     \glsresetall
 

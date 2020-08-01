@@ -194,7 +194,7 @@ def add_experiment_params(parser):
 
     # DEFAULT VALUE = 1e8
     # AMOUNT FOR FINAL EVALUATION = 1e8/4
-    parser.add_argument('--num_timesteps', type=int, default=int(1e8/2))
+    parser.add_argument('--num_timesteps', type=int, default=int(1e8))
 
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
@@ -214,9 +214,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     int_coeff = args.__dict__["int_coeff"]
     ext_coeff = args.__dict__["ext_coeff"]
-    EXPERIMENT_NAME = f"Breakout_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    EXPERIMENT_NAME = f"MontezumaRevenge_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
 
     args.__setattr__("dir",
-                     f"/home/rafael/Documents/experiments/BreakoutFINAL/{EXPERIMENT_NAME}")
+                     f"/home/rafael/Documents/experiments/MontezumaRevengeFINALLONG/{EXPERIMENT_NAME}")
 
     start_experiment(**args.__dict__)

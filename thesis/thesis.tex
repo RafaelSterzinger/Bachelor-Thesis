@@ -281,7 +281,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Therefore, \citet[\p{2}]{sutton_reinforcement_2018} classified \gls{rl} as the third subfield of \gls{ml}.
 
 
-    \section{Markov Decision Processes}
+    \section{Markov Decision Processes}\label{sec:markov-decision-processes}
     In order to formalize the \gls{rl} problem, the idea and notation of an \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
     At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathit{S}$, of the environment and selects an available action in a given state, $A_t \in \mathit{A}(s)$.
     Sometimes this notation is simplified to $A_t \in \mathit{A}$ assuming that the action set $\mathit{A}$ does not depend on the state~\citep[\p{48}]{sutton_reinforcement_2018}.
@@ -1062,18 +1062,17 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Not only does this speed up the learning process but also facilitate exploration.
 
 
-    \section{Embedding}
+    \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}
 
     In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
+    The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
+    Additionally, the representation of the \gls{rl} framework as an \gls{mdp} is reconsidered as well.
+    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and the internal part calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
 
+    The newly adapted \gls{rl} framework can be observed in figure~\ref{fig:adapted_rl_framework}.
+    Here, the critic describes the part which computes the reward in either way and assigns the credit to the made actions and additionally the state now includes sensations optionally combined with the agent's performed actions.
+    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinement where all rewards come from the internal part~\citep{singh_intrinsically_2010}.
 
-
-
-     Agent-environment interactions in reinforcement learning; adapted
-from [3]. Left panel: Primary reward is supplied to the agent from its
-environment. Right panel: A refinement in which the environment is factored
-into and internal and external environment, with all reward coming form the
-former.
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}
@@ -1083,12 +1082,20 @@ former.
 
     \footnotetext{\citep[\p{2}]{singh_intrinsically_2010}}
 
-    \section{Classification}
-    4.2 Classification of the use of IM in RLOudeyer and Kaplan (2008) already proposed a classifica-tion of the different IMs where the two major models are ei-ther knowledge-based or competence-based. The first oneconsists of a comparison between agent’s predictions andreality, and the second one refers to the performance onself-generated goals. We propose a slightly different clas-sification to include skill abstraction and highlight skill ac-quisition. Our classification emphasizes two major kindsof IM in RL and is summarized in the Table 2.Knowledge acquisition: With this motivation, the agentstrives to find new knowledge about its environment.This knowledge can concern what it can/cannot con-trol, the functioning of the world, discovering newareas or understanding the sense of proximity. It isvery close to the knowledge-based classification ofOudeyer and Kaplan (2008). We will see that: 1- itcan improveexplorationin sparse rewards environ-ments, e.g. by computing an intrinsic reward basedon the novelty of the states or the information gain; 2-it can push the agent to maximize itsempowermentby rewarding the agent if it is heading towards areaswhere it controls its environment; 3- it can help theagent to learn a relevantstate representation.Skill learning: We define skill learning as the agent’sability to construct task-independent and reusableskills in an efficient way. There are two core com-ponents taking advantage of this motivation: one isabout the ability of an agent to learn arepresentationof diverse skillsin order to achieve them, the otherone is about wisely choosing the skills to learn withacurriculum. Thereby, unlike previous classifica-tions, we differentiate the motivation which builds theabstract meaning of a skill and the motivation whichchooses the skill.In figure 4, we summarize the relations between differentchallenges. For each relation, we refer to the appropriatesection in which we discuss this relation.Apart from our classification, some social motivations re-ward inequity or peace[Perolatet al., 2017; Hugheset al.,2018]. They deviate from the standard definition of an IMand are very specific to cooperative games. In this case, thereward is independent from the human, but still depends onthe feedback of another agent. Therefore, we will not detailthese works.In the next two sections, we review the state-of-the-art byfollowing the classification proposed in Table 2.
+    One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill that allows the agent to easily acquire other behaviour.
+    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour making the adapted framework more efficient in serving assigned goals when compared to the traditional one.
 
-    % Please add the following required packages to your document preamble:
-% \usepackage{multirow}
+    When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
+    The most common approach it to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$ which weigh the two signals depending on how important either one should be to the agent.
+    As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
+    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}.
+
+    \section{Classification}
+
 \begin{table}[h]
+    \vspace{0.5cm}
+    \begin{adjustwidth}{-2in}{-2in}
+        \begin{center}
 \begin{tabular}{|l|ll}
 \cline{1-1} \cline{3-3}
 \multicolumn{1}{|c|}{\textbf{Knowledge Acquisition}}                                                                                                       & \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{\textbf{Skill Learning}}                                                                                                                                   \\ \cline{1-1} \cline{3-3}
@@ -1102,8 +1109,10 @@ former.
 \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}State space as a measure of distance\\ One feature for one object of interaction\end{tabular}}                  &                       &                                                                                                                                                                                \\
                                                                                                                                                            &                       &                                                                                                                                                                                \\ \cline{1-1}
 \end{tabular}
-    \caption[Classification of the use of \glspl{im} in \gls{drl}]{Classification of the use of \glspl{im} in \gls{drl}\protect\footnotemark}
-    \label{tab:clasification_im_drl}
+        \end{center}
+    \end{adjustwidth}
+        \caption[Classification of the use of \glspl{im} in \gls{drl}]{Classification of the use of \glspl{im} in \gls{drl}\protect\footnotemark}
+        \label{tab:clasification_im_drl}
 \end{table}
 
 

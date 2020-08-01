@@ -651,7 +651,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \footnotetext{\url{https://cs231n.github.io/neural-networks-1/}}
 
-    In its simplest form, this \gls{nn} is called a \textit{perceptron} or \textit{feed-forward network}, with one input layer and one output node, see figure~\ref{fig:neuron_model}.
+    In its simplest form, this \gls{nn} is called a \textit{perceptron} or \textit{feed-forward network}, with one input layer and one output node, see Figure~\ref{fig:neuron_model}.
     In this form, the \gls{nn} allows for a generalized variation of a linear function.
     A general perceptron is of the form $(\bar{\boldsymbol{X}},y)$, where $\bar{\boldsymbol{X}}=[x_0,x_1,\ldots,x_d]$ are the \textit{input variables} in vector notation and $y \in \mathbb{R}$  represents the \textit{observed value}.
     The observed value stands for a numerical scalar used for a regression problem, e.g. predicting the price of a house given some numerical input variables such as the number of rooms and square meters.
@@ -694,7 +694,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, they are especially significant for \glspl{mlp} as they determine the modelling power of the network.
     By using nonlinear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep[\p{13}]{aggarwal_neural_2018}.
 
-    Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in figure~\ref{fig:activation_functions}.
+    Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in Figure~\ref{fig:activation_functions}.
     As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
     Furthermore, to enable the evaluation of the certitude of a \gls{nn}, the \textit{sigmoid activation function} is employed instead.
     Using this function allows for a mapping of the pre-activated value to a range between $[0,1]$, enabling an estimation of the network's certainty.
@@ -782,7 +782,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
     In detail, the XOR functions takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
     This described behaviour is also known as the target function $f^*(\bar{\boldsymbol{X}})$ of the XOR function the \gls{nn} should approximate.
-    Observing figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
+    Observing Figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
     Applying the model learned by the perceptron to the left, the original space, an approximated linear function cannot separate these values and thus would not be able to return the correct $y$.
     This is also known under the term of \textit{linear separability}.
     However, after transforming the original space with the help of a hidden layer and a nonlinear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep[\p{166ff}; \p{32ff}]{goodfellow_deep_2016,aggarwal_neural_2018}.
@@ -824,7 +824,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of these accomplishments are based on different \gls{drl} approaches.
     However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis.
-    Therefore, solely an overview is provided by figure~\ref{fig:drl_taxonomy} and solely \gls{ppo} is introduced.
+    Therefore, solely an overview is provided by Figure~\ref{fig:drl_taxonomy} and solely \gls{ppo} is introduced.
     For further information, the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
 
     \begin{figure}[h]
@@ -938,11 +938,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}\label{ch:intrinsic-motivation-in-reinforcement-learning}
     The idea of including \gls{im} into the \gls{rl} framework has been around since early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected.
-    With its roots deeply involved in psychology, \gls{im} was initially used due to the ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
+    With its roots deeply involved in psychology, \gls{im} was initially used due to its ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
     This phenomenon is based on a discovery from nature as animals were observed to engage in curiosity-driven, exploratory, and playful behaviour despite the fact that they would not obtain a reward or a reinforcement~\citep{white_motivation_1959}.
 
-    This chapter is started by introducing the psychological aspects of \gls{im} as well as motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
-    Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges}), and the embedding of \gls{im} in \gls{drl} is presented.
+    This chapter is started by introducing the psychological aspects of \gls{im} as well as the term motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
+    Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges} for a summary), and the embedding of \gls{im} in \gls{rl} is presented.
     Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply explored in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
 
 
@@ -958,7 +958,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Moreover, research pointed out that the quality of performance and experience is dependant on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
-    On the other side, \gls{em} motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value.
+    On the other side, extrinsic motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value.
     Continuing with the previously made example on the pupils' motivation, for instance, it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
     By doing this, the pupils are more likely to identify the action's value such that they internalize the behaviour, allowing for an improved learning experience.
 
@@ -971,7 +971,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     With the help of \gls{im}, existing challenges of \gls{rl} such as abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the promising capabilities of \gls{nn}.
     As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in settings where rewards are scattered.
-    Furthermore, even in dense environments, the agent's learned behaviour is rather not reusable in similar or completely different tasks.
+    Furthermore, even in dense environments, the agent's learned behaviour is rather not reusable in similar as well as in completely different tasks.
     This is due to the fact that an agent finds it very challenging to generalize obtained skills and thus is incapable of high-level decision making.
     For instance, \citeauthor{todorov_mujoco_2012} indicate that such a high-level abstraction could be the trajectory of a robot to open a door which consists of low-level actions or rather movements in four directions.
 
@@ -987,12 +987,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Besides the improved exploration, \gls{im} yields other benefits as well.
     For instance, an agent can learn skills incrementally and independently while not being dependant on its given main task.
-    Furthermore, the agent can decide on which skill might be adequate for a certain task and thus improve them selectively and additionally it might as well come up with meaningful state representation.
-    This is all possible due to the broader intrinsic reward function and the fact that this spares the necessity of an additional expert or supervisor.
-    Therefore, making learning more flexible and \gls{rl} generalize more across different environments~\citep{aubret_survey_2019}.
+    Furthermore, the agent can decide on which skill might be adequate for a certain task and thus improve them selectively and additionally it might as well come up with a meaningful state representation.
+    This is all possible due to the broader intrinsic reward function and the fact that this spares the necessity of an expert or supervisor.
+    Therefore, making learning more flexible and \gls{rl} to generalize more across different environments~\citep{aubret_survey_2019}.
 
     Additionally to the classification of subfields in \gls{ml} in section~\ref{sec:reinforcement-learning-problem}, \citeauthor{aubret_survey_2019} add a fourth field to the spectrum of learning types, differentiating between reinforced and intrinsically motivated learning (see Table~\ref{tab:type_learning}).
-    Therefore, a distinction is drawn depending on whether or not expert supervision is involved that gives feedback.
+    Therefore, a distinction is drawn depending on whether or not expert supervision is involved which gives feedback.
 
     \begin{table}
         \centering
@@ -1013,19 +1013,19 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Challenges}
 
-    \subsection{Sparse Rewards}
+    \subsection{Sparse Rewards}\label{subsec:sparse-rewards}
 
     As noticed in section~\ref{sec:problem-description}, traditional \gls{rl} algorithms perform best in environments which reward the agent densely.
     By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add \textit{Gaussian noise} to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
     However, even these improved exploration methods are incapable to achieve a good performance in sparsely rewarding settings such as \textit{Montezuma's Revenge} which is a typical benchmark for such environments.
     In order for the agent to receive a reward in this game, it has to collect different items such as keys and use them to open doors.
-    These events occur rather rarely and thus the agent does not receive immediate feedback concerning the impact of its performed action (e.g.\ moving in a certain direction).
+    These events occur rather rarely and thus the agent does not receive immediate feedback concerning the impact of its performed actions, e.g.\ moving in a certain direction.
     Therefore, it is not uncommon that an agent never reaches such a reward, preventing the creation of a good policy~\citep{aubret_survey_2019}.
 
     This issue can be tackled by shaping a task-specific, intermediary function which rewards densely.
     Hence, additional rewards are created which should point the agent in the right direction.
-    Although this approach might work out well, this is usually not the case as in order to craft this function, very high expert knowledge is needed to carefully design this rewarding system.
-    Yet, these function commonly yield many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the rewarding system.
+    Although this approach might work out well, it is usually impractical as in order to craft this function, very high expert knowledge is needed to carefully design this rewarding system.
+    Additionally, such functions commonly yield many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the rewarding system.
 
     \subsection{Building a Good State Representation}\label{subsec:building-a-good-state-representation}
 
@@ -1037,13 +1037,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, not task-specific, hence generic, priors can be used as well with the benefit that these priors can be learned by representation-learning algorithms, creating disentangled, minimal feature spaces~\cite{bengio_representation_2014}.
     In traditional \gls{rl}, the problem of learning a good state representation is exacerbated as in order for the agent to improve, it depends on optimizing the reward signal via backpropagation, thus depending on receiving rewards densely.
     With the additional possible obstacle of noise in the raw state representation, the agent will learn nothing from the interactions it made in a sparse rewarding environment, although they might be rich in information.
-    Moreover, even if the agent learns a state representation based on a reward signal, the representation will not generalize across different tasks.
-    Hence, \gls{im} is a key component as this learned state representation is independent of the actual task and therefore generalizable~\citep{aubret_survey_2019}.
+    Even if the agent manages to learn a state representation based on a reward signal, the representation will not generalize across different tasks.
+    Hence, \gls{im} is a key component as state representations learned through \gls{im} are independent of the actual task and therefore generalizable~\citep{aubret_survey_2019}.
 
-    \subsection{Temporal Abstraction of Actions}
+    \subsection{Temporal Abstraction of Actions}\label{subsec:temporal-abstraction-of-actions}
 
     In the temporal abstraction of actions, a sequence of low-level actions is summarized with a so-called \textit{intra-option policy} that is referenced to a high-level action.
-    Therefore, a high-level action or a so-called option consists of multiple low-level actions or rather other options.
+    Therefore, a high-level action or a so-called \textit{option} consists of multiple low-level actions or rather other options.
     By choosing an option in a certain state, the intra-option policy defines which low-level actions must be carried out in each subsequent state until the high-level action is completely carried out.
     Furthermore, the sequence length of these actions is usually fixed~\citep{aubret_survey_2019}.
     By utilizing these abstractions, the learning process can be sped up significantly.
@@ -1065,30 +1065,30 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, the latter has the problem that the learned options are not generalizable across multiple tasks and hence are useless for exploration tasks~\citep{aubret_survey_2019}.
     Similar to the problem of~\nameref{subsec:building-a-good-state-representation}, by using \gls{im} this challenge can be tackled.
 
-    \subsection{Building a Curriculum}
+    \subsection{Building a Curriculum}\label{subsec:building-a-curriculum}
     The challenge of building a curriculum is concerned with structuring tasks in a multi-task \gls{rl} scenario, a scenario where an agent has to solve multiple tasks at once.
-    In such scenarios, a so-called curriculum is employed that acts as a schedule defining the order in which different tasks should be solved.
-    This idea stems from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitate mastering more difficult ones~\citep{aubret_survey_2019}.
+    In such scenarios, a so-called \textit{curriculum} is employed that acts as a schedule defining the order in which different tasks should be solved.
+    This idea stems from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitates mastering more difficult ones~\citep{aubret_survey_2019}.
 
     For instance, a general task for an agent could be that it has to store objects such as cubes in boxes.
     However, this task can be divided in subtasks such as grabbing the cube and then putting it into a box.
     By splitting up this task into the two subtasks, the agent can take advantage of the prior learnt skill of grabbing a cube for the task of storing it in a box.
     Without this differentiation, the agent might be unable to ever fulfil the general task as it would take the agent a long list of subsequent actions or rather joint movements to succeed.
 
-    Usually, standard methods for decomposing a general task mostly rely on export knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue.
-    Not only does this speed up the learning process but also facilitate exploration.
+    Usually, standard methods for decomposing a general task mostly rely on expert knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue as it does not only speed up the learning process but also facilitate exploration.
 
 
     \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}
 
     In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
     The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
-    Additionally, the representation of the \gls{rl} framework as an \gls{mdp} is reconsidered as well.
+    Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is reconsidered as well.
     Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and the internal part calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
 
-    The newly adapted \gls{rl} framework can be observed in figure~\ref{fig:adapted_rl_framework}.
-    Here, the critic describes the part which computes the reward in either way and assigns the credit to the made actions and additionally the state now includes sensations optionally combined with the agent's performed actions.
-    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinement where all rewards come from the internal part~\citep{singh_intrinsically_2010}.
+    The newly adapted \gls{rl} framework can be observed in Figure~\ref{fig:adapted_rl_framework}.
+    Here, the critic describes the part which computes the reward in either way and assigns the credit to the made actions.
+    Additionally, the state now includes sensations optionally combined with the agent's performed actions.
+    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards come from the internal part~\citep{singh_intrinsically_2010}.
 
     \begin{figure}[h]
         \centering
@@ -1103,54 +1103,65 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour making the adapted framework more efficient in serving assigned goals when compared to the traditional one.
 
     When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
-    The most common approach it to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$ which weigh the two signals depending on how important either one should be to the agent.
+    The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
+    Those coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
     As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
-    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}.
+    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}
 
     \section{Classification}
 
+    Concerning the classification of \gls{im} in \gls{rl}, the authors \citeauthor{aubret_survey_2019} propose a new categorization, differentiating between \textit{knowledge acquisition} and \textit{skill learning}.
+    With this separation, emphasis is laid on skill abstraction and skill acquisition.
+
+    Concerning the motivation based on \textbf{knowledge acquisition}, the agent's internal goal is to gather new knowledge about its surroundings.
+    In this scenario, knowledge is described as its ability to e.g.\ control the environment, understand occurring processes, explore unknown areas, or assess proximity.
+    Based on this definition, building an agent with this motivation can greatly improve exploration in settings with sparse rewards.
+    This is usually done by giving an agent a feeling for state novelty or information gain which poses an intrinsic reward which it tries to maximize.
+    Another benefit yields the idea of empowerment which means that an agent is rewarded by \gls{im} whenever it approaches an area that it can control.
+    Finally, this motivation might allow the agent to create a relevant state representation and thus this branch is concerned with the challenges described in subsection~\ref{subsec:sparse-rewards} and~\ref{subsec:building-a-good-state-representation}.
+
+    The second branch, concerning motivation based on \textbf{skill learning}, is described as the ability of an agent to efficiently acquire skills that are task-independent and preferably reusable.
+    Here, one idea evolves around the ability of abstracting skills in order for an agent to learn them or rather creating a representation of different skills which challenges the introduced problem of subsection~\ref{subsec:temporal-abstraction-of-actions}.
+    Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in subsection~\ref{subsec:building-a-curriculum}.
+
+    An overview of the just described classification with practical approaches given can be observed in Table~\ref{tab:clasification_im_rl}.
+\newpage
+
 \begin{table}[h]
-    \vspace{0.5cm}
-    \begin{adjustwidth}{-2in}{-2in}
-        \begin{center}
-\begin{tabular}{|l|ll}
-\cline{1-1} \cline{3-3}
-\multicolumn{1}{|c|}{\textbf{Knowledge Acquisition}}                                                                                                       & \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{\textbf{Skill Learning}}                                                                                                                                   \\ \cline{1-1} \cline{3-3}
-\textbf{Exploration}                                                                                                                                       & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\textbf{Skill Abstraction}}                                                                                                                                \\ \cline{1-1} \cline{3-3}
-\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Prediction error\\ State novelty\\ Novelty as discrepancy towards other states\\ Information gain\end{tabular}} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Building the goal space from the state space\\ Mutual information between goals and trajectories\end{tabular}}} \\
-                                                                                                                                                           & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}                                                                                                                                                          \\ \cline{3-3}
-                                                                                                                                                           & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\textbf{Curriculum Learning}}                                                                                                                              \\ \cline{3-3}
-                                                                                                                                                           & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Goal sampling\\ Multi-armed bandit\\ Adversarial training\end{tabular}}}                                        \\ \cline{1-1}
-\textbf{Empowerment}                                                                                                                                       & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}                                                                                                                                                          \\ \cline{1-1}
-\textbf{Learning a Relevant State Representation}                                                                                                          & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}                                                                                                                                                          \\ \cline{1-1} \cline{3-3}
-\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}State space as a measure of distance\\ One feature for one object of interaction\end{tabular}}                  &                       &                                                                                                                                                                                \\
-                                                                                                                                                           &                       &                                                                                                                                                                                \\ \cline{1-1}
+    \centering
+\begin{tabular}{l}
+\hline
+\multicolumn{1}{|c|}{\textbf{Knowledge Acquisition}}                                                                                                            \\ \hline
+\multicolumn{1}{|l|}{\textbf{Exploration}}                                                                                                                      \\ \hline
+\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}~\nameref{sec:prediction-error}\\~\nameref{sec:state-novelty}\\~Novelty as Discrepancy towards other States\footnotemark[4]\\~\nameref{sec:information-gain}\end{tabular}} \\ \hline
+\multicolumn{1}{|l|}{\textbf{Empowerment}}                                                                                                                      \\ \hline
+\multicolumn{1}{|l|}{\textbf{Learning a Relevant State Representation}}                                                                                         \\ \hline
+\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}State Space as as Measure of Distance\\ One Feature for one Object of Interaction\end{tabular}}                 \\ \hline
+                                                                                                                                                                \\ \hline
+\multicolumn{1}{|c|}{\textbf{Skill Learning}}                                                                                                                   \\ \hline
+\multicolumn{1}{|l|}{\textbf{Skill Abstraction}}                                                                                                                \\ \hline
+\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Building the Goal Space from the State Space\\ Mutual Information between Goals and Trajectories\end{tabular}}  \\ \hline
+\multicolumn{1}{|l|}{\textbf{Curriculum Learning}}                                                                                                              \\ \hline
+\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Goal Sampling\\ Multi-Armed Bandit\\ Adversarial Training\end{tabular}}                                         \\ \hline
 \end{tabular}
-        \end{center}
-    \end{adjustwidth}
-        \caption[Classification of the use of \glspl{im} in \gls{drl}]{Classification of the use of \glspl{im} in \gls{drl}\protect\footnotemark}
-        \label{tab:clasification_im_drl}
+        \caption[Classification of the use of \glspl{im} in \gls{rl}]{Classification of the use of \glspl{im} in \gls{rl}\protect\footnotemark[3]}
+        \label{tab:clasification_im_rl}
 \end{table}
 
-
-    \footnotetext{\citep[\p{9}]{aubret_survey_2019}}
+    \footnotetext[3]{\citep[\p{9}]{aubret_survey_2019}}
+    \footnotetext[4]{Continuing, \citeauthor{aubret_survey_2019} unite state novelty and novelty as discrepancy towards other states}
 
     \chapter{Exploration}\label{sec:state_of_the_art}
 
 
-    \section{Prediction Error}
+    \section{Prediction Error}\label{sec:prediction-error}
     \cite[\p{7}]{schmidhuber_formal_2010}
 
 
-    \section{State Novelty}
+    \section{State Novelty}\label{sec:state-novelty}
 
 
-    \section{Novelty as Discrepancy towards other States}
-
-
-    \section{Information Gain}
-
-
+    \section{Information Gain}\label{sec:information-gain}
 
     \glsresetall
 

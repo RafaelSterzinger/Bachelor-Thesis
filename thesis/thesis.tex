@@ -25,6 +25,9 @@
 \usepackage{amsfonts}
 \usepackage{multibib}
 \usepackage{bm}
+\usepackage{usebib}
+\bibinput{core}
+
 \definecolor{tab:green}{RGB}{0,128,0}
 \definecolor{tab:red}{RGB}{214,39,32}
 \definecolor{tab:orange}{RGB}{255,127,0}
@@ -34,13 +37,13 @@
 \usepackage{soul}
 \usepackage[outline]{contour}
 \DeclareRobustCommand{\colorindicator}[2]{ {%
-  \begingroup%
-  \setul{0.25ex}{0.4ex}%
-  \contourlength{0.2ex}%
-  \setulcolor{#1}%
+\begingroup%
+\setul{0.25ex}{0.4ex}%
+\contourlength{0.2ex}%
+\setulcolor{#1}%
 \ul{{\phantom{#2}}}\llap{\contour{white}{#2}} %
 %  \ul{{\phantom{#2}}}\llap{\contour{white}{#2}} \textcolor{#1}{\tiny{$\blacksquare$}}%
-  \endgroup%
+\endgroup%
 }}
 
 \newcites{Online}{Non-Scientific Bibliography}
@@ -133,6 +136,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{ppo}{PPO}{Proximal Policy Optimization}
 \newacronym{trpo}{TRPO}{Trust Region Policy Optimization}
 \newacronym{relu}{ReLU}{Rectified Linear Unit}
+\newacronym{rf}{RF}{Random Features}
+\newacronym{idf}{IDF}{Inverse Dynamics Features}
+\newacronym{cnn}{CNN}{Convolutional Neural Networks}
+\newacronym{vae}{VAE}{Variational Autoencoders}
 
 \begin{document}
 
@@ -211,7 +218,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \label{enm:challenges}
     \end{itemize}
 
-    Besides a general introduction to \gls{im} and its challenges in \gls{rl}, this Bachelor's thesis has its focus on knowledge acquisition through exploration.
+    Besides a general introduction to \gls{im} and its challenges in \gls{rl} (see chapter~\ref{ch:intrinsic-motivation-in-reinforcement-learning}), this Bachelor's thesis has its focus on knowledge acquisition through exploration.
     Knowledge acquisition is described as the agent's motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
     Concerning exploration, one approach is error prediction which is the agent's difficulty to predict the state following a state-action tuple.
     This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
@@ -1078,36 +1085,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Usually, standard methods for decomposing a general task mostly rely on expert knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue as it does not only speed up the learning process but also facilitate exploration.
 
 
-    \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}
-
-    In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
-    The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
-    Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is reconsidered as well.
-    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and the internal part calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
-
-    The newly adapted \gls{rl} framework can be observed in Figure~\ref{fig:adapted_rl_framework}.
-    Here, the critic describes the part which computes the reward in either way and assigns the credit to the made actions.
-    Additionally, the state now includes sensations optionally combined with the agent's performed actions.
-    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards come from the internal part~\citep{singh_intrinsically_2010}.
-
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}
-        \caption[Adapting the classic \gls{rl} framework to incorporate \gls{im}]{Adapting the classic \gls{rl} framework to incorporate \gls{im}\protect\footnotemark}
-        \label{fig:adapted_rl_framework}
-    \end{figure}
-
-    \footnotetext{\citep[\p{2}]{singh_intrinsically_2010}}
-
-    One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill that allows the agent to easily acquire other behaviour.
-    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour making the adapted framework more efficient in serving assigned goals when compared to the traditional one.
-
-    When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
-    The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
-    Those coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
-    As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
-    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}
-
     \section{Classification}
 
     Concerning the classification of \gls{im} in \gls{rl}, the authors \citeauthor{aubret_survey_2019} propose a new categorization, differentiating between \textit{knowledge acquisition} and \textit{skill learning}.
@@ -1125,51 +1102,145 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in subsection~\ref{subsec:building-a-curriculum}.
 
     An overview of the just described classification with practical approaches given can be observed in Table~\ref{tab:clasification_im_rl}.
+
 \newpage
-
-\begin{table}[h]
-    \centering
-\begin{tabular}{l}
-\hline
-\multicolumn{1}{|c|}{\textbf{Knowledge Acquisition}}                                                                                                            \\ \hline
-\multicolumn{1}{|l|}{\textbf{Exploration}}                                                                                                                      \\ \hline
-\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}~\nameref{sec:prediction-error}\\~\nameref{sec:state-novelty}\\~Novelty as Discrepancy towards other States\footnotemark[4]\\~\nameref{sec:information-gain}\end{tabular}} \\ \hline
-\multicolumn{1}{|l|}{\textbf{Empowerment}}                                                                                                                      \\ \hline
-\multicolumn{1}{|l|}{\textbf{Learning a Relevant State Representation}}                                                                                         \\ \hline
-\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}State Space as as Measure of Distance\\ One Feature for one Object of Interaction\end{tabular}}                 \\ \hline
-                                                                                                                                                                \\ \hline
-\multicolumn{1}{|c|}{\textbf{Skill Learning}}                                                                                                                   \\ \hline
-\multicolumn{1}{|l|}{\textbf{Skill Abstraction}}                                                                                                                \\ \hline
-\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Building the Goal Space from the State Space\\ Mutual Information between Goals and Trajectories\end{tabular}}  \\ \hline
-\multicolumn{1}{|l|}{\textbf{Curriculum Learning}}                                                                                                              \\ \hline
-\multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Goal Sampling\\ Multi-Armed Bandit\\ Adversarial Training\end{tabular}}                                         \\ \hline
-\end{tabular}
-        \caption[Classification of the use of \glspl{im} in \gls{rl}]{Classification of the use of \glspl{im} in \gls{rl}\protect\footnotemark[3]}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{l}
+            \hline
+            \multicolumn{1}{|c|}{\textbf{Knowledge Acquisition}}                                                                                                            \\ \hline
+            \multicolumn{1}{|l|}{\textbf{Exploration}}                                                                                                                      \\ \hline
+            \multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}~\nameref{sec:prediction-error}\\~\nameref{sec:state-novelty}\\~Novelty as Discrepancy towards other States\footnotemark[3]\\~\nameref{sec:information-gain}\end{tabular}} \\ \hline
+            \multicolumn{1}{|l|}{\textbf{Empowerment}}                                                                                                                      \\ \hline
+            \multicolumn{1}{|l|}{\textbf{Learning a Relevant State Representation}}                                                                                         \\ \hline
+            \multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}State Space as as Measure of Distance\\ One Feature for one Object of Interaction\end{tabular}}                 \\ \hline
+                                                                                                                                                                            \\ \hline
+            \multicolumn{1}{|c|}{\textbf{Skill Learning}}                                                                                                                   \\ \hline
+            \multicolumn{1}{|l|}{\textbf{Skill Abstraction}}                                                                                                                \\ \hline
+            \multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Building the Goal Space from the State Space\\ Mutual Information between Goals and Trajectories\end{tabular}}  \\ \hline
+            \multicolumn{1}{|l|}{\textbf{Curriculum Learning}}                                                                                                              \\ \hline
+            \multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Goal Sampling\\ Multi-Armed Bandit\\ Adversarial Training\end{tabular}}                                         \\ \hline
+        \end{tabular}
+        \caption[Classification of the use of \glspl{im} in \gls{rl}]{Classification of the use of \glspl{im} in \gls{rl}\protect\footnotemark[2]}
         \label{tab:clasification_im_rl}
-\end{table}
+    \end{table}
+    \footnotetext[2]{\citep[\p{9}]{aubret_survey_2019}}
+    \footnotetext[3]{Continuing, \citeauthor{aubret_survey_2019} unite state novelty and novelty as discrepancy towards other states}
 
-    \footnotetext[3]{\citep[\p{9}]{aubret_survey_2019}}
-    \footnotetext[4]{Continuing, \citeauthor{aubret_survey_2019} unite state novelty and novelty as discrepancy towards other states}
+    \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}
+
+    In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
+    The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
+    Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is reconsidered as well.
+    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and the internal part calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
+
+    The newly adapted \gls{rl} framework can be observed in Figure~\ref{fig:adapted_rl_framework}.
+    Here, the critic describes the part which computes the reward in either way and assigns the credit to the made actions.
+    Additionally, the state now includes sensations optionally combined with the agent's performed actions.
+    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards come from the internal part~\citep{singh_intrinsically_2010}.
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}
+        \caption[Adapting the classic \gls{rl} framework to incorporate \gls{im}]{Adapting the classic \gls{rl} framework to incorporate \gls{im}\protect\footnotemark[4]}
+        \label{fig:adapted_rl_framework}
+    \end{figure}
+
+    \footnotetext[4]{\citep[\p{2}]{singh_intrinsically_2010}}
+
+    One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill that allows the agent to easily acquire other behaviour.
+    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour making the adapted framework more efficient in serving assigned goals when compared to the traditional one.
+
+    When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
+    The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
+    Those coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
+    As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
+    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}
+    This work as well as many other exploration-based methods such as the paper by \citeauthor{burda_exploration_2018} are discussed in the following chapter.
+    Besides that, the papers by \citeauthor{gregor_variational_2016}, \citeauthor{vezhnevets_feudal_2017}, and \citeauthor{huang_learning_2019} are also worth mentioning as they combine extrinsic and intrinsic rewards as well but consider \gls{im} in the context of skill learning which is not a focus of this thesis.
+
 
     \chapter{Exploration}\label{sec:state_of_the_art}
+    In this chapter only the significant branch of knowledge acquisition through exploration is considered as this thesis is building upon a "\usebibentry{burda_large-scale_2018-1}{title}", a paper published by \citeauthor{burda_large-scale_2018-1}
+    Here, emphasis is laid on prediction-error based methods but for completeness other exploration methods based on state novelty or information gain are considered as well.
+    However, the following list of publications poses only a selection which was chosen mainly based on the performance of these methods or was written by authors who contributed to the underlying paper of this thesis.
+
+    \begin{itemize}
+        \item \usebibentry{stadie_incentivizing_2015}{title} (\citeauthor{stadie_incentivizing_2015})
+        \item \usebibentry{pathak_curiosity-driven_2017-1}{title} (\citeauthor{pathak_curiosity-driven_2017-1})
+        \item \usebibentry{kim_emi_2019}{title} (\citeauthor{kim_emi_2019})
+        \item \usebibentry{bellemare_unifying_2016}{title} (\citeauthor{bellemare_unifying_2016})
+        \item \usebibentry{burda_exploration_2018}{title} (\citeauthor{burda_exploration_2018})
+        \item \usebibentry{kim_curiosity-bottleneck_2019-1}{title} (\citeauthor{kim_emi_2019})
+        \item \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
+    \end{itemize}
+
+    For a more detailed list, \textit{Table 3} by~\citeauthor{aubret_survey_2019} is recommended.
+
+    By not only considering the approach by \citeauthor{burda_large-scale_2018-1}, this chapter also represents a state-of-the-art review for exploration via \gls{im}.
+    Finally, at the end of this chapter "\usebibentry{ecoffet_go-explore_2019}{title}" by \citeauthor{ecoffet_go-explore_2019} is presented which is currently the best performing method to solve the exploration challenge offered by \textit{Montezuma's Revenge} as of August 2020.
 
 
     \section{Prediction Error}\label{sec:prediction-error}
-    \cite[\p{7}]{schmidhuber_formal_2010}
 
+    The idea of prediction-error based exploration is to point the agent in a direction where an prediction of the next state based on a state-action tuple is rather difficult.
+    Formally, this prediction-error based intrinsic reward can be denoted by $R_{int}=||g(s_{t+1})-F(g(s_t),a_t)||_2$ where $||x||_2$ is the L2 distance or rather the Euclidean distance~\citep{aubret_survey_2019}.
+    In this equation, $g$ stands for a generic function which encodes the raw state space into space of features and $F$ denotes a \gls{nn} which predicts the following feature space depending on the current encoded state and the taken action.
+
+    In the core paper to this thesis, \citeauthor{burda_large-scale_2018-1} deployed four different encodings for $g$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
+    Concerning the properties of an encoding function $g$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
+    Instead of the previously denoted intrinsic reward, \citeauthor{burda_large-scale_2018-1} used $R_{int}=-\log p(g(s_{t+1})|s_t,a_t)$, the so-called surprisal.
+    Regarding the actual encoding functions used for their investigations, they started with the identity function, encoding $g(s)=s$ which proved to be very inefficient as it lacked compactness even tough the encoding was sufficient and stable.
+    Additionally, the prediction error based on this encoding is probably dominated by irrelevant small details.
+
+    In contrast to that, they introduced so-called \gls{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended} which was fixed after initialization.
+    Furthermore, the properties of this encoding is stability as the network was fixed and possibly compactness depending on the amount of random features extracted.
+    However, this encoding function might fail to be sufficient as only random features are extracted and thus not conveying all the relevant information.
+
+    Another method for feature encoding posed the idea of \gls{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
+    Here, a feedforward network or rather an auto-encoder compresses the state space that is later used to predict the distance between the current state $s_t$ and $s_{t+1}$.
+    Moreover, the encoded part of this auto-encoder represents the function $g$ which allows for a compact and sufficient but unstable feature encoding.
+    For this encoding method, the authors build upon the initially proposed method by~\citeauthor{stadie_incentivizing_2015}.
+
+    Lastly, the encoding in \gls{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
+    The features of $s_t$ and $s_{t+1}$ learned by a predicting \gls{nn} correspond to parts of the environment which the agent is in immediate control of as it can estimate the consequences of its actions.
+    This encoding yields the benefit compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
+    On a note, this idea is mainly based on the work of \citeauthor{pathak_curiosity-driven_2017-1}
+
+    In a summary the encoding of the raw feature space using \gls{rf} showed that a curiosity based agent can be a very good competition to other state-of-the-art methods and are especially well-suited for simpler environments with less sophisticated visual observations.
+    This is due to the fact that in this settings it is easier to preserve enough important information over the raw signal and thus be sufficient.
+    A good example for this is the simulated environment of the Atari 2600 gaming console where \gls{rf} performed better in over 70\% when compared to an agent that chooses its actions arbitrarily.
+    Although the performance of \gls{rf} is rather good, they generalize badly across different environments.
+    Here, \gls{idf} encoding performs better as it can transfer learned features from, e.g.\ one Mario Bros level to another~\citep{burda_large-scale_2018-1}.
+    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better in 55\% of the time, thus making \gls{idf} the preferred encoding.
+    Concerning \gls{vae} methods for $g$, they perform either worse or the same than \gls{rf} or \gls{idf} features and additionally where somewhat unstable.
+
+    Unfortunately, all of these feature encodings are unable to tackle the white-noise problem which was mentioned in section \ref{sec:problem-description}.
+
+    Another selected approach which
+
+    I ist mutual information
+
+         \usebibentry{kim_emi_2019}{title} (\citeauthor{kim_emi_2019})
 
     \section{State Novelty}\label{sec:state-novelty}
-
+         \usebibentry{bellemare_unifying_2016}{title} (\citeauthor{bellemare_unifying_2016})
+         \usebibentry{burda_exploration_2018}{title} (\citeauthor{burda_exploration_2018})
+         \usebibentry{kim_curiosity-bottleneck_2019-1}{title} (\citeauthor{kim_emi_2019})
 
     \section{Information Gain}\label{sec:information-gain}
 
-    \glsresetall
+     \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
+    \section{Current State of the Art Method}
 
-
-    \chapter{Evalutation}
-
-%TODO 9. Benchmarking Deep RL
-    \citep{francois-lavet_introduction_2018}
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/state_of_the_art.png}
+    \caption["Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}]{"Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}\protect\footnotemark}
+    \label{fig:state_of_the_art}
+    \end{figure}
+    
+    \footnotetext{\url{https://paperswithcode.com/sota/atari-games-on-atari-2600-montezumas-revenge}}
 
     \glsresetall
 
@@ -1179,6 +1250,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Proximal Policy Optimization}
+    Hyperparameter
 
 
     \section{Intrinsic Curiosity Module}
@@ -1195,31 +1267,73 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \glsresetall
 
 
-    \chapter{Results}
+    \chapter{Evalutation}
+%TODO 9. Benchmarking Deep RL
+    \citep{francois-lavet_introduction_2018}
 
+    \glsresetall
+
+
+    \chapter{Results}
+    For a performance comparison, we orientate ourselves on \textit{Table 3}, created by~\cite{aubret_survey_2019}. This table summarizes state of the art methods on exploration strategies with IM and points out the mean score of theses methods on \textit{Montezuma's revenge}.
+
+    \begin{figure}
+        \begin{center}
+        \begin{subfigure}{.3\textwidth}
+            \centering
+            \includegraphics[width=.8\linewidth]{figures/montezumarevenge.png}
+            \caption{Montezuma's Revenge}
+            \label{fig:mz}
+        \end{subfigure}%
+        \begin{subfigure}{.3\textwidth}
+            \centering
+            \includegraphics[width=.8\linewidth]{figures/freeway.png}
+            \caption{Freeway}
+            \label{fig:fway}
+        \end{subfigure}
+        \begin{subfigure}{.3\textwidth}
+            \centering
+            \includegraphics[width=.8\linewidth]{figures/breakout.png}
+            \caption{Breakout}
+            \label{fig:break}
+        \end{subfigure} \caption{The gameplay of three Atari 2600 games}
+        \label{fig:games}
+        \end{center}
+    \end{figure}
+
+
+    \section{Montezuma's Revenge}
+
+
+    \section{Freeway}
+
+
+    \section{Breakout}
+
+    
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}
-       \begin{scriptsize}
+        \begin{scriptsize}
             \vspace{0.2cm}
-                   \begin{tabular}{|lcc|}
-                       \hline
-                       & &  \\
-                 \textbf{Extrinsic Only:} & & \colorindicator{tab:green}{INT=0.00, EXT=1.00}\\
-        \textbf{Random Features:} & \colorindicator{tab:red}{INT=1.0, EXT=0.0} & \colorindicator{tab:orange}{INT=0.43, EXT=0.57}\\
-                   \textbf{Inverse Dynamic Features:} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0} & \colorindicator{tab:purple}{INT=0.43, EXT=0.57}\\
-                  & &  \\
-                       \hline
+            \begin{tabular}{|lcc|}
+                \hline
+                &                                             &                                                 \\
+                \textbf{Extrinsic Only:}           &                                             & \colorindicator{tab:green}{INT=0.00, EXT=1.00}  \\
+                \textbf{Random Features:}          & \colorindicator{tab:red}{INT=1.0, EXT=0.0}  & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+                \textbf{Inverse Dynamic Features:} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0} & \colorindicator{tab:purple}{INT=0.43, EXT=0.57} \\
+                &                                             &                                                 \\
+                \hline
             \end{tabular}
 
         \end{scriptsize}
         \def\arraystretch{1.3}
         \begin{scriptsize}
-                   \begin{tabular}{|ccc|}
-                       \hline
-                        \textbf{Random Features} & \textbf{Extrinsic Only} & \textbf{Inverse Dynamic Features}\\
-                       \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} &\colorindicator{tab:green}{INT=0.0, EXT=1.0}  & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57}\\
-                       \hline
+            \begin{tabular}{|ccc|}
+                \hline
+                \textbf{Random Features}                                                                   & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                           \\
+                \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} \\
+                \hline
             \end{tabular}
 
         \end{scriptsize} \caption{This is a test for the caption}
@@ -1230,7 +1344,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \glsresetall
 
 
-    \chapter{Discussion}
+    \chapter{Conclusion and Further Work}
 
     \backmatter
 % Use an optional list of figures.

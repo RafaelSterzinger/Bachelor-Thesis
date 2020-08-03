@@ -1200,7 +1200,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{equation}
         R_{int}=-\log p(\phi(s_{t+1})|s_t,a_t)
     \end{equation}
-    Regarding the actual encoding functions used for their investigations, they started with the identity function, encoding $\phi(s)=s$ which proved to be very inefficient as it lacked compactness even tough the encoding was sufficient and stable.
+    Regarding the actual encoding functions used for their investigations, they started with the identity function, $\phi(s)=s$, which proved to be very inefficient as it lacked compactness even tough the encoding was sufficient and stable.
     Additionally, the prediction-error based on this encoding is probably dominated by irrelevant small details.
 
     In contrast to that, they introduced so-called \gls{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended} which was fixed after initialization and therefore not trained.
@@ -1210,17 +1210,17 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Another method for feature encoding posed the idea of \gls{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
     Here, a feedforward network or rather an auto-encoder compresses the state space that is later used to predict the distance between the current state $s_t$ and $s_{t+1}$.
     Moreover, the encoded part of this auto-encoder represents the function $\phi$ which allows for a compact and sufficient but unstable feature encoding.
-    For this encoding method, the authors build upon the initially proposed method by~\citeauthor{stadie_incentivizing_2015}.
+    For this encoding method, the authors build upon the initially proposed method by~\citeauthor{stadie_incentivizing_2015}
 
     Lastly, the encoding in \gls{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
     The features of $s_t$ and $s_{t+1}$ learned by a predicting forward model correspond to parts of the environment which the agent is in immediate control of as it can estimate the consequences of its actions.
-    This encoding yields the benefit compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
+    This encoding yields the benefit of compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
     On a note, this idea is mainly based on the \gls{icm}, seen in Figure~\ref{fig:icm}, proposed by \citeauthor{pathak_curiosity-driven_2017-1}
 
     \begin{figure}[h]
         \centering
         \includegraphics[width=0.6\textwidth]{figures/icm.png}
-        \caption[The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1}]{The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1} where the curiosity based intrinsic reward is denoted as $r_t^i$\protect\footnotemark}
+        \caption[An illustration of the \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1}]{An illustration of the \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1} where $r_t^i$ denotes the curiosity based intrinsic reward\protect\footnotemark}
         \label{fig:icm}
     \end{figure}
 
@@ -1229,30 +1229,30 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In a summary, the encoding of the raw feature space using \gls{rf} showed that a curiosity based agent can be a very good competition to other state-of-the-art methods and are especially well-suited for simpler environments with less sophisticated visual observations.
     This is due to the fact that in this settings it is easier to preserve enough important information over the raw signal and thus be sufficient.
     A good example for this is the simulated environment of the Atari 2600 gaming console where \gls{rf} performed better in over 70\% when compared to an agent that chooses its actions arbitrarily.
-    Although the performance of \gls{rf} is rather good, they generalize badly across different environments.
-    Here, \gls{idf} encoding performs better as it can transfer learned features from, e.g.\ one Mario Bros level to another~\citep{burda_large-scale_2018-1}.
-    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better in 55\% of the time, thus making \gls{idf} the preferred encoding.
-    Concerning \gls{vae} methods for $\phi$, they perform either worse or the same than \gls{rf} or \gls{idf} features and additionally where somewhat unstable.
+    Although the performance of \gls{rf} are rather good, they generalize badly across different environments.
+    Here, \gls{idf} encoding performs better as it can transfer learned features from, e.g.\ one \textit{Mario Bros} level to another~\citep{burda_large-scale_2018-1}.
+    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of the Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better 55\% of the time, thus making \gls{idf} the preferred encoding.
+    Concerning \gls{vae} methods for $\phi$, they perform either worse or the same as \gls{rf} or \gls{idf} and additionally where somewhat unstable.
 
     Unfortunately, all of these feature encodings are unable to tackle the white-noise problem which was mentioned in section~\ref{sec:problem-description}.
 
-    Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citeauthor{kim_emi_2019}.
+    Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citeauthor{kim_emi_2019}
     With a similar action space as in the work from \citeauthor{pathak_curiosity-driven_2017-1}, they managed to significantly improve the performance on several Atari 2600 games.
     However, this fell at the expenses of multiple additional layers of complexity.
     Instead of training a complex forward model that predicts the next encoded state, they transformed the complexity into a maximization problem of mutual information $I$ between $I([s,a];s')$ and $I([s,s'];a)$ and only used a simple linear model for $F$ to represent the space~\citep{aubret_survey_2019}.
-    Concerning the problem with stochasticity, \citeauthor{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads all non-linearity from the model $F$.
+    Concerning the problem with stochasticity, \citeauthor{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads non-linearity from the model $F$.
     By doing so, also screen transition, e.g.\ moving from one room to another in \textit{Montezuma's Revenge}, which are hard to predict and are similar to white-noise can be bypassed.
 
 
     \section{State Novelty}\label{sec:state-novelty}
 
-    Another important approach to enable exploration by \gls{im} is the idea of state novelty where the agents earn intrinsic rewards when it enters states it has not visited before.
-    This kind of idea can be formalized as a \textit{count-based} function which decreases the agent's intrinsic reward for entering a certain state depending on how often it had already visited this state.
-    Formally, the count-based function is denoted the following:
+    Another important approach to enable exploration by \gls{im} is the idea of state novelty where the agent earns intrinsic rewards when it enters states it has not visited before.
+    This kind of idea can be formalized as a \textit{count-based} function which decreases the agent's intrinsic reward for entering a certain state depending on how often it had visited this state before.
+    Formally, the count-based function is denoted as the following:
     \begin{equation}
         R_{int}=\frac{1}{N(s_t)}
     \end{equation}
-    where $N(s_t)$ stands for a counter which represents the agent's number of visits depending on the state $s_t$~\citep{aubret_survey_2019}.
+    where $N(s_t)$ stands for a counter which represents the agent's number of visits of the state $s_t$~\citep{aubret_survey_2019}.
 
     As one can imagine, this method is only efficient in discrete state spaces as in continuous ones states are hardly visited multiple times by the agent.
 
@@ -1271,11 +1271,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     For the next method, \citeauthor{burda_exploration_2018} built upon their idea of using \gls{rf}, but this time utilizing the encoding to combine it with a pseudo-count based approach that enables exploration through state novelty.
     However, they still somewhat made usage of prediction errors as they deployed a second \gls{nn} which solely fulfils the purpose of predicting the output of the random initialized one.
-    The idea behind this is that the second \gls{nn} will produce a rather large error if the agent has never visited a certain state but over time gets more certain about its predictions the more the agent has visited that certain state.
+    The idea behind this is that the second \gls{nn} will produce a rather large error if the agent has never visited a certain state but over time gets more certain about its predictions the more the agent has been in that certain state.
     By doing so, not only were they able to reduce the complexity of previous proposed methods such as the one which is based on density models but also achieved one of the best scores for \textit{Montezuma's Revenge}~\eqref{fig:state_of_the_art}.
 
     Another selected state-novelty based approach is the one by \citeauthor{kim_curiosity-bottleneck_2019-1} who utilized the possibility to distill recent states into a probability distribution.
-    In there paper "\usebibentry{kim_curiosity-bottleneck_2019-1}{title}" they propose a method which produces a latent state space with a distribution of very large entropy that is based on their prior work of maximizing mutual information.
+    In there paper "\usebibentry{kim_curiosity-bottleneck_2019-1}{title}", they propose a method which produces a latent state space with a distribution of very large entropy that is based on their prior work of maximizing mutual information.
     Stating \citeauthor{aubret_survey_2019}:
 
     \begin{quote}
@@ -1301,10 +1301,22 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         R_{int}=U_{t+k}(\theta) - U_t(\theta)
     \end{equation}
 
+    An well-suited example to introduce information-gain based approaches is "\usebibentry{pathak_self-supervised_2019}{title}" by \citeauthor{pathak_self-supervised_2019}
+    Here, the authors use multiple \gls{nn} or rather forward models to predict the next state $s_{t+1}$ based on a state-action tuple.
+    Further, the different predictions of the subsequent state $s_{t+1}$ are composed and their variance acts as the intrinsic reward $R_{int}$.
+    Depending on the number of trained networks, the more forward models are learned, the better the performance of the agent will be as the models' predictions will converge to the expected observation of state $s_{t+1}$.
+    Moreover, for illustration purposes, the algorithm is visualized in Figure~\ref{fig:ensemble_dissagreement}.
 
+    By utilizing the variance of the predictions, the agent's desired behaviour is depicted as a high variance solely occurs if models are not trained yet forcing the agent to explore.
+    Concerning stochasticity, this problem is also solved by the variance since the irritating white-noise becomes irrelevant as the predictions converge truthfully.
+    Hence, this approach yields good performance when compared to other state-of-the-art methods but are very computationally expensive due to the necessity of training multiple forward models.
 
-    \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
-
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{figures/ensemble_dissagreement.png}
+        \caption[An illustration of the algorithm introduced in "\usebibentry{pathak_self-supervised_2019}{title}"]{An illustration of the algorithm introduced in "\usebibentry{pathak_self-supervised_2019}{title}" where the current observation is denoted as $x_t$ and $r_t^i$ stands for the intrinsic reward\protect\footnotemark}
+        \label{fig:ensemble_dissagreement}
+    \end{figure}
 
     \section{Current State of the Art Method}
 
@@ -1438,7 +1450,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \printindex
 
 % Add a glossary.
-    % \printglossaries
+     \printglossaries
 
 % Add a bibliography.
     \bibliographystyle{abbrvnat}

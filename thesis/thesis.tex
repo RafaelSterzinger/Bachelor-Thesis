@@ -62,7 +62,7 @@ linkbordercolor = {Melon},                % The color of the borders of boxes ar
 pdfauthor       = {\authorname},          % The author's name in the document properties (optional).
 pdftitle        = {\thesistitle},         % The document's title in the document properties (optional).
 pdfsubject      = {Bachelor's thesis on \thesistitle; Written by \authorname in the context of TARO/INSO research group},         % The document's subject in the document properties (optional).
-pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, prediction error based curiosity, balancing extrinsic and intrinsic rewards} % The document's keywords in the document properties (optional).
+pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, prediction-error based curiosity, balancing extrinsic and intrinsic rewards} % The document's keywords in the document properties (optional).
 }
 
 \setpnumwidth{2.5em}        % Avoid overfull hboxes in the table of contents (see memoir manual).
@@ -139,7 +139,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{rf}{RF}{Random Features}
 \newacronym{idf}{IDF}{Inverse Dynamics Features}
 \newacronym{cnn}{CNN}{Convolutional Neural Networks}
-\newacronym{vae}{VAE}{Variational Autoencoders}
+\newacronym{vae}{VAE}{Variational Auto-Encoders}
+\newacronym{icm}{ICM}{Intrinsic Curiosity Module}
 
 \begin{document}
 
@@ -241,7 +242,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, this poses the question of how algorithms with combined rewards perform in densely rewarding environments as well.
     Therefore, it would be interesting to observe the performance in environments with dense rewards too since if there might be an improvement to see as well.
     \\\\
-    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction error based curiosity which was earlier introduced with the so-called noisy-TV problem.
+    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction-error based curiosity which was earlier introduced with the so-called noisy-TV problem.
     Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
     This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that \gls{em} has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
     \\\\
@@ -267,7 +268,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \\\\
     Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
     Concerning milestone four and the comparison to state-of-the-art approaches, chapter~\ref{sec:state_of_the_art} of this thesis allows for a current in-depth overview of methods based on knowledge acquisition via exploration.
-    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e. prediction error based curiosity~\citep{burda_large-scale_2018-1}.
+    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
 
 
     \section{Thesis Outline}\label{sec:thesis-outline}
@@ -602,7 +603,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
 
-    In summary, the utilization of policy gradient-based methods gain four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
+    In summary, the utilization of policy-gradient based methods gain four advantages compared to action-value based methods~\citep[\p{322f}]{sutton_reinforcement_2018}:
 
     \begin{enumerate}
         \item The parametrization of the policy under the usage of softmax for defining action preferences allows for the approximation of deterministic policies.
@@ -617,9 +618,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         %TODO ref to image of breakout
         For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout} from one point onward when moving left might be very difficult.
         However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citepOnline{silver_lecture_2015-3}.
-        In these situations, policy-based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
+        In these situations, policy based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
         \item Lastly, the initial configuration of a policy's parameters enables the possibility to supply an agent with prior knowledge about an optimal policy.
-        Based on this property, this is usually the main reason why policy-based methods are taken into consideration.
+        Based on this property, this is usually the main reason why policy based methods are taken into consideration.
     \end{enumerate}
 
     \glsresetall
@@ -781,7 +782,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \vspace{0.5cm}
         \centering
         \includegraphics[width=0.75\textwidth]{figures/xor_problem.png}
-        \caption[The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}]{The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}\protect\footnotemark}
+        \caption[The XOR problem]{The XOR problem with the left plot being the original space using a perceptron and the right plot being the learned space using an \gls{mlp}\protect\footnotemark}
         \label{fig:xor_problem}
     \end{figure}
 
@@ -1103,6 +1104,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     An overview of the just described classification with practical approaches given can be observed in Table~\ref{tab:clasification_im_rl}.
 
+
+
 \newpage
     \begin{table}[h]
         \centering
@@ -1127,7 +1130,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext[2]{\citep[\p{9}]{aubret_survey_2019}}
     \footnotetext[3]{Continuing, \citeauthor{aubret_survey_2019} unite state novelty and novelty as discrepancy towards other states}
 
-    \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}
+    \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}\label{sec:embeddingglsinto-theglsframework}
 
     In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
     The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
@@ -1156,7 +1159,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Those coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
     As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
     Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}
-    This work as well as many other exploration-based methods such as the paper by \citeauthor{burda_exploration_2018} are discussed in the following chapter.
+    This work as well as many other exploration based methods such as the paper by \citeauthor{burda_exploration_2018} are discussed in the following chapter.
     Besides that, the papers by \citeauthor{gregor_variational_2016}, \citeauthor{vezhnevets_feudal_2017}, and \citeauthor{huang_learning_2019} are also worth mentioning as they combine extrinsic and intrinsic rewards as well but consider \gls{im} in the context of skill learning which is not a focus of this thesis.
 
 
@@ -1184,62 +1187,134 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Prediction Error}\label{sec:prediction-error}
 
     The idea of prediction-error based exploration is to point the agent in a direction where an prediction of the next state based on a state-action tuple is rather difficult.
-    Formally, this prediction-error based intrinsic reward can be denoted by $R_{int}=||g(s_{t+1})-F(g(s_t),a_t)||_2$ where $||x||_2$ is the L2 distance or rather the Euclidean distance~\citep{aubret_survey_2019}.
-    In this equation, $g$ stands for a generic function which encodes the raw state space into space of features and $F$ denotes a \gls{nn} which predicts the following feature space depending on the current encoded state and the taken action.
+    Formally, this prediction-error based intrinsic reward\footnote{For uniformity reasons, the greek letter $\phi$ will be used instead of $g$ throughout this chapter} can be denoted as
+    \begin{equation}
+        R_{int}=||\phi(s_{t+1})-F(\phi(s_t),a_t)||_2
+    \end{equation}
+    where $||x||_2$ is the L2 distance or rather the Euclidean distance~\citep{aubret_survey_2019}.
+    In this equation, $\phi$ stands for a generic function which encodes the raw state space into space of features and $F$ denotes a \gls{nn} which predicts the following feature space depending on the current encoded state and the taken action.
 
-    In the core paper to this thesis, \citeauthor{burda_large-scale_2018-1} deployed four different encodings for $g$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
-    Concerning the properties of an encoding function $g$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
-    Instead of the previously denoted intrinsic reward, \citeauthor{burda_large-scale_2018-1} used $R_{int}=-\log p(g(s_{t+1})|s_t,a_t)$, the so-called surprisal.
-    Regarding the actual encoding functions used for their investigations, they started with the identity function, encoding $g(s)=s$ which proved to be very inefficient as it lacked compactness even tough the encoding was sufficient and stable.
-    Additionally, the prediction error based on this encoding is probably dominated by irrelevant small details.
+    In the core paper to this thesis, \citeauthor{burda_large-scale_2018-1} deployed four different encodings for $\phi$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
+    Concerning the properties of an encoding function $\phi$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
+    Instead of the previously denoted intrinsic reward, \citeauthor{burda_large-scale_2018-1} used the so-called surprisal:
+    \begin{equation}
+        R_{int}=-\log p(\phi(s_{t+1})|s_t,a_t)
+    \end{equation}
+    Regarding the actual encoding functions used for their investigations, they started with the identity function, encoding $\phi(s)=s$ which proved to be very inefficient as it lacked compactness even tough the encoding was sufficient and stable.
+    Additionally, the prediction-error based on this encoding is probably dominated by irrelevant small details.
 
-    In contrast to that, they introduced so-called \gls{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended} which was fixed after initialization.
+    In contrast to that, they introduced so-called \gls{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended} which was fixed after initialization and therefore not trained.
     Furthermore, the properties of this encoding is stability as the network was fixed and possibly compactness depending on the amount of random features extracted.
     However, this encoding function might fail to be sufficient as only random features are extracted and thus not conveying all the relevant information.
 
     Another method for feature encoding posed the idea of \gls{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
     Here, a feedforward network or rather an auto-encoder compresses the state space that is later used to predict the distance between the current state $s_t$ and $s_{t+1}$.
-    Moreover, the encoded part of this auto-encoder represents the function $g$ which allows for a compact and sufficient but unstable feature encoding.
+    Moreover, the encoded part of this auto-encoder represents the function $\phi$ which allows for a compact and sufficient but unstable feature encoding.
     For this encoding method, the authors build upon the initially proposed method by~\citeauthor{stadie_incentivizing_2015}.
 
     Lastly, the encoding in \gls{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
-    The features of $s_t$ and $s_{t+1}$ learned by a predicting \gls{nn} correspond to parts of the environment which the agent is in immediate control of as it can estimate the consequences of its actions.
+    The features of $s_t$ and $s_{t+1}$ learned by a predicting forward model correspond to parts of the environment which the agent is in immediate control of as it can estimate the consequences of its actions.
     This encoding yields the benefit compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
-    On a note, this idea is mainly based on the work of \citeauthor{pathak_curiosity-driven_2017-1}
+    On a note, this idea is mainly based on the \gls{icm}, seen in Figure~\ref{fig:icm}, proposed by \citeauthor{pathak_curiosity-driven_2017-1}
 
-    In a summary the encoding of the raw feature space using \gls{rf} showed that a curiosity based agent can be a very good competition to other state-of-the-art methods and are especially well-suited for simpler environments with less sophisticated visual observations.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figures/icm.png}
+        \caption[The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1}]{The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1} where the curiosity based intrinsic reward is denoted as $r_t^i$\protect\footnotemark}
+        \label{fig:icm}
+    \end{figure}
+
+    \footnotetext{\citep[3]{pathak_curiosity-driven_2017-1}}
+
+    In a summary, the encoding of the raw feature space using \gls{rf} showed that a curiosity based agent can be a very good competition to other state-of-the-art methods and are especially well-suited for simpler environments with less sophisticated visual observations.
     This is due to the fact that in this settings it is easier to preserve enough important information over the raw signal and thus be sufficient.
     A good example for this is the simulated environment of the Atari 2600 gaming console where \gls{rf} performed better in over 70\% when compared to an agent that chooses its actions arbitrarily.
     Although the performance of \gls{rf} is rather good, they generalize badly across different environments.
     Here, \gls{idf} encoding performs better as it can transfer learned features from, e.g.\ one Mario Bros level to another~\citep{burda_large-scale_2018-1}.
     Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better in 55\% of the time, thus making \gls{idf} the preferred encoding.
-    Concerning \gls{vae} methods for $g$, they perform either worse or the same than \gls{rf} or \gls{idf} features and additionally where somewhat unstable.
+    Concerning \gls{vae} methods for $\phi$, they perform either worse or the same than \gls{rf} or \gls{idf} features and additionally where somewhat unstable.
 
-    Unfortunately, all of these feature encodings are unable to tackle the white-noise problem which was mentioned in section \ref{sec:problem-description}.
+    Unfortunately, all of these feature encodings are unable to tackle the white-noise problem which was mentioned in section~\ref{sec:problem-description}.
 
-    Another selected approach which
+    Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citeauthor{kim_emi_2019}.
+    With a similar action space as in the work from \citeauthor{pathak_curiosity-driven_2017-1}, they managed to significantly improve the performance on several Atari 2600 games.
+    However, this fell at the expenses of multiple additional layers of complexity.
+    Instead of training a complex forward model that predicts the next encoded state, they transformed the complexity into a maximization problem of mutual information $I$ between $I([s,a];s')$ and $I([s,s'];a)$ and only used a simple linear model for $F$ to represent the space~\citep{aubret_survey_2019}.
+    Concerning the problem with stochasticity, \citeauthor{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads all non-linearity from the model $F$.
+    By doing so, also screen transition, e.g.\ moving from one room to another in \textit{Montezuma's Revenge}, which are hard to predict and are similar to white-noise can be bypassed.
 
-    I ist mutual information
-
-         \usebibentry{kim_emi_2019}{title} (\citeauthor{kim_emi_2019})
 
     \section{State Novelty}\label{sec:state-novelty}
-         \usebibentry{bellemare_unifying_2016}{title} (\citeauthor{bellemare_unifying_2016})
-         \usebibentry{burda_exploration_2018}{title} (\citeauthor{burda_exploration_2018})
-         \usebibentry{kim_curiosity-bottleneck_2019-1}{title} (\citeauthor{kim_emi_2019})
+
+    Another important approach to enable exploration by \gls{im} is the idea of state novelty where the agents earn intrinsic rewards when it enters states it has not visited before.
+    This kind of idea can be formalized as a \textit{count-based} function which decreases the agent's intrinsic reward for entering a certain state depending on how often it had already visited this state.
+    Formally, the count-based function is denoted the following:
+    \begin{equation}
+        R_{int}=\frac{1}{N(s_t)}
+    \end{equation}
+    where $N(s_t)$ stands for a counter which represents the agent's number of visits depending on the state $s_t$~\citep{aubret_survey_2019}.
+
+    As one can imagine, this method is only efficient in discrete state spaces as in continuous ones states are hardly visited multiple times by the agent.
+
+    A solution to this has been proposed by \citeauthor{bellemare_unifying_2016} which is based on density models that enable a \textit{pseudo-count}.
+    By utilizing this method, the number of visits in a state as well as related neighbourhood states are combine to one counter which allows for better generalization.
+    Therefore, the previously made notation is adapted to the following equation:
+    \begin{equation}
+        R_{int}=\frac{1}{\hat{N}(s_t)}
+    \end{equation}
+    where $\hat{N}(s_t)$ defines the pseudo-count which is denoted as follows:
+    \begin{equation}
+        \hat{N}(s_t)=\frac{p(s)(1-p'(s))}{p'(s)-p(s)}
+    \end{equation}
+    Here, $p(s)$ stands for a density model which calculates the probability of entering state $s$ and $p'(s)$ is the probability to visit state $s$ afterwards.
+    The usage of the pseudo-count based on density models yield good results which enable exploration but add additional layers of complexity~\citep{aubret_survey_2019}.
+
+    For the next method, \citeauthor{burda_exploration_2018} built upon their idea of using \gls{rf}, but this time utilizing the encoding to combine it with a pseudo-count based approach that enables exploration through state novelty.
+    However, they still somewhat made usage of prediction errors as they deployed a second \gls{nn} which solely fulfils the purpose of predicting the output of the random initialized one.
+    The idea behind this is that the second \gls{nn} will produce a rather large error if the agent has never visited a certain state but over time gets more certain about its predictions the more the agent has visited that certain state.
+    By doing so, not only were they able to reduce the complexity of previous proposed methods such as the one which is based on density models but also achieved one of the best scores for \textit{Montezuma's Revenge}~\eqref{fig:state_of_the_art}.
+
+    Another selected state-novelty based approach is the one by \citeauthor{kim_curiosity-bottleneck_2019-1} who utilized the possibility to distill recent states into a probability distribution.
+    In there paper "\usebibentry{kim_curiosity-bottleneck_2019-1}{title}" they propose a method which produces a latent state space with a distribution of very large entropy that is based on their prior work of maximizing mutual information.
+    Stating \citeauthor{aubret_survey_2019}:
+
+    \begin{quote}
+        "The intrinsic reward for a state is then the KL-divergence between a fixed diagonal Gaussian prior and the posterior of the distribution of latent variables.
+        It results that, as long as the agent does not find any reward, it will look for rare states which have a distribution in the latent space that is different from the prior (common states fit the prior).
+        When the agent finds the reward, the latent distribution will be different from the prior and the intrinsic reward will guide the agent towards interesting areas."
+
+        \hfill~\cite[\p{12}]{aubret_survey_2019}
+    \end{quote}
+
+    Referring to section~\ref{sec:embeddingglsinto-theglsframework}, \citeauthor{kim_curiosity-bottleneck_2019-1} also made usage of \gls{em} by utilizing an extrinsic reward signal to tackle stochasticity which originates from white-noise.
+
 
     \section{Information Gain}\label{sec:information-gain}
 
-     \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
+    A final method to allow exploration is exploration via information gain.
+    Here, an intrinsic reward is credited depending on the agent's ability to reduce uncertainty of the dynamics of its environment.
+    By using information-gain based methods, the agent can be pointed to states it is rather uncertain about while on the same time being able to predict environment transitions.
+    Therefore, the agent is unaffected of the white-noise problem based on stochasticity or state transitions~\citep{aubret_survey_2019}.
+    Furthermore, under the usage of the parameter set $\theta$ used in a parametric model and the function $U$ which defines uncertainty, the information gain can be formalized as follows:
+
+    \begin{equation}
+        R_{int}=U_{t+k}(\theta) - U_t(\theta)
+    \end{equation}
+
+
+
+    \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
+
+
     \section{Current State of the Art Method}
 
-\begin{figure}[h]
+    \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/state_of_the_art.png}
-    \caption["Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}]{"Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}\protect\footnotemark}
-    \label{fig:state_of_the_art}
+        \caption["Go-Explore" by \citeauthor{ecoffet_go-explore_2019}, currently the best performing approach to \textit{Montezuma's Revenge}]{"Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}\protect\footnotemark}
+        \label{fig:state_of_the_art}
     \end{figure}
-    
+
     \footnotetext{\url{https://paperswithcode.com/sota/atari-games-on-atari-2600-montezumas-revenge}}
 
     \glsresetall
@@ -1247,6 +1322,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Implementation}\label{ch:implementation}
     \citep{burda_large-scale_2018-1}
+    \citep{pathak_curiosity-driven_2017-1}
 
 
     \section{Proximal Policy Optimization}
@@ -1277,27 +1353,27 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \chapter{Results}
     For a performance comparison, we orientate ourselves on \textit{Table 3}, created by~\cite{aubret_survey_2019}. This table summarizes state of the art methods on exploration strategies with IM and points out the mean score of theses methods on \textit{Montezuma's revenge}.
 
-    \begin{figure}
+    \begin{figure}[h]
         \begin{center}
-        \begin{subfigure}{.3\textwidth}
-            \centering
-            \includegraphics[width=.8\linewidth]{figures/montezumarevenge.png}
-            \caption{Montezuma's Revenge}
-            \label{fig:mz}
-        \end{subfigure}%
-        \begin{subfigure}{.3\textwidth}
-            \centering
-            \includegraphics[width=.8\linewidth]{figures/freeway.png}
-            \caption{Freeway}
-            \label{fig:fway}
-        \end{subfigure}
-        \begin{subfigure}{.3\textwidth}
-            \centering
-            \includegraphics[width=.8\linewidth]{figures/breakout.png}
-            \caption{Breakout}
-            \label{fig:break}
-        \end{subfigure} \caption{The gameplay of three Atari 2600 games}
-        \label{fig:games}
+            \begin{subfigure}{.3\textwidth}
+                \centering
+                \includegraphics[width=.8\linewidth]{figures/montezumarevenge.png}
+                \caption{Montezuma's Revenge}
+                \label{fig:mz}
+            \end{subfigure}%
+            \begin{subfigure}{.3\textwidth}
+                \centering
+                \includegraphics[width=.8\linewidth]{figures/freeway.png}
+                \caption{Freeway}
+                \label{fig:fway}
+            \end{subfigure}
+            \begin{subfigure}{.3\textwidth}
+                \centering
+                \includegraphics[width=.8\linewidth]{figures/breakout.png}
+                \caption{Breakout}
+                \label{fig:break}
+            \end{subfigure} \caption{The gameplay of three selected Atari 2600 games}
+            \label{fig:games}
         \end{center}
     \end{figure}
 
@@ -1310,7 +1386,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Breakout}
 
-    
+
     \begin{figure}[h]
         \centering
         \includegraphics[width=\textwidth]{figures/adapted_rl_framework.png}

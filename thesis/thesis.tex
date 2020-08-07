@@ -984,7 +984,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     For instance, \citeauthor{todorov_mujoco_2012} indicate that such a high-level abstraction could be the trajectory of a robot to open a door which consists of low-level actions or rather movements in four directions.
 
     As earlier described, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
-    However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects an \gls{rl}-agent in an unknown environment.
+    However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects a \gls{rl}-agent in an unknown environment.
     For instance, in order for the baby to avoid hunger or thirst, it has to learn the consequences of its interactions.
     Although immediate needs might be satisfied for some time, the baby continues to explore by conducting different experiments.
     Questions on certain movements of, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
@@ -1125,7 +1125,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
             \multicolumn{1}{|l|}{\textbf{Curriculum Learning}}                                                                                                              \\ \hline
             \multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}Goal Sampling\\ Multi-Armed Bandit\\ Adversarial Training\end{tabular}}                                         \\ \hline
         \end{tabular}
-        \caption[Classification of the use of \glspl{im} in \gls{rl}]{Classification of the use of \glspl{im} in \gls{rl}\protect\footnotemark[2]}
+        \caption[Classification of \glspl{im} in \gls{rl}]{Classification of \glspl{im} in \gls{rl}\protect\footnotemark[2]}
         \label{tab:clasification_im_rl}
     \end{table}
     \footnotetext[2]{\citep[\p{9}]{aubret_survey_2019}}
@@ -1187,7 +1187,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Prediction Error}\label{sec:prediction-error}
 
-    The idea of prediction-error based exploration is to point the agent in a direction where an prediction of the next state based on a state-action tuple is rather difficult.
+    The idea of prediction-error based exploration is to point the agent in a direction where a prediction of the next state based on a state-action tuple is rather difficult.
     Formally, this prediction-error based intrinsic reward\footnote{For uniformity reasons, the greek letter $\phi$ will be used instead of $g$ throughout this chapter} can be denoted as
     \begin{equation}
         R_{int}=||\phi(s_{t+1})-F(\phi(s_t),a_t)||_2
@@ -1302,15 +1302,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         R_{int}=U_{t+k}(\theta) - U_t(\theta)
     \end{equation}
 
-    An well-suited example to introduce information-gain based approaches is "\usebibentry{pathak_self-supervised_2019}{title}" by \citeauthor{pathak_self-supervised_2019}
+    A well-suited example to introduce information-gain based approaches is "\usebibentry{pathak_self-supervised_2019}{title}" by \citeauthor{pathak_self-supervised_2019}
     Here, the authors use multiple \gls{nn} or rather forward models to predict the next state $s_{t+1}$ based on a state-action tuple.
     Further, the different predictions of the subsequent state $s_{t+1}$ are composed and their variance acts as the intrinsic reward $R_{int}$.
     Depending on the number of trained networks, the more forward models are learned, the better the performance of the agent will be as the models' predictions will converge to the expected observation of state $s_{t+1}$.
     Moreover, for illustration purposes, the algorithm is visualized in Figure~\ref{fig:ensemble_dissagreement}.
 
-    By utilizing the variance of the predictions, the agent's desired behaviour is depicted as a high variance solely occurs if models are not trained yet forcing the agent to explore.
-    Concerning stochasticity, this problem is also solved by the variance since the irritating white-noise becomes irrelevant as the predictions converge truthfully.
-    Hence, this approach yields good performance when compared to other state-of-the-art methods but are very computationally expensive due to the necessity of training multiple forward models.
+    By utilizing the variance of the predictions, the agent's desired behaviour is depicted as a high variance that solely occurs if the models are not trained yet which forcing the agent to explore.
+    Concerning stochasticity, this problem is also solved by the variance since the irritating white-noise becomes irrelevant as the average of all predictions converges truthfully.
+    Hence, this approach yields good performance when compared to other state-of-the-art methods but is very computationally expensive due to the necessity of training multiple forward models.
 
     \begin{figure}[h]
         \centering
@@ -1321,14 +1321,58 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Current State of the Art Method}
 
-    \begin{figure}[h]
+    The currently best performing approach on \textit{Montezuma's Revenge} is hold by \citeauthor{ecoffet_go-explore_2019} who were able to drastically improve the state of the art with a four times higher score than previously introduced methods.
+    Despite the fact that \gls{im} algorithms were the most promising solutions to encourage exploration in sparse environments, with their paper \usebibentry{ecoffet_go-explore_2019}{title}, the authors presented a promising solution which however is not based on \gls{im}.
+    The reason why their proposed algorithm performs so well is that it tackles a fundamental issue of intrinsically motivated exploration which hinders the agent to further improve.
+
+ \begin{figure}[h]
         \centering
-        \includegraphics[width=\textwidth]{figures/state_of_the_art.png}
-        \caption["Go-Explore" by \citeauthor{ecoffet_go-explore_2019}, currently the best performing approach to \textit{Montezuma's Revenge}]{"Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}\protect\footnotemark}
-        \label{fig:state_of_the_art}
+        \includegraphics[width=\textwidth]{figures/exploration_problem.png}
+        \caption[An illustration of the algorithm introduced in "\usebibentry{pathak_self-supervised_2019}{title}"]{An illustration of the algorithm introduced in "\usebibentry{pathak_self-supervised_2019}{title}" where the current observation is denoted as $x_t$ and $r_t^i$ stands for the intrinsic reward\protect\footnotemark}
+        \label{fig:exploration_problem}
     \end{figure}
 
-    \footnotetext{\url{https://paperswithcode.com/sota/atari-games-on-atari-2600-montezumas-revenge}}
+
+    \footnotetext{\citep[\p{3}]{ecoffet_go-explore_2019}}
+
+    With there
+"Go-Explore" by \citeauthor{ecoffet_go-explore_2019} is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}
+
+
+    A  even those with intrinsic motivation, which
+is the dominant method to encourage exploration and improve performance on hard-
+exploration domains. To address this shortfall, we introduce a new algorithm called
+Go-Explore. It exploits the following principles: (1) remember states that have
+previously been visited, (2) first return to a promising state (without exploration),
+then explore from it, and (3) solve simulated environments through exploiting any
+available means (including by introducing determinism), then robustify (create a
+policy that can reliably perform the solution) via imitation learning. The combined
+effect of these principles generates dramatic performance improvements on hard-
+exploration problems. On Montezuma’s Revenge, without being provided any
+domain knowledge, Go-Explore scores over 43,000 points, almost 4 times the
+previous state of the art. Go-Explore can also easily harness human-provided
+domain knowledge, and when augmented with it Go-Explore scores a mean of
+over 650,000 points on Montezuma’s Revenge. Its max performance of 18 million
+surpasses the human world record by an order of magnitude, thus meeting even
+the strictest definition of “superhuman” performance. On Pitfall, Go-Explore with
+domain knowledge is the first algorithm to score above zero. Its mean performance
+of almost 60,000 points also exceeds expert human performance. Because Go-
+Explore can produce many high-performing demonstrations automatically and
+cheaply, it also outperforms previous imitation learning work in which the solution
+was provided in the form of a human demonstration. Go-Explore opens up many
+new research directions into improving it and weaving its insights into current RL
+algorithms. It may also enable progress on previously unsolvable hard-exploration
+problems in a variety of domains, especially the many that often harness a simulator
+during training (e.g. robotics).
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/go_explore.png}
+        \caption[The simple, yet astonishingly good performing algorithm Go-Explore]{The simple, yet astonishingly good performing algorithm Go-Explore proposed by \citeauthor{ecoffet_go-explore_2019} \protect\footnotemark}
+        \label{fig:go_explore}
+    \end{figure}
+
+    \footnotetext{\citep[\p{3}]{ecoffet_first_2020}}
 
     \glsresetall
 

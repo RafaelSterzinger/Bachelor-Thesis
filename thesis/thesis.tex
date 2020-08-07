@@ -126,7 +126,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{rl}{RL}{Reinforcement Learning}
 \newacronym{mdp}{MDP}{Markov Decision Process}
 \newacronym{ml}{ML}{Machine Learning}
-\newacronym{mlp}{MLP}{Multi Layer Perceptron}
+\newacronym{mlp}{MLP}{Multi-Layer Perceptron}
 \newacronym{nn}{NN}{Neural Network}
 \newacronym{dp}{DP}{Dynamic Programming}
 \newacronym{dl}{DL}{Deep Learning}
@@ -767,7 +767,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This definition is known as the \textit{cross-entropy loss} and represents the extension of logistic regression~\citep[\p{15}]{aggarwal_neural_2018}.
 
 
-    \section{Multi Layer Neural Networks}
+    \section{Multi-Layer Neural Networks}
     Comparing a simple perceptron to an \gls{mlp}, the major difference is the employment of multiple layers, the so-called \textit{hidden layers}.
     Instead of a perceptron where all computations are visible, hidden layers in an \gls{mlp} hide the computations~\citep[\p{17}]{aggarwal_neural_2018}.
     However, the \gls{mlp} still is a feed-forward network and the perceptron, as well as the \gls{mlp}, can both be denoted as a \textit{directed acyclic graph}.
@@ -957,7 +957,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Natural Human Motivation}
 
     In a digression to psychology, \gls{im} is described as the natural propensity of humans to gather knowledge and assimilate.
-    Furthermore, activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
+    Activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
     Therefore, the reward in \gls{im} relies on the activity itself.
     In opposite to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
     Motivation, in general, is very unique for different people~\citep{ryan_intrinsic_2000}.
@@ -966,7 +966,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Moreover, research pointed out that the quality of performance and experience is dependant on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
-    On the other side, extrinsic motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value.
+    On the other side, extrinsic motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value~\citep{ryan_intrinsic_2000}.
     Continuing with the previously made example on the pupils' motivation, for instance, it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
     By doing this, the pupils are more likely to identify the action's value such that they internalize the behaviour, allowing for an improved learning experience.
 
@@ -975,10 +975,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Therefore, the taxonomy of human motivation consists of three branches: amotivation, extrinsic motivation, and intrinsic motivation, ranging "\textit{from amotivation or unwillingness, to passive compliance, to active personal commitment. With increasing internalization (and its associated sense of personal commitment) come[s] greater persistence, more positive self-perceptions, and better quality of engagement.}"~\citep[\p{60f}]{ryan_intrinsic_2000}
 
 
-    \section[The Role of IM in RL]{The Role of \gls{im} in \gls{rl}}
+    \section{The Role of Intrinsic Motivation in Reinforcement Learning}
 
     With the help of \gls{im}, existing challenges of \gls{rl} such as abstracting actions or the exploration of the environment should be addressed which were not able to be solved by the promising capabilities of \gls{nn}.
-    As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in settings where rewards are scattered.
+    As mentioned in the~\nameref{sec:problem-description}, in traditional \gls{rl} approaches, the agent is unable to explore the environment in settings where rewards are sparse.
     Furthermore, even in dense environments, the agent's learned behaviour is rather not reusable in similar as well as in completely different tasks.
     This is due to the fact that an agent finds it very challenging to generalize obtained skills and thus is incapable of high-level decision making.
     For instance, \citeauthor{todorov_mujoco_2012} indicate that such a high-level abstraction could be the trajectory of a robot to open a door which consists of low-level actions or rather movements in four directions.
@@ -1009,6 +1009,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
             & With \textit{feedback} & Without \textit{feedback} \\
             \hline
             Active  & Reinforcement          & Intrinsic motivation      \\
+            \hline
             Passive & Supervised             & Unsupervised              \\
             \hline
         \end{tabular}
@@ -1130,7 +1131,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext[2]{\citep[\p{9}]{aubret_survey_2019}}
     \footnotetext[3]{Continuing, \citeauthor{aubret_survey_2019} unite state novelty and novelty as discrepancy towards other states}
 
-    \section[Embedding IM into the RL Framework]{Embedding \gls{im} into the \gls{rl} Framework}\label{sec:embeddingglsinto-theglsframework}
+    \section{Embedding Intrinsic Motivation into the Reinforcement Learning Framework}\label{sec:embeddingglsinto-theglsframework}
 
     In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
     The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
@@ -1154,7 +1155,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill that allows the agent to easily acquire other behaviour.
     In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour making the adapted framework more efficient in serving assigned goals when compared to the traditional one.
 
-    When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
+    When implementing a \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
     The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
     Those coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
     As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.

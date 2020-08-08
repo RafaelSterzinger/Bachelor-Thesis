@@ -141,6 +141,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{cnn}{CNN}{Convolutional Neural Networks}
 \newacronym{vae}{VAE}{Variational Auto-Encoders}
 \newacronym{icm}{ICM}{Intrinsic Curiosity Module}
+\newacronym{gae}{GAE}{Generalized Advantage Estimation}
+\newacronym{vf}{VF}{Value Function}
 
 \begin{document}
 
@@ -195,9 +197,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Introduction}
 
-    %TODO write introduction
-
-
     \section{Problem Description}\label{sec:problem-description}
     In \gls{rl}, algorithms mainly depend on carefully designed extrinsic reward functions which are comparable with feedback to an agent's behaviour.
     In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial and error.
@@ -250,26 +249,22 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Methodological Approach}\label{sec:methodological-approach}
-    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
-    Therefore, this Bachelor's thesis follows a programming approach which relies on the same tools used by the preceding authors, since it guarantees optimal reproducibility of their results.
-    In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
-    \\\\
-    The development progress is structured into the following five milestones:
 
-    \begin{enumerate}
-        \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
-        \item Implementing a Proximal Policy Optimization (PPO) algorithm according to~\cite{schulman_proximal_2017}, using extrinsic rewards
-        \item Adding an Intrinsic Curiosity Module, published by~\cite{pathak_curiosity-driven_2017-1}, in order to allow for intrinsic rewards
-        \item Tuning of the coefficients $\alpha,\beta$ and comparison to state-of-the-art approaches
-        \item Recreation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
-    \end{enumerate}
+    Therefore, this Bachelor's thesis follows a programming approach
 
-    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge} and \textit{Freeway}.
-    \\\\
-    Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
-    Concerning milestone four and the comparison to state-of-the-art approaches, chapter~\ref{sec:state_of_the_art} of this thesis allows for a current in-depth overview of methods based on knowledge acquisition via exploration.
-    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
+ Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
 
+
+    Problem of detached agents possible to tackle via combining extrinsic and intrinsic
+
+
+
+    The goal of this large-scale analysis is to investigate the following questions: (a) Whatactually happens when you run a pure curiosity-driven agent on a variety of games without anyextrinsic rewards? (b) What kinds of behaviors can you expect from these agents? (c) What is theeffect of the different feature learning variants in dynamics-based curiosity on these behaviors?
+
+
+    n all our experiments so far, we have shown that our agents can learn useful skills without anyextrinsic rewards driven purely by curiosity. However, in many scenarios, we might want the agent toperform some particular task of interest. This is usually conveyed to the agent by defining extrinsicrewards.  When rewards are dense (e.g.  game score at every frame), classic RL works well andintrinsic rewards generally should not help performance.  However, designing dense rewards is achallenging engineering problem (see introduction for details). In this section, we evaluate how wellcuriosity can help an agent perform a task in presence of sparse, or just terminal, rewards.
+
+      In 4 games out of 5, curiosity bonus improves performance (see Table 2 inthe appendix, the higher score is better).  We would like to emphasize that this is not the focus ofthe paper, and these experiments are provided just for completeness.  We just combined extrinsic(coefficient1.0) and intrinsic reward (coefficient0.01) directly without any tuning.  We leave thequestion on how to optimally combine extrinsic and intrinsic rewards as a future direction.
 
     \section{Thesis Outline}\label{sec:thesis-outline}
 
@@ -1373,17 +1368,86 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \chapter{Implementation}\label{ch:implementation}
-    \citep{burda_large-scale_2018-1}
-    \citep{pathak_curiosity-driven_2017-1}
 
+     In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+    The implementation relies on the same tools used by the preceding authors since it guarantees optimal reproducibility of their results.
+    In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
+
+    The implementation progress was structured into the following five milestones:
+
+    \begin{enumerate}
+        \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
+        \item Analyzing the implementation of the \glossary{ppo} algorithm
+        \item Analyzing the implementation of different auxiliary task such as \gls{rf} and \gls{idf}
+        \item Tuning of the coefficients $\alpha,\beta$ and comparison to state-of-the-art results for densely and sparsely rewarding environments
+        \item Implementation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
+    \end{enumerate}
+
+    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway}.
+
+    Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
+    Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
+
+    In the following few sections, an overview is provided on the most significant parts of the implementation.
+    The source code to this Bachelor's thesis is provided on the author's GitHub page.~\footnote{url{https://github.com/RafaelSterzinger/Bachelor-Thesis}}
+    For additional details, the paper by \citep{burda_large-scale_2018-1} and their published source code is recommened. 
 
     \section{Proximal Policy Optimization}
     Hyperparameter
 
+    Maximum number of timesteps for episodes = 4500
+    noop\_max = 30
 
-    \section{Intrinsic Curiosity Module}
+ \begin{table}
+        \centering
+        \begin{tabular}{l|l}
+            Hyperparameter & Value \\
+            \hline
+		Horizon ($T$)      & 128      \\
+		Learning rate  ($\alpha$)      & 0.0001      \\
+		Num. epochs  ($K$)      & 3      \\
+		Minibatch size ($M$)      &  8     \\
+		Discount ($\gamma$)      & 0.99      \\
+		\acrshort{gae} parameter ($\lambda$)      & 0.95      \\
+		Num. actors ($N$)      & 128      \\
+		Cliprange ($\epsilon$)      & 0.1      \\
+		\acrshort{vf} coeff. ($c_1$)      & 1      \\
+		Entropy coeff. ($c_2$)      & 0.001      \\
+        \end{tabular}
+        \caption[A taxonomy on the different types of learning]{A taxonomy on the different types of learning\protect\footnotemark}
+        \label{tab:ppo_params}
+    \end{table}
+
+    \footnotetext{\citep[\p{4}]{aubret_survey_2019}}
+
+      
+
+
+
+
+
+
+    Deciding upon a feature space is only first part of the puzzle in implementing a practical system.Here, we detail the critical choices we made in the learning algorithm.  Our goal was to reducenon-stationarity in order to make learning more stable and consistent across environments. Throughthe following considerations outlined below, we are able to get exploration to work reliably fordifferent feature learning methods and environments with minimal changes to the hyper-parameters.
+    •PPO. In general, we have found PPO algorithm [38] to be a robust learning algorithm thatrequires little hyper-parameter tuning, and hence, we stick to it for our experiments.•Reward normalization. Since the reward function is non-stationary, it is useful to normalizethe scale of the rewards so that the value function can learn quickly. We did this by dividingthe rewards by a running estimate of the standard deviation of the sum of discounted rewards.
+    •Advantage normalization. While training with PPO, we normalize the advantages [46] in abatch to have a mean of 0 and a standard deviation of 1.•Observation normalization. We run a random agent on our target environment for 10000steps, then calculate the mean and standard deviation of the observation and use these tonormalize the observations when training.  This is useful to ensure that the features donot have very small variance at initialization and to have less variation across differentenvironments.
+    •More actors. The stability of the method is greatly increased by increasing the number ofparallel actors (which affects the batch-size) used. We typically use 128 parallel runs of thesame environment for data collection while training an agent.
+
+    Hyper-parameters:We used a learning rate of 0.0001 for all networks.  In most experiments, we used128 parallel environments. We used rollouts oflength 128 in all experiments. In the initial 9 experiments on Mario and Atari, we used 3optimization epochs per rollout in the interest of speed.
+    \citep{burda_large-scale_2018-1}
     \citep{pathak_curiosity-driven_2017-1}
 
+    One important point is that the use of an end of episode signal, sometimes called a ‘done’, can oftenleak information about the true reward function. If we don’t remove the ‘done’ signal, many of theAtari games become too simple. For example, a simple strategy of giving +1 artificial reward at everytime-step when the agent is alive and 0 on death is sufficient to obtain a high score in some games,for instance, the Atari game ‘Breakout’ where it will seek to maximize the episode length and henceits score. In the case of negative rewards, the agent will try to end the episode as quickly as possible.
+
+    In light of this, if we want to study the behavior of pure exploration agents, we should not bias theagent. In the infinite horizon setting (i.e., the discounted returns are not truncated at the end of theepisode and always bootstrapped using the value function), death is just another transition to theagent, to be avoided only if it is boring. Therefore, we removed ‘done’ to separate the gains of anagent’s exploration from merely that of the death signal. In practice, we do find that the agent avoidsdying in the games since that brings it back to the beginning of the game, an area it has already seenmany times and where it can predict the dynamics well. This subtlety has been neglected by previousworks showing experiments without extrinsic rewards.
+    \section{Auxiliary Tasks}
+    \citep{pathak_curiosity-driven_2017-1}
+
+    In all of our experiments, both the policy and the embedding network work directly from pixels.
+
+    Pre-processing:All experiments were done with pixels. We converted all images to grayscale and resized tosize 84x84. We learn the agent’s policy and forward dynamics function both on a stack of historical observations$[xt-3, xt-2, xt-1, xt]$instead of only using the current observation. This is to capture partial observability inthese games. In the case of Super Mario Bros and Atari experiments, we also used a standard frameskip wrapperthat repeats each action 4 times.
+
+    Architectures:Our embedding network and policy networks had identical architectures and were based onthe standard convolutional networks used in Atari experiments. The layer we take as features in the embeddingnetwork had dimension 512 in all experiments and no nonlinearity. To keep the scale of the prediction errorconsistent relative to extrinsic reward, in the Unity experiments we applied batchnorm to the embedding network.We also did this for the Mario generalization experiments to reduce covariate shift from level to level.  Forthe VAE auxiliary task and pixel method, we used a similar deconvolutional architecture the exact details ofwhich can be found in our code submission. The IDF and forward dynamics networks were heads on top of theembedding network with several extra fully-connected layers of dimensionality 512.
+    •Normalizing the features. In combining intrinsic and extrinsic rewards, we found it useful toensure that the scale of the intrinsic reward was consistent across state space. We achievedthis by using batch-normalization [13] in the feature embedding network.
 
     \section{Hyper-Parameter Tuning}
     %TODO Gridsearch
@@ -1392,18 +1456,38 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Noisy-TV Problem}
     \citep{schmidhuber_formal_2010}
 
+
     \glsresetall
+
+
+    \chapter{Results}\label{ch:results}
+
+    All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
+    Concerning the GPU and the RAM, solely one NVIDIA GeForce GTX 1070 card was used and 16 GB of DDR4 memory.
 
 
     \chapter{Evalutation}
 %TODO 9. Benchmarking Deep RL
     \citep{francois-lavet_introduction_2018}
 
-    \glsresetall
-
-
-    \chapter{Results}
     For a performance comparison, we orientate ourselves on \textit{Table 3}, created by~\cite{aubret_survey_2019}. This table summarizes state of the art methods on exploration strategies with IM and points out the mean score of theses methods on \textit{Montezuma's revenge}.
+
+
+
+
+    Atari GamesTo answer these questions, we began with a collection of well-known Atari gamesand ran a suite of experiments with different feature learning methods. One way to measure how wella purely curious agent performs is to measure the extrinsic reward it is able to achieve, i.e. how goodis the agent at playing the game. It is importantto note that the extrinsic reward is only used for evaluation, not for training. However, this is just aproxy for pure exploration because the game rewards could be arbitrary and might not align at allwith how the agent explores out of curiosity.
+
+
+
+
+    Train on NoFrameskip 4 for all
+
+    Unless stated otherwise, all curves are the average of three runs with different seeds,and the shaded areas are standard errors of the mean.
+
+We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
+
+
+     These results compare the mean reward (±std-error) after 100 million frames across 3seeds for an agent trained with intrinsic plus extrinsic reward versus extrinsic reward only.  Theextrinsic (coefficient1.0) and intrinsic reward (coefficient0.01) were directly combined without anyhyper-parameter tuning. We leave the question on how to optimally combine extrinsic and intrinsicrewards up to future work. This is to emphasize that combining extrinsic with intrinsic rewards is notthe focus of the paper, and these experiments are provided just for completeness.
 
     \begin{figure}[h]
         \begin{center}
@@ -1431,7 +1515,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Montezuma's Revenge}
-
+ 5 different rooms when combined
 
     \section{Freeway}
 
@@ -1455,12 +1539,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
             \end{tabular}
 
         \end{scriptsize}
-        \def\arraystretch{1.3}
         \begin{scriptsize}
             \begin{tabular}{|ccc|}
                 \hline
+                & & \\
                 \textbf{Random Features}                                                                   & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                           \\
                 \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} \\
+                & & \\
                 \hline
             \end{tabular}
 

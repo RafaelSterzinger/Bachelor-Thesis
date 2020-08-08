@@ -1,8 +1,8 @@
 #!/bin/sh
-INT_COEFF=0.43
-EXT_COEFF=0.57
+INT_COEFF=0
+EXT_COEFF=1
 SECONDS=0
-for ((j = 0; j < 3; j++)); do
+for ((j = 0; j < 1; j++)); do
   echo "START WITH SEED $j"
   #python ./src/run.py --ext_coeff $EXT_COEFF --int_coeff $INT_COEFF --seed $j --feat_learning idf
   python ./src/run.py --ext_coeff $EXT_COEFF --int_coeff $INT_COEFF --seed $j --feat_learning none

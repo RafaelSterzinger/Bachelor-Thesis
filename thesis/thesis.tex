@@ -157,24 +157,28 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{danksagung*}
 
-        %    Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben. Insbesondere während der Verfassung dieser %Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
+            Ich möchte diese Arbeit meine beiden Eltern widmen, welche mich während meines Studiums nicht nur finanzielle, sondern auch moralisch unterstützt haben.
+            Insbesondere während der Verfassung dieser Bachelorarbeit möchte ich mich dafür bedanken, dass ihr immer für mich da wart und mich in meinem Bestreben ermutigt habt.
 
-        %    Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch %darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme. Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund %zeitlicher Beschränkungen meinerseits notwendig war.
+            Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann ausprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber auch darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme.
+            Außerdem möchte ich mich bei ihm für sein gutes Feedback sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund zeitlicher Beschränkungen meinerseits notwendig war.
 
-        %    Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
+            Außerdem möchte ich mich bei meinen Freunden bedanken, insbesondere bei meinen langjährigen Freunden, Stefan Zeller und Vinzenz Schicho, welche mich in diesen intensiven Wochen begleitet und mir gut zugesprochen haben.
 
-        %Zu guter Letzt
+        Zu guter Letzt
 % wöchentlichen treffen um energie zu tanken für weiteres verfassen
 %TODO danke für korrektur lesen
     \end{danksagung*}
 
     \begin{acknowledgements*}
-        % I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies. In particular while writing this Bachelor's thesis, I would like to thank both of you% for always being there for me and for encouraging me in my endeavors.
+         I would like to dedicate this work to my parents, who supported me not only financially but also morally during my studies.
+         In particular while writing this Bachelor's thesis, I would like to thank both of you for always being there for me and for encouraging me in my endeavors.
 
-        % I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made %sure that I did not take on too much during my project. I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
+         Additionally, I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this Bachelor's thesis, but at the same time also made sure that I did not take on too much during my project.
+         I would also like to thank him for his good feedback and for the quick grading of my thesis, which was necessary due to time constraints on my part.
 
-        % Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
-        % Last but not least,
+         Also, I would like to thank my friends, especially by my long-standing friends, Stefan Zeller and Vinzenz Schicho, who accompanied me during these intensive weeks and cheered me up.
+         Last but not least,
 %TODO danke für korrektur lesen
 
     \end{acknowledgements*}
@@ -250,6 +254,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Methodological Approach}\label{sec:methodological-approach}
 
+
+    Du beschreibst sehr genau, wie du praktisch vorgehst. Es soll aber hier generell beschrieben werden, wie du die Problemstellung angehst. Es ist in deinem Fall relativ schwer zu beschreiben, da du schon genau gewusst hast, was du machen willst. Was mir fehlt: wie bildest du die wissenschaftliche Grundlage und wie willst du die Ergebnisse evaluieren.
+%https://link.springer.com/chapter/10.1007/978-94-6091-858-2_2
+ %   https://www.scribbr.co.uk/thesis-dissertation/methodology/
     Therefore, this Bachelor's thesis follows a programming approach
 
  Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
@@ -1186,7 +1194,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         R_{int}=||\phi(s_{t+1})-F(\phi(s_t),a_t)||_2
     \end{equation}
     where $||x||_2$ is the L2 distance or rather the Euclidean distance~\citep{aubret_survey_2019}.
-    In this equation, $\phi$ stands for a generic function which encodes the raw state space into space of features and $F$ denotes a \gls{nn} which predicts the following feature space depending on the current encoded state and the taken action.
+    In this equation, $\phi$ stands for a generic function which encodes the raw state space into a space of features and $F$ denotes a \gls{nn} or rather a forward dynamics network which predicts the following feature space depending on the current encoded state and the taken action.
 
     In the core paper to this thesis, \citeauthor{burda_large-scale_2018-1} deployed four different encodings for $\phi$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
     Concerning the properties of an encoding function $\phi$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
@@ -1366,7 +1374,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \glsresetall
 
-
     \chapter{Implementation}\label{ch:implementation}
 
      In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
@@ -1389,22 +1396,39 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
 
     In the following few sections, an overview is provided on the most significant parts of the implementation.
-    The source code to this Bachelor's thesis is provided on the author's GitHub page.~\footnote{url{https://github.com/RafaelSterzinger/Bachelor-Thesis}}
-    For additional details, the paper by \citep{burda_large-scale_2018-1} and their published source code is recommened. 
+    The source code to this Bachelor's thesis is provided on the author's GitHub page.~\footnote{\url{https://github.com/RafaelSterzinger/Bachelor-Thesis}}
+
 
     \section{Proximal Policy Optimization}
-    Hyperparameter
 
-    Maximum number of timesteps for episodes = 4500
-    noop\_max = 30
+    As aforementioned, the algorithm of choice is \gls{ppo} as it does not need a lot of hyperparameter tuning and thus allows for quick scalability across different environments and different auxiliary tasks.
+    Concerning its implementation, the pseudo code for the \gls{ppo} algorithm is denoted in section~\ref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
+    In order to optimize the objective~\ref{eq:ppo_objective}, a so-called \textit{Adam} optimizer with a learning rate of $0.0001$ is used.
 
- \begin{table}
+    Additionally, as the reward signal might be non-stationary it is normalized since it helps the agent or rather the value function to learn quicker.
+    This is done by calculating the standard deviation continuously over the sum of the discounted rewards and further dividing the current rewards by the square root of the obtain value.
+    Another step worth mentioning is the Z-normalization of the advantages where each batch is normalized to have an approximate mean of 0 and a standard deviation of 1.
+
+   The embedding network as well as the policy network are structured identical where both are based on a \gls{cnn} architecture consisting of three convolutional layers with a final reshaped feature dimension of 512 that uses the leaky \gls{relu} as a non linearity.
+    According to \citeauthor{burda_large-scale_2018-1}, this is a commonly used network for experiments and benchmarks of Atari 2600 games.
+    Furthermore, the \glspl{nn} responsible for learning \gls{idf} or \gls{rf}  where added on top of the embedding network.
+    These forward dynamics networks consist of multiple fully connected layers with a hidden layer size of 512 as well.
+    However, the fully connected layers use the standard \gls{relu} as an activation function.
+
+    In order to increase the stability of the used algorithm multiple actors which work in parallel are considered.
+    Throughout all of the following conducted experiments, 128 parallel actors were employed in their own environment to solely gather data by interacting with their surroundings in order to train the agent.
+    According to the algorithm~\ref{alg:ppo}, this also affects the batch size.
+    Concerning the optimization step of the algorithm, for each iteration three epochs were used to optimize the policy as this yields faster progression.
+
+    A summary which not only includes the hyperparameter just mentioned but also the other ones used by the \gls{ppo} algorithm is provided by Table \ref{tab:ppo_params}
+
+ \begin{table}[h]
         \centering
         \begin{tabular}{l|l}
             Hyperparameter & Value \\
             \hline
 		Horizon ($T$)      & 128      \\
-		Learning rate  ($\alpha$)      & 0.0001      \\
+		Learning rate    & $1 \times 10^{-4}$      \\
 		Num. epochs  ($K$)      & 3      \\
 		Minibatch size ($M$)      &  8     \\
 		Discount ($\gamma$)      & 0.99      \\
@@ -1414,42 +1438,36 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 		\acrshort{vf} coeff. ($c_1$)      & 1      \\
 		Entropy coeff. ($c_2$)      & 0.001      \\
         \end{tabular}
-        \caption[A taxonomy on the different types of learning]{A taxonomy on the different types of learning\protect\footnotemark}
+        \caption[\gls{ppo} hyperparameters for the conducted experiments]{\gls{ppo} hyperparameters for the conducted experiments utilizing the notations introduced in section~\ref{sec:proximal-policy-optimization}}
         \label{tab:ppo_params}
     \end{table}
-
-    \footnotetext{\citep[\p{4}]{aubret_survey_2019}}
-
-      
-
-
-
-
-
-
-    Deciding upon a feature space is only first part of the puzzle in implementing a practical system.Here, we detail the critical choices we made in the learning algorithm.  Our goal was to reducenon-stationarity in order to make learning more stable and consistent across environments. Throughthe following considerations outlined below, we are able to get exploration to work reliably fordifferent feature learning methods and environments with minimal changes to the hyper-parameters.
-    •PPO. In general, we have found PPO algorithm [38] to be a robust learning algorithm thatrequires little hyper-parameter tuning, and hence, we stick to it for our experiments.•Reward normalization. Since the reward function is non-stationary, it is useful to normalizethe scale of the rewards so that the value function can learn quickly. We did this by dividingthe rewards by a running estimate of the standard deviation of the sum of discounted rewards.
-    •Advantage normalization. While training with PPO, we normalize the advantages [46] in abatch to have a mean of 0 and a standard deviation of 1.•Observation normalization. We run a random agent on our target environment for 10000steps, then calculate the mean and standard deviation of the observation and use these tonormalize the observations when training.  This is useful to ensure that the features donot have very small variance at initialization and to have less variation across differentenvironments.
-    •More actors. The stability of the method is greatly increased by increasing the number ofparallel actors (which affects the batch-size) used. We typically use 128 parallel runs of thesame environment for data collection while training an agent.
-
-    Hyper-parameters:We used a learning rate of 0.0001 for all networks.  In most experiments, we used128 parallel environments. We used rollouts oflength 128 in all experiments. In the initial 9 experiments on Mario and Atari, we used 3optimization epochs per rollout in the interest of speed.
-    \citep{burda_large-scale_2018-1}
-    \citep{pathak_curiosity-driven_2017-1}
 
     One important point is that the use of an end of episode signal, sometimes called a ‘done’, can oftenleak information about the true reward function. If we don’t remove the ‘done’ signal, many of theAtari games become too simple. For example, a simple strategy of giving +1 artificial reward at everytime-step when the agent is alive and 0 on death is sufficient to obtain a high score in some games,for instance, the Atari game ‘Breakout’ where it will seek to maximize the episode length and henceits score. In the case of negative rewards, the agent will try to end the episode as quickly as possible.
 
     In light of this, if we want to study the behavior of pure exploration agents, we should not bias theagent. In the infinite horizon setting (i.e., the discounted returns are not truncated at the end of theepisode and always bootstrapped using the value function), death is just another transition to theagent, to be avoided only if it is boring. Therefore, we removed ‘done’ to separate the gains of anagent’s exploration from merely that of the death signal. In practice, we do find that the agent avoidsdying in the games since that brings it back to the beginning of the game, an area it has already seenmany times and where it can predict the dynamics well. This subtlety has been neglected by previousworks showing experiments without extrinsic rewards.
+
     \section{Auxiliary Tasks}
     \citep{pathak_curiosity-driven_2017-1}
+Deciding upon a feature space is only first part of the puzzle in implementing a practical system.Here, we detail the critical choices we made in the learning algorithm.
 
     In all of our experiments, both the policy and the embedding network work directly from pixels.
 
     Pre-processing:All experiments were done with pixels. We converted all images to grayscale and resized tosize 84x84. We learn the agent’s policy and forward dynamics function both on a stack of historical observations$[xt-3, xt-2, xt-1, xt]$instead of only using the current observation. This is to capture partial observability inthese games. In the case of Super Mario Bros and Atari experiments, we also used a standard frameskip wrapperthat repeats each action 4 times.
 
-    Architectures:Our embedding network and policy networks had identical architectures and were based onthe standard convolutional networks used in Atari experiments. The layer we take as features in the embeddingnetwork had dimension 512 in all experiments and no nonlinearity. To keep the scale of the prediction errorconsistent relative to extrinsic reward, in the Unity experiments we applied batchnorm to the embedding network.We also did this for the Mario generalization experiments to reduce covariate shift from level to level.  Forthe VAE auxiliary task and pixel method, we used a similar deconvolutional architecture the exact details ofwhich can be found in our code submission. The IDF and forward dynamics networks were heads on top of theembedding network with several extra fully-connected layers of dimensionality 512.
+
+    leaky relu for non linearity
+
+    random agent for 10000 steps use mean and stdev for normalization
+
+•Observation normalization. We run a random agent on our target environment for 10000steps, then calculate the mean and standard deviation of the observation and use these tonormalize the observations when training.  This is useful to ensure that the features donot have very small variance at initialization and to have less variation across differentenvironments.
+
+
+
     •Normalizing the features. In combining intrinsic and extrinsic rewards, we found it useful toensure that the scale of the intrinsic reward was consistent across state space. We achievedthis by using batch-normalization [13] in the feature embedding network.
 
-    \section{Hyper-Parameter Tuning}
+    \section{Hyperparameter Tuning}
+
+    In addition to the hyperparameters mentioned in Table~\ref{tab:ppo_params} coefficients $\alpha$ and $\beta$
     %TODO Gridsearch
 
 
@@ -1462,11 +1480,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Results}\label{ch:results}
 
-    All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
+
+
+    \section{Evalutation}
+ All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
     Concerning the GPU and the RAM, solely one NVIDIA GeForce GTX 1070 card was used and 16 GB of DDR4 memory.
 
-
-    \chapter{Evalutation}
 %TODO 9. Benchmarking Deep RL
     \citep{francois-lavet_introduction_2018}
 

@@ -621,8 +621,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         For instance, playing the game of rock, paper, scissors with a deterministic policy, e.g.\ always selecting rock, the strategy would be easily exploitable.
         In this case, a stochastic, uniform random policy, which does not allow for predictions, is much better-suited ~\citepOnline{silver_lecture_2015-3}.
         \item In certain situations, it might be more efficient to parameterize the policy instead of the action-value parametrization as the approximation of policies could be less complex.
-        %TODO ref to image of breakout
-        For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout} from one point onward when moving left might be very difficult.
+        For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout}~\eqref{fig:break} from one point onward when moving left might be very difficult.
         However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citepOnline{silver_lecture_2015-3}.
         In these situations, policy based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
         \item Lastly, the initial configuration of a policy's parameters enables the possibility to supply an agent with prior knowledge about an optimal policy.
@@ -1382,7 +1381,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Implementation}\label{ch:implementation}
 
-    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be observed on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+    %TODO footnote for website
     The implementation relies on the same tools used by the preceding authors since it guarantees optimal reproducibility of their results.
     In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
 
@@ -1390,8 +1390,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{enumerate}
         \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
-        \item Analyzing the implementation of the \glossary{ppo} algorithm
-        \item Analyzing the implementation of different auxiliary task such as \gls{rf} and \gls{idf}
+        \item Analyzing the implementation of the \gls{ppo} algorithm
+        \item Analyzing the implementation of different auxiliary tasks such as \gls{rf} and \gls{idf}
         \item Tuning of the coefficients $\alpha,\beta$ and comparison to state-of-the-art results for densely and sparsely rewarding environments
         \item Implementation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
@@ -1401,7 +1401,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
     Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
 
-    In the following few sections, an overview is provided on the most significant parts of the implementation.
+    In the following few sections an overview is provided of the most significant parts of the implementation.
     The source code to this Bachelor's thesis is provided on the author's GitHub page.~\footnote{\url{https://github.com/RafaelSterzinger/Bachelor-Thesis}}
 
 
@@ -1411,25 +1411,25 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning its implementation, the pseudo code for the \gls{ppo} algorithm is denoted in section~\ref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
     In order to optimize the objective~\ref{eq:ppo_objective}, a so-called \textit{Adam} optimizer with a learning rate of $0.0001$ is used.
 
-    Additionally, as the reward signal might be non-stationary it is normalized since it helps the agent or rather the value function to learn quicker.
+    Additionally, as the reward signal is non-stationary it is normalized since it helps the agent or rather the value function to learn more quickly.
     This is done by calculating the standard deviation continuously over the sum of the discounted rewards and further dividing the current rewards by the square root of the obtained value.
     The advantages are also scaled using a Z-normalization where each batch is normalized to have an approximate mean of 0 and a standard deviation of 1.
 
-    The embedding network as well as the policy network are structured identical where both are based on a \gls{cnn} architecture consisting of three convolutional layers with a final reshaped feature dimension of 512 that uses the leaky \gls{relu} as a non linearity.
+    The embedding network as well as the policy network are structured identically where both are based on a \gls{cnn} architecture consisting of three convolutional layers with a final reshaped feature dimension of 512 that uses the leaky \gls{relu} as a non linearity.
     The filters, kernel sizes, and strides of these layers are as follows:
 
     \begin{enumerate}
-        \item 32 filters, a kernel size $8 \times 8$, and a stride of 4
-        \item 64 filters, a kernel size $4 \times 4$, and a stride of 2
-        \item 64 filters, a kernel size $3 \times 3$, and a stride of 1
+        \item 32 filters, a kernel size of $8 \times 8$, and a stride of 4
+        \item 64 filters, a kernel size of $4 \times 4$, and a stride of 2
+        \item 64 filters, a kernel size of $3 \times 3$, and a stride of 1
     \end{enumerate}
 
     According to \citeauthor{burda_large-scale_2018-1}, this is a commonly used network for experiments and benchmarks of Atari 2600 games.
-    Furthermore, the \glspl{nn} responsible for learning \gls{idf} or \gls{rf}  where added on top of the embedding network.
+    Furthermore, the \glspl{nn} responsible for learning \gls{idf} or \gls{rf}  were added on top of the embedding network.
     These forward dynamics networks consist of multiple fully connected layers with a hidden layer size of 512 as well.
     However, the fully connected layers use the standard \gls{relu} as an activation function.
 
-    In order to increase the stability of the used algorithm multiple actors which work in parallel are considered.
+    In order to increase the stability of the deployed algorithm multiple actors which work in parallel are considered.
     Throughout all of the following conducted experiments, 128 parallel actors were employed in their own environment to solely gather data by interacting with their surroundings in order to train the agent.
     According to the algorithm~\ref{alg:ppo}, this also affects the batch size.
     Concerning the optimization step of the algorithm, for each iteration, three epochs were used to optimize the policy as this allows for faster progression.
@@ -1458,20 +1458,20 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \label{tab:ppo_params}
     \end{table}
 
-    Finally, another significant aspect of the implementation is the omitting of a \textit{done} signal which is normally used at the end of an episode.
+    Finally, another significant aspect of the implementation is the omission of a \textit{done} signal which is normally given at the end of an episode.
     By ignoring such a signal, information about the true extrinsic reward function is not leaked which allows for truly intrinsically motivated agents~\citep{burda_large-scale_2018-1}.
-    Therefore, the death of an agent turns just into another state transition which it solely avoids if it thinks dying is boring.
-    Although the agent is now given an option, \citeauthor{burda_large-scale_2018-1} state that it usually avoids death since dying would only reset the game which puts it back into a well known area.
-    Unfortunately, sooner or later the agent will still eventually die and hence the agent must start over at the beginning where it might get detached from the rewarding area.
+    Therefore, the death of an agent turns just into another state transition which solely can be avoided if passing away is considered to be boring.
+    Although the agent is now given an option, \citeauthor{burda_large-scale_2018-1} state that it usually avoids death since dying would only reset the game which puts it back into a well-known area.
+    Unfortunately, sooner or later the agent will eventually lose and hence the agent must restart at the beginning where it might get detached from the rewarding area.
     This problem has been depicted in Figure~\ref{fig:exploration_problem}.
 
-    Besides the policy and its optimization, the auxiliary tasks which are responsible for the embedding and their implementation details are also important to mention.
-    Before the embedding happens, the raw observation which consists of pixels is pre-processed in order to reduce dimensionality.
+    Apart from the policy and its optimization, the implementation of the auxiliary tasks that are responsible for the embedding are also worth mentioning.
+    Before the embedding occurs, the raw observation which consists of pixels is pre-processed in order to reduce dimensionality.
     This is done by resizing the current frame to a size of $84 \times 84$ and converting it into a single colour channel, resulting in only grayscale images with reduced dimensionality~\eqref{fig:tv}.
 
-    Concerning the observation during the trainings process, a stack including the current frame as well as three previous ones is used to train both, the policy and the forward dynamics network.
-    This is due to the fact that the agent is able to recognize partial observability within its environment if multiple subsequent frames are considered.
-    Additionally, standard frame-skipping wrappers are used in the Atari games which allow to execute an action four times in a row, speeding up the training process linearly.
+    Concerning the observation during the training process, a stack including the current frame as well as three previous ones is used to train both the policy and the forward dynamics network.
+    This is due to the fact that the agent is able to recognize partial observability within its environment, if multiple subsequent frames are taken into consideration.
+    Additionally, standard frame-skipping wrappers are used in the Atari games which enables the execution of an action four times in a row thus speeding up the training process linearly.
 
     In addition to the normalization of rewards and advantages, observations are normalized as well.
     Here, mean and standard deviation are calculated prior to the initialization of the embedding network which are based on data that is obtained by letting a random agent explore its environment for 10000 time-steps.
@@ -1480,8 +1480,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Hyperparameter Tuning}
 
     In addition to the hyperparameters mentioned in Table~\ref{tab:ppo_params}, the coefficients $\alpha$ and $\beta$, responsible for the weighting of extrinsic and intrinsic rewards, are used as well and must be tuned depending on the conducted experiment.
-    During the tuning process only coefficients within a range of 0 and 1 are considered with an additionally added constraint that $\alpha + \beta$ must be equal to 1.
-    Stating the authors, they did not add this limitation:
+    During the tuning process only coefficients within a range of 0 and 1 are taken into consideration with an additionally added constraint that $\alpha + \beta$ must be equal to 1.
+    However, the authors did not add this limitation:
 
     \begin{quote}
         "We [the authors] would like to emphasize that this [combining extrinsic and intrinsic rewards] is not the focus of the paper, and these experiments are provided just for completeness.
@@ -1491,7 +1491,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{quote}
 
     However this poses only a minor change which is solely used as it facilitates the tuning during e.g.\ a gridsearch\footnote{For further information, the literature by \citet[\p{420ff}]{goodfellow_deep_2016} is recommended} by more or less bounding the search space.
-    Besides using completely intrinsically motivated agents ($\alpha=0,\beta=1$) as in the work by \citeauthor{burda_large-scale_2018-1} or also evaluating the performance of only extrinsically rewarded agents ($\alpha=1,\beta=0$), a mixed form is considered.
+    Besides using completely intrinsically motivated agents ($\alpha=0,\beta=1$) as in the work by \citeauthor{burda_large-scale_2018-1} and also evaluating the performance of only extrinsically rewarded agents ($\alpha=1,\beta=0$), a mixed form is considered.
 
     In order to find good combinations of these coefficients, a gridsearch was implemented using a shell script.
     The initial configuration starts with coefficients $\alpha=1$ and $\beta=0$ that are decremented/incremented during each iteration by a $\Delta$ of 0.1 which allows for an exhaustive combination of these values.
@@ -1500,7 +1500,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Noisy-TV Problem}\label{sec:noisy-tv-problem}
 
     For the implementation of the noisy-TV problem, introduced by \citeauthor{schmidhuber_formal_2010} and described in section~\ref{sec:problem-description}, an additional wrapper was implemented which wraps around the the pre-processed observation and adds a fixed region of random noise.
-    Besides the task of combining the coefficients of the rewards, the problem of stochasticity is considered as experiments are conducted to analyze the impact of \gls{em} on a distracted, intrinsically motivated agent.
+    Besides the task of combining the coefficients of the rewards, the problem of stochasticity is implemented as experiments are conducted to analyze the impact of \gls{em} on a distracted, intrinsically motivated agent.
     The modified agent's observation which is caused by the additional wrapper can be observed in Figure~\ref{fig:tv_noise}.
 
     \begin{figure}[h]
@@ -1529,30 +1529,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Results}\label{ch:results}
 
-
-    \section{Evalutation}
-    All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
-    Concerning the GPU and the RAM, solely one NVIDIA GeForce GTX 1070 card was used and 16 GB of DDR4 memory.
-
- Cross fold, t-test
-%TODO 9. Benchmarking Deep RL
-    \citep{francois-lavet_introduction_2018}
-
-    For a performance comparison, we orientate ourselves on \textit{Table 3}, created by~\cite{aubret_survey_2019}. This table summarizes state of the art methods on exploration strategies with IM and points out the mean score of theses methods on \textit{Montezuma's revenge}.
-
-
-    Atari GamesTo answer these questions, we began with a collection of well-known Atari gamesand ran a suite of experiments with different feature learning methods. One way to measure how wella purely curious agent performs is to measure the extrinsic reward it is able to achieve, i.e. how goodis the agent at playing the game. It is importantto note that the extrinsic reward is only used for evaluation, not for training. However, this is just aproxy for pure exploration because the game rewards could be arbitrary and might not align at allwith how the agent explores out of curiosity.
-
-
-    Train on NoFrameskip 4 for all
-
-    Unless stated otherwise, all curves are the average of three runs with different seeds,and the shaded areas are standard errors of the mean.
-
-    We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
-
-
-    These results compare the mean reward (±std-error) after 100 million frames across 3seeds for an agent trained with intrinsic plus extrinsic reward versus extrinsic reward only. Theextrinsic (coefficient1.0) and intrinsic reward (coefficient0.01) were directly combined without anyhyper-parameter tuning. We leave the question on how to optimally combine extrinsic and intrinsicrewards up to future work. This is to emphasize that combining extrinsic with intrinsic rewards is notthe focus of the paper, and these experiments are provided just for completeness.
-
+    In this chapter the findings and results of the conducted experiments are presented which were carried out in order to find answers the posed questions from section~\ref{sec:methodological-approach}.
 
     Two very different hard games were selected as monzeumas revenge is a well known game with very sparse rewards and freeway a game which is especially challening for im due to the built in stochsticity
 
@@ -1581,14 +1558,33 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{figure}
 
 
+
+    \section{Evalutation}
+    All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
+    Concerning the GPU and the RAM, solely one NVIDIA GeForce GTX 1070 card was used and 16 GB of DDR4 memory.
+
+ Cross fold, t-test
+%TODO 9. Benchmarking Deep RL
+    \citep{francois-lavet_introduction_2018}
+
+    For a performance comparison, we orientate ourselves on \textit{Table 3}, created by~\cite{aubret_survey_2019}. This table summarizes state of the art methods on exploration strategies with IM and points out the mean score of theses methods on \textit{Montezuma's revenge}.
+
+
+    Atari GamesTo answer these questions, we began with a collection of well-known Atari gamesand ran a suite of experiments with different feature learning methods. One way to measure how wella purely curious agent performs is to measure the extrinsic reward it is able to achieve, i.e. how goodis the agent at playing the game. It is importantto note that the extrinsic reward is only used for evaluation, not for training. However, this is just aproxy for pure exploration because the game rewards could be arbitrary and might not align at allwith how the agent explores out of curiosity.
+
+
+    Train on NoFrameskip 4 for all
+
+    Unless stated otherwise, all curves are the average of three runs with different seeds,and the shaded areas are standard errors of the mean.
+
+    We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
+
+
+    These results compare the mean reward (±std-error) after 100 million frames across 3seeds for an agent trained with intrinsic plus extrinsic reward versus extrinsic reward only. Theextrinsic (coefficient1.0) and intrinsic reward (coefficient0.01) were directly combined without anyhyper-parameter tuning. We leave the question on how to optimally combine extrinsic and intrinsicrewards up to future work. This is to emphasize that combining extrinsic with intrinsic rewards is notthe focus of the paper, and these experiments are provided just for completeness.
+
+
     \section{Montezuma's Revenge}
     5 different rooms when combined
-
-
-    \section{Freeway}
-
-
-    \section{Breakout}
 
 
     \begin{figure}[h]
@@ -1619,6 +1615,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
         \end{scriptsize} \caption{This is a test for the caption}
 
+    \section{Freeway}
+
+
+    \section{Breakout}
+        \subsection{Improving Performance in Densely Rewarding Environments}
+        \subsection{Distraction of Intrinsically Motivated Agents}
+
+
 
     \end{figure}
 
@@ -1626,6 +1630,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \chapter{Conclusion and Further Work}
+
+
+    Combine go explore with itrninsic exploration ultimate performance
 
     \backmatter
 % Use an optional list of figures.

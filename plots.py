@@ -42,6 +42,22 @@ class MultipleSeedsExperiment(object):
             list_of_ys.append(exp.timeseries(y_series))
 
             n_steps_per_update.append(exp.timeseries('tcount')[-1] / exp.timeseries('n_updates')[-1])
+        if y_series=='visited_rooms':
+            temp = list_of_ys
+            list_of_ys = [[],[],[]]
+            for i in range(0,len(temp)):
+                for seed in temp[i]:
+                    list_of_ys[i].append(len(seed))
+            for i in range(0,len(list_of_ys)):
+                max = 0
+                for x in range(0,len(list_of_ys[i])):
+                    entry = list_of_ys[i][x]
+                    if entry > max:
+                        max = entry
+                    list_of_ys[i][x]=max
+
+
+
         x, y = group_timeseries(list_of_xs, list_of_ys)
         return x * np.max(n_steps_per_update), y
 
@@ -108,7 +124,10 @@ class Experiment(object):
     def timeseries(self, name):
         assert self.log is not None
         if self._timeseries.get(name, None) is None:
-            self._timeseries[name] = [entry.get(name, 0.) for entry in self.log]
+            if name!='visited_rooms':
+                self._timeseries[name] = [entry.get(name, 0.) for entry in self.log]
+            else:
+                self._timeseries[name] = [entry.get(name, [1]) for entry in self.log]
         return self._timeseries[name]
 
     def __str__(self):
@@ -204,12 +223,12 @@ labels = {
 }
 
 
-def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, alpha=1.0, xlim=100):
+def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothen=51, alpha=1.0, xlim=100):
     num_envs = len(experiment.grouped_experiments)
     print(num_envs)
     fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
-    envs = ['Freeway']
+    envs = ['Breakout']
     # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
 
     for env, ax in zip(envs, np.ravel(axes)):
@@ -227,7 +246,7 @@ def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, 
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
     # fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
     fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
-    fig.text(0.001, 0.5, 'Extrinsic Reward per Episode', va='center', rotation='vertical')
+    fig.text(0.001, 0.5, name, va='center', rotation='vertical')
 
     save_filename = os.path.join(results_folder, '{}_{}.png'.format(envs[0], y_series))
     print("saving ", save_filename)
@@ -236,14 +255,18 @@ def generate_three_seed_graph(experiment, y_series='eprew_recent', smoothen=51, 
 
 
 def main():
+    xlim = 200
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    generate_three_seed_graph(experiment, 'retmean', xlim=100)
-    generate_three_seed_graph(experiment, 'rew_mean', xlim=100)
-#    generate_three_seed_graph(experiment, 'best_ext_ret', smoothen=False, xlim=100)
-    print('parsed')
+    #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
+    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
+                              xlim=xlim)
+    generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
 
 
 if __name__ == '__main__':
-    results_folder = '../../test/FreewayFINAL'
+    results_folder = '../../plotting/BreakoutImprovement'
     os.chdir(results_folder)
     main()

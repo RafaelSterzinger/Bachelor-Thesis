@@ -182,18 +182,19 @@ def add_rollout_params(parser):
 
 
 def add_experiment_params(parser):
-    parser.add_argument('--env', help='environment ID', default='MontezumaRevengeNoFrameskip-v4',
+    parser.add_argument('--env', help='environment ID', default='BreakoutNoFrameskip-v4',
                         type=str)
     parser.add_argument('--seed', help='RNG seed', type=int, default=0)
-    parser.add_argument('--feat_learning', type=str, default="none",
+    parser.add_argument('--feat_learning', type=str, default="idf",
                         choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
     parser.add_argument('--exp_name', type=str, default='')
 
-    parser.add_argument('--dyn_env', type=bool, default=False)
+#TODO change to false
+    parser.add_argument('--dyn_env', type=bool, default=True)
 
     # DEFAULT VALUE = 1e8
     # AMOUNT FOR FINAL EVALUATION = 1e8/4
-    parser.add_argument('--num_timesteps', type=int, default=int(1e8))
+    parser.add_argument('--num_timesteps', type=int, default=int(1e6))
 
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
@@ -213,9 +214,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     int_coeff = args.__dict__["int_coeff"]
     ext_coeff = args.__dict__["ext_coeff"]
-    EXPERIMENT_NAME = f"MontezumaRevenge_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    EXPERIMENT_NAME = f"Breakout_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
 
+#TODO change here
     args.__setattr__("dir",
-                     f"/home/rafael/Documents/experiments/MontezumaRevengeFINALLONG/{EXPERIMENT_NAME}")
+                     f"/home/rafael/Documents/experiments/BreakoutIDFTV/{EXPERIMENT_NAME}")
 
     start_experiment(**args.__dict__)

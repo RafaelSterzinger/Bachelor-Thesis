@@ -1422,7 +1422,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In order to increase the stability of the used algorithm multiple actors which work in parallel are considered.
     Throughout all of the following conducted experiments, 128 parallel actors were employed in their own environment to solely gather data by interacting with their surroundings in order to train the agent.
     According to the algorithm~\ref{alg:ppo}, this also affects the batch size.
-    Concerning the optimization step of the algorithm, for each iteration three epochs were used to optimize the policy as this yields faster progression.
+    Concerning the optimization step of the algorithm, for each iteration, three epochs were used to optimize the policy as this allows for faster progression.
 
     A summary which not only includes the hyperparameter just mentioned but also the other ones used by the \gls{ppo} algorithm is provided by Table~\ref{tab:ppo_params}
 
@@ -1430,11 +1430,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \centering
         \begin{tabular}{|l|l|}
             \hline
-            Hyperparameter                         & Value              \\
+            Hyperparameter                       & Value              \\
             \hline
             Horizon ($T$)                        & 128                \\
             Learning rate                        & $1 \times 10^{-4}$ \\
-            Num. epochs  ($K$)                     & 3                  \\
+            Num. epochs  ($K$)                   & 3                  \\
             Minibatch size ($M$)                 & 8                  \\
             Discount ($\gamma$)                  & 0.99               \\
             \acrshort{gae} parameter ($\lambda$) & 0.95               \\
@@ -1451,20 +1451,21 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Finally, another significant aspect of the implementation is the omitting of a \textit{done} signal which is normally used at the end of an episode.
     By ignoring such a signal, information about the true extrinsic reward function is not leaked which allows for truly intrinsically motivated agents~\citep{burda_large-scale_2018-1}.
     Therefore, the death of an agent turns just into another state transition which it solely avoids if it thinks dying is boring.
-    Although now the agent is given the option to decide whether or not it finds the end signal boring, \citeauthor{burda_large-scale_2018-1} state that it usually avoids death since dying would only reset the game which puts it back into a well known area.
-    Unfortunately, sooner or later the agent will still eventually die and hence the agent must start over at the beginning where it might get stuck since it might has to deal with the problem depicted in Figure~\ref{fig:exploration_problem}.
+    Although the agent is now given an option, \citeauthor{burda_large-scale_2018-1} state that it usually avoids death since dying would only reset the game which puts it back into a well known area.
+    Unfortunately, sooner or later the agent will still eventually die and hence the agent must start over at the beginning where it might get detached from the rewarding area.
+    This problem has been depicted in Figure~\ref{fig:exploration_problem}.
 
-    Besides the policy and its optimization, the auxiliary tasks which are responsible for the embedding are another important aspect of the implementation as well.
-    Before the embedding happens, the raw observation which consists of pixels is is pre-processed in order to reduce dimensionality.
-    This is done by resizing the current frame to a size of $84 \times 84$ and converting it into a single colour channel, resulting in only gray images with reduced dimensionality.
+    Besides the policy and its optimization, the auxiliary tasks which are responsible for the embedding and their implementation details are also important to mention.
+    Before the embedding happens, the raw observation which consists of pixels is pre-processed in order to reduce dimensionality.
+    This is done by resizing the current frame to a size of $84 \times 84$ and converting it into a single colour channel, resulting in only grayscale images with reduced dimensionality~\eqref{fig:tv}.
 
-    Concerning the observation during the trainings process, a stack including the current frame as well as four previous ones is used to train both, the policy and the forward dynamics network.
-    The reason for this is that by not only considering the current frame on its own, the agent is able to recognize partial observability within its environment.
-    Additionally, standard frame-skipping wrappers are used in the Atari games which allow to execute an action four times in a row.
+    Concerning the observation during the trainings process, a stack including the current frame as well as three previous ones is used to train both, the policy and the forward dynamics network.
+    This is due to the fact that the agent is able to recognize partial observability within its environment if multiple subsequent frames are considered.
+    Additionally, standard frame-skipping wrappers are used in the Atari games which allow to execute an action four times in a row, speeding up the training process linearly.
 
     In addition to the normalization of rewards and advantages, observations are normalized as well.
     Here, mean and standard deviation are calculated prior to the initialization of the embedding network which are based on data that is obtained by letting a random agent explore its environment for 10000 time-steps.
-    Afterwards, these are used to normalize the input frames during training which is especially useful as it ensures for features to have small variance at the beginning and that they hold less deviation across other environments.
+    Afterwards, the generated data is used to normalize the input frames during training which is especially useful as it ensures for features to have small variance at the beginning and that they hold less deviation across other environments.
 
     \section{Hyperparameter Tuning}
 
@@ -1476,6 +1477,28 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \citep{schmidhuber_formal_2010}
 
     For the implemenation of the noisy-TV problem, an additional wrapper was implemented which wraps around the the pre-processed observation.
+
+
+    \begin{figure}[h]
+        \begin{center}
+            \begin{subfigure}{.40\textwidth}
+                \centering
+                \includegraphics[width=.8\linewidth]{figures/TV.PNG}
+                \caption{Original input converted and rescaled to a $84 \times 84$ grayscale image}
+                \label{fig:tv}
+            \end{subfigure}%
+            \hspace{0.05\textwidth}
+            \begin{subfigure}{.40\textwidth}
+                \centering
+                \includegraphics[width=.8\linewidth]{figures/TV_noise.PNG}
+                \caption{Pre-processed input with a 20\% padding of random noise}
+                \label{fig:tv_noise}
+            \end{subfigure}
+           \caption[What the agent sees: a pre-processed frame during a game of \textit{Breakout}]{What the agent sees: a pre-processed frame during a game of \textit{Breakout} where Figure~\ref{fig:tv} is the preprocessed frame and Figure~\ref{fig:tv_noise} depicts the additional added layer of random noise}
+            \label{fig:observation}
+        \end{center}
+    \end{figure}
+
 
     \glsresetall
 
@@ -1505,6 +1528,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     These results compare the mean reward (±std-error) after 100 million frames across 3seeds for an agent trained with intrinsic plus extrinsic reward versus extrinsic reward only. Theextrinsic (coefficient1.0) and intrinsic reward (coefficient0.01) were directly combined without anyhyper-parameter tuning. We leave the question on how to optimally combine extrinsic and intrinsicrewards up to future work. This is to emphasize that combining extrinsic with intrinsic rewards is notthe focus of the paper, and these experiments are provided just for completeness.
+
+
+    Two very different hard games were selected as monzeumas revenge is a well known game with very sparse rewards and freeway a game which is especially challening for im due to the built in stochsticity
 
     \begin{figure}[h]
         \begin{center}

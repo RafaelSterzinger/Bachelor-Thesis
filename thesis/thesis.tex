@@ -266,6 +266,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Problem of detached agents possible to tackle via combining extrinsic and intrinsic
 
+    kim solves problem of stochasticity by combining ext int
+
 
     The goal of this large-scale analysis is to investigate the following questions: (a) Whatactually happens when you run a pure curiosity-driven agent on a variety of games without anyextrinsic rewards? (b) What kinds of behaviors can you expect from these agents? (c) What is theeffect of the different feature learning variants in dynamics-based curiosity on these behaviors?
 
@@ -822,7 +824,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
         \item   Another very famous breakthrough occurred in 2016 when an algorithm by the name \textit{AlphaGo}~\citep{silver_mastering_2017} defeated the top-ranked players in the board game Go.
         The reason why this event was so remarkable is that Go is a very complex game and being good at it takes a lot of human-like intuition.
-        Additionally, the state space is very large when compared to other board games such as e.g. chess.
+        Additionally, the state space is very large when compared to other board games such as e.g.\ chess.
         However, it was the unconventional learning process which made AlphaGo well known as it improved itself by obtaining experience by playing against another version of itself.
 
         \item   \gls{drl} is also considered a viable option for self-driving cars.
@@ -1414,6 +1416,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The advantages are also scaled using a Z-normalization where each batch is normalized to have an approximate mean of 0 and a standard deviation of 1.
 
     The embedding network as well as the policy network are structured identical where both are based on a \gls{cnn} architecture consisting of three convolutional layers with a final reshaped feature dimension of 512 that uses the leaky \gls{relu} as a non linearity.
+    The filters, kernel sizes, and strides of these layers are as follows:
+
+    \begin{enumerate}
+        \item 32 filters, a kernel size $8 \times 8$, and a stride of 4
+        \item 64 filters, a kernel size $4 \times 4$, and a stride of 2
+        \item 64 filters, a kernel size $3 \times 3$, and a stride of 1
+    \end{enumerate}
+
     According to \citeauthor{burda_large-scale_2018-1}, this is a commonly used network for experiments and benchmarks of Atari 2600 games.
     Furthermore, the \glspl{nn} responsible for learning \gls{idf} or \gls{rf}  where added on top of the embedding network.
     These forward dynamics networks consist of multiple fully connected layers with a hidden layer size of 512 as well.
@@ -1469,28 +1479,42 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Hyperparameter Tuning}
 
-    In addition to the hyperparameters mentioned in Table~\ref{tab:ppo_params}, coefficients $\alpha$ and $\beta$
-    %TODO Gridsearch
+    In addition to the hyperparameters mentioned in Table~\ref{tab:ppo_params}, the coefficients $\alpha$ and $\beta$, responsible for the weighting of extrinsic and intrinsic rewards, are used as well and must be tuned depending on the conducted experiment.
+    During the tuning process only coefficients within a range of 0 and 1 are considered with an additionally added constraint that $\alpha + \beta$ must be equal to 1.
+    Stating the authors, they did not add this limitation:
 
+    \begin{quote}
+        "We [the authors] would like to emphasize that this [combining extrinsic and intrinsic rewards] is not the focus of the paper, and these experiments are provided just for completeness.
+        We just combined extrinsic (coefficient 1.0) and intrinsic reward (coefficient 0.01) directly without any tuning."
 
-    \section{Noisy-TV Problem}
-    \citep{schmidhuber_formal_2010}
+        \hfill~\cite[\p{9}]{burda_large-scale_2018-1}
+    \end{quote}
 
-    For the implemenation of the noisy-TV problem, an additional wrapper was implemented which wraps around the the pre-processed observation.
+    However this poses only a minor change which is solely used as it facilitates the tuning during e.g.\ a gridsearch\footnote{For further information, the literature by \citet[\p{420ff}]{goodfellow_deep_2016} is recommended} by more or less bounding the search space.
+    Besides using completely intrinsically motivated agents ($\alpha=0,\beta=1$) as in the work by \citeauthor{burda_large-scale_2018-1} or also evaluating the performance of only extrinsically rewarded agents ($\alpha=1,\beta=0$), a mixed form is considered.
 
+    In order to find good combinations of these coefficients, a gridsearch was implemented using a shell script.
+    The initial configuration starts with coefficients $\alpha=1$ and $\beta=0$ that are decremented/incremented during each iteration by a $\Delta$ of 0.1 which allows for an exhaustive combination of these values.
+    This process is repeated multiple times for each considered game where after each completed search the range as well as the rate of change ($\Delta$) are redefined depending on the obtained performance.
+
+    \section{Noisy-TV Problem}\label{sec:noisy-tv-problem}
+
+    For the implementation of the noisy-TV problem, introduced by \citeauthor{schmidhuber_formal_2010} and described in section~\ref{sec:problem-description}, an additional wrapper was implemented which wraps around the the pre-processed observation and adds a fixed region of random noise.
+    Besides the task of combining the coefficients of the rewards, the problem of stochasticity is considered as experiments are conducted to analyze the impact of \gls{em} on a distracted, intrinsically motivated agent.
+    The modified agent's observation which is caused by the additional wrapper can be observed in Figure~\ref{fig:tv_noise}.
 
     \begin{figure}[h]
         \begin{center}
             \begin{subfigure}{.40\textwidth}
                 \centering
-                \includegraphics[width=.8\linewidth]{figures/TV.PNG}
+                \includegraphics[width=.9\linewidth]{figures/TV.PNG}
                 \caption{Original input converted and rescaled to a $84 \times 84$ grayscale image}
                 \label{fig:tv}
             \end{subfigure}%
             \hspace{0.05\textwidth}
             \begin{subfigure}{.40\textwidth}
                 \centering
-                \includegraphics[width=.8\linewidth]{figures/TV_noise.PNG}
+                \includegraphics[width=.9\linewidth]{figures/TV_noise.PNG}
                 \caption{Pre-processed input with a 20\% padding of random noise}
                 \label{fig:tv_noise}
             \end{subfigure}

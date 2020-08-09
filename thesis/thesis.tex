@@ -201,7 +201,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Introduction}
 
-
     \section{Problem Description}\label{sec:problem-description}
     In \gls{rl}, algorithms mainly depend on carefully designed extrinsic reward functions which are comparable with feedback to an agent's behaviour.
     In order to teach an agent a certain desired behaviour, it has to optimize this reward function by trial and error.
@@ -209,7 +208,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Tasks which award rewards densely, i.e.\ almost after every performed action, are common for these results.
     In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely for an agent to pick up the needed skills.
     An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
-    \\\\
+
     An approach to tackle these problems is curiosity, an organism's \gls{im} to spontaneously explore its environment.
     \gls{im} allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore a more general reward function.
     In general, the concept of intrinsic and extrinsic evolves around the question of why an agent performed a certain action in a given state.
@@ -227,39 +226,50 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Knowledge acquisition is described as the agent's motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
     Concerning exploration, one approach is error prediction which is the agent's difficulty to predict the state following a state-action tuple.
     This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
-    \\\\
+
     Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
     Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
     The noisy-TV problem, also known as the white-noise problem, is an algorithm's inability to handle the local stochasticity of the environment: "\textit{\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}"\cite[\p{10}]{aubret_survey_2019}
-    \\\\
-    The domain of the given problem description is \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
+    The domain of the given problem description is \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
     \section{Expected Results}\label{sec:expected-results}
     As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of~\citeauthor{burda_large-scale_2018-1} and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
     In order to do so, the coefficients $\alpha$ and $\beta$ have to be selected accordingly.
     \[r=\alpha r_{int} + \beta r_{ext}\]
     From that, an optimal solution to this equation maximizes the agent's overall reward when testing.
-    \\\\
+
     After a re-implementation of the proposed algorithms, the benchmarks are expected to at least match the mean rewards mentioned in the \textit{Additional Results} section from the underlying paper.
     In this section, the authors explored the performance of combined rewards on five different Atari games and already showed that the combination of rewards yield a higher mean reward and thus an exhaustive hyperparameter tuning should certainly improve these results.
-    However, this poses the question of how algorithms with combined rewards perform in densely rewarding environments as well.
-    Therefore, it would be interesting to observe the performance in environments with dense rewards too since if there might be an improvement to see as well.
-    \\\\
+
+    However, this also poses the question of how algorithms with combined rewards perform in densely rewarding environments.
+    Therefore, it would be interesting to observe the performance in environments with dense rewards since there might be an improvement to see as well.
+
     In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction-error based curiosity which was earlier introduced with the so-called noisy-TV problem.
     Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
-    This question will be pursued during the evaluation process with the posed hypothesized that it is possible to overcome an agent's distraction and the assumption that \gls{em} has a higher impact on the distraction in a densely rewarding environment than in a sparse one.
-    \\\\
-    With the given prospect to beat state-of-the-art approaches to environments with sparse rewards and evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
+    This question will be pursued during the evaluation process with the posed hypothesis that it is possible to overcome an agent's distraction given that it obtains enough \gls{em}.
+    Lastly, this further raises the question on how much \gls{em} might be needed.
 
+    With the given prospect to beat state-of-the-art approaches to environments with sparse rewards and to evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
 
     \section{Methodological Approach}\label{sec:methodological-approach}
 
+    
+    \subsection{Data Collection}
+    In order to pursue the just posed questions, this Bachelor's thesis follows a programming approach.
+
+    \subsection{Analysis}
+    In order to prove validity and rigorousness of the findings multiple runs of the evaluations will be conducted.
+    By verifying the obtained data through multiple runs especially good/bad results
+
+    The criterias used to rigorousness of the obtained results
+
+    The quantitative results are evaluated mainly using \textit{Matplotlib} to visualize the data in \textit{Python}.
+    In order to verify the validity of performance differences of two results, standard statistical methods such as the paired t-test is used.
 
     Du beschreibst sehr genau, wie du praktisch vorgehst. Es soll aber hier generell beschrieben werden, wie du die Problemstellung angehst. Es ist in deinem Fall relativ schwer zu beschreiben, da du schon genau gewusst hast, was du machen willst. Was mir fehlt: wie bildest du die wissenschaftliche Grundlage und wie willst du die Ergebnisse evaluieren.
 %https://link.springer.com/chapter/10.1007/978-94-6091-858-2_2
     %   https://www.scribbr.co.uk/thesis-dissertation/methodology/
-    Therefore, this Bachelor's thesis follows a programming approach
 
     Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
 
@@ -276,7 +286,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In 4 games out of 5, curiosity bonus improves performance (see Table 2 inthe appendix, the higher score is better). We would like to emphasize that this is not the focus ofthe paper, and these experiments are provided just for completeness. We just combined extrinsic(coefficient1.0) and intrinsic reward (coefficient0.01) directly without any tuning. We leave thequestion on how to optimally combine extrinsic and intrinsic rewards as a future direction.
 
+    \subsection{Methodology}
 
+    
     \section{Thesis Outline}\label{sec:thesis-outline}
 
 
@@ -1381,8 +1393,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Implementation}\label{ch:implementation}
 
-    In order to answer the question on how to optimally combine intrinsic and extrinsic rewards, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on these websites. \footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
-    %TODO footnote for website
+    In order to answer the posed questions of section~\ref{sec:problem-description} and~\ref{sec:expected-results}, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on their websites.\footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+
     The implementation relies on the same tools used by the preceding authors since it guarantees optimal reproducibility of their results.
     In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
 
@@ -1402,7 +1414,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
 
     In the following few sections an overview is provided of the most significant parts of the implementation.
-    The source code to this Bachelor's thesis is provided on the author's GitHub page.~\footnote{\url{https://github.com/RafaelSterzinger/Bachelor-Thesis}}
+    The source code to this Bachelor's thesis is provided on the author's \textit{GitHub} page.\footnote{\url{https://github.com/RafaelSterzinger/Bachelor-Thesis}}
 
 
     \section{Proximal Policy Optimization and Auxiliary Tasks}
@@ -1620,7 +1632,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Breakout}
         \subsection{Improving Performance in Densely Rewarding Environments}
-        \subsection{Distraction of Intrinsically Motivated Agents}
+        \subsection{Avoiding Distraction of Intrinsically Motivated Agents}
 
 
 
@@ -1629,7 +1641,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \glsresetall
 
 
-    \chapter{Conclusion and Further Work}
+    \chapter{Discussion and Further Work}
 
 
     Combine go explore with itrninsic exploration ultimate performance

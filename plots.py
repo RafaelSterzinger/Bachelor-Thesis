@@ -5,7 +5,9 @@ import pickle
 import matplotlib.colors as mcolors
 
 from decimal import Decimal
+
 plt.rcParams.update({'font.size': 22})
+
 
 class Experiments(object):
     def __init__(self, directory, reload_logs=False):
@@ -168,32 +170,34 @@ class AxesWithPlots(object):
         self.max_xs = []
         self.lines = []
 
-    def add_std_plot(self, x, y, color, label, smoothen=51, alpha=1., std_alpha=0.3, frames_per_timestep=4, clip=None):
+    def add_std_plot(self, x, y, color, linestyle, label, smoothen=51, alpha=1., std_alpha=0.3, frames_per_timestep=4,
+                     clip=None):
         x *= frames_per_timestep
-        x /= 1e6
+        x /= 1e3
         if smoothen != 0:
             y = np.stack([smooth(y[:, i], extent=smoothen) for i in range(y.shape[1])], 1)
             if clip is not None:
                 y = np.clip(y, clip[0], clip[1])
         mean_y = np.mean(y, 1)
 
-        self.lines.extend(self.ax.plot(x, mean_y, color=color, label=label, alpha=alpha))
-        if y.shape[1] > 1:
-            std_y = np.std(y, 1, ddof=1)
-            upper = mean_y + std_y / np.sqrt(y.shape[1])
-            lower = mean_y - std_y / np.sqrt(y.shape[1])
-            self.ax.fill_between(x, upper, lower, color=color, alpha=std_alpha, lw=0.)
+        self.lines.extend(self.ax.plot(x, mean_y, color=color, label=label, alpha=alpha, linestyle=linestyle))
+        # if y.shape[1] > 1:
+        #     std_y = np.std(y, 1, ddof=1)
+        #     upper = mean_y + std_y / np.sqrt(y.shape[1])
+        #     lower = mean_y - std_y / np.sqrt(y.shape[1])
+        #     self.ax.fill_between(x, upper, lower, color=color, alpha=std_alpha, lw=0.)
 
         self.max_xs.append(x[-1])
 
     def finish_up(self, title, fontsize=8, xlim=300, tight_y=True):
         self.ax.set_xlim([0, xlim])
-        self.ax.set_title(title, fontsize=fontsize)
+        # self.ax.set_title(title, fontsize=fontsize)
         self.ax.autoscale(enable=True, axis='y', tight=tight_y)
 
 
 def label(method):
     method, int, ext = method.split('_')
+    return f"INT={int},EXT={ext}"
     if method == 'none':
         return labels[method]
     else:
@@ -215,6 +219,27 @@ def color(method):
         return 'purple'
 
 
+tableau_colors = ['blue',
+                  'orange',
+                  'green',
+                  'red',
+                  'purple',
+                  'brown',
+                  'pink',
+                  'gray',
+                  'olive',
+                  'cyan',
+                  'm']
+
+linestyles = ['-', '--', '-.', ':']
+
+
+def color_gridsearch(method):
+    method, rew, ext = method.split('_')
+    rew = int(Decimal(rew) * 10)
+    return tableau_colors[rew], linestyles[rew % 4]
+
+
 labels = {
     'rf': 'Random Features',
     'idf': 'Inverse Dynamic Features',
@@ -227,7 +252,7 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
     print(num_envs)
     fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
-    envs = ['MontezumaRevenge']
+    envs = ['Breakout']
     # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
 
     for env, ax in zip(envs, np.ravel(axes)):
@@ -238,13 +263,15 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
             if method != 'extrew':
                 print("generating graph ", env, method)
                 xs, ys = experiment.grouped_experiments[env][method].get_xs_ys(y_series)
-                ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
+                color, linestyle = color_gridsearch(method)
+                ax_with_plots.add_std_plot(xs, ys, color=color, linestyle=linestyle, label=label(method),
+                                           smoothen=smoothen,
                                            alpha=alpha)
         ax_with_plots.finish_up(title=env, xlim=xlim)
 
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
-    # fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
-    fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
+    fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=14, loc=(0.1, 0.3), ncol=1)
+    fig.text(0.5, 0.01, 'Frames (thousands)', ha='center')
     fig.text(0.001, 0.5, name, va='center', rotation='vertical')
 
     save_filename = os.path.join(results_folder, '{}_{}.png'.format(envs[0], y_series))
@@ -254,18 +281,21 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
 
 
 def main():
-    xlim = 400
-    experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
-    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='vpredmean', xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
+    xlim = 4e3
+    experiment = Experiments(os.path.join(results_folder), reload_logs=True)
+    temp = sorted(experiment.grouped_experiments['Breakout'].keys())
+    experiment.grouped_experiments['Breakout'] = {k: experiment.grouped_experiments['Breakout'][k] for k in temp}
+
+    # generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
+    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Best Overall Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
     #                          xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
 
 
 if __name__ == '__main__':
-    results_folder = '../../plotting/MontezumaRevengeExtended'
+    results_folder = '../../plotting/BreakoutIDFNoTV'
     os.chdir(results_folder)
     main()

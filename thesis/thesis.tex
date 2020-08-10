@@ -136,10 +136,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{ppo}{PPO}{Proximal Policy Optimization}
 \newacronym{trpo}{TRPO}{Trust Region Policy Optimization}
 \newacronym{relu}{ReLU}{Rectified Linear Unit}
-\newacronym{rf}{RF}{Random Features}
-\newacronym{idf}{IDF}{Inverse Dynamics Features}
-\newacronym{cnn}{CNN}{Convolutional Neural Networks}
-\newacronym{vae}{VAE}{Variational Auto-Encoders}
+\newacronym{rf}{RF}{Random Feature}
+\newacronym{idf}{IDF}{Inverse Dynamics Feature}
+\newacronym{cnn}{CNN}{Convolutional Neural Network}
+\newacronym{vae}{VAE}{Variational Auto-Encoder}
 \newacronym{icm}{ICM}{Intrinsic Curiosity Module}
 \newacronym{gae}{GAE}{Generalized Advantage Estimation}
 \newacronym{vf}{VF}{Value Function}
@@ -225,38 +225,44 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Besides a general introduction to \gls{im} and its challenges in \gls{rl} (see chapter~\ref{ch:intrinsic-motivation-in-reinforcement-learning}), this Bachelor's thesis has its focus on knowledge acquisition through exploration.
     Knowledge acquisition is described as the agent's motivation to find new knowledge about its environment, meaning that it is interested in things it can or cannot control, the function of the world, discovering new areas, or understanding the proximity.
     Concerning exploration, one approach is error prediction which is the agent's difficulty to predict the state following a state-action tuple.
-    This idea is heavily explored by~\cite{burda_large-scale_2018-1} and its prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
+    This idea is heavily explored by~\cite{burda_large-scale_2018-1} and the prior work of~\cite{pathak_curiosity-driven_2017-1}, both of which are core references of this thesis.
 
-    Building upon the findings of~\citeauthor{burda_large-scale_2018-1}, this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
+    Building upon the findings of~\citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}), this Bachelor's thesis eyes on answering the question on how to optimally combine intrinsic and extrinsic rewards in order to maximize an agents score, primarily in sparse but also in dense environments.
     Furthermore, it will evaluate if a balanced reward combination tackles the noisy-TV problem, proposed by~\cite{schmidhuber_formal_2010}.
     The noisy-TV problem, also known as the white-noise problem, is an algorithm's inability to handle the local stochasticity of the environment: "\textit{\ldots random noise in a 3D environment attracts the agent; it will passively watch the noise since it will not be able to predict the next state.}"\cite[\p{10}]{aubret_survey_2019}
 
     The domain of the given problem description is \gls{rl} with a focus on the model of knowledge acquisition via exploration.
 
     \section{Expected Results}\label{sec:expected-results}
-    As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of~\citeauthor{burda_large-scale_2018-1} and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
+    As aforementioned, the goal pursued by this Bachelor's thesis is to build upon the results of~\citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) and to pursue their posed question on how to optimally combine intrinsic ($r_{int}$) and extrinsic ($r_{ext}$) rewards.
     In order to do so, the coefficients $\alpha$ and $\beta$ have to be selected accordingly.
     \[r=\alpha r_{int} + \beta r_{ext}\]
     From that, an optimal solution to this equation maximizes the agent's overall reward when testing.
 
-    After a re-implementation of the proposed algorithms, the benchmarks are expected to at least match the mean rewards mentioned in the \textit{Additional Results} section from the underlying paper.
+    After a re-implementation of the proposed algorithms, the benchmarks are expected to at least match the mean rewards mentioned in the \textit{Additional Results} section of the underlying paper.
     In this section, the authors explored the performance of combined rewards on five different Atari games and already showed that the combination of rewards yield a higher mean reward and thus an exhaustive hyperparameter tuning should certainly improve these results.
 
     However, this also poses the question of how algorithms with combined rewards perform in densely rewarding environments.
-    Therefore, it would be interesting to observe the performance in environments with dense rewards since there might be an improvement to see as well.
+    Therefore, it would be interesting to observe the performance in environments with dense rewards since there might be an improvement to be seen as well.
 
-    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} mention the limitations of prediction-error based curiosity which was earlier introduced with the so-called noisy-TV problem.
-    Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction through curiosity with \gls{em}.
+    In the \textit{Discussion} section,~\citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) mention the limitations of prediction-error based curiosity which was earlier introduced with the so-called noisy-TV problem.
+    Given this problem, the question is raised on whether or not it is possible to tackle the agent's distraction by combining curiosity with \gls{em}.
     This question will be pursued during the evaluation process with the posed hypothesis that it is possible to overcome an agent's distraction given that it obtains enough \gls{em}.
-    Lastly, this further raises the question on how much \gls{em} might be needed.
+    Lastly, this furthermore raises the question on how much \gls{em} might be needed.
 
     With the given prospect to beat state-of-the-art approaches to environments with sparse rewards and to evaluate the amount of extrinsic reward needed to put a distracted agent back on track, it is the opportunity to pursue important constructs, which reflect the natural human propensity to learn and assimilate, in the domain of computer science that motivated this Bachelor's thesis.
 
     \section{Methodological Approach}\label{sec:methodological-approach}
 
-    
-    \subsection{Data Collection}
-    In order to pursue the just posed questions, this Bachelor's thesis follows a programming approach.
+   Before the methodological approach is introduced a summary of just posed research questions which are investigated during this thesis will be provided in the following: (a) Does the combination extrinsic and intrinsic rewards obtain better results? (b) Are there any patterns concerning optimally combined rewards? (c) Is it possible to further improve the performance of agents in densely rewarding environment by utilizing \gls{im}? (d) Can local stochasticity, also known as the white-noise problem, be tackled by employing \gls{im}?
+
+    In order to pursue these questions, a quantitative approach is selected where data has to be generated by conducting experiments on a benchmark environment.
+    This benchmark environment will be primarily based one the work by \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) who already carried out very similar experiments on multiple Atari 2600 games.
+    According to \citeauthor{francois-lavet_introduction_2018}, the data generation process plays an crucial role in \gls{rl}
+
+    The evaluation, interpretation, and comparison is based on knowledge gathered
+    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
+
 
     \subsection{Analysis}
     In order to prove validity and rigorousness of the findings multiple runs of the evaluations will be conducted.
@@ -271,7 +277,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 %https://link.springer.com/chapter/10.1007/978-94-6091-858-2_2
     %   https://www.scribbr.co.uk/thesis-dissertation/methodology/
 
-    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
 
 
     Problem of detached agents possible to tackle via combining extrinsic and intrinsic
@@ -279,13 +284,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     kim solves problem of stochasticity by combining ext int
 
 
-    The goal of this large-scale analysis is to investigate the following questions: (a) Whatactually happens when you run a pure curiosity-driven agent on a variety of games without anyextrinsic rewards? (b) What kinds of behaviors can you expect from these agents? (c) What is theeffect of the different feature learning variants in dynamics-based curiosity on these behaviors?
 
 
     n all our experiments so far, we have shown that our agents can learn useful skills without anyextrinsic rewards driven purely by curiosity. However, in many scenarios, we might want the agent toperform some particular task of interest. This is usually conveyed to the agent by defining extrinsicrewards. When rewards are dense (e.g. game score at every frame), classic RL works well andintrinsic rewards generally should not help performance. However, designing dense rewards is achallenging engineering problem (see introduction for details). In this section, we evaluate how wellcuriosity can help an agent perform a task in presence of sparse, or just terminal, rewards.
 
     In 4 games out of 5, curiosity bonus improves performance (see Table 2 inthe appendix, the higher score is better). We would like to emphasize that this is not the focus ofthe paper, and these experiments are provided just for completeness. We just combined extrinsic(coefficient1.0) and intrinsic reward (coefficient0.01) directly without any tuning. We leave thequestion on how to optimally combine extrinsic and intrinsic rewards as a future direction.
 
+    Therefore, this Bachelor's thesis follows a programming approach as different weightings of the rewards are tested on the mentioned environment.
     \subsection{Methodology}
 
     
@@ -655,7 +660,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Instead of presenting right away adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
     Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
-    A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1}, the core literature of this thesis.
+    A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}), the core literature of this thesis.
 
 
     \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
@@ -864,7 +869,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
     \gls{ppo} belongs to the family of policy gradient~\eqref{sec:policy-gradient-methods}, model-free based methods (see Figure~\ref{fig:drl_taxonomy}) that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
-    In comparison to equation~\ref{eq:parameter_update}, \citeauthor{schulman_proximal_2017} denote the estimator for the gradient slightly different:
+    In comparison to equation~\ref{eq:parameter_update}, \citeauthor{schulman_proximal_2017} (\citeyear{schulman_proximal_2017}) denote the estimator for the gradient slightly different:
 
     \begin{equation}
         \hat{g}=\hat{\mathbb{E}}_t \bigg [\nabla_\theta \text{log}\pi_\theta(a_t|s_t)\hat{A}_t\bigg]\label{eq:policy_gradient_method_maximization}
@@ -962,33 +967,34 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \chapter{Intrinsic Motivation in Reinforcement Learning}\label{ch:intrinsic-motivation-in-reinforcement-learning}
-    The idea of including \gls{im} into the \gls{rl} framework has been around since early 1990 as in realistic environments extrinsic rewards occur rather rare and thus quick progress by an agent cannot be expected.
-    With its roots deeply involved in psychology, \gls{im} was initially used due to its ability of discovering surprising or novel patterns, enabling an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
-    This phenomenon is based on a discovery from nature as animals were observed to engage in curiosity-driven, exploratory, and playful behaviour despite the fact that they would not obtain a reward or a reinforcement~\citep{white_motivation_1959}.
+    The idea of including \gls{im} into the \gls{rl} framework has been investigated since early 1990.
+    As in realistic environments extrinsic rewards occur rather rarely, thus quick progress by an agent cannot be expected.
+    With its roots deeply involved in psychology, \gls{im} was initially used due to its ability of discovering surprising or novel patterns which enables an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
+    This natural phenomenon is based on the observation that animals engage in curiosity-driven, exploratory, and playful behaviour despite the fact that a reward or a reinforcement would not be granted to them~\citep{white_motivation_1959}.
 
     This chapter is started by introducing the psychological aspects of \gls{im} as well as the term motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
     Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges} for a summary), and the embedding of \gls{im} in \gls{rl} is presented.
-    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply explored in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
+    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply investigated in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
 
 
     \section{Natural Human Motivation}
 
-    In a digression to psychology, \gls{im} is described as the natural propensity of humans to gather knowledge and assimilate.
+    In a digression to psychology, \gls{im} is described as the natural propensity of humans to gather knowledge and assimilate themselves.
     Activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
-    Therefore, the reward in \gls{im} relies on the activity itself.
-    In opposite to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
-    Motivation, in general, is very unique for different people~\citep{ryan_intrinsic_2000}.
+    Therefore, the reward in \gls{im} is based on the activity itself.
+    In opposition to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
+    Motivation, in general, is very particular to different people~\citep{ryan_intrinsic_2000}.
     Not only can it vary in the amount or rather the \textit{level of motivation} a person can have, but the \textit{orientation of motivation} can be different as well.
     The question on the orientation of a person's motivation is very significant since e.g.\ pupils may be very motivated to excel in a subject out of curiosity (\gls{im}) or rather out of the possibility of achieving good grades (\gls{em}) which might yield further positive benefits for them or avoid sanctions.
 
-    Moreover, research pointed out that the quality of performance and experience is dependant on the kind of motivation propelling behaviour.
+    Moreover, research pointed out that the quality of performance and experience depends on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
-    On the other side, extrinsic motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value~\citep{ryan_intrinsic_2000}.
-    Continuing with the previously made example on the pupils' motivation, for instance, it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
-    By doing this, the pupils are more likely to identify the action's value such that they internalize the behaviour, allowing for an improved learning experience.
+    On the other hand, extrinsic motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value~\citep{ryan_intrinsic_2000}.
+    Continuing for instance with the previous example of the pupils' motivation it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
+    By doing this, the pupils are more likely to identify the action's value so that they internalize the behaviour which allows for an improved learning experience.
 
     Finally, \citeauthor{ryan_intrinsic_2000} add a third type of motivation to the taxonomy of natural human motivation, the so-called \textit{amotivation} which describes activities that are perceived as irrelevant.
-    Amotivation has different origins such as a feeling of incompetence to carry out a task, an action not yielding any value, or any desired outcome.
+    Amotivation has different origins such as a feeling of incompetence to carry out a certain task, an action not yielding any value, or any desired outcome.
     Therefore, the taxonomy of human motivation consists of three branches: amotivation, extrinsic motivation, and intrinsic motivation, ranging "\textit{from amotivation or unwillingness, to passive compliance, to active personal commitment. With increasing internalization (and its associated sense of personal commitment) come[s] greater persistence, more positive self-perceptions, and better quality of engagement.}"~\citep[\p{60f}]{ryan_intrinsic_2000}
 
 
@@ -1000,24 +1006,24 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is due to the fact that an agent finds it very challenging to generalize obtained skills and thus is incapable of high-level decision making.
     For instance, \citeauthor{todorov_mujoco_2012} indicate that such a high-level abstraction could be the trajectory of a robot to open a door which consists of low-level actions or rather movements in four directions.
 
-    As earlier described, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
+    As described earlier, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
     However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects a \gls{rl}-agent in an unknown environment.
-    For instance, in order for the baby to avoid hunger or thirst, it has to learn the consequences of its interactions.
-    Although immediate needs might be satisfied for some time, the baby continues to explore by conducting different experiments.
+    For instance, a baby who avoids suffering from hunger and thirst has to learn the consequences of its interactions.
+    Although immediate needs might be satisfied for some time, the baby keeps on exploring by conducting various experiments.
     Questions on certain movements of, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
     Ultimately, this facilitates the baby's ability of prediction which allows for easier planning of actions.
-    Furthermore, the baby constantly strives to discover new effects, as it eventually gets bored by the things it already grasps, allowing it to learn very complex behaviour by building on previously gathered knowledge.
+    Furthermore, the baby constantly strives to discover new effects, as it eventually gets bored by the things it has already grasped, thus allowing to learn very complex behaviour by building on previously gathered knowledge.
     By following this simple algorithm of maximizing the internal joy of discovering or creating new patterns, eventually, the baby might become a computer scientist~\citep{schmidhuber_formal_2010}.
     Concerning \gls{rl}, this process allows an agent to autonomously gather new skills and knowledge which then facilitates the mastering of a novel task.
 
-    Besides the improved exploration, \gls{im} yields other benefits as well.
+    Besides the improved exploration, \gls{im} generates other benefits as well.
     For instance, an agent can learn skills incrementally and independently while not being dependant on its given main task.
-    Furthermore, the agent can decide on which skill might be adequate for a certain task and thus improve them selectively and additionally it might as well come up with a meaningful state representation.
+    Furthermore, the agent can decide on which skill might be adequate for a certain task and thus improve it selectively and additionally it might as well come up with a meaningful state representation.
     This is all possible due to the broader intrinsic reward function and the fact that this spares the necessity of an expert or supervisor.
-    Therefore, making learning more flexible and \gls{rl} to generalize more across different environments~\citep{aubret_survey_2019}.
+    Hence, without a supervisor, learning becomes more flexible and \gls{rl} algorithms generalize more across different environments~\citep{aubret_survey_2019}.
 
     Additionally to the classification of subfields in \gls{ml} in section~\ref{sec:reinforcement-learning-problem}, \citeauthor{aubret_survey_2019} add a fourth field to the spectrum of learning types, differentiating between reinforced and intrinsically motivated learning (see Table~\ref{tab:type_learning}).
-    Therefore, a distinction is drawn depending on whether or not expert supervision is involved which gives feedback.
+    Therefore, a distinction is drawn depending on whether or not expert supervision which gives feedback is involved.
 
     \begin{table}
         \centering
@@ -1043,26 +1049,27 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     As noticed in section~\ref{sec:problem-description}, traditional \gls{rl} algorithms perform best in environments which reward the agent densely.
     By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add \textit{Gaussian noise} to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
-    However, even these improved exploration methods are incapable to achieve a good performance in sparsely rewarding settings such as \textit{Montezuma's Revenge} which is a typical benchmark for such environments.
-    In order for the agent to receive a reward in this game, it has to collect different items such as keys and use them to open doors.
-    These events occur rather rarely and thus the agent does not receive immediate feedback concerning the impact of its performed actions, e.g.\ moving in a certain direction.
-    Therefore, it is not uncommon that an agent never reaches such a reward, preventing the creation of a good policy~\citep{aubret_survey_2019}.
+    However, even these improved exploration methods are incapable of achieving a good performance in sparsely rewarding settings such as \textit{Montezuma's Revenge} which is a typical benchmark for such environments.
+    In order to receive a reward in this game, the agent has to collect different items such as keys and use them to open doors.
+    These events occur rather rarely and thus the agent does not receive immediate feedback concerning the impact of its performed actions, e.g.\ moving into a certain direction.
+    Therefore, it is not uncommon that an agent never reaches such a reward, thus preventing the creation of a good policy~\citep{aubret_survey_2019}.
 
     This issue can be tackled by shaping a task-specific, intermediary function which rewards densely.
     Hence, additional rewards are created which should point the agent in the right direction.
     Although this approach might work out well, it is usually impractical as in order to craft this function, very high expert knowledge is needed to carefully design this rewarding system.
-    Additionally, such functions commonly yield many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the rewarding system.
+    Additionally, such functions commonly pose many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the rewarding system.
 
     \subsection{Building a Good State Representation}\label{subsec:building-a-good-state-representation}
 
-    According to \citeauthor{bohmer_autonomous_2015}, a good state representation allows for good generalization, is low-dimensional, should represent values of a policy truthfully, and be markovian.
-    By employing a good representation, the agent's learning process can be considerably accelerated.
-    For instance, considering a navigation task, it makes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly creating solely the need to check the distance between itself and the target.
+    According to \citeauthor{bohmer_autonomous_2015}, a good state representation allows for good generalization, is low-dimensional, should represent values of a policy truthfully, and should be markovian.
 
-    Normally, a state representation can be build using expert knowledge of a specific domain.
-    However, not task-specific, hence generic, priors can be used as well with the benefit that these priors can be learned by representation-learning algorithms, creating disentangled, minimal feature spaces~\cite{bengio_representation_2014}.
-    In traditional \gls{rl}, the problem of learning a good state representation is exacerbated as in order for the agent to improve, it depends on optimizing the reward signal via backpropagation, thus depending on receiving rewards densely.
-    With the additional possible obstacle of noise in the raw state representation, the agent will learn nothing from the interactions it made in a sparse rewarding environment, although they might be rich in information.
+    By employing a good representation, the agent's learning process can be considerably accelerated.
+    For instance, considering a navigation task, it causes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly creating solely the need to check the distance between the target and itself.
+
+    Normally, a state representation can be constructed using expert knowledge of a specific domain.
+    However, not task-specific, hence generic, priors can be used as well with the benefit that these priors can be learned by representation-learning algorithms, creating disentangled, minimal feature spaces~\citep{bengio_representation_2014}.
+    In traditional \gls{rl}, the problem of learning a good state representation is exacerbated as in order to improve, the agent depends on optimizing the reward signal via backpropagation, thus depending on receiving rewards densely.
+    With the additional possible obstacle of noise in the raw state representation, the agent will learn nothing from the interactions made in a sparse rewarding environment, although they might be rich in information.
     Even if the agent manages to learn a state representation based on a reward signal, the representation will not generalize across different tasks.
     Hence, \gls{im} is a key component as state representations learned through \gls{im} are independent of the actual task and therefore generalizable~\citep{aubret_survey_2019}.
 
@@ -1070,10 +1077,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In the temporal abstraction of actions, a sequence of low-level actions is summarized with a so-called \textit{intra-option policy} that is referenced to a high-level action.
     Therefore, a high-level action or a so-called \textit{option} consists of multiple low-level actions or rather other options.
-    By choosing an option in a certain state, the intra-option policy defines which low-level actions must be carried out in each subsequent state until the high-level action is completely carried out.
+    By choosing an option in a certain state, the intra-option policy defines which low-level actions must be carried out in each subsequent state until the high-level action is completely executed.
     Furthermore, the sequence length of these actions is usually fixed~\citep{aubret_survey_2019}.
     By utilizing these abstractions, the learning process can be sped up significantly.
-    An additional consequence of allowing these abstractions is that the problem of delayed rewards, described in section~\ref{sec:reinforcement-learning-problem}, is tackled as the option can be directly credited.
+    An additional consequence of allowing these abstractions is that the problem of delayed rewards, as described in section~\ref{sec:reinforcement-learning-problem}, is tackled since the option can be credited directly.
     \citeauthor{aubret_survey_2019} describe this with the following example:
 
     \begin{quote}
@@ -1086,22 +1093,22 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{quote}
 
     Another benefit of temporal abstractions of actions is that they allow for better exploration.
-    Similarly to the previously made example, an exploration task can easily be combined to an option enabling it to immediately receive a reward and therefore "making a sparse reward function dense".
-    In order to obtain such an intra-option policy, there are two options: define it manually using expert knowledge or learn it using a reward function.
+    Similarly to the previously made example, an exploration task can easily be combined to an option, thus enabling it to immediately receive a reward and therefore "making a sparse reward function dense".
+    In order to obtain such an intra-option policy, there are two options: define it manually by using expert knowledge or teach it using a reward function.
     However, the latter has the problem that the learned options are not generalizable across multiple tasks and hence are useless for exploration tasks~\citep{aubret_survey_2019}.
-    Similar to the problem of~\nameref{subsec:building-a-good-state-representation}, by using \gls{im} this challenge can be tackled.
+    Similar to the problem of~\nameref{subsec:building-a-good-state-representation}, by using \gls{im}, this challenge can be tackled.
 
     \subsection{Building a Curriculum}\label{subsec:building-a-curriculum}
-    The challenge of building a curriculum is concerned with structuring tasks in a multi-task \gls{rl} scenario, a scenario where an agent has to solve multiple tasks at once.
+    The challenge of building a curriculum deals with structuring tasks in a multi-task \gls{rl} scenario, a scenario where an agent has to solve multiple tasks at once.
     In such scenarios, a so-called \textit{curriculum} is employed that acts as a schedule defining the order in which different tasks should be solved.
-    This idea stems from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitates mastering more difficult ones~\citep{aubret_survey_2019}.
+    This idea comes from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitates mastering more difficult ones~\citep{aubret_survey_2019}.
 
-    For instance, a general task for an agent could be that it has to store objects such as cubes in boxes.
+    For instance, a general task for an agent could be that it has to place objects such as cubes into boxes.
     However, this task can be divided in subtasks such as grabbing the cube and then putting it into a box.
-    By splitting up this task into the two subtasks, the agent can take advantage of the prior learnt skill of grabbing a cube for the task of storing it in a box.
+    By splitting up this task into the two subtasks, the agent can take advantage of the prior learnt skill of grabbing a cube for the task of putting it into a box.
     Without this differentiation, the agent might be unable to ever fulfil the general task as it would take the agent a long list of subsequent actions or rather joint movements to succeed.
 
-    Usually, standard methods for decomposing a general task mostly rely on expert knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue as it does not only speed up the learning process but also facilitate exploration.
+    Usually, standard methods for decomposing a general task mostly rely on expert knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue as it does not only speed up the learning process but it also facilitates exploration.
 
 
     \section{Classification}
@@ -1112,15 +1119,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning the motivation based on \textbf{knowledge acquisition}, the agent's internal goal is to gather new knowledge about its surroundings.
     In this scenario, knowledge is described as its ability to e.g.\ control the environment, understand occurring processes, explore unknown areas, or assess proximity.
     Based on this definition, building an agent with this motivation can greatly improve exploration in settings with sparse rewards.
-    This is usually done by giving an agent a feeling for state novelty or information gain which poses an intrinsic reward which it tries to maximize.
-    Another benefit yields the idea of empowerment which means that an agent is rewarded by \gls{im} whenever it approaches an area that it can control.
-    Finally, this motivation might allow the agent to create a relevant state representation and thus this branch is concerned with the challenges described in subsection~\ref{subsec:sparse-rewards} and~\ref{subsec:building-a-good-state-representation}.
+    This is usually done by giving an agent a feeling for state novelty or information gain which poses an intrinsic reward that it tries to maximize.
+    Another benefit presents the idea of empowerment which means that an agent is rewarded by \gls{im} whenever it approaches an area that can be controlled.
+    Finally, this motivation might allow the agent to create a relevant state representation and thus this branch faces the challenges described in subsection~\ref{subsec:sparse-rewards} and~\ref{subsec:building-a-good-state-representation}.
 
     The second branch, concerning motivation based on \textbf{skill learning}, is described as the ability of an agent to efficiently acquire skills that are task-independent and preferably reusable.
-    Here, one idea evolves around the ability of abstracting skills in order for an agent to learn them or rather creating a representation of different skills which challenges the introduced problem of subsection~\ref{subsec:temporal-abstraction-of-actions}.
+    Here, one idea evolves around the agent's ability of abstracting skills in order to study them one by one or rather to create a skill representation which challenges the introduced problem of subsection~\ref{subsec:temporal-abstraction-of-actions}.
     Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in subsection~\ref{subsec:building-a-curriculum}.
 
-    An overview of the just described classification with practical approaches given can be observed in Table~\ref{tab:clasification_im_rl}.
+    An overview of the just described classification with practical approaches can be observed in Table~\ref{tab:clasification_im_rl}.
 
 \newpage
     \begin{table}[h]
@@ -1149,15 +1156,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Embedding Intrinsic Motivation into the Reinforcement Learning Framework}\label{sec:embeddingglsinto-theglsframework}
 
-    In order to embed \gls{im} into \gls{rl} a new framework from \citeauthor{singh_intrinsically_2010} is considered, splitting the reward signal into primary and secondary rewards.
+    In order to embed \gls{im} into \gls{rl} a new framework is presented by \citeauthor{singh_intrinsically_2010}, splitting the reward signal into primary and secondary rewards.
     The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
-    Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is reconsidered as well.
-    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and the internal part calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
+    Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is again taken into consideration.
+    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and on the other hand the internal part which calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
 
     The newly adapted \gls{rl} framework can be observed in Figure~\ref{fig:adapted_rl_framework}.
-    Here, the critic describes the part which computes the reward in either way and assigns the credit to the made actions.
+    Here, the critic describes the part which computes the reward in either way and assigns the credit to the carried out actions.
     Additionally, the state now includes sensations optionally combined with the agent's performed actions.
-    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards come from the internal part~\citep{singh_intrinsically_2010}.
+    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards derive from the internal part~\citep{singh_intrinsically_2010}.
 
     \begin{figure}[h]
         \centering
@@ -1168,20 +1175,20 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \footnotetext[4]{\citep[\p{2}]{singh_intrinsically_2010}}
 
-    One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill that allows the agent to easily acquire other behaviour.
-    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour making the adapted framework more efficient in serving assigned goals when compared to the traditional one.
+    One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill allowing the agent to easily acquire different behaviour.
+    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour thus increasing the efficiency of the adopted framework by serving assigned goals when compared to the traditional one.
 
     When implementing a \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
     The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
-    Those coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
+    These coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
     As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
-    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1}
-    This work as well as many other exploration based methods such as the paper by \citeauthor{burda_exploration_2018} are discussed in the following chapter.
-    Besides that, the papers by \citeauthor{gregor_variational_2016}, \citeauthor{vezhnevets_feudal_2017}, and \citeauthor{huang_learning_2019} are also worth mentioning as they combine extrinsic and intrinsic rewards as well but consider \gls{im} in the context of skill learning which is not a focus of this thesis.
+    Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citeauthor{kim_curiosity-bottleneck_2019-1} (\citeyear{kim_curiosity-bottleneck_2019-1})
+    This work as well as many other exploration based methods such as the paper by \citeauthor{burda_exploration_2018} (\citeyear{burda_exploration_2018}) are discussed in the following chapter.
+    Besides that, the papers by \citeauthor{gregor_variational_2016}, \citeauthor{vezhnevets_feudal_2017}, and \citeauthor{huang_learning_2019} are also worth mentioning as they combine extrinsic and intrinsic rewards as well but on the other hand consider \gls{im} in the context of skill learning which is not a focus of this thesis.
 
 
     \chapter{Exploration}\label{sec:state_of_the_art}
-    In this chapter only the significant branch of knowledge acquisition through exploration is considered as this thesis builds upon a "\usebibentry{burda_large-scale_2018-1}{title}", a paper published by \citeauthor{burda_large-scale_2018-1}
+    In this chapter only the significant branch of knowledge acquisition through exploration is considered as this thesis builds upon a "\usebibentry{burda_large-scale_2018-1}{title}", a paper published by \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}).
     Here, emphasis is placed on prediction-error based methods but for completeness other exploration methods based on state novelty or information gain are taken into account as well.
     However, the following list of publications poses only a selection which was chosen mainly based on the performance of these methods or was written by authors who contributed to the underlying paper of this thesis.
 
@@ -1195,10 +1202,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
     \end{itemize}
 
-    For a more detailed list, \textit{Table 3} by~\citeauthor{aubret_survey_2019} is recommended.
+    A more detailed list is provided by~\citeauthor{aubret_survey_2019} in their section on \textit{knowledge acquisition}.
 
-    By not only considering the approach by \citeauthor{burda_large-scale_2018-1}, this chapter also represents a state-of-the-art review for exploration via \gls{im}.
-    Finally, at the end of this chapter "\usebibentry{ecoffet_go-explore_2019}{title}" by \citeauthor{ecoffet_go-explore_2019} is presented which is currently the best performing method to solve the exploration challenge offered by \textit{Montezuma's Revenge} as of August 2020.
+    By not only considering the approach by \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}), this chapter also represents a state-of-the-art review for exploration via \gls{im}.
+    Finally, at the end of this chapter "\usebibentry{ecoffet_go-explore_2019}{title}" by \citeauthor{ecoffet_go-explore_2019} (\citeyear{ecoffet_go-explore_2019}) is presented which is currently the best performing method to solve the exploration challenge offered by \textit{Montezuma's Revenge} as of August 2020.
 
 
     \section{Prediction Error}\label{sec:prediction-error}
@@ -1211,53 +1218,54 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     where $||x||_2$ is the L2 distance or rather the Euclidean distance~\citep{aubret_survey_2019}.
     In this equation, $\phi$ stands for a generic function which encodes the raw state space into a space of features and $F$ denotes a \gls{nn} or rather a forward dynamics network which predicts the following feature space depending on the current encoded state and the taken action.
 
-    In the core paper to this thesis, \citeauthor{burda_large-scale_2018-1} deployed four different encodings for $\phi$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
+    In the core paper to this thesis, \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) deployed four different encodings for $\phi$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
     Concerning the properties of an encoding function $\phi$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
-    Instead of the previously denoted intrinsic reward, \citeauthor{burda_large-scale_2018-1} used the so-called surprisal:
+    Instead of the previously denoted intrinsic reward, \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) used the so-called surprisal:
     \begin{equation}
         R_{int}=-\log p(\phi(s_{t+1})|s_t,a_t)
     \end{equation}
     Regarding the actual encoding functions used for their investigations, they started with the identity function, $\phi(s)=s$, which proved to be very inefficient as it lacked compactness even though the encoding was sufficient and stable.
     Additionally, the prediction-error based on this encoding is probably dominated by irrelevant small details.
 
-    In contrast to that, they introduced so-called \gls{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended} which was fixed after the initialization and therefore is not trained.
+    In contrast to that, they introduced so-called \glspl{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended}.
+    This network is not trained as its weights are fixed immediately after initialization.
     Furthermore, the properties of this encoding are stability as the network was fixed and possible compactness depending on the amount of random features extracted.
     However, this encoding function might fail to be sufficient as only random features are extracted and thus not convey all the relevant information.
 
-    A further method for feature encoding posed the idea of \gls{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
+    A further method for feature encoding posed the idea of \glspl{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
     In that case, a feedforward network or rather an auto-encoder compresses the state space that is later used to predict the distance between the current state $s_t$ and $s_{t+1}$.
     Moreover, the encoded part of this auto-encoder represents the function $\phi$ which allows for a compact and sufficient but unstable feature encoding.
     For this encoding method, the authors build upon the initially proposed method by~\citeauthor{stadie_incentivizing_2015}
 
-    Lastly, the encoding in \gls{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
+    Lastly, the encoding in \glspl{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
     The features of $s_t$ and $s_{t+1}$ learned by a predicting forward model correspond to parts of the environment which the agent is in immediate control of since it can estimate the consequences of its actions.
     This encoding yields the benefit of compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
-    On a note, this idea is mainly based on the \gls{icm}, as depicted in Figure~\ref{fig:icm}, proposed by \citeauthor{pathak_curiosity-driven_2017-1}
+    On a note, this idea is mainly based on the \gls{icm}, as depicted in Figure~\ref{fig:icm}, proposed by \citeauthor{pathak_curiosity-driven_2017-1} (\citeyear{pathak_curiosity-driven_2017-1}).
 
     \begin{figure}[h]
         \centering
         \includegraphics[width=0.6\textwidth]{figures/icm.png}
-        \caption[The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1}]{The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1} where $r_t^i$ denotes the curiosity based intrinsic reward.\protect\footnotemark}
+        \caption[The \gls{icm} introduced in "\usebibentry{pathak_curiosity-driven_2017-1}{title}"]{The \gls{icm} by \citeauthor{pathak_curiosity-driven_2017-1} (\citeyear{pathak_curiosity-driven_2017-1}) where $r_t^i$ denotes the curiosity based intrinsic reward.\protect\footnotemark}
         \label{fig:icm}
     \end{figure}
 
     \footnotetext{\citep[3]{pathak_curiosity-driven_2017-1}}
 
-    In summary, the encoding of the raw feature space using \gls{rf} showed that a curiosity based agent can be a very good competition to other state-of-the-art methods and are especially well-suited for simpler environments with less sophisticated visual observations.
+    In summary, the encoding of the raw feature space using \glspl{rf} showed that a curiosity based agent can be a very good competition to other state-of-the-art methods and are especially well-suited for simpler environments with less sophisticated visual observations.
     This is due to the fact that in these settings it is easier to preserve enough important information over the raw signal and thus be sufficient.
-    A good example for this is the simulated environment of the Atari 2600 gaming console where \gls{rf} performed better in over 70\% when compared to an agent that chooses its actions arbitrarily.
-    Although the performance of \gls{rf} is rather good as the features generalize badly across different environments.
-    Here, the encoding with \gls{idf} performs better as it can transfer learned features from, e.g.\ one \textit{Mario Bros} level to another~\citep{burda_large-scale_2018-1}.
-    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of the Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better 55\% of the time, thus making \gls{idf} the preferred encoding.
-    Concerning \gls{vae} methods for $\phi$, they perform either worse or the same as \gls{rf} or \gls{idf} and additionally were somewhat unstable.
+    A good example for this is the simulated environment of the Atari 2600 gaming console where \glspl{rf} performed better in over 70\% when compared to an agent that chooses its actions arbitrarily.
+    Although \glspl{rf} can perform astonishingly well, they generalize badly across different environments.
+    Here, the encoding with \glspl{idf} performs better as it can transfer learned features from, e.g.\ one \textit{Mario Bros} level to another~\citep{burda_large-scale_2018-1}.
+    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of the Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better 55\% of the time, thus making \glspl{idf} the preferred encoding.
+    Concerning methods based on \glspl{vae} for $\phi$, they perform either worse or the same as \glspl{rf} or \glspl{idf} and additionally were somewhat unstable.
 
     Unfortunately, all of these feature encodings are unable to deal with the white-noise problem which was mentioned in section~\ref{sec:problem-description}.
 
-    Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citeauthor{kim_emi_2019}
-    With a similar action space as in the work by \citeauthor{pathak_curiosity-driven_2017-1}, they managed to improve significantly the agent's performance in several Atari 2600 games.
+    Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citeauthor{kim_emi_2019} (\citeyear{kim_emi_2019}).
+    With a similar action space as in the work by \citeauthor{pathak_curiosity-driven_2017-1} (\citeyear{pathak_curiosity-driven_2017-1}), they managed to improve significantly the agent's performance in several Atari 2600 games.
     However, this fell at the expenses of multiple additional layers of complexity.
     Instead of training a complex forward model that predicts the next encoded state, they transformed the complexity into a maximization problem of mutual information $I$ between $I([s,a];s')$ and $I([s,s'];a)$ and only used a simple linear model for $F$ to represent the space~\citep{aubret_survey_2019}.
-    Concerning the problem with stochasticity, \citeauthor{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads non-linearity from the model $F$.
+    Concerning the problem with stochasticity, \citeauthor{kim_emi_2019} (\citeyear{kim_emi_2019}) were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads non-linearity from the model $F$.
     By doing so, screen transitions, e.g.\ moving from one room to another in \textit{Montezuma's Revenge}, which are hard to predict and similar to white-noise, can be bypassed.
 
 
@@ -1285,12 +1293,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Here, $p(s)$ stands for a density model which calculates the probability of entering state $s$ and $p'(s)$ is the probability to visit state $s$ afterwards.
     The usage of the pseudo-count based on density models yield good results which enable exploration but add additional layers of complexity~\citep{aubret_survey_2019}.
 
-    For the next method, \citeauthor{burda_exploration_2018} built upon their idea of using \gls{rf} but this time utilizing the encoding to combine it with a pseudo-count based approach that enables exploration through state novelty.
+    For the next method, \citeauthor{burda_exploration_2018} (\citeyear{burda_exploration_2018}) built upon their idea of using \glspl{rf} but this time utilizing the encoding to combine it with a pseudo-count based approach that enables exploration through state novelty.
     However, they still somewhat made usage of prediction errors as they deployed a second \gls{nn} which solely fulfils the purpose of predicting the output of the random initialized one.
     The idea behind this is that the second \gls{nn} will produce a rather large error if the agent has never visited a specific state but over time gets more certainty about its predictions the more the agent has been in that state.
     By doing so, not only were they able to reduce the complexity of previous proposed methods such as the one which is based on density models but they also achieved one of the best scores in \textit{Montezuma's Revenge}~\citep{ecoffet_go-explore_2019}.
 
-    One more selected state-novelty based approach is the one by \citeauthor{kim_curiosity-bottleneck_2019-1} who utilized the possibility of distilling recent states into a probability distribution.
+    One more selected state-novelty based approach is the one by \citeauthor{kim_curiosity-bottleneck_2019-1} (\citeyear{kim_curiosity-bottleneck_2019-1}) who utilized the possibility of distilling recent states into a probability distribution.
     In their paper "\usebibentry{kim_curiosity-bottleneck_2019-1}{title}", they propose a method which produces a latent state space with a distribution of very large entropy that is based on their prior work of maximizing mutual information.
     Stating \citeauthor{aubret_survey_2019}:
 
@@ -1302,7 +1310,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hfill~\cite[\p{12}]{aubret_survey_2019}
     \end{quote}
 
-    Referring to section~\ref{sec:embeddingglsinto-theglsframework}, \citeauthor{kim_curiosity-bottleneck_2019-1} also made usage of \gls{em} by utilizing an extrinsic reward signal to tackle stochasticity which originates from white-noise.
+    Referring to section~\ref{sec:embeddingglsinto-theglsframework}, \citeauthor{kim_curiosity-bottleneck_2019-1} (\citeyear{kim_curiosity-bottleneck_2019-1}) also made usage of \gls{em} by utilizing an extrinsic reward signal to tackle stochasticity which originates from white-noise.
 
 
     \section{Information Gain}\label{sec:information-gain}
@@ -1317,7 +1325,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         R_{int}=U_{t+k}(\theta) - U_t(\theta)
     \end{equation}
 
-    A well-suited example to introduce information-gain based approaches is "\usebibentry{pathak_self-supervised_2019}{title}" by \citeauthor{pathak_self-supervised_2019}
+    A well-suited example to introduce information-gain based approaches is "\usebibentry{pathak_self-supervised_2019}{title}" by \citeauthor{pathak_self-supervised_2019} (\citeyear{pathak_self-supervised_2019}).
     Here, the authors use multiple \glspl{nn} or rather forward models to predict the next state $s_{t+1}$ based on a state-action tuple.
     Further, the different predictions of the subsequent state $s_{t+1}$ are composed and their variance acts as the intrinsic reward.
     Depending on the number of trained networks, the more forward models are learned, the better the performance of the agent will be as the models' predictions will converge to the expected observation of state $s_{t+1}$.
@@ -1334,10 +1342,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \label{fig:ensemble_dissagreement}
     \end{figure}
 
+    \footnotetext{\citep[\p{2}]{pathak_self-supervised_2019}}
 
     \section{Current State of the Art Method}
 
-    The current record on \textit{Montezuma's Revenge} is held by \citeauthor{ecoffet_go-explore_2019} who were able to drastically improve the state of the art with a four times higher score than previously introduced methods.
+    The current record on \textit{Montezuma's Revenge} is held by \citeauthor{ecoffet_go-explore_2019} (\citeyear{ecoffet_go-explore_2019}) who were able to drastically improve the state of the art with a four times higher score than previously introduced methods.
     Despite the fact that \gls{im} algorithms are usually the best performing solutions to encourage exploration in sparse environments, by the introduction of their paper "\usebibentry{ecoffet_go-explore_2019}{title}", the authors presented a promising solution which however is not based on \gls{im}.
     Surprisingly, their exploration method is based on an agent that selects actions randomly, an approach which on its own would usually not perform well.
     However, they added a significant prior step to exploration as they teach the agent to re-enter a previously visited promising position before it starts exploring again.
@@ -1346,7 +1355,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.75\textwidth]{figures/exploration_problem.png}
+        \includegraphics[width=0.60\textwidth]{figures/exploration_problem.png}
         \caption[An illustration of intrinsically motivated exploration methods where an agent is unable to rediscover promising areas]{An illustration of intrinsically motivated exploration methods where an agent is unable to rediscover promising areas\protect\footnotemark}
         \label{fig:exploration_problem}
     \end{figure}
@@ -1376,12 +1385,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Lastly, another achievement worth mentioning is that it outperformed state-of-the-art solutions of imitation learning where an agent is trained on recorded man-made gameplay due to the fact that their approach can cheaply create such demonstrations on its own.
     For all these reasons, \textit{Go-Explore} is a very promising direction for further research, especially focusing on how to combine existing methods with this novel idea.
 
-    \newpage
-
+%TODO change size to match page
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.70\textwidth]{figures/go_explore.png}
-        \caption[The simple, yet astonishingly good performing algorithm "Go-Explore"]{The simple, yet astonishingly good performing algorithm "Go-Explore" by \citeauthor{ecoffet_go-explore_2019} which is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018} \protect\footnotemark}
+        \includegraphics[width=0.60\textwidth]{figures/go_explore.png}
+        \caption[The simple, yet astonishingly good performing algorithm "Go-Explore"]{The simple, yet astonishingly good performing algorithm "Go-Explore" by \citeauthor{ecoffet_go-explore_2019} (\citeyear{ecoffet_go-explore_2019}) which is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citeauthor{burda_exploration_2018}~(\citeyear{burda_exploration_2018}) \protect\footnotemark}
 
         \label{fig:go_explore}
     \end{figure}
@@ -1403,14 +1411,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \begin{enumerate}
         \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
         \item Analyzing the implementation of the \gls{ppo} algorithm
-        \item Analyzing the implementation of different auxiliary tasks such as \gls{rf} and \gls{idf}
+        \item Analyzing the implementation of different auxiliary tasks such as \glspl{rf} and \glspl{idf}
         \item Tuning of the coefficients $\alpha,\beta$ and comparison to state-of-the-art results for densely and sparsely rewarding environments
         \item Implementation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
 
-    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway}.
+    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}), namely \textit{Montezumas's revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway}.
 
-    Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} are primarily the focus.
+    Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) are primarily the focus.
     Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
 
     In the following few sections an overview is provided of the most significant parts of the implementation.
@@ -1436,8 +1444,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item 64 filters, a kernel size of $3 \times 3$, and a stride of 1
     \end{enumerate}
 
-    According to \citeauthor{burda_large-scale_2018-1}, this is a commonly used network for experiments and benchmarks of Atari 2600 games.
-    Furthermore, the \glspl{nn} responsible for learning \gls{idf} or \gls{rf}  were added on top of the embedding network.
+    According to \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}), this is a commonly used network for experiments and benchmarks of Atari 2600 games.
+    Furthermore, the \glspl{nn} responsible for learning \glspl{idf} or \glspl{rf}  were added on top of the embedding network.
     These forward dynamics networks consist of multiple fully connected layers with a hidden layer size of 512 as well.
     However, the fully connected layers use the standard \gls{relu} as an activation function.
 
@@ -1473,7 +1481,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Finally, another significant aspect of the implementation is the omission of a \textit{done} signal which is normally given at the end of an episode.
     By ignoring such a signal, information about the true extrinsic reward function is not leaked which allows for truly intrinsically motivated agents~\citep{burda_large-scale_2018-1}.
     Therefore, the death of an agent turns just into another state transition which solely can be avoided if passing away is considered to be boring.
-    Although the agent is now given an option, \citeauthor{burda_large-scale_2018-1} state that it usually avoids death since dying would only reset the game which puts it back into a well-known area.
+    Although the agent is now given an option, \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) state that it usually avoids death since dying would only reset the game which puts it back into a well-known area.
     Unfortunately, sooner or later the agent will eventually lose and hence the agent must restart at the beginning where it might get detached from the rewarding area.
     This problem has been depicted in Figure~\ref{fig:exploration_problem}.
 
@@ -1503,7 +1511,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{quote}
 
     However this poses only a minor change which is solely used as it facilitates the tuning during e.g.\ a gridsearch\footnote{For further information, the literature by \citet[\p{420ff}]{goodfellow_deep_2016} is recommended} by more or less bounding the search space.
-    Besides using completely intrinsically motivated agents ($\alpha=0,\beta=1$) as in the work by \citeauthor{burda_large-scale_2018-1} and also evaluating the performance of only extrinsically rewarded agents ($\alpha=1,\beta=0$), a mixed form is considered.
+    Besides using completely intrinsically motivated agents ($\alpha=0,\beta=1$) as in the work by \citeauthor{burda_large-scale_2018-1} (\citeyear{burda_large-scale_2018-1}) and also evaluating the performance of only extrinsically rewarded agents ($\alpha=1,\beta=0$), a mixed form is considered.
 
     In order to find good combinations of these coefficients, a gridsearch was implemented using a shell script.
     The initial configuration starts with coefficients $\alpha=1$ and $\beta=0$ that are decremented/incremented during each iteration by a $\Delta$ of 0.1 which allows for an exhaustive combination of these values.

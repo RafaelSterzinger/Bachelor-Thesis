@@ -144,6 +144,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{gae}{GAE}{Generalized Advantage Estimation}
 \newacronym{vf}{VF}{Value Function}
 \newacronym{pg}{PG}{Policy Gradient}
+\newacronym{sd}{SD}{Standard Deviation}
+\newacronym{m}{M}{Mean}
 
 \begin{document}
 
@@ -1076,7 +1078,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Building a Good State Representation}\label{subsec:building-a-good-state-representation}
 
-    According to \citeauthor{bohmer_autonomous_2015}, a good state representation allows for good generalization, is low-dimensional, should represent values of a policy truthfully, and should be markovian.
+    According to \citeauthor{bohmer_autonomous_2015}, a good state representation allows for good generalization, is low-dimensional, should represent values of a policy truthfully, and fulfil the Markov property.
 
     By employing a good representation, the agent's learning process can be considerably accelerated.
     For instance, considering a navigation task, it causes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly creating solely the need to check the distance between the target and itself.
@@ -1143,6 +1145,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in subsection~\ref{subsec:building-a-curriculum}.
 
     An overview of the just described classification with practical approaches can be observed in Table~\ref{tab:clasification_im_rl}.
+
 
 \newpage
     \begin{table}[h]
@@ -1216,7 +1219,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
     \end{itemize}
 
-    A more detailed list is provided by~\citeauthor{aubret_survey_2019} in their section on \textit{knowledge acquisition}.
+    A more detailed list is provided by~\citet[see Table 3]{aubret_survey_2019} in their section on \textit{knowledge acquisition}.
 
     By not only considering the approach by \citet{burda_large-scale_2018-1}, this chapter also represents a state-of-the-art review for exploration via \gls{im}.
     Finally, at the end of this chapter "\usebibentry{ecoffet_go-explore_2019}{title}" by \citet{ecoffet_go-explore_2019} is presented which is currently the best performing method to solve the exploration challenge offered by \textit{Montezuma's Revenge} as of August 2020.
@@ -1604,7 +1607,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{figure}
 
 
-
     \section{Evalutation}
     All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
     For the GPU and the RAM, solely one NVIDIA GeForce GTX 1070 card and 16 GB of DDR4 memory were used.
@@ -1625,154 +1627,221 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning the aforementioned stochasticity of these experiments, it is not sufficient to simply compare e.g.\ average returns of the baseline and the newly/adapted one as they might have a highly varying standard deviation.
     Therefore, 2-sample paired t-test will be utilized to show the significance of the obtained results were necessary.
 
-    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards or the possibility to improve existing approaches in dense settings are started with a standard gridsearch which exhaustively combines every possible combination or the coefficients ($\alpha,\beta$) between 0 and 1 with a rate of change of 0.1 ($\Delta$).
-    After this initial step, metrics such as the recent episodic reward, the mean return, or the mean reward are inspected.
+    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards of the possibility to improve existing approaches in dense settings are started with a standard gridsearch which exhaustively combines every possible combination or the coefficients ($\alpha,\beta$) between 0 and 1 with a rate of change of 0.1 ($\Delta$).
+    In that case only \glspl{rf} were considered for the tuning process.
+    After this initial step, metrics such as the \textit{recent episodic reward}, the \textit{mean return}, or the \textit{mean reward} were inspected.
+    However, for the final evaluation mainly the recent episodic reward as well as the best episodic reward were considered.
+    In order to form the return, the advantages that utilize the normalized weighted rewards as well as the value predictions of the policy network are added together whereas advantages are also normalized as described in section~\ref{sec:proximal-policy-optimization-and-auxiliary-tasks}.
+    Furthermore, the reward is composed of the weighted extrinsic and intrinsic reward where the intrinsic one resembles the loss calculated by the forward dynamic model.
+    Finally, the abbreviations \acrshort{m} and \acrshort{sd} will be utilized throughout the rest of this chapter in order to report statistical the mean and the standard deviation respectively.
 
-
-
-    int rewards is the loss calculated by the dynamics
-
-    ret mean consists of the advantages + the value predictions of the policy network which uses the normalized weighted reward, advantages are also normalized
-    rew mean consists of weighted extrinsic and intrinsic rewards
-
+    In Figure~\ref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure deployed.
+    Depending on the performance of the different combinations with regards to the just mentioned metrics, the search space is further restricted.
 
     \begin{figure}[h]
         \centering
-            \includegraphics[width=.9\textwidth]{figures/example_grid_search.png}
-        \caption{A visualization of an executed grid search for the game \textit{Freeway}}
-            \label{fig:gridsearch_evaluation}
+        \includegraphics[width=1\textwidth]{figures/example_grid_search.png}
+        \caption{A visualization of the first iteration of an executed grid search for the game \textit{Freeway}}
+        \label{fig:gridsearch_evaluation}
     \end{figure}
 
-
-
-    Atari GamesTo answer these questions, we began with a collection of well-known Atari gamesand ran a suite of experiments with different feature learning methods. One way to measure how wella purely curious agent performs is to measure the extrinsic reward it is able to achieve, i.e. how goodis the agent at playing the game. It is importantto note that the extrinsic reward is only used for evaluation, not for training. However, this is just aproxy for pure exploration because the game rewards could be arbitrary and might not align at allwith how the agent explores out of curiosity.
-
-
-
-
-
-
-
+    In regards to the performance comparison of the games \textit{Montezuma's Revenge} and \textit{Freeway}, the result by \citet[see Table 2]{burda_large-scale_2018-1} act as a baseline.
+    Similarly to the evaluation procedure which is employed in this thesis, they compared the last recent mean episodic reward ($\pm \text{std-error}$) after 100 million frames of three different seeds.
+    Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01, and another one with a purely extrinsic motivated agent.
+    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsic ($\sim250$) and extrinsic ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answers have been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsic motivated agent than for the purely intrinsic one.
 
     \section{Montezuma's Revenge}
-    These results compare the mean reward (±std-error) after 100 million frames across 3seeds for an agent trained with intrinsic plus extrinsic reward versus extrinsic reward only. Theextrinsic (coefficient1.0) and intrinsic reward (coefficient0.01) were directly combined without anyhyper-parameter tuning. We leave the question on how to optimally combine extrinsic and intrinsicrewards up to future work. This is to emphasize that combining extrinsic with intrinsic rewards is notthe focus of the paper, and these experiments are provided just for completeness.
-score unterschiede ansprechen
-    A performance comparison
-    For a performance comparison, we orientate ourselves on \textit{Table 3}, created by~\cite{aubret_survey_2019}. This table summarizes state of the art methods on exploration strategies with IM and points out the mean score of theses methods on \textit{Montezuma's revenge}.
 
-    ret mean correlates with discovery of new rooms and value prediction
+    In order to find good weights for the rewards which maximizes the agent's episodic reward, a gridsearch is execute for $4 \times 10^6$ frames.
+    Here, the challenge relies in analyzing the performance metrics as the agent is normally unable to obtain any episodic rewards in such little time.
+    Hence, the comparison depicted in Figure~\ref{fig:gridsearch_evaluation} is not applicable and thus the other performance metric had to be considered.
+    With regards to the mean return, weighting the extrinsic reward with 0.6 and the intrinsic one with 0.4 yielded the highest mean return (M$\approx0.88$,SD$\approx0.07$) of in the last episode which is directly followed by the the weights 0.7 and 0.3 (M$\approx0.78$,SD$\approx0.05$).
 
-    \begin{figure}[h]
-        \centering
+    Based on these received results, the search space had been restricted, thus varying the intrinsic reward between 0.5 and 0.2 and the intrinsic reward between 0.5 and 0.8 respectively.
+    After the second iteration, the optimal combination was yet again selected by analyzing the mean return.
+    This time, the optimal combination was 0.56 for the intrinsic reward and 0.44 for the extrinsic one.
+    This procedure was repeated once again which resulted in a weighting of 0.57 and 0.43.
+
+    According to the procedure of the baseline experiment which was conducted by \citet{burda_large-scale_2018-1}, the performance of this obtained combination was evaluated by executing a 3-fold cross validation with three different seeds utilizing both \glspl{rf} and \glspl{idf}.
+    Additionally, purely curiosity based agents as well as a solely extrinsic rewarded agent have been examined.
+    The results can be observed in Figure~\ref{fig:mz_normal}.
+
+    Surprisingly the performance
+
+
+
+
+
+    \newpage
+    \begin{figure}[!h]
+        \begin{center}
         \begin{subfigure}[b]{1\textwidth}
-            \centering
             \includegraphics[width=.9\linewidth]{figures/montezuma/normal/MontezumaRevenge_eprew_recent.png}
-            \caption{Freeway}
-            \label{fig:mz_normal_recent}
         \end{subfigure}
         \begin{subfigure}[b]{1\textwidth}
-            \centering
             \includegraphics[width=.9\linewidth]{figures/montezuma/normal/MontezumaRevenge_best_ext_ret.png}
-            \caption{Breakout}
-            \label{fig:mz_normal_best}
         \end{subfigure}
 
         \begin{scriptsize}
             \vspace{0.2cm}
             \begin{tabular}{|ccc|}
                 \hline
-                &                                              &                                                                                             \\
-                \textbf{Random Features}                                                                   & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                           \\
-                \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} \\
-                &                                              &                                                                                             \\
+                &                                              &                                                                                            \\
+                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                          \\
+                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+                &                                              &                                                                                            \\
                 \hline
             \end{tabular}
+        \end{scriptsize}
+        \end{center}
+        \label{fig:mz_normal}
 
-        \end{scriptsize} \caption{This is a test for the caption}
+        \caption[The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames]
+        {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames with coefficients $\alpha=0.57$ and $\beta=0.43$}
     \end{figure}
 
-
-\begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{1\textwidth}
-            \centering
-            \includegraphics[width=.9\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
-            \caption{Freeway}
-            \label{fig:mz_long_recent}
-        \end{subfigure}
-        \begin{subfigure}[b]{1\textwidth}
-            \centering
-            \includegraphics[width=.9\linewidth]{figures/montezuma/long/MontezumaRevenge_best_ext_ret.png}
-            \caption{Breakout}
-            \label{fig:mz_long_best}
-        \end{subfigure}
-
-        \begin{scriptsize}
-            \vspace{0.2cm}
-            \begin{tabular}{|ccc|}
-                \hline
-                &                                              &                                                                                             \\
-                \textbf{Random Features}                                                                   & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                           \\
-                \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} \\
-                &                                              &                                                                                             \\
-                \hline
-            \end{tabular}
-
-        \end{scriptsize} \caption{This is a test for the caption}
-    \end{figure}
-
-    We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=.9\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
-        \caption[The simple, yet astonishingly good performing algorithm "Go-Explore"]{The simple, yet astonishingly good performing algorithm "Go-Explore" by \citet{ecoffet_go-explore_2019} which is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" from the authors \citet{burda_exploration_2018} \protect\footnotemark}
-
-        \label{fig:mz_rooms}
-    \end{figure}
-
-    \section{Freeway}
-
-
-
-    \begin{figure}[h]
-        \centering
-        \begin{subfigure}[b]{1\textwidth}
-            \centering
-            \includegraphics[width=.9\linewidth]{figures/freeway/Freeway_eprew_recent.png}
-            \caption{Freeway}
-            \label{fig:fway_normal_recent}
-        \end{subfigure}
-        \begin{subfigure}[b]{1\textwidth}
-            \centering
-            \includegraphics[width=.9\linewidth]{figures/freeway/Freeway_best_ext_ret.png}
-            \caption{Breakout}
-            \label{fig:fway_normal_best}
-        \end{subfigure}
-
-        \begin{scriptsize}
-            \vspace{0.2cm}
-            \begin{tabular}{|ccc|}
-                \hline
-                &                                              &                                                                                             \\
-                \textbf{Random Features}                                                                   & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                           \\
-                \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} \\
-                &                                              &                                                                                             \\
-                \hline
-            \end{tabular}
-
-        \end{scriptsize} \caption{This is a test for the caption}
-    \end{figure}
-    \section{Breakout}
-
- t-test
-
+%\newpage
+%    \begin{figure}[h]
+%        \centering
+%        \begin{subfigure}[b]{1\textwidth}
+%            \centering
+%            \includegraphics[width=.9\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
+%        \end{subfigure}
+%        \begin{subfigure}[b]{1\textwidth}
+%            \centering
+%            \includegraphics[width=.9\linewidth]{figures/montezuma/long/MontezumaRevenge_best_ext_ret.png}
+%        \end{subfigure}
+%
+%        \begin{scriptsize}
+%            \vspace{0.2cm}
+%            \begin{tabular}{|ccc|}
+%                \hline
+%                &                                              &                                                                                            \\
+%                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & %\textbf{Inverse Dynamic Features}                                                          \\
+%                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & %\colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+%                &                                              &                                                                                            \\
+%                \hline
+%            \end{tabular}
+%
+%        \end{scriptsize} \caption{This is a test for the caption}
+%    \end{figure}
+%
+%\newpage
+%    \begin{figure}[h]
+%        \centering
+%        \includegraphics[width=.9\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
+%
+%        \begin{scriptsize}
+%            \vspace{0.2cm}
+%            \begin{tabular}{|ccc|}
+%                \hline
+%                &                                              &                                                                                            \\
+%                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & %\textbf{Inverse Dynamic Features}                                                          \\
+%                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & %\colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+%                &                                              &                                                                                            \\
+%                \hline
+%            \end{tabular}
+%
+%        \end{scriptsize}
+%        \caption[The simple, yet astonishingly good performing algorithm "Go-Explore"]{The simple, yet astonishingly good performing algorithm "Go-Explore" by %\citet{ecoffet_go-explore_2019} which is currently the best performing approach to \textit{Montezuma's Revenge}, directly follow by "Random Network Distillation" %from the authors \citet{burda_exploration_2018} \protect\footnotemark}
+%
+%        \label{fig:mz_rooms}
+%    \end{figure}
+%
+%
+%    \section{Freeway}
+%
+%t-test
+%\newpage
+%    \begin{figure}[h]
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/freeway/Freeway_eprew_recent.png}
+%        \end{subfigure}
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/freeway/Freeway_best_ext_ret.png}
+%        \end{subfigure}
+%
+%        \begin{scriptsize}
+%            \vspace{0.2cm}
+%            \begin{tabular}{|ccc|}
+%                \hline
+%                &                                              &                                                                                            \\
+%                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & %\textbf{Inverse Dynamic Features}                                                          \\
+%                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & %\colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+%                &                                              &                                                                                            \\
+%                \hline
+%            \end{tabular}
+%
+%        \end{scriptsize} \caption{This is a test for the caption}
+%    \end{figure}
+%
+%
+%    \section{Breakout}
+%
+%    t-test
+%
+%
+%\newpage
+%    \begin{figure}[h]
+%        \begin{center}
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/breakout/Breakout_eprew_recent.png}
+%        \end{subfigure}
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/breakout/Breakout_best_ext_ret.png}
+%        \end{subfigure}
+%
+%        \begin{scriptsize}
+%            \vspace{0.2cm}
+%            \begin{tabular}{|cc|}
+%                \hline
+%                &                                                                                                                                       \\
+%                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                   \\
+%                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0}  \\
+%                &                                                                                                                                       \\
+%                \hline
+%            \end{tabular}
+%
+%        \end{scriptsize} \caption{This is a test for the caption}
+%        \end{center}
+%    \end{figure}
+%
+%
+%\newpage
+%    \begin{figure}[h]
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/breakout/tv/rf_noTV.png}
+%        \end{subfigure}
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/breakout/tv/rf_TV.png}
+%        \end{subfigure}
+%
+%      \caption{This is a test for the caption}
+%    \end{figure}
+%
+%\newpage
+%    \begin{figure}[h]
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/breakout/tv/idf_noTV.png}
+%        \end{subfigure}
+%        \begin{subfigure}[b]{1\textwidth}
+%            \includegraphics[width=.9\linewidth]{figures/breakout/tv/idf_TV.png}
+%        \end{subfigure}
+%
+%        \caption{This is a test for the caption}
+%    \end{figure}
+%
     \glsresetall
 
 
     \chapter{Discussion and Further Work}
 
+    ret mean correlates with discovery of new rooms and value prediction
     5 different rooms when combined
+      We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
+
 %TODO add other questions
+
     \subsection{Improving Performance in Densely Rewarding Environments}
 
     \subsection{Avoiding Distraction of Intrinsically Motivated Agents}
@@ -1780,7 +1849,7 @@ score unterschiede ansprechen
 
 
     using better hardware.. a large study needs to be conducted
-    focusing also on idfs
+    focusing also on idfs as the ultimate goal is to allow for scalable and gerneral intelligence which burda has shown is better with idf
     Combine go explore with itrninsic exploration ultimate performance
 
     \backmatter
@@ -1807,4 +1876,13 @@ score unterschiede ansprechen
 
     \bibliographystyleOnline{abbrvnat}
     \bibliographyOnline{online}
+
+    \chapter*{Appendix}
+\addcontentsline{toc}{chapter}{Appendix}
+    \section{Legend}
+    \section{Montezuma Revenge Normal Run}
+    \section{Montezuma Revenge Extended Run}
+    \section{Freeway Normal Run}
+    \section{Breakout Extended Run}
+    
 \end{document}

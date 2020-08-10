@@ -190,7 +190,7 @@ def add_experiment_params(parser):
     parser.add_argument('--exp_name', type=str, default='')
 
 #TODO change to false
-    parser.add_argument('--dyn_env', type=bool, default=True)
+    parser.add_argument('--dyn_env', type=bool, default=False)
 
     # DEFAULT VALUE = 1e8
     # AMOUNT FOR FINAL EVALUATION = 1e8/4
@@ -218,6 +218,6 @@ if __name__ == '__main__':
 
 #TODO change here
     args.__setattr__("dir",
-                     f"/home/rafael/Documents/experiments/BreakoutIDFTV/{EXPERIMENT_NAME}")
+                     f"/home/rafael/Documents/experiments/BreakoutIDFNoTV/{EXPERIMENT_NAME}")
 
     start_experiment(**args.__dict__)

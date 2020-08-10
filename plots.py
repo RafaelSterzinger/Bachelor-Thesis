@@ -2,9 +2,10 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
+import matplotlib.colors as mcolors
 
 from decimal import Decimal
-
+plt.rcParams.update({'font.size': 22})
 
 class Experiments(object):
     def __init__(self, directory, reload_logs=False):
@@ -42,21 +43,19 @@ class MultipleSeedsExperiment(object):
             list_of_ys.append(exp.timeseries(y_series))
 
             n_steps_per_update.append(exp.timeseries('tcount')[-1] / exp.timeseries('n_updates')[-1])
-        if y_series=='visited_rooms':
+        if y_series == 'visited_rooms':
             temp = list_of_ys
-            list_of_ys = [[],[],[]]
-            for i in range(0,len(temp)):
+            list_of_ys = [[], [], []]
+            for i in range(0, len(temp)):
                 for seed in temp[i]:
                     list_of_ys[i].append(len(seed))
-            for i in range(0,len(list_of_ys)):
+            for i in range(0, len(list_of_ys)):
                 max = 0
-                for x in range(0,len(list_of_ys[i])):
+                for x in range(0, len(list_of_ys[i])):
                     entry = list_of_ys[i][x]
                     if entry > max:
                         max = entry
-                    list_of_ys[i][x]=max
-
-
+                    list_of_ys[i][x] = max
 
         x, y = group_timeseries(list_of_xs, list_of_ys)
         return x * np.max(n_steps_per_update), y
@@ -124,7 +123,7 @@ class Experiment(object):
     def timeseries(self, name):
         assert self.log is not None
         if self._timeseries.get(name, None) is None:
-            if name!='visited_rooms':
+            if name != 'visited_rooms':
                 self._timeseries[name] = [entry.get(name, 0.) for entry in self.log]
             else:
                 self._timeseries[name] = [entry.get(name, [1]) for entry in self.log]
@@ -228,11 +227,11 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
     print(num_envs)
     fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
     all_axes = []
-    envs = ['Breakout']
+    envs = ['MontezumaRevenge']
     # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
 
     for env, ax in zip(envs, np.ravel(axes)):
-        ax.tick_params(labelsize=7, pad=0.001)
+        ax.tick_params(labelsize=16, pad=0.001)
         ax_with_plots = AxesWithPlots(ax)
         all_axes.append(ax_with_plots)
         for method in experiment.grouped_experiments[env]:
@@ -255,18 +254,18 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
 
 
 def main():
-    xlim = 200
+    xlim = 400
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
     #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
-    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
-    generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
-                              xlim=xlim)
-    generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
-    generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
-    generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='vpredmean', xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
+    #                          xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
 
 
 if __name__ == '__main__':
-    results_folder = '../../plotting/BreakoutImprovement'
+    results_folder = '../../plotting/MontezumaRevengeExtended'
     os.chdir(results_folder)
     main()

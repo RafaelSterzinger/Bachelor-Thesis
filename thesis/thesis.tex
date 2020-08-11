@@ -27,6 +27,7 @@
 \usepackage{bm}
 \usepackage{usebib}
 \bibinput{core}
+\def\arraystretch{1.2}
 
 \definecolor{tab:green}{RGB}{0,128,0}
 \definecolor{tab:red}{RGB}{214,39,32}
@@ -1138,8 +1139,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     An overview of the just described classification with practical approaches can be observed in Table~\ref{tab:clasification_im_rl}.
 
-
-\newpage
+    \newpage
     \begin{table}[h]
         \centering
         \begin{tabular}{l}
@@ -1612,143 +1612,169 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     According to their best-practices, experiments must be carried out using multiple random seeds across many different runs.
     This recommendation was realized during the implementation of the gridsearch which enables for an exhaustive cross validation, thus ensuring the validity of the conducted tests.
-    Concerning the graphical visualizations, these runs are summarized in curves using the mean of the different seeds where the shaded area depicts the standard deviation.
+    Concerning the graphical visualizations, the runs are summarized in curves using the mean of the different seeds where the shaded area depicts the \gls{se}.\footnote{The \gls{se} is equal to $\sigma \div \sqrt{n}$ where $\sigma$ is the standard deviation and $n$ is the sample size}
+
     This is true for all displayed plots unless its stated otherwise.
 
     Usually, the purpose of these executed benchmarks is to test for a performance gain of newly developed or adapted algorithms.
     Concerning the aforementioned stochasticity of these experiments, it is not sufficient to simply compare e.g.\ average returns of the baseline and the newly/adapted one as they might have a highly varying standard deviation.
-    Therefore, 2-sample paired t-test will be utilized to show the significance of the obtained results were necessary.
+    Therefore, 2-sample paired t-tests will be utilized to show the significance of the obtained results where necessary.
 
-    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards of the possibility to improve existing approaches in dense settings are started with a standard gridsearch which exhaustively combines every possible combination or the coefficients ($\alpha,\beta$) between 0 and 1 with a rate of change of 0.1 ($\Delta$).
-    In that case only \glspl{rf} were considered for the tuning process.
-    After this initial step, metrics such as the \textit{recent episodic reward}, the \textit{mean return}, or the \textit{mean reward} were inspected.
-    However, for the final evaluation mainly the recent episodic reward as well as the best episodic reward were considered.
-    In order to form the return, the advantages that utilize the normalized weighted rewards as well as the value predictions of the policy network are added together whereas advantages are also normalized as described in section~\ref{sec:proximal-policy-optimization-and-auxiliary-tasks}.
-    Furthermore, the reward is composed of the weighted extrinsic and intrinsic reward where the intrinsic one resembles the loss calculated by the forward dynamic model.
+    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards as well as the possibility of improving existing results in dense settings are started with a standard gridsearch which tries out exhaustively every possible combination of the coefficients ($\alpha,\beta$) within 0 and 1 and a rate of change of 0.1 ($\Delta$).
+    In that case, only \glspl{rf} were considered for the tuning process.
+    After this initial step, metrics such as the \textit{recent extrinsic episodic reward}, the \textit{mean return}, or the \textit{mean reward} were inspected.
+    However, for the final evaluation mainly the recent extrinsic episodic reward was considered.
+
+    In order to form the return, the advantages that utilize the normalized weighted rewards and the value predictions of the policy network are added together whereas advantages were normalized as well, referring to the description in section~\ref{sec:proximal-policy-optimization-and-auxiliary-tasks}.
+    Furthermore, the reward is composed of the weighted extrinsic and intrinsic rewards where the intrinsic one resembles the loss calculated by the forward dynamics model.
     Finally, the abbreviations \acrshort{m}, \acrshort{sd}, \acrshort{se} will be utilized throughout the rest of this chapter in order to report the mean, the standard deviation as well as the standard error respectively.
 
-    In Figure~\ref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure deployed.
-    Depending on the performance of the different combinations with regards to the just mentioned metrics, the search space is further restricted.
+    In Figure~\ref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure was deployed.
+    Depending on the performance of the different combinations with regards to the just mentioned metrics, the search space was further restricted.
 
     \begin{figure}[h]
         \centering
         \includegraphics[width=1\textwidth]{figures/example_grid_search.png}
-        \caption{A visualization of the first iteration of an executed grid search for the game \textit{Freeway}}
+        \caption[A visualization of the first iteration of an executed gridsearch for the game Freeway]{A visualization of the first iteration of a gridsearch executed on the game Freeway where the mean extrinsic reward per episode is evaluated}
         \label{fig:gridsearch_evaluation}
     \end{figure}
 
     In regards to the performance comparison of the games \textit{Montezuma's Revenge} and \textit{Freeway}, the result by \citet[see Table 2]{burda_large-scale_2018-1} act as a baseline.
-    Similarly to the evaluation procedure which is employed in this thesis, they compared the last recent mean episodic reward ($\pm \text{std-error}$) after 100 million frames of three different seeds.
-    Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01, and another one with a purely extrinsic motivated agent.
-    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsic ($\sim250$) and extrinsic ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answers have been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsic motivated agent than for the purely intrinsic one.
+    Similarly to the evaluation procedure which is employed in this thesis, they compared the last recent mean episodic reward ($\pm\text{\gls{se}}$) after 100 million frames across three different seeds.
+    Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01 for intrinsic ones, and another with a purely extrinsic motivated agent.
+    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsic ($\sim250$) and extrinsic ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answer has been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsic motivated agent than for the purely intrinsic one.
 
-    The plots in the following few sections represents only the most important findings and hence additional plots concerning the episodic return, the average return and standard deviation as well as the average reward will be attached to the~\nameref{ch:appendix}.
+    The plots in the following few sections represent only the most important findings and hence additional plots concerning the \textit{episodic return}, the \textit{average return} and the \textit{standard deviation} as well as the \textit{average reward} will be attached to the~\nameref{ch:appendix}.
+
 
     \section{Montezuma's Revenge}
 
     In order to find good weights for the rewards which maximizes the agent's episodic reward, a gridsearch is execute for $4 \times 10^6$ frames.
-    Here, the challenge relies in analyzing the performance metrics as the agent is normally unable to obtain any episodic rewards in such little time.
-    Hence, the comparison depicted in Figure~\ref{fig:gridsearch_evaluation} is not applicable and thus the other performance metric had to be considered.
-    With regards to the mean return, weighting the extrinsic reward with 0.6 and the intrinsic one with 0.4 yielded the highest mean return ($M\approx0.88$,$SD\approx0.07$) of in the last episode which is directly followed by the the weights 0.7 and 0.3 ($M\approx0.78$,$SD\approx0.05$).
+    Here, the challenge relies in analyzing the performance metrics as the agent is normally unable to obtain any extrinsic episodic rewards in \textit{Montezuma's Revenge} in such little time.
+    Hence, such a comparison as depicted in Figure~\ref{fig:gridsearch_evaluation} is not applicable and thus the other performance metrics had to be considered.
+    With regards to the mean return, weighting the extrinsic reward with 0.6 and the intrinsic one with 0.4 yielded the highest value ($M\approx0.88,SD\approx0.07$) in the last episode which is directly followed by the the weights 0.7 and 0.3 ($M\approx0.78,SD\approx0.05$).
 
-    Based on these received results, the search space had been restricted, thus varying the intrinsic reward between 0.5 and 0.2 and the intrinsic reward between 0.5 and 0.8 respectively.
+    Based on these received results, the search space had been restricted, thus varying the intrinsic reward solely between 0.5 and 0.2 and the intrinsic reward between 0.5 and 0.8 respectively.
     After the second iteration, the optimal combination was yet again selected by analyzing the mean return.
     This time, the optimal combination was 0.56 for the intrinsic reward and 0.44 for the extrinsic one.
-    This procedure was repeated once again which resulted in a weighting of 0.57 and 0.43.
+    This procedure was repeated once again which resulted in an optimal weighting of 0.57 and 0.43.
 
     According to the procedure of the baseline experiment which was conducted by \citet{burda_large-scale_2018-1}, the performance of this obtained combination was evaluated by executing a 3-fold cross validation with three different seeds utilizing both \glspl{rf} and \glspl{idf}.
     Additionally, purely curiosity based agents as well as a solely extrinsic rewarded agent have been examined.
-    The results can be observed in Figure~\ref{fig:mz_normal}.
+    The results of this can be observed in Figure~\ref{fig:mz_normal}.
 
-    Surprisingly the performance of the purely extrinsically rewarded was by far the best (M$\approx266.67$,SD$\approx188.56$) followed by mixed motivated \gls{rf}-curious agent ($M\approx133.33$,$SD\approx188.56$).
-    Concerning the \gls{idf}-curious agents as wells as the purely intrinsic motivated \gls{rf}-curious agent the all achieved a recent episodic reward of 0 ($M\approx0.00$,$SD\approx0.00$).
-    However, \citet{burda_large-scale_2018-1} showed that the purely intrinsic motivated agents can perform much better if given enough time and thus the a training duration of 100 million frames seems to be insufficient as e.g.\ the pure \gls{rf}-curious agent did not achieve a single reward in the final episode whereas when trained for 400 million frames it looks like it is able to approximately achieve an episodic reward of $\sim250$~\citep[compare Figure 2]{burda_large-scale_2018-1}.
+    Surprisingly the performance of the purely extrinsically rewarded agent was by far the best ($M\approx266.67,SD\approx188.56,SE\approx34.43$) followed by mixed motivated \gls{rf}-curious agent ($M\approx133.33,SD\approx188.56,SE\approx34.43$).
+    Concerning the \gls{idf}-curious agents as wells as the purely intrinsic motivated \gls{rf}-curious agent, they almost continuously achieved a recent episodic reward of 0 ($M\approx0.0,SD\approx0.0,SE\approx0.0$).
+    However, \citet{burda_large-scale_2018-1} showed that a purely intrinsic motivated agents can perform much better, if given enough time and thus a training duration of 100 million frames seems to be insufficient as e.g.\ the pure \gls{rf}-curious agent did not achieve a single extrinsic reward in the final episode whereas when trained for 400 million frames it is able to approximately achieve an episodic reward of $\sim250$~\citep[compare Figure 2]{burda_large-scale_2018-1}.
     Usually, the authors evaluated the performance of those agents for at least 400 million frames which makes their proposed baseline of training mixed motivated agents for only 100 million frames questionable.
 
-    Hence, the run time was increased to 400 million frames which allows for a fairer comparison between different combinations of coefficients and dynamics.
-    The results of this experiment can also be observed in Figure~\ref{fig:mz_extended}.
-    Here, it is important to mention that the mixed motivated agent as well as the purely extrinsic one were solely evaluated with 1-fold cross validation.
-    Observing the results, one can clearly notice that the extrinsic motivated agent as well as the mixed \gls{rf}-curious agent performed equally well ($M\approx400.00$,$SD\approx0.00$) whereas the extrinsic motivated agent converged approximately 140 million frames earlier.
-    Although the purely motivated \gls{rf}-curious agent was able to drastically increase its performance ($M\approx249.33$,$SD\approx180.95$) when compared to the previous evaluation, it still performs worse than the other two.
-    However, it was the only one which was ever able to achieve an episodic reward of 500.
+    Hence, the run time was increased to 400 million frames which allowed for a fairer overall comparison between different combinations of coefficients and dynamics.
+    The results of this experiment can be observed in Figure~\ref{fig:mz_extended}.
+    Here, it is important to mention that the mixed motivated agents as well as the purely extrinsic one were solely evaluated with 1-fold cross validation due the massive amount of needed computational power.
+    Observing the results, one can clearly notice that the extrinsic motivated agent as well as the mixed \gls{rf}-curious agent performed equally well ($M\approx400.0,SD\approx0.0,SE\approx0.0$) whereas the extrinsic motivated agent converged around 140 million frames earlier.
+    Although the purely motivated \gls{rf}-curious agent was able to drastically increase its performance ($M\approx249.33,SD\approx180.95,SE\approx33.04$) when compared to the previous evaluation, it still performed worse than the other two.
+    However, it was the only one which was ever able to go beyond an extrinsic episodic reward of 400 as it achieved a maximum reward of 425.
 
+    Although it seems that extrinsic motivated agent as well as the optimally combined \gls{rf}-curious agent are identical performance-wise, there is a big difference between them.
+    In fact, while they both achieved they same extrinsic episodic reward, the \gls{rf}-curious agent was able to discover far more rooms than the extrinsic one.
+    In total the mixed motivated \gls{rf}-curious agent visited five different rooms in \textit{Montezuma's Revenge} while the purely extrinsic one had only discovered two.
+    This phenomenon is depicted in Figure~\ref{fig:mz_rooms} where the number of rooms visited by the purely intrinsic motivated agents and the mixed \gls{idf}-curious one are plotted as well.
+
+    \newpage
     \begin{figure}[!h]
         \begin{center}
-        \begin{subfigure}[b]{1\textwidth}
-            \includegraphics[width=1\linewidth]{figures/montezuma/normal/MontezumaRevenge_eprew_recent.png}
-            \label{fig:mz_normal}
-        \end{subfigure}
-        \begin{subfigure}[b]{1\textwidth}
-           \includegraphics[width=1\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
-            \label{fig:mz_extended}
-       \end{subfigure}
-        \begin{scriptsize}
-            \vspace{0.2cm}
-            \begin{tabular}{|ccc|}
-                \hline
-                &                                              &                                                                                            \\
-                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                          \\
-                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-                &                                              &                                                                                            \\
-                \hline
-            \end{tabular}
-        \end{scriptsize}
+            \begin{subfigure}[b]{1\textwidth}
+                \includegraphics[width=1\linewidth]{figures/montezuma/normal/MontezumaRevenge_eprew_recent.png}
+                \caption{}
+                \label{fig:mz_normal}
+            \end{subfigure}
+            \begin{subfigure}[b]{1\textwidth}
+                \includegraphics[width=1\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
+                \caption{}
+                \label{fig:mz_extended}
+                \vspace{0.5cm}
+            \end{subfigure}
+            \begin{scriptsize}
+                \begin{tabular}{|ccc|}
+                    \hline
+                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+                    \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+                    \hline
+                \end{tabular}
+            \end{scriptsize}
         \end{center}
         \caption[The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames and 400 million frames]
         {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames and 400 million frames with coefficients $\alpha=0.57$ and $\beta=0.43$}
         \label{fig:mz_performance}
     \end{figure}
 
+    \newpage
     \begin{figure}[h]
         \begin{center}
-        \includegraphics[width=1\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
-        \begin{scriptsize}
-            \vspace{0.2cm}
-            \begin{tabular}{|ccc|}
-                \hline
-                &                                              &                                                                                            \\
-                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                          \\
-                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-                &                                              &                                                                                            \\
-                \hline
-            \end{tabular}
+            \begin{subfigure}{1\textwidth}
+                \includegraphics[width=1\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
+                \vspace{0.5cm}
+            \end{subfigure}
+            \begin{scriptsize}
+                \begin{tabular}{|ccc|}
+                    \hline
+                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+                    \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+                    \hline
+                \end{tabular}
 
-        \end{scriptsize}
+            \end{scriptsize}
         \end{center}
         \caption[A visualization of the number of rooms visited by an agent over the course of 400 million frames]{A visualization of the number of rooms visited by an agent over the course of 400 million frames}
         \label{fig:mz_rooms}
     \end{figure}
 
+
+    \section{Freeway}
+    In regards to the evaluation of the game \textit{Freeway}, the same gridsearch method was applied again with a runtime of $4\times10^6$ frames.
+    However, due to the fact that this game credits rewards far more densely than \textit{Montezuma's Revenge} it is now possible to compare the performance of the different coefficients by utilizing the recent extrinsic episodic return as a metric.
+    In fact, the initial run for \textit{Freeway} where coefficients are varied between 0 and 1 is depicted in the example Figure~\ref{fig:gridsearch_evaluation}.
+    When evaluating the performance of the first iteration, it is clearly noticeable that the coefficient tuples $\alpha=0.9$,$\beta=0.1$ ($M\approx28.90,SD\approx0.14$) and $(\alpha=0.8$,$\beta=0.2)$ ($M\approx28.37,SD\approx0.26$) achieved the highest extrinsic episodic reward.
+    Hence, the search space was restricted to exhaustively evaluate intrinsic weights between 0.3 and 0.0 and extrinsic weights between 0.7 and 1.0 respectively.
+    Concerning the second iteration, the coefficients were yet again selected by observing the mean extrinsic episodic reward where the most promising results were obtained with a combination of $\alpha=0.85$ and $\beta=0.15$.
+
+    Since the optimal combination was once again achieved with a weighting of intrinsic rewards between 0.1 and 0.2, the final iteration was executed varying the coefficients within these seemingly optimal bounds.
+
+    After the second iteration, the optimal combination was yet again selected by analyzing the mean return.
+    This time, the optimal combination was 0.56 for the intrinsic reward and 0.44 for the extrinsic one.
+    This procedure was repeated once again which resulted in an optimal weighting of 0.57 and 0.43.
+
+
+    C ross street as many times as possible in around 2 minutes thus a better score is probably not possible
+    t-test
+
+    $t(58)=-1.6,p=0.11$
+    \begin{figure}[h]
+        \begin{center}
+            \begin{subfigure}[b]{1\textwidth}
+                \includegraphics[width=1\linewidth]{figures/freeway/Freeway_eprew_recent.png}
+                \vspace{0.5cm}
+            \end{subfigure}
+            \begin{scriptsize}
+                \begin{tabular}{|ccc|}
+                    \hline
+                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+                    \colorindicator{tab:purple}{INT=0.12, EXT=0.88} &                                              & \colorindicator{tab:orange}{INT=0.12, EXT=0.88} \\
+                    \hline
+                \end{tabular}
+            \end{scriptsize}
+        \end{center}
+        \caption[The performance of an optimally weighted agent in the game of Freeway after 100 million frames]
+        {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames with coefficients $\alpha=0.88$ and $\beta=0.12$}
+        \label{fig:fway_performance}
+    \end{figure}
 %
-%    \section{Freeway}
-%
-%t-test
-%\newpage
-%    \begin{figure}[h]
-%        \begin{subfigure}[b]{1\textwidth}
-%            \includegraphics[width=.9\linewidth]{figures/freeway/Freeway_eprew_recent.png}
-%        \end{subfigure}
-%        \begin{subfigure}[b]{1\textwidth}
-%            \includegraphics[width=.9\linewidth]{figures/freeway/Freeway_best_ext_ret.png}
-%        \end{subfigure}
-%
-%        \begin{scriptsize}
-%            \vspace{0.2cm}
-%            \begin{tabular}{|ccc|}
-%                \hline
-%                &                                              &                                                                                            \\
-%                \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & %\textbf{Inverse Dynamic Features}                                                          \\
-%                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & %\colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-%                &                                              &                                                                                            \\
-%                \hline
-%            \end{tabular}
-%
-%        \end{scriptsize} \caption{This is a test for the caption}
-%    \end{figure}
-%
-%
-%    \section{Breakout}
-%
+
+
+    \section{Breakout}
 %    t-test
 %
 %
@@ -1809,12 +1835,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     ret mean correlates with discovery of new rooms and value prediction
     5 different rooms when combined
-      We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
+    We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge explored 10 rooms.
+
+    seems that that mixed and purely intris agents do not care much about extrinsic reward since they did not obtain any during further exploration
 
 %TODO add other questions
 
     pattern that more extrinsic reward is needed which makes sense as the evaluation was based on extrinsic metrics
 
+    faster convergence more stable/less variance in freeway
     \subsection{Improving Performance in Densely Rewarding Environments}
 
     \subsection{Avoiding Distraction of Intrinsically Motivated Agents}
@@ -1850,12 +1879,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \bibliographyOnline{online}
 
     \chapter*{Appendix}\label{ch:appendix}
-\addcontentsline{toc}{chapter}{Appendix}
+    \addcontentsline{toc}{chapter}{Appendix}
     \section*{Legend}
-    \section*{Montezuma Revenge Normal Run}
-    \section*{Montezuma Revenge Extended Run}
-    \section*{Freeway Normal Run}
-    \section*{Breakout Extended Run}
+    \section*{Montezuma's Revenge}
+    \section*{Freeway}
+    \section*{Breakout}
 
     %TODO add appendix plots
 \end{document}

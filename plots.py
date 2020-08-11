@@ -1,11 +1,14 @@
 import os
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 import matplotlib.colors as mcolors
 
 from decimal import Decimal
+
 plt.rcParams.update({'font.size': 22})
+
 
 class Experiments(object):
     def __init__(self, directory, reload_logs=False):
@@ -222,6 +225,22 @@ labels = {
 }
 
 
+def print_stats(exps, y_series):
+    min_len = sys.maxsize
+    for key in exps:
+        for entry in exps[key].experiments:
+            current = len(entry._timeseries[y_series])
+            if min_len > current:
+                min_len = current
+
+    for key in exps:
+        final_values = []
+        for entry in exps[key].experiments:
+            final_values.append(entry._timeseries[y_series][(min_len - 10):min_len])
+        final_values = [item for elem in final_values for item in elem]
+        print(f"method:{key} mean: {np.mean(final_values)} std:{np.std(final_values)}")
+
+
 def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothen=51, alpha=1.0, xlim=100):
     num_envs = len(experiment.grouped_experiments)
     print(num_envs)
@@ -240,6 +259,7 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
                 xs, ys = experiment.grouped_experiments[env][method].get_xs_ys(y_series)
                 ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
                                            alpha=alpha)
+        print_stats(experiment.grouped_experiments[env], y_series)
         ax_with_plots.finish_up(title=env, xlim=xlim)
 
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
@@ -256,13 +276,13 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
 def main():
     xlim = 400
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
-    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='vpredmean', xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
+    # generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
+    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
     #                          xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
-    #generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
+    # generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
 
 
 if __name__ == '__main__':

@@ -307,7 +307,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Reinforcement Learning Background}\label{ch:reinforcement-learning-background}
 
-    The following chapter starts with a description of the \gls{rl} problem and its affiliation to the broader spectrum of \gls{ml}.
+    The following chapter begins with a description of the \gls{rl} problem and its affiliation to the broader spectrum of \gls{ml}.
     Here, also the distinctions between the different \gls{ml} disciplines are pointed out.
     Furthermore, the described problem is then formally notated under the utilization of \glspl{mdp}.
     In the section~\nameref{sec:functions-to-improve-the-policy}, the policy as well as the corresponding state-value and action-value function are introduced which act as measurements on how favourable a state or an action might be.
@@ -666,15 +666,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \chapter{Deep Reinforcement Learning}\label{ch:deep-reinforcement-learning}
 
 
-    In the preceding chapter dealing with the~\nameref{ch:reinforcement-learning-background}, multiple solutions to the \gls{rl} problem were presented.
-    However, approaches as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathcal{S}$ is visited countless times in order to estimate the optimal policy $\pi$.
+    The preceding chapter has dealt with the~\nameref{ch:reinforcement-learning-background} while presenting multiple solutions to the \gls{rl} problem.
+    However, approaches such as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state of $\mathcal{S}$ is visited countless times in order to estimate the optimal policy $\pi$.
     In the case of video games where states are often represented as the current frame of the game, the dimension of the state-space $\mathcal{S}$ is intangible which is also known as the curse of dimensionality~\citep[\p{151}]{goodfellow_deep_2016}.
     That is because each frame consists of thousands of pixels and each of these pixels can accept various values ranging from 0 to 255.
     To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to their capability of estimating very complex functions such as the value function for a high dimensional state-space.
     By combining these techniques the field of \gls{drl} emerged which enables superhuman-like problem-solving skills~\citep{francois-lavet_introduction_2018}.
 
-    Instead of presenting right away adapted traditional \gls{rl} approaches, this chapter starts with an introduction to \glspl{nn} and \gls{dl}.
-    Afterwards, the chapter contains an overview on traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
+    Instead of presenting right away adapted, traditional \gls{rl} approaches, this chapter begins with an introduction to \glspl{nn} and \gls{dl}.
+    Afterwards, it provides an overview of traditional \gls{drl} approaches which is finally concluded with one specific optimization method, the so-called~\gls{ppo}~\eqref{sec:proximal-policy-optimization}.
     A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citet{burda_large-scale_2018-1}, the core literature of this thesis.
 
 
@@ -984,10 +984,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \chapter{Intrinsic Motivation in Reinforcement Learning}\label{ch:intrinsic-motivation-in-reinforcement-learning}
     The idea of including \gls{im} into the \gls{rl} framework has been investigated since early 1990.
     As in realistic environments extrinsic rewards occur rather rarely, thus quick progress by an agent cannot be expected.
-    With its roots deeply involved in psychology, \gls{im} was initially used due to its ability of discovering surprising or novel patterns which enables an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
+    With its roots deeply anchored in psychology, \gls{im} was initially used due to its ability of discovering surprising or novel patterns which enables an agent to be creative in the sense that it learns non-trivial, new behaviour~\citep{schmidhuber_formal_2010}.
     This natural phenomenon is based on the observation that animals engage in curiosity-driven, exploratory, and playful behaviour despite the fact that a reward or a reinforcement would not be granted to them~\citep{white_motivation_1959}.
 
-    This chapter is started by introducing the psychological aspects of \gls{im} as well as the term motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
+    This chapter begins with an introduction to the psychological aspects of \gls{im} as well as the term motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
     Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges} for a summary), and the embedding of \gls{im} in \gls{rl} is presented.
     Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply investigated in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
 
@@ -1000,7 +1000,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In opposition to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
     Motivation, in general, is very particular to different people~\citep{ryan_intrinsic_2000}.
     Not only can it vary in the amount/\textit{level of motivation} a person can have, but the \textit{orientation of motivation} can be different as well.
-    The question on the orientation of a person's motivation is very significant since e.g.\ pupils may be very motivated to excel in a subject out of curiosity (\gls{im}) or rather out of the possibility of achieving good grades (\gls{em}) which might yield further positive benefits for them or avoid sanctions.
+    The question about the orientation of a person's motivation is very significant since e.g.\ pupils may be very motivated to excel in a subject out of curiosity (\gls{im}) or rather out of the possibility of achieving good grades (\gls{em}) which might yield further positive benefits for them or avoid sanctions.
 
     Moreover, research pointed out that the quality of performance and experience depends on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
@@ -1038,7 +1038,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Hence, without a supervisor, learning becomes more flexible and \gls{rl} algorithms generalize more across different environments~\citep{aubret_survey_2019}.
 
     Additionally to the classification of subfields in \gls{ml} in section~\ref{sec:reinforcement-learning-problem}, \citeauthor{aubret_survey_2019} add a fourth field to the spectrum of learning types, differentiating between reinforced and intrinsically motivated learning (see Table~\ref{tab:type_learning}).
-    Therefore, a distinction is drawn depending on whether or not expert supervision which gives feedback is involved.
+    Therefore, a distinction is drawn depending on whether or not expert supervision, which gives feedback, is involved.
 
     \begin{table}
         \centering
@@ -1206,7 +1206,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Exploration}\label{sec:state_of_the_art}
     In this chapter only the significant branch of knowledge acquisition through exploration is considered as this thesis builds upon a "\usebibentry{burda_large-scale_2018-1}{title}", a paper published by \citet{burda_large-scale_2018-1}.
-    Here, emphasis is placed on prediction-error based methods but for completeness other exploration methods based on state novelty or information gain are taken into account as well.
+    Here, emphasis is placed on prediction-error based methods but for the sake of completeness other exploration methods based on state novelty or information gain are taken into account as well.
     However, the following list of publications poses only a selection which was chosen mainly based on the performance of these methods or was written by authors who contributed to the underlying paper of this thesis.
 
     \begin{itemize}
@@ -1247,7 +1247,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In contrast to that, they introduced so-called \glspl{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended}.
     This network is not trained as its weights are fixed immediately after initialization.
     Furthermore, the properties of this encoding are stability as the network was fixed and possible compactness depending on the amount of random features extracted.
-    However, this encoding function might fail to be sufficient as only random features are extracted and thus not convey all the relevant information.
+    However, this encoding function might fail to be sufficient as only random features are extracted and thus chances are that they do not convey all the relevant information.
 
     A further method for feature encoding posed the idea of \glspl{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
     In that case, a feedforward network/auto-encoder compresses the state space that is later used to predict the distance between the current state $s_t$ and $s_{t+1}$.
@@ -1279,7 +1279,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Unfortunately, all of these feature encodings are unable to deal with the white-noise problem which was mentioned in section~\ref{sec:problem-description}.
 
     Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citet{kim_emi_2019}.
-    With a similar action space as in the work by \citet{pathak_curiosity-driven_2017-1}, they managed to improve significantly the agent's performance in several Atari 2600 games.
+    With a similar action space as in the work by \citet{pathak_curiosity-driven_2017-1}, they managed to significantly improve the agent's performance in several Atari 2600 games.
     However, this fell at the expenses of multiple additional layers of complexity.
     Instead of training a complex forward model that predicts the next encoded state, they transformed the complexity into a maximization problem of mutual information $I$ between $I([s,a];s')$ and $I([s,s'];a)$ and only used a simple linear model for $F$ to represent the space~\citep{aubret_survey_2019}.
     Concerning the problem with stochasticity, \citet{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads non-linearity from the model $F$.
@@ -1514,7 +1514,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In addition to the normalization of rewards and advantages, observations are normalized as well.
     Here, mean and standard deviation are calculated prior to the initialization of the embedding network which are based on data that is obtained by letting a random agent explore its environment for 10000 time-steps.
-    Afterwards, the generated data is used to normalize the input frames during training which is especially useful as it ensures for features to have small variance at the beginning and that they hold less deviation across other environments.
+    Afterwards, the generated data is used to normalize the input frames during training which is especially useful as it ensures for features to have small variance at the beginning and for them to hold less deviation across other environments.
 
 
     \section{Hyperparameter Tuning}\label{sec:hyperparameter-tuning}

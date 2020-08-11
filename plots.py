@@ -189,10 +189,12 @@ class AxesWithPlots(object):
 
         self.max_xs.append(x[-1])
 
-    def finish_up(self, title, fontsize=8, xlim=300, tight_y=True):
+    def finish_up(self, y_series, xlim=300, tight_y=True):
         self.ax.set_xlim([0, xlim])
-        self.ax.set_title(title, fontsize=fontsize)
-        self.ax.autoscale(enable=True, axis='y', tight=tight_y)
+        if y_series != 'visited_rooms':
+            self.ax.autoscale(enable=True, axis='y', tight=tight_y)
+        else:
+            self.ax.set_ylim([1, 6])
 
 
 def label(method):
@@ -234,58 +236,60 @@ def print_stats(exps, y_series):
                 min_len = current
 
     for key in exps:
-        final_values = []
+        mean_std = []
+        max_min = []
         for entry in exps[key].experiments:
-            final_values.append(entry._timeseries[y_series][(min_len - 10):min_len])
-        final_values = [item for elem in final_values for item in elem]
-        print(f"method:{key} mean: {np.mean(final_values)} std:{np.std(final_values)}")
+            max_min.append(entry._timeseries[y_series][:])
+            mean_std.append(entry._timeseries[y_series][(min_len - 10):min_len])
+        mean_std = [item for elem in mean_std for item in elem]
+        max_min = [item for elem in max_min for item in elem]
+        print(f"method:{key} mean: {np.mean(mean_std)} std:{np.std(mean_std)} sterror:{np.std(mean_std) / np.sqrt(len(mean_std))} max:{np.max(max_min)} min:{np.min(max_min)}")
 
 
 def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothen=51, alpha=1.0, xlim=100):
-    num_envs = len(experiment.grouped_experiments)
-    print(num_envs)
-    fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True, figsize=(12, 6))
+    fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 6))
     all_axes = []
-    envs = ['MontezumaRevenge']
-    # envs = ['Breakout', 'MontezumaRevenge', 'Freeway', 'Frostbite']
+    key = list(experiment.grouped_experiments.keys())[0]
 
-    for env, ax in zip(envs, np.ravel(axes)):
+    for ax in np.ravel(axes):
         ax.tick_params(labelsize=16, pad=0.001)
         ax_with_plots = AxesWithPlots(ax)
         all_axes.append(ax_with_plots)
-        for method in experiment.grouped_experiments[env]:
-            if method != 'extrew':
-                print("generating graph ", env, method)
-                xs, ys = experiment.grouped_experiments[env][method].get_xs_ys(y_series)
-                ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
-                                           alpha=alpha)
-        print_stats(experiment.grouped_experiments[env], y_series)
-        ax_with_plots.finish_up(title=env, xlim=xlim)
+        for method in experiment.grouped_experiments[key]:
+            print("generating graph ", key, method)
+            xs, ys = experiment.grouped_experiments[key][method].get_xs_ys(y_series)
+            ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
+                                       alpha=alpha)
+       # print_stats(experiment.grouped_experiments[key], y_series)
+        ax_with_plots.finish_up(y_series=y_series, xlim=xlim)
 
     plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
     # fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
     fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
     fig.text(0.001, 0.5, name, va='center', rotation='vertical')
 
-    save_filename = os.path.join(results_folder, '{}_{}.png'.format(envs[0], y_series))
+    save_filename = os.path.join(results_folder, '{}_{}.png'.format(key, y_series))
     print("saving ", save_filename)
     plt.savefig(save_filename, dpi=300)
     plt.close()
 
 
 def main():
-    xlim = 400
+    xlim = 100
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    # generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,xlim=xlim)
-    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
-    # generate_three_seed_graph(experiment, name='Current Best Extrinsic Reward', y_series='best_ext_ret', smoothen=False,
+    #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,
     #                          xlim=xlim)
-    # generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
-    # generate_three_seed_graph(experiment, name='Mean Return', y_series='retmean', xlim=xlim)
-    # generate_three_seed_graph(experiment, name='Mean Reward', y_series='rew_mean', xlim=xlim)
+
+    generate_three_seed_graph(experiment, name='Best Extrinsic Return', y_series='best_ext_ret', smoothen=False,
+                              xlim=xlim)
+    generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Extrinsic Return per Episode', y_series='recent_best_ext_ret', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Average Return', y_series='retmean', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
+    generate_three_seed_graph(experiment, name='Average Reward', y_series='rew_mean', xlim=xlim)
 
 
 if __name__ == '__main__':
-    results_folder = '../../plotting/MontezumaRevengeExtended'
+    results_folder = '../../plotting/FreewayNormal'
     os.chdir(results_folder)
     main()

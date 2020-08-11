@@ -146,6 +146,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 \newacronym{pg}{PG}{Policy Gradient}
 \newacronym{sd}{SD}{Standard Deviation}
 \newacronym{m}{M}{Mean}
+\newacronym{se}{SE}{Standard Error}
 
 \begin{document}
 
@@ -164,7 +165,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         Ein besonderer Dank kommt hierbei meinem Vater zu, welcher mir während der Verfassung dieser Bachelorarbeit immer wieder die unerlässlichen kleinen Dinge des Alltags abgenommen hat.
 
         Ebenfalls ein großes Dankeschön möchte ich an meinen Betreuer Michael Ressmann aussprechen, welcher mir während der Planung und Durchführung der Arbeit den nötigen Freiraum gegeben hat, zeitgleich aber darauf geachtet hat, dass ich mich in meinem Vorhaben nicht übernehme.
-        Außerdem möchte ich mich bei ihm für sein gutes Feedback, die schnelle und ausführliche Beantwortungen meiner Fragen sowie für die rasche Benotung meiner Bachelorarbeit bedanken, welcher aufgrund zeitlicher Beschränkungen meinerseits notwendig war.
+        Außerdem möchte ich mich bei ihm für sein gutes Feedback, die schnelle und ausführliche Beantwortungen meiner Fragen sowie für die zügige Durchsicht meiner Bachelorarbeit bedanken, welche aufgrund zeitlicher Beschränkungen meinerseits notwendig geworden ist.
 
         Zu guter Letzt richte ich auch ein Dankeschön an all meine Freunde und Verwandte, welche mich während der Anfertigung dieser Arbeit auf unterschiedlichste Art und Weise unterstützten.
 
@@ -175,7 +176,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         A special thanks goes to my father, who repeatedly relieved me of the unavoidable chores of everyday life while writing this Bachelor's thesis.
 
         Additionally, I would also like to express a big thank you to my supervisor Michael Ressmann, who gave me the necessary freedom during the planning and execution of this thesis, but at the same time made sure that I did not take on too much during my project.
-        I would also like to thank him for his good feedback, the prompt responses to my questions, and the quick grading of my Bachelor's thesis, which was necessary due to time constraints on my part.
+        I would also like to thank him for his good feedback, the prompt responses to my questions, and the quick review of my Bachelor's thesis, which became necessary due to time constraints on my part.
 
         Last but not least, I would also like to say thank you to all my friends and relatives who supported me in various ways during the realization.
 
@@ -291,9 +292,6 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Therefore, this Bachelor's thesis follows a programming approach as different weightings of the rewards are tested on the mentioned environment.
 
     \subsection{Methodology}
-
-
-    \section{Thesis Outline}\label{sec:thesis-outline}
 
 
     \glsresetall
@@ -1627,7 +1625,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, for the final evaluation mainly the recent episodic reward as well as the best episodic reward were considered.
     In order to form the return, the advantages that utilize the normalized weighted rewards as well as the value predictions of the policy network are added together whereas advantages are also normalized as described in section~\ref{sec:proximal-policy-optimization-and-auxiliary-tasks}.
     Furthermore, the reward is composed of the weighted extrinsic and intrinsic reward where the intrinsic one resembles the loss calculated by the forward dynamic model.
-    Finally, the abbreviations \acrshort{m} and \acrshort{sd} will be utilized throughout the rest of this chapter in order to report statistical the mean and the standard deviation respectively.
+    Finally, the abbreviations \acrshort{m}, \acrshort{sd}, \acrshort{se} will be utilized throughout the rest of this chapter in order to report the mean, the standard deviation as well as the standard error respectively.
 
     In Figure~\ref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure deployed.
     Depending on the performance of the different combinations with regards to the just mentioned metrics, the search space is further restricted.
@@ -1643,6 +1641,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Similarly to the evaluation procedure which is employed in this thesis, they compared the last recent mean episodic reward ($\pm \text{std-error}$) after 100 million frames of three different seeds.
     Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01, and another one with a purely extrinsic motivated agent.
     Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsic ($\sim250$) and extrinsic ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answers have been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsic motivated agent than for the purely intrinsic one.
+
+    The plots in the following few sections represents only the most important findings and hence additional plots concerning the episodic return, the average return and standard deviation as well as the average reward will be attached to the~\nameref{ch:appendix}.
 
     \section{Montezuma's Revenge}
 
@@ -1666,7 +1666,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Usually, the authors evaluated the performance of those agents for at least 400 million frames which makes their proposed baseline of training mixed motivated agents for only 100 million frames questionable.
 
     Hence, the run time was increased to 400 million frames which allows for a fairer comparison between different combinations of coefficients and dynamics.
-    The results of this experiment can be observed in Figure~\ref{fig:mz_extended}.
+    The results of this experiment can also be observed in Figure~\ref{fig:mz_extended}.
     Here, it is important to mention that the mixed motivated agent as well as the purely extrinsic one were solely evaluated with 1-fold cross validation.
     Observing the results, one can clearly notice that the extrinsic motivated agent as well as the mixed \gls{rf}-curious agent performed equally well ($M\approx400.00$,$SD\approx0.00$) whereas the extrinsic motivated agent converged approximately 140 million frames earlier.
     Although the purely motivated \gls{rf}-curious agent was able to drastically increase its performance ($M\approx249.33$,$SD\approx180.95$) when compared to the previous evaluation, it still performs worse than the other two.
@@ -1676,11 +1676,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \begin{center}
         \begin{subfigure}[b]{1\textwidth}
             \includegraphics[width=1\linewidth]{figures/montezuma/normal/MontezumaRevenge_eprew_recent.png}
+            \label{fig:mz_normal}
         \end{subfigure}
         \begin{subfigure}[b]{1\textwidth}
-            \includegraphics[width=1\linewidth]{figures/montezuma/normal/MontezumaRevenge_best_ext_ret.png}
-        \end{subfigure}
-
+           \includegraphics[width=1\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
+            \label{fig:mz_extended}
+       \end{subfigure}
         \begin{scriptsize}
             \vspace{0.2cm}
             \begin{tabular}{|ccc|}
@@ -1693,41 +1694,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
             \end{tabular}
         \end{scriptsize}
         \end{center}
-        \caption[The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames]
-        {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames with coefficients $\alpha=0.57$ and $\beta=0.43$}
-        \label{fig:mz_normal}
+        \caption[The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames and 400 million frames]
+        {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames and 400 million frames with coefficients $\alpha=0.57$ and $\beta=0.43$}
+        \label{fig:mz_performance}
     \end{figure}
-
-    %TODO remove label of idf features if training is not completed
-   \begin{figure}[h]
-       \begin{center}
-       \begin{subfigure}[b]{1\textwidth}
-           \includegraphics[width=1\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
-       \end{subfigure}
-       \begin{subfigure}[b]{1\textwidth}
-           \includegraphics[width=1\linewidth]{figures/montezuma/long/MontezumaRevenge_best_ext_ret.png}
-       \end{subfigure}
-        \begin{scriptsize}
-           \vspace{0.2cm}
-           \begin{tabular}{|ccc|}
-               \hline
-               &                                              &                                                                                            \\
-               \textbf{Random Features}                                                                    & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}                                                          \\
-               \colorindicator{tab:blue}{INT=1.0, EXT=0.0}|\colorindicator{tab:purple}{INT=0.43, EXT=0.57} & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}|\colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-               &                                              &                                                                                            \\
-               \hline
-           \end{tabular}
-        \end{scriptsize}
-   \end{center}
-       \caption[The performance of an optimally weighted agent in the game of Montezuma's Revenge after 400 million frames]
-        {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 400 million frames with coefficients $\alpha=0.57$ and $\beta=0.43$}
-       \label{fig:mz_extended}
-   \end{figure}
 
     \begin{figure}[h]
         \begin{center}
         \includegraphics[width=1\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
-
         \begin{scriptsize}
             \vspace{0.2cm}
             \begin{tabular}{|ccc|}
@@ -1831,7 +1805,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \glsresetall
 
 
-    \chapter{Discussion and Further Work}
+    \chapter{Discussion and Further Work}\label{ch:discussion-and-further-work}
 
     ret mean correlates with discovery of new rooms and value prediction
     5 different rooms when combined
@@ -1839,10 +1813,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 %TODO add other questions
 
+    pattern that more extrinsic reward is needed which makes sense as the evaluation was based on extrinsic metrics
+
     \subsection{Improving Performance in Densely Rewarding Environments}
 
     \subsection{Avoiding Distraction of Intrinsically Motivated Agents}
-
 
 
     using better hardware.. a large study needs to be conducted
@@ -1874,12 +1849,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \bibliographystyleOnline{abbrvnat}
     \bibliographyOnline{online}
 
-    \chapter*{Appendix}
+    \chapter*{Appendix}\label{ch:appendix}
 \addcontentsline{toc}{chapter}{Appendix}
     \section*{Legend}
     \section*{Montezuma Revenge Normal Run}
     \section*{Montezuma Revenge Extended Run}
     \section*{Freeway Normal Run}
     \section*{Breakout Extended Run}
-    
+
+    %TODO add appendix plots
 \end{document}

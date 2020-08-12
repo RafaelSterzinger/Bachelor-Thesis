@@ -1883,7 +1883,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This phenomenon was also discovered by \citeauthor{burda_large-scale_2018-1} who state that they even achieved a run where their agent was able to visited as many as ten rooms.
     One would assume, that this advancement would increase the agent's performance but this is not the case.
     Much more, it looks as if the agent is still more interested in pursuing its internal drive instead of collecting extrinsic rewards even tough it would be able to do so.
-    A further reason could be that the agent gets detached from the intrinsically rewarding area which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \acrlong{im}.
+    A further reason could be that the agent gets detached from the intrinsically rewarding area which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \gls{im}.
 
     Another example would be the much quicker and more varying convergence of the obtained extrinsic reward which was witnessed during the evaluation of \textit{Freeway}.
     Here it seems like the mixed rewarded agent is able to find a good compromise between being completely distracted by the naturally occurring stochasticity of the game and dodging the initial hurdles with which an extrinsic rewarded agent has to deal.
@@ -1901,25 +1901,31 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Hence, it is concluded that a performance increase via a combined reward signal is not possible in settings were rewards are credited densely.
     Although different weightings of rewards did not manage to beat existing extrinsically rewarding approaches, they perform significantly better than purely intrinsically rewarding methods.
 
-    For question~\ref{q:c}, an identical approach to the one proposed by \citet{pathak_curiosity-driven_2017-1} and \citet{burda_large-scale_2018-1} had been reproduced as the observation which the agent receives was modified by adding a padding of white noise around each frame.
-    Evaluating the obtained results of the conducted experiments showed clearly that intrinsically motivated agents get distracted by the added noisy-TV and hence their performance is drastically decreased.
-    The same conclusion was draw by the just mentioned authors.
-    However, this was
+    For question~\ref{q:d}, an identical approach to the one proposed by \citet{pathak_curiosity-driven_2017-1} and \citet{burda_large-scale_2018-1} was reproduced as the observation which the agent receives was modified by adding a padding of white noise around each frame.
+    Evaluating the obtained results of the four conducted experiments clearly showed that intrinsically motivated agents get distracted by the added noisy-TV and hence their performance is drastically decreased which reinforce the findings by the just named authors.
+    Furthermore, agents with different weightings were employed during these experiments in order to analyze their ability to tackle the cause distraction.
+    In regards to different forward dynamics models, both \glspl{rf} as well as \glspl{idf} seem to be effected similarly as in both cases they took a drastic hit performance-wise and additionally, the range between the best and the worst performing agent increased by half.
 
+    Surprisingly, the purely extrinsically motivate agent was effected by the white-noise as well although in theory it should not cause any difference.
+    However, there is simple explanation for the resulting discrepancies as one significant side effect was disregarded.
+    By adding a padding of white-noise around each input frame, the dimensionality of the agent's observation increases as well and thus the complexity increases.
+    One solution to this would be to e.g.\ add a padding of fixed white-noise to the non-exposed agent's observation as this ensures and increased dimensionality while on the same time it should not cause any distraction.
+    Although this imported side effect was neglected, it is still possible to draw a conclusion.
+    When evaluating the differences between the exposed and non-exposed agents seems that the impact of white-noise is heavily reduced by an extrinsic weighting of 0.5 and above.
+    Hence, the data suggests that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore which makes sense as the irritation is caused by \gls{im} in the first place.
+    Therefore, one can conclude that \gls{em} is effective option to tackle local stochasticity.
 
-    Adding the padding also increases the dimensionality thus purely extrinsic agents perform also worse. hence expiremtns needs to be conducted eg adding a non stochstic boarder the game for the evaluation of no tv
+    Regarding further research, one direction has already been pointed out.
+    Additionally to that, the experiments for question~\ref{q:d} should be carried out again but this time taking into account the occurring side effects e.g.\ by means of the proposed solution.
+    This would ensure the validity of the drawn conclusion and might yield additional insights.
+    During research of this thesis, one highly limiting factor was the lack of computational power.
+    Although all of the findings are somehow tangible, a large-scale study utilizing better hardware similar to the one by \citet{burda_large-scale_2018-1} would be recommended to guarantee for a more valid conclusion.
+    In addition to that, greater focus should be laid on \glspl{idf} since according to \citet{burda_large-scale_2018-1} they allow to generalize better across different environments.
+    Furthermore, the results showed that the promising performance of the selected prediction-error based approach carried out by a purely intrinsically motivated agent can certainly be undermined by means of a combined reward signal and therefore, extrinsic rewards are still needed in order for an agent to achieve superhuman performance.
+    A final very interesting and promising further research direction would be to combine the algorithm introduces in \usebibentry{ecoffet_go-explore_2019}{title} with intrinsic motivation for the exploration task since their initial exploration approach is based on a random agent.
 
-    both dynamic showed same results
-
-    using better hardware.. a large study needs to be conducted
-    eventough pure agents peform good they are certainly undermined by mixed or extrinsic once, ideally finding algos that increase performance of pure intrisic once for scaleability and generalizeability
-    focusing also on idfs as the ultimate goal is to allow for scalable and gerneral intelligence which burda has shown is better with idf
-    Combine go explore with itrninsic exploration ultimate performance
-
-    In conclusion,
-    all experiemntet no improvements,
-    however it improves prue intinsic once
-    yield other beneficial properties -> shorter training duration more stable evaluation
+    In conclusion, while all of the conducted experiments concerning the different weighting of intrinsic and extrinsic reward signals did not improve existing, mainly extrinsically motivated approaches, they certainly perform better than purely intrinsically motivated ones.
+    Additionally, other beneficial properties had been observed such as a faster and a more stable convergence which, if employed in the right environment, can yield an advantage.
 
     \backmatter
 % Use an optional list of figures.

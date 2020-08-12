@@ -188,6 +188,31 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{kurzfassung}
 
     \begin{abstract}
+
+        \begin{adjustwidth}{0cm}{0cm}
+    In reinforcement learning, algorithms mainly depend on man-made reward functions which act as a feedback to decisions made by a so-called agent.
+    In order to learn a desired behaviour, the agent has to optimize these functions via a trial-and-error paradigm.
+    This is solely feasible if the number of states is low as it has to experience them several times.
+    However, states are usually described through images where each combination of pixels depicts a different state and thus, even a $84 \times 84$ gray-scale image would still allow for endless possibilities.
+    For this reason neural networks were employed which yielded several astonishing results over the last decade.
+
+    Common for these results is the fact that rewards are awarded densely whereas if rewards are scarce the agent is unable to pick up the desired behaviour at all.
+    A prominent example for this is the game \textit{Montezuma's Revenge} where the agent's task depends on exploration.
+    This issue is tackled by incorporating intrinsic rewards which are based on the naturally occurring phenomenon that babies have an internal urge to discover and acquire new skills, both of which are beneficial to reinforcement learning.
+
+    An approach to implement intrinsic motivation is via curiosity which was profoundly explored by \citet{burda_large-scale_2018-1} where they expressed curiosity as an error reflecting the agents ability to predict the consequences of its decisions.
+    They showed that even a purely intrinsically motivated agent is able to obtain extrinsic rewards as well as pointed out the limitations of such an approach by presenting the so-called noisy-TV problem where agents get distracted by random white-noise.
+
+    Based on their findings, this thesis aims to answer the following questions: Does the combination of extrinsic and intrinsic rewards obtain better results?
+    Are there any patterns concerning optimally combined rewards?
+    Is it possible to further improve the performance of agents by combining these rewards even tough extrinsic rewards are dense?
+    Can the noisy-TV problem be tackled by employing extrinsic motivation?
+
+    Regarding these questions, the obtained results suggest that combined rewards do not improve existing approaches, however they certainly outperformed pure intrinsic ones.
+    Additionally, other beneficial properties had been discovered such as faster and more stable convergence.
+    Regarding the optimal weighting, extrinsic reward signals tended to be weighted more heavily and their heaviness is correlated with the sparseness of the extrinsic rewards.
+    Finally, it was observed that as soon as extrinsic reward signal outweighed the intrinsic one the impact of of the noisy-TV is not significant anymore.
+    \end{adjustwidth}
     \end{abstract}
 
 % Select the language of the thesis, e.g., english or naustrian.
@@ -209,11 +234,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This traditional approach yielded multiple astonishing results over the last decade.
     Tasks which award rewards densely, i.e.\ almost after every performed action, are common for these results.
     In opposite to dense rewards, sparse rewards are scattered in the environment which poses the problem that they occur too rarely for an agent to pick up the needed skills.
-    An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's revenge}.
+    An example for environments with sparse rewards are tasks which depend heavily on exploration, e.g. \textit{Montezumas's Revenge}.
 
     An approach to tackle these problems is curiosity, an organism's \gls{im} to spontaneously explore its environment.
     \gls{im} allows an agent to incrementally learn valuable skills independently of its given task by an intrinsic and therefore a more general reward function.
-    In general, the concept of intrinsic and extrinsic evolves around the question of why an agent performed a certain action in a given state.
+    In general, the concept of intrinsic and extrinsic deals with the question of why an agent performed a certain action in a given state.
     Since \gls{im} became an important part of \gls{rl}, the following challenges were crystallized out by~\cite[\p{6}]{aubret_survey_2019}:
 
     \begin{itemize}
@@ -258,43 +283,27 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Methodological Approach}\label{sec:methodological-approach}
 
-    Before the methodological approach is introduced a summary of just posed research questions which are investigated during this thesis will be provided in the following: (a) Does the combination of extrinsic and intrinsic rewards obtain better results? (b) Are there any patterns concerning optimally combined rewards? (c) Is it possible to further improve the performance of agents in densely rewarding environment by utilizing \gls{em} and \gls{im} simultaneously? (d) Can local stochasticity, also known as the white-noise problem, be tackled by employing \gls{im}?
+    Before the methodological approach is described, a summary of the just posed research questions is provided: (a)~Does the combination of extrinsic and intrinsic rewards obtain better results? (b)~Are there any patterns concerning optimally combined rewards? (c)~Is it possible to further improve the performance of agents in densely rewarding environments by utilizing \gls{em} and \gls{im} simultaneously? (d)~Can local stochasticity, also known as the white-noise problem, be tackled by employing \gls{em}?
 
-    In order to pursue these questions, a quantitative approach is selected where data has to be generated by conducting experiments on a benchmark environment.
-    This benchmark environment will be primarily based one the work by \citet{burda_large-scale_2018-1} who already carried out very similar experiments on multiple Atari 2600 games.
-    According to \citeauthor{francois-lavet_introduction_2018}, the data generation process plays an crucial role in \gls{rl}
+    In order to pursue these questions, a benchmarking environment has to be crafted where adopted and tuned \gls{rl} algorithms can be evaluated.
+    For this purpose, there are already several existing solutions e.g.\ the generally established \textit{OpenAI Gym} which has been solely created to develop and compare \gls{rl} algorithms.
+    However, as this thesis is primarily concerned with \gls{im} based approaches but also with \gls{im} ones, the benchmarking environment will be based one the released source code by \citet{burda_large-scale_2018-1} which is based on the work by \citet{pathak_curiosity-driven_2017-1} as is better suited.
+    With their implementation, they conducted a large-scale study across 54 different standard benchmarks including several Atari 2600 games which proves its capabilities to conduct the necessary experiments.
 
-    The evaluation, interpretation, and comparison is based on knowledge gathered
-    Additionally to the aforementioned practical part, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity~\citep{burda_large-scale_2018-1}.
+    Before these experiments can be carried out several adaptation to their implementation must be performed.
+    These adaptation primarily included the enhancement of the exiting reward function in order to be able to award intrinsic and extrinsic rewards simultaneously as well as the incorporation of random white-noise to enable testing capabilities regarding the mentioned noisy-TV problem.
+    Afterwards the evaluation process can be started where a special focus is laid on ensuring validity, reproducibility as well as comparability of the obtained results and hence, multiple runs with different seeds will be carried out on the same environment.
+    For this reason, the best practices proposed by \citeauthor{francois-lavet_introduction_2018} are followed.
+    The main goal in summary of these experiments is to find optimal weightings of the two reward signals in regards to their change in performance.
 
-    \subsection{Analysis}
-    In order to prove validity and rigorousness of the findings multiple runs of the evaluations will be conducted.
-    By verifying the obtained data through multiple runs especially good/bad results
+    Finally, the obtained data is evaluated by comparing different statistical key figures such as the mean, the standard deviation, and the standard error.
+    Potential differences between these key figures will be verified utilizing two-sided t-tests.
+    Furthermore, quantitative results will be visualized with the \textit{Python} library \textit{Matplotlib} as a visual representation of data usually facilitates to identification of interesting patterns.
+    For a final interpretation of the findings will be based on knowledge gathered during the realization of this thesis.
 
-    The criterias used to rigorousness of the obtained results
-
-    The quantitative results are evaluated mainly using \textit{Matplotlib} to visualize the data in \textit{Python}.
-    In order to verify the validity of performance differences of two results, standard statistical methods such as the paired t-test is used.
-
-    Du beschreibst sehr genau, wie du praktisch vorgehst. Es soll aber hier generell beschrieben werden, wie du die Problemstellung angehst. Es ist in deinem Fall relativ schwer zu beschreiben, da du schon genau gewusst hast, was du machen willst. Was mir fehlt: wie bildest du die wissenschaftliche Grundlage und wie willst du die Ergebnisse evaluieren.
-%https://link.springer.com/chapter/10.1007/978-94-6091-858-2_2
-    %   https://www.scribbr.co.uk/thesis-dissertation/methodology/
-
-
-
-    Problem of detached agents possible to tackle via combining extrinsic and intrinsic
-
-    kim solves problem of stochasticity by combining ext int
-
-
-    n all our experiments so far, we have shown that our agents can learn useful skills without anyextrinsic rewards driven purely by curiosity. However, in many scenarios, we might want the agent toperform some particular task of interest. This is usually conveyed to the agent by defining extrinsicrewards. When rewards are dense (e.g. game score at every frame), classic RL works well andintrinsic rewards generally should not help performance. However, designing dense rewards is achallenging engineering problem (see introduction for details). In this section, we evaluate how wellcuriosity can help an agent perform a task in presence of sparse, or just terminal, rewards.
-
-    In 4 games out of 5, curiosity bonus improves performance (see Table 2 inthe appendix, the higher score is better). We would like to emphasize that this is not the focus ofthe paper, and these experiments are provided just for completeness. We just combined extrinsic(coefficient1.0) and intrinsic reward (coefficient0.01) directly without any tuning. We leave thequestion on how to optimally combine extrinsic and intrinsic rewards as a future direction.
-
-    Therefore, this Bachelor's thesis follows a programming approach as different weightings of the rewards are tested on the mentioned environment.
-
-    \subsection{Methodology}
-
+    Therefore, this Bachelor's thesis follows a programming approach as different weightings of the rewards are tested on the mentioned environment as well as an quantitative one since data has to be evaluated.
+    Additionally, the theoretical aspect of this Bachelor's thesis will be covered by exhaustive literature research with an emphasize on directly comparable approaches, i.e.\ prediction-error based curiosity.
+    For further information regarding the theory on which this thesis is based, the bibliography is recommended.
 
     \glsresetall
 
@@ -1872,10 +1881,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item \label{q:a}Does the combination of extrinsic and intrinsic rewards obtain better results?
         \item \label{q:b}Are there any patterns concerning optimally combined rewards?
         \item \label{q:c}Is it possible to further improve the performance of agents in densely rewarding environment by utilizing \acrlong{em} and \acrlong{im} simultaneously?
-        \item \label{q:d}Can local stochasticity, also known as the white-noise problem, be tackled by employing \acrlong{im}?
+        \item \label{q:d}Can local stochasticity, also known as the white-noise problem, be tackled by employing \acrlong{em}?
     \end{enumerate}
 
-    Concerning question~\ref{q:a}, an evaluation process was conducted which exhaustively tried out various possible weightings for intrinsic and extrinsic reward on the game \textit{Montezuma's Revenge} as well as \textit{Freeway}.
+    Concerning question~\ref{q:a}, an evaluation process was conducted which exhaustively tried out various possible weightings for intrinsic and extrinsic rewards on the game \textit{Montezuma's Revenge} as well as \textit{Freeway}.
     The results obtained through this experiments both suggest that it is not possible to improve existing results in the two selected games.
     However, it seems that the combination of intrinsic rewards yield other benefits which are not so prominent on first glance.
 
@@ -1885,47 +1894,47 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Much more, it looks as if the agent is still more interested in pursuing its internal drive instead of collecting extrinsic rewards even tough it would be able to do so.
     A further reason could be that the agent gets detached from the intrinsically rewarding area which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \gls{im}.
 
-    Another example would be the much quicker and more varying convergence of the obtained extrinsic reward which was witnessed during the evaluation of \textit{Freeway}.
-    Here it seems like the mixed rewarded agent is able to find a good compromise between being completely distracted by the naturally occurring stochasticity of the game and dodging the initial hurdles with which an extrinsic rewarded agent has to deal.
-    Therefore, the results suggest that in games where stochasticity is part of the gameplay, differently weighted reward signal seems to be the preferred choice.
+    Another example would be the much quicker and less varying convergence of the obtained episodic extrinsic rewards which was witnessed during the evaluation of \textit{Freeway}.
+    Here, it seems like the mixed rewarded agent is able to find a good compromise between being completely distracted by the naturally occurring stochasticity of the game and dodging the initial hurdles with which an extrinsic rewarded agent has to deal with.
+    Therefore, the results suggest that in games where stochasticity is part of the gameplay, a differently weighting of the reward signals seems to be the preferred choice.
     On a note, \textit{Freeway} is a time based game where each round ends after approximately two minutes.
-    Since both mixed agents as well as the extrinsic one all achieved a top score of 34 and hence, a further improvement could not be expected anyway.
+    Since both the mixed agents as well as the extrinsic one achieved a top score of 34, a further improvement could not be expected anyway.
     However, games that include stochasticity combined with different weightings of rewards seem to be a promising direction for further research.
 
     Regarding question~\ref{q:b}, two patterns were detected concerning the optimal weighting.
     On the one hand, through out all the various conducted experiments, the extrinsic reward signal tended to be weighted more heavily and on the other hand, it seems like the heaviness is correlated with the sparseness of the extrinsic rewards credited by the environment.
-    This makes a lot of sense as agents were primarily evaluated considering intrinsically based performance metrics and hence, this must somewhat aline with the observed patterns.
+    This makes a lot of sense as agents were primarily evaluated considering extrinsic based performance metrics and hence, this must somehow aline with the observed patterns.
 
     In order to answering question~\ref{q:c}, the densely rewarding game \textit{Breakout} was selected.
     After a profound evaluation of the obtained results, apparent improvements caused by the combined reward signal were disproved with the employment of a two-sided t-test.
-    Hence, it is concluded that a performance increase via a combined reward signal is not possible in settings were rewards are credited densely.
+    Hence, it is concluded that a performance increase via a combination of intrinsic and extrinsic rewards is not possible in settings were rewards are credited densely.
     Although different weightings of rewards did not manage to beat existing extrinsically rewarding approaches, they perform significantly better than purely intrinsically rewarding methods.
 
     For question~\ref{q:d}, an identical approach to the one proposed by \citet{pathak_curiosity-driven_2017-1} and \citet{burda_large-scale_2018-1} was reproduced as the observation which the agent receives was modified by adding a padding of white noise around each frame.
     Evaluating the obtained results of the four conducted experiments clearly showed that intrinsically motivated agents get distracted by the added noisy-TV and hence their performance is drastically decreased which reinforce the findings by the just named authors.
-    Furthermore, agents with different weightings were employed during these experiments in order to analyze their ability to tackle the cause distraction.
+    Furthermore, agents with different weightings were employed during these experiments in order to analyze their ability to tackle the caused distraction.
     In regards to different forward dynamics models, both \glspl{rf} as well as \glspl{idf} seem to be effected similarly as in both cases they took a drastic hit performance-wise and additionally, the range between the best and the worst performing agent increased by half.
 
     Surprisingly, the purely extrinsically motivate agent was effected by the white-noise as well although in theory it should not cause any difference.
     However, there is simple explanation for the resulting discrepancies as one significant side effect was disregarded.
-    By adding a padding of white-noise around each input frame, the dimensionality of the agent's observation increases as well and thus the complexity increases.
-    One solution to this would be to e.g.\ add a padding of fixed white-noise to the non-exposed agent's observation as this ensures and increased dimensionality while on the same time it should not cause any distraction.
+    By adding a padding of white-noise around each input frame, the dimensionality of the agent's observation increases and thus, the environment gets more complex.
+    One solution to this would be to e.g.\ add a padding of fixed white-noise to the non-exposed agent's observation as this ensures equal conditions while on the same time it should not cause any distraction.
     Although this imported side effect was neglected, it is still possible to draw a conclusion.
-    When evaluating the differences between the exposed and non-exposed agents seems that the impact of white-noise is heavily reduced by an extrinsic weighting of 0.5 and above.
+    When evaluating the differences between the exposed and non-exposed agents, it seems that the impact of white-noise is heavily reduced by an extrinsic weighting of 0.5 and above.
     Hence, the data suggests that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore which makes sense as the irritation is caused by \gls{im} in the first place.
-    Therefore, one can conclude that \gls{em} is effective option to tackle local stochasticity.
+    Therefore, one can conclude that \gls{em} is an effective option to tackle local stochasticity.
 
     Regarding further research, one direction has already been pointed out.
     Additionally to that, the experiments for question~\ref{q:d} should be carried out again but this time taking into account the occurring side effects e.g.\ by means of the proposed solution.
     This would ensure the validity of the drawn conclusion and might yield additional insights.
     During research of this thesis, one highly limiting factor was the lack of computational power.
-    Although all of the findings are somehow tangible, a large-scale study utilizing better hardware similar to the one by \citet{burda_large-scale_2018-1} would be recommended to guarantee for a more valid conclusion.
+    Although all of the findings are somehow tangible, a large-scale study utilizing better hardware similar to the one by \citet{burda_large-scale_2018-1} would be recommended to guarantee for more valid results.
     In addition to that, greater focus should be laid on \glspl{idf} since according to \citet{burda_large-scale_2018-1} they allow to generalize better across different environments.
     Furthermore, the results showed that the promising performance of the selected prediction-error based approach carried out by a purely intrinsically motivated agent can certainly be undermined by means of a combined reward signal and therefore, extrinsic rewards are still needed in order for an agent to achieve superhuman performance.
-    A final very interesting and promising further research direction would be to combine the algorithm introduces in \usebibentry{ecoffet_go-explore_2019}{title} with intrinsic motivation for the exploration task since their initial exploration approach is based on a random agent.
+    A final very interesting and promising further research direction would be to combine the algorithm introduced in "\usebibentry{ecoffet_go-explore_2019}{title}" with \gls{im} since so far the exploration process has solely been based on a random agent.
 
     In conclusion, while all of the conducted experiments concerning the different weighting of intrinsic and extrinsic reward signals did not improve existing, mainly extrinsically motivated approaches, they certainly perform better than purely intrinsically motivated ones.
-    Additionally, other beneficial properties had been observed such as a faster and a more stable convergence which, if employed in the right environment, can yield an advantage.
+    Additionally, further beneficial properties had been observed such as a faster and a more stable convergence which, if employed in the right context, can establish an advantage.
 
     \backmatter
 % Use an optional list of figures.

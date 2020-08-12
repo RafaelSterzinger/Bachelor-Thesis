@@ -1140,6 +1140,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     An overview of the just described classification with practical approaches can be observed in Table~\ref{tab:clasification_im_rl}.
 
+
     \newpage
     \begin{table}[h]
         \centering
@@ -1539,21 +1540,21 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{figure}[h]
         \centering
-            \begin{subfigure}{.40\textwidth}
-                \centering
-                \includegraphics[width=.9\linewidth]{figures/TV.PNG}
-                \caption{Original input converted and rescaled to a $84 \times 84$ grayscale image}
-                \label{fig:tv}
-            \end{subfigure}%
-            \hspace{0.05\textwidth}
-            \begin{subfigure}{.40\textwidth}
-                \centering
-                \includegraphics[width=.9\linewidth]{figures/TV_noise.PNG}
-                \caption{Pre-processed input with a 20\% padding of random noise}
-                \label{fig:tv_noise}
-            \end{subfigure}
-            \caption[What the agent sees: a pre-processed frame during a game of Breakout]{What the agent sees: a pre-processed frame during a game of Breakout where Figure~\ref{fig:tv} is the preprocessed frame and Figure~\ref{fig:tv_noise} depicts the additional added layer of random noise}
-            \label{fig:observation}
+        \begin{subfigure}{.40\textwidth}
+            \centering
+            \includegraphics[width=.9\linewidth]{figures/TV.PNG}
+            \caption{Original input converted and rescaled to a $84 \times 84$ grayscale image}
+            \label{fig:tv}
+        \end{subfigure}%
+        \hspace{0.05\textwidth}
+        \begin{subfigure}{.40\textwidth}
+            \centering
+            \includegraphics[width=.9\linewidth]{figures/TV_noise.PNG}
+            \caption{Pre-processed input with a 20\% padding of random noise}
+            \label{fig:tv_noise}
+        \end{subfigure}
+        \caption[What the agent sees: a pre-processed frame during a game of Breakout]{What the agent sees: a pre-processed frame during a game of Breakout where Figure~\ref{fig:tv} is the preprocessed frame and Figure~\ref{fig:tv_noise} depicts the additional added layer of random noise}
+        \label{fig:observation}
     \end{figure}
 
 
@@ -1577,25 +1578,25 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{figure}[h]
         \centering
-            \begin{subfigure}{.3\textwidth}
-                \centering
-                \includegraphics[width=.8\linewidth]{figures/montezumarevenge.png}
-                \caption{Montezuma's Revenge}
-                \label{fig:mz}
-            \end{subfigure}%
-            \begin{subfigure}{.3\textwidth}
-                \centering
-                \includegraphics[width=.8\linewidth]{figures/freeway.png}
-                \caption{Freeway}
-                \label{fig:fway}
-            \end{subfigure}
-            \begin{subfigure}{.3\textwidth}
-                \centering
-                \includegraphics[width=.8\linewidth]{figures/breakout.png}
-                \caption{Breakout}
-                \label{fig:break}
-            \end{subfigure} \caption{The gameplay of three selected Atari 2600 games}
-            \label{fig:games}
+        \begin{subfigure}{.3\textwidth}
+            \centering
+            \includegraphics[width=.8\linewidth]{figures/montezumarevenge.png}
+            \caption{Montezuma's Revenge}
+            \label{fig:mz}
+        \end{subfigure}%
+        \begin{subfigure}{.3\textwidth}
+            \centering
+            \includegraphics[width=.8\linewidth]{figures/freeway.png}
+            \caption{Freeway}
+            \label{fig:fway}
+        \end{subfigure}
+        \begin{subfigure}{.3\textwidth}
+            \centering
+            \includegraphics[width=.8\linewidth]{figures/breakout.png}
+            \caption{Breakout}
+            \label{fig:break}
+        \end{subfigure} \caption{The gameplay of three selected Atari 2600 games}
+        \label{fig:games}
     \end{figure}
 
 
@@ -1685,29 +1686,29 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{figure}[!h]
         \centering
-            \begin{subfigure}[b]{1\textwidth}
-                \centering
-                \includegraphics[width=0.95\linewidth]{figures/montezuma/normal/MontezumaRevenge_eprew_recent.png}
-                \caption{}
-                \label{fig:mz_normal}
-            \end{subfigure}
-            \begin{subfigure}[b]{1\textwidth}
-                \centering
-                \includegraphics[width=0.95\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
-                \caption{}
-                \label{fig:mz_extended}
-                \vspace{0.2cm}
-            \end{subfigure}
+        \begin{subfigure}[b]{1\textwidth}
             \centering
-            \begin{scriptsize}
-                \begin{tabular}{|ccc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
-                    \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-                    \hline
-                \end{tabular}
-            \end{scriptsize}
+            \includegraphics[width=0.95\linewidth]{figures/montezuma/normal/MontezumaRevenge_eprew_recent.png}
+            \caption{}
+            \label{fig:mz_normal}
+        \end{subfigure}
+        \begin{subfigure}[b]{1\textwidth}
+            \centering
+            \includegraphics[width=0.95\linewidth]{figures/montezuma/long/MontezumaRevenge_eprew_recent.png}
+            \caption{}
+            \label{fig:mz_extended}
+            \vspace{0.2cm}
+        \end{subfigure}
+        \centering
+        \begin{scriptsize}
+            \begin{tabular}{|ccc|}
+                \hline
+                \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+                \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+                \hline
+            \end{tabular}
+        \end{scriptsize}
         \caption[The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames and 400 million frames]
         {The performance of an optimally weighted agent in the game of Montezuma's Revenge after 100 million frames and 400 million frames with coefficients $\alpha=0.43$ and $\beta=0.57$}
         \label{fig:mz_performance}
@@ -1715,21 +1716,21 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{figure}[h]
         \centering
-            \begin{subfigure}{1\textwidth}
-                \centering
-                \includegraphics[width=0.95\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
-                \vspace{0.2cm}
-            \end{subfigure}
+        \begin{subfigure}{1\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{figures/montezuma/long/MontezumaRevenge_visited_rooms.png}
+            \vspace{0.2cm}
+        \end{subfigure}
         \centering
-            \begin{scriptsize}
-                \begin{tabular}{|ccc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
-                    \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-                    \hline
-                \end{tabular}
-            \end{scriptsize}
+        \begin{scriptsize}
+            \begin{tabular}{|ccc|}
+                \hline
+                \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+                \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+                \hline
+            \end{tabular}
+        \end{scriptsize}
         \caption[A visualization of the number of rooms visited by an agent over the course of 400 million frames]{A visualization of the number of rooms visited by an agent over the course of 400 million frames}
         \label{fig:mz_rooms}
     \end{figure}
@@ -1758,25 +1759,26 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{figure}[h]
         \centering
-            \begin{subfigure}[b]{1\textwidth}
-                \centering
-                \includegraphics[width=0.95\linewidth]{figures/freeway/Freeway_eprew_recent.png}
-                \vspace{0.2cm}
-            \end{subfigure}
+        \begin{subfigure}[b]{1\textwidth}
+            \centering
+            \includegraphics[width=0.95\linewidth]{figures/freeway/Freeway_eprew_recent.png}
+            \vspace{0.2cm}
+        \end{subfigure}
         \centering
-            \begin{scriptsize}
-                \begin{tabular}{|ccc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
-                    \colorindicator{tab:purple}{INT=0.12, EXT=0.88} &                                              & \colorindicator{tab:orange}{INT=0.12, EXT=0.88} \\
-                    \hline
-                \end{tabular}
-            \end{scriptsize}
+        \begin{scriptsize}
+            \begin{tabular}{|ccc|}
+                \hline
+                \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+                \colorindicator{tab:purple}{INT=0.12, EXT=0.88} &                                              & \colorindicator{tab:orange}{INT=0.12, EXT=0.88} \\
+                \hline
+            \end{tabular}
+        \end{scriptsize}
         \caption[The performance of an optimally weighted agent in the game of Freeway after 100 million frames]
         {The performance of an optimally weighted agent in the game of Freeway after 100 million frames with coefficients $\alpha=0.12$ and $\beta=0.88$}
         \label{fig:fway_performance}
     \end{figure}
+
 
     \section{Breakout}
 
@@ -1793,27 +1795,27 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Interestingly, there were big discrepancies between the three evaluated agents in regards to the best overall extrinsic episodic reward.
     While the purely intrinsically motivated agent only achieved a maximum reward of 382, the mixed motivated agent obtained a score of 743 and the extrinsically motivated agent a score of 462.
 
-   \begin{figure}[h]
-       \centering
-            \begin{subfigure}[b]{1\textwidth}
-                \centering
-                \includegraphics[width=0.95\linewidth]{figures/breakout/Breakout_eprew_recent.png}
-                \vspace{0.2cm}
-            \end{subfigure}
-       \centering
-            \begin{scriptsize}
-                \begin{tabular}{|cc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                        \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0}   \\
-                    \colorindicator{tab:purple}{INT=0.1, EXT=0.9} &                                              \\
-                    \hline
-                \end{tabular}
-            \end{scriptsize}
-     \caption[The performance of a mixed \acrshort{rf}-curious agent in the game of Breakout after 200 million frames]
+    \begin{figure}[h]
+        \centering
+        \begin{subfigure}[b]{1\textwidth}
+            \centering
+            \includegraphics[width=0.95\linewidth]{figures/breakout/Breakout_eprew_recent.png}
+            \vspace{0.2cm}
+        \end{subfigure}
+        \centering
+        \begin{scriptsize}
+            \begin{tabular}{|cc|}
+                \hline
+                \textbf{Random Features}                      & \textbf{Extrinsic Only}                      \\
+                \colorindicator{tab:blue}{INT=1.0, EXT=0.0}   & \colorindicator{tab:green}{INT=0.0, EXT=1.0} \\
+                \colorindicator{tab:purple}{INT=0.1, EXT=0.9} &                                              \\
+                \hline
+            \end{tabular}
+        \end{scriptsize}
+        \caption[The performance of a mixed \acrshort{rf}-curious agent in the game of Breakout after 200 million frames]
         {The performance of a mixed \gls{rf}-curious agent in the game of Breakout after 200 million frames with coefficients $\alpha=0.1$ and $\beta=0.9$}
         \label{fig:breakout_performance}
-   \end{figure}
+    \end{figure}
 
     In order to pursue the final posed question regarding the impact of white-noise using different forward dynamics models, the agents were evaluated twice: once with a TV turned on and once with a TV turned off.
     The results of this experiment are depicted in Figure~\ref{fig:tv_problem} where the curves represent the average extrinsic reward per episode.
@@ -1831,71 +1833,84 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Finally, multiple two-sided t-test were carried out to see whether or not the differences in means between exposed and corresponding non-exposed \gls{rf}-curious agents are significant.
     With a significance level of 0.05, all the conducted tests suggested to reject the null hypothesis which seems obvious due to the large deviation.
 
-   \begin{figure}[h]
-       \begin{adjustwidth}{-3.0cm}{-2.0cm}
-       \begin{subfigure}[t]{0.5\linewidth}
-           \centering
-           \includegraphics[width=1\textwidth]{figures/breakout/tv/rf_noTV.png}
-           \caption{\acrlong{rf} \& TV off}
-       \end{subfigure}
-       \begin{subfigure}[t]{0.5\linewidth}
-           \centering
-           \includegraphics[width=1\textwidth]{figures/breakout/tv/rf_TV.png}
-           \caption{\acrlong{rf} \& TV on}
-       \end{subfigure}
-       \begin{subfigure}[t]{0.5\linewidth}
-           \centering
-           \includegraphics[width=1\textwidth]{figures/breakout/tv/idf_noTV.png}
-           \caption{\acrlong{idf} \& TV off}
-       \end{subfigure}
-       \begin{subfigure}[t]{0.5\linewidth}
-           \centering
-           \includegraphics[width=1\textwidth]{figures/breakout/tv/idf_TV.png}
-           \caption{\acrlong{idf} \& TV on}
-       \end{subfigure}
-       \end{adjustwidth}
-       \caption{A performance comparison of agents with different weightings of motivation regarding the noisy-TV problem}
-       \label{fig:tv_problem}
-   \end{figure}
+    \begin{figure}[h]
+        \begin{adjustwidth}{-3.0cm}{-2.0cm}
+            \begin{subfigure}[t]{0.5\linewidth}
+                \centering
+                \includegraphics[width=1\textwidth]{figures/breakout/tv/rf_noTV.png}
+                \caption{\acrlong{rf} \& TV off}
+            \end{subfigure}
+            \begin{subfigure}[t]{0.5\linewidth}
+                \centering
+                \includegraphics[width=1\textwidth]{figures/breakout/tv/rf_TV.png}
+                \caption{\acrlong{rf} \& TV on}
+            \end{subfigure}
+            \begin{subfigure}[t]{0.5\linewidth}
+                \centering
+                \includegraphics[width=1\textwidth]{figures/breakout/tv/idf_noTV.png}
+                \caption{\acrlong{idf} \& TV off}
+            \end{subfigure}
+            \begin{subfigure}[t]{0.5\linewidth}
+                \centering
+                \includegraphics[width=1\textwidth]{figures/breakout/tv/idf_TV.png}
+                \caption{\acrlong{idf} \& TV on}
+            \end{subfigure}
+        \end{adjustwidth}
+        \caption{A performance comparison of agents with different weightings of motivation regarding the noisy-TV problem}
+        \label{fig:tv_problem}
+    \end{figure}
 
     \glsresetall
 
+
     \chapter{Discussion and Further Work}\label{ch:discussion-and-further-work}
-    
-    Before the discussion is started the core questions of this thesis will called to mind.
 
-\begin{enumerate}[label=\Alph*]
-    \item Does the combination of extrinsic and intrinsic rewards obtain better results? \label{q:a}
-    \item Are there any patterns concerning optimally combined rewards? \label{q:b}
-    \item Is it possible to further improve the performance of agents in densely rewarding environment by utilizing \arclong{im}? \label{q:c}
-    \item Can local stochasticity, also known as the white-noise problem, be tackled by employing \acrlong{im}? \label{d}
-\end{enumerate}
+    Before the discussion is started the core questions pursued by this thesis will be recalled:
 
-   MOntezuma
-  ret mean correlates with discovery of new rooms and value prediction
-  5 different rooms when combined
-  We don’t observe a large difference between the settings, likely because the combinationof intrinsic and extrinsic reward needs to be tuned. We did observe that one of the intrinsic+extrinsic runs onMontezuma’s Revenge plored 10 rooms.
-   seems that that mixed and purely intris agents do not care much about extrinsic reward since they did not obtain any during further exploration
-   eventough they would be able do greatly explroe
+    \begin{enumerate}[label=(\alph*)]
+        \item \label{q:a}Does the combination of extrinsic and intrinsic rewards obtain better results?
+        \item \label{q:b}Are there any patterns concerning optimally combined rewards?
+        \item \label{q:c}Is it possible to further improve the performance of agents in densely rewarding environment by utilizing \acrlong{im}?
+        \item \label{q:d}Can local stochasticity, also known as the white-noise problem, be tackled by employing \acrlong{im}?
+    \end{enumerate}
 
-   eventough pure agents peform good they are certainly undermined by mixed or extrinsic once, ideally finding algos that increase performance of pure intrisic once for scaleability and generalizeability
-%TODO add other questions
+    Concerning question~\ref{q:a}, an evaluation process was conducted which exhaustively tried out various possible weightings for intrinsic and extrinsic reward on the game \textit{Montezuma's Revenge} as well as \textit{Freeway}.
+    The results obtained through this experiments both suggest that it is not possible to improve existing results in the two selected games.
+    However, it seems that the combination of intrinsic rewards yield other benefits which are not so prominent on first glance.
+
+    For instance, in the game of \textit{Montezuma's Revenge} the agent which utilized both kind of rewards was able to explore five different rooms in total, far more than the others.
+    This phenomenon was also discovered by \citeauthor{burda_large-scale_2018-1} who state that they even achieved a run where their agent was able to visited as many as ten rooms.
+    One would assume, that this advancement would increase the agent's performance but this is not the case.
+    Much more, it looks as if the agent is still more interested in pursuing its internal drive instead of collecting extrinsic rewards even tough it would be able to do so.
+    A further reason could be that the agent gets detached from the intrinsically rewarding area which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \acrlong{im}.
+
+    Another example would be the much quicker and more varying convergence of the obtained extrinsic reward which was witnessed during the evaluation of \textit{Freeway}.
+    Here it seems like the mixed rewarded agent is able to find a good compromise between being completely distracted by the naturally occurring stochasticity of the game and dodging the initial hurdles with which an extrinsic rewarded agent has to deal.
+    Therefore, the results suggest that in games where stochasticity is part of the gameplay, differently weighted reward signal seems to be the preferred choice.
+    On a note, \textit{Freeway} is a time based game where each round ends after approximately two minutes.
+    Since both mixed agents as well as the extrinsic one all achieved a top score of 34 and hence, a further improvement could not be expected anyway.
+    However, games that include stochasticity combined with different weightings of rewards seem to be a promising direction for further research.
+
+
+
+    Regarding question~\ref{q:b},
+
+
+
+
+
 
     pattern that more extrinsic reward is needed which makes sense as the evaluation was based on extrinsic metrics
 
-    freeway
-    faster convergence more stable/less variance in freeway
-    to much stochasticity for purely motivated intrinsic agents
-
-    suggests that in game where stochasticity is part of the gameplay mixed agent allow for more stabel performance
-
-    C ross street as many times as possible in around 2 minutes thus a better score is probably not possible
     \subsection{Improving Performance in Densely Rewarding Environments}
 
     \subsection{Avoiding Distraction of Intrinsically Motivated Agents}
-Adding the padding also increases the dimensionality thus purely extrinsic agents perform also worse. hence expiremtns needs to be conducted eg adding a non stochstic boarder the game for the evaluation of no tv
+    Adding the padding also increases the dimensionality thus purely extrinsic agents perform also worse. hence expiremtns needs to be conducted eg adding a non stochstic boarder the game for the evaluation of no tv
+
+    both dynamic showed same results
 
     using better hardware.. a large study needs to be conducted
+    eventough pure agents peform good they are certainly undermined by mixed or extrinsic once, ideally finding algos that increase performance of pure intrisic once for scaleability and generalizeability
     focusing also on idfs as the ultimate goal is to allow for scalable and gerneral intelligence which burda has shown is better with idf
     Combine go explore with itrninsic exploration ultimate performance
 
@@ -1928,31 +1943,31 @@ Adding the padding also increases the dimensionality thus purely extrinsic agent
     \addcontentsline{toc}{chapter}{Appendix}
     \section*{Montezuma's Revenge}
     \centering
-       \begin{tabular}{|ccc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
-                    \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
-                    \hline
-                \end{tabular}
+    \begin{tabular}{|ccc|}
+        \hline
+        \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+        \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+        \colorindicator{tab:purple}{INT=0.43, EXT=0.57} &                                              & \colorindicator{tab:orange}{INT=0.43, EXT=0.57} \\
+        \hline
+    \end{tabular}
     \section*{Freeway}
     \centering
-     \begin{tabular}{|ccc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
-                    \colorindicator{tab:purple}{INT=0.12, EXT=0.88} &                                              & \colorindicator{tab:orange}{INT=0.12, EXT=0.88} \\
-                    \hline
-                \end{tabular}
+    \begin{tabular}{|ccc|}
+        \hline
+        \textbf{Random Features}                        & \textbf{Extrinsic Only}                      & \textbf{Inverse Dynamic Features}               \\
+        \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0} & \colorindicator{tab:red}{INT=1.0, EXT=0.0}      \\
+        \colorindicator{tab:purple}{INT=0.12, EXT=0.88} &                                              & \colorindicator{tab:orange}{INT=0.12, EXT=0.88} \\
+        \hline
+    \end{tabular}
     \section*{Breakout}
     \centering
     \begin{tabular}{|cc|}
-                    \hline
-                    \textbf{Random Features}                        & \textbf{Extrinsic Only}                        \\
-                    \colorindicator{tab:blue}{INT=1.0, EXT=0.0}     & \colorindicator{tab:green}{INT=0.0, EXT=1.0}   \\
-                    \colorindicator{tab:purple}{INT=0.1, EXT=0.9} &                                              \\
-                    \hline
-                \end{tabular}
+        \hline
+        \textbf{Random Features}                      & \textbf{Extrinsic Only}                      \\
+        \colorindicator{tab:blue}{INT=1.0, EXT=0.0}   & \colorindicator{tab:green}{INT=0.0, EXT=1.0} \\
+        \colorindicator{tab:purple}{INT=0.1, EXT=0.9} &                                              \\
+        \hline
+    \end{tabular}
 
     %TODO add appendix plots
 \end{document}

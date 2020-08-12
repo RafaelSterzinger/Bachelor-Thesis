@@ -150,7 +150,7 @@ def get_experiment_environment(**args):
     set_global_seeds(process_seed)
     setup_mpi_gpus()
 
-    logger_context = logger.scoped_configure(dir=args["dir"],
+    logger_context = logger.scoped_configure(dir=args.get("dir", None),
                                              format_strs=['stdout', 'log',
                                                           'csv'] if MPI.COMM_WORLD.Get_rank() == 0 else ['log'])
     tf_context = setup_tensorflow_session()
@@ -189,11 +189,10 @@ def add_experiment_params(parser):
                         choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
     parser.add_argument('--exp_name', type=str, default='')
 
-#TODO change to false
     parser.add_argument('--dyn_env', type=bool, default=False)
 
-    # DEFAULT VALUE = 1e8
-    # AMOUNT FOR FINAL EVALUATION = 1e8/4
+    # DEFAULT VALUE = 1e8 ~ 400 million
+    # AMOUNT FOR FINAL EVALUATION = 1e8/4 ~ 100 million
     parser.add_argument('--num_timesteps', type=int, default=int(1e6))
 
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
@@ -212,12 +211,13 @@ if __name__ == '__main__':
     add_experiment_params(parser)
 
     args = parser.parse_args()
-    int_coeff = args.__dict__["int_coeff"]
-    ext_coeff = args.__dict__["ext_coeff"]
-    EXPERIMENT_NAME = f"Breakout_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    # int_coeff = args.__dict__["int_coeff"]
+    # ext_coeff = args.__dict__["ext_coeff"]
+    # EXPERIMENT_NAME = f"Breakout_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
 
-#TODO change here
-    args.__setattr__("dir",
-                     f"/home/rafael/Documents/experiments/BreakoutIDFNoTV/{EXPERIMENT_NAME}")
+    # args.__setattr__("dir",
+    #               f"/home/rafael/Documents/experiments/BreakoutIDFNoTV/{EXPERIMENT_NAME}")
 
+
+    # default path = /tmp/
     start_experiment(**args.__dict__)

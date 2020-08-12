@@ -3,8 +3,8 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
-import matplotlib.colors as mcolors
 
+from scipy import stats
 from decimal import Decimal
 
 plt.rcParams.update({'font.size': 22})
@@ -227,7 +227,7 @@ labels = {
 }
 
 
-def print_stats(exps, y_series):
+def print_stats(exps, y_series, method_A="none_0.0_1.0", method_B="rf_0.1_0.9"):
     min_len = sys.maxsize
     for key in exps:
         for entry in exps[key].experiments:
@@ -240,10 +240,15 @@ def print_stats(exps, y_series):
         max_min = []
         for entry in exps[key].experiments:
             max_min.append(entry._timeseries[y_series][:])
-            mean_std.append(entry._timeseries[y_series][(min_len - 10):min_len])
+            mean_std.append(entry._timeseries[y_series][-1:])
         mean_std = [item for elem in mean_std for item in elem]
         max_min = [item for elem in max_min for item in elem]
-        print(f"method:{key} mean: {np.mean(mean_std)} std:{np.std(mean_std)} sterror:{np.std(mean_std) / np.sqrt(len(mean_std))} max:{np.max(max_min)} min:{np.min(max_min)}")
+        print(
+            f"method:{key} mean: {np.mean(mean_std)} std:{np.std(mean_std)} sterror:{np.std(mean_std) / np.sqrt(len(mean_std))} max:{np.max(max_min)} min:{np.min(max_min)}")
+        exps[key].mean_std = mean_std
+   # if method_A != None and method_B != None:
+   #     results = stats.ttest_ind(exps[method_A].mean_std, exps[method_B].mean_std)
+   #     print(results)
 
 
 def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothen=51, alpha=1.0, xlim=100):
@@ -260,29 +265,34 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
             xs, ys = experiment.grouped_experiments[key][method].get_xs_ys(y_series)
             ax_with_plots.add_std_plot(xs, ys, color=color(method), label=label(method), smoothen=smoothen,
                                        alpha=alpha)
-       # print_stats(experiment.grouped_experiments[key], y_series)
+        #print_stats(experiment.grouped_experiments[key], y_series)
         ax_with_plots.finish_up(y_series=y_series, xlim=xlim)
 
-    plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
-    # fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
-    fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
-    fig.text(0.001, 0.5, name, va='center', rotation='vertical')
+    if plot:
+        plt.tight_layout(pad=1.5, w_pad=-0.3, h_pad=0.3, rect=[0.0, 0., 1, 1])
+        # fig.legend(handles=all_axes[0].lines, borderaxespad=0., fontsize=10, loc=(0.6, 0.2), ncol=1)
+        fig.text(0.5, 0.01, 'Frames (millions)', ha='center')
+        fig.text(0.001, 0.5, name, va='center', rotation='vertical')
 
-    save_filename = os.path.join(results_folder, '{}_{}.png'.format(key, y_series))
-    print("saving ", save_filename)
-    plt.savefig(save_filename, dpi=300)
-    plt.close()
+        save_filename = os.path.join(results_folder, '{}_{}.png'.format(key, y_series))
+        print("saving ", save_filename)
+        plt.savefig(save_filename, dpi=300)
+        plt.close()
 
 
 def main():
-    xlim = 100
+    global plot
+    plot = True
+    xlim = 400
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,
-    #                          xlim=xlim)
+    generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,
+                              xlim=xlim)
 
     generate_three_seed_graph(experiment, name='Best Extrinsic Return', y_series='best_ext_ret', smoothen=False,
                               xlim=xlim)
     generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
+
+
     generate_three_seed_graph(experiment, name='Extrinsic Return per Episode', y_series='recent_best_ext_ret', xlim=xlim)
     generate_three_seed_graph(experiment, name='Average Return', y_series='retmean', xlim=xlim)
     generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
@@ -290,6 +300,6 @@ def main():
 
 
 if __name__ == '__main__':
-    results_folder = '../../plotting/FreewayNormal'
+    results_folder = '../../plotting/MontezumaRevengeExtended'
     os.chdir(results_folder)
     main()

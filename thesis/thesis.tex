@@ -1003,7 +1003,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     This chapter begins with an introduction to the psychological aspects of \gls{im} as well as the term motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
     Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges} for a summary), and the embedding of \gls{im} in \gls{rl} is presented.
-    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: \textit{knowledge acquisition} and \textit{skill learning} where a subdomain of knowledge acquisition is more deeply investigated in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
+    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: knowledge acquisition and skill learning where a subdomain of knowledge acquisition is more deeply investigated in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
 
 
     \section{Natural Human Motivation}
@@ -1012,17 +1012,17 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Activities which are intrinsically motivated are usually carried out because they are enjoyable and interesting.
     Therefore, the reward in \gls{im} is based on the activity itself.
     In opposition to that, \gls{em} reflects external control sources or true self-regulation which may achieve separable outcomes, e.g.\ food or money.
-    Motivation, in general, is very particular to different people~\citep{ryan_intrinsic_2000}.
-    Not only can it vary in the amount/\textit{level of motivation} a person can have, but the \textit{orientation of motivation} can be different as well.
+    Motivation in general, is very particular to different people~\citep{ryan_intrinsic_2000}.
+    Not only can it vary in the amount/level of motivation a person can have, but the orientation of motivation can be different as well.
     The question about the orientation of a person's motivation is very significant since e.g.\ pupils may be very motivated to excel in a subject out of curiosity (\gls{im}) or rather out of the possibility of achieving good grades (\gls{em}) which might yield further positive benefits for them or avoid sanctions.
 
     Moreover, research pointed out that the quality of performance and experience depends on the kind of motivation propelling behaviour.
     For instance, it is shown that \gls{im} allows for an improved learning experience and more creativity.
     On the other hand, extrinsic motivated actions might be executed with disinterest, resistance or optionally with an inner acceptance as the action poses an identifiable value~\citep{ryan_intrinsic_2000}.
-    Continuing for instance with the previous example of the pupils' motivation it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
+    Continuing for instance with the previous example of the pupils' motivation, it is the teacher's job to promote inherently uninteresting actions by means of extrinsic motivation with a focus on volitional and active forms instead of controlling and passive ones.
     By doing this, the pupils are more likely to identify the action's value so that they internalize the behaviour which allows for an improved learning experience.
 
-    Finally, \citeauthor{ryan_intrinsic_2000} add a third type of motivation to the taxonomy of natural human motivation, the so-called \textit{amotivation} which describes activities that are perceived as irrelevant.
+    Finally, \citeauthor{ryan_intrinsic_2000} add a third type of motivation to the taxonomy of natural human motivation, the so-called amotivation which describes activities that are perceived as irrelevant.
     Amotivation has different origins such as a feeling of incompetence to carry out a certain task, an action not yielding any value, or any desired outcome.
     Therefore, the taxonomy of human motivation consists of three branches: amotivation, extrinsic motivation, and intrinsic motivation, ranging "\textit{from amotivation or unwillingness, to passive compliance, to active personal commitment. With increasing internalization (and its associated sense of personal commitment) come[s] greater persistence, more positive self-perceptions, and better quality of engagement.}"~\citep[\p{60f}]{ryan_intrinsic_2000}
 
@@ -1036,18 +1036,18 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     For instance, \citeauthor{todorov_mujoco_2012} indicate that such a high-level abstraction could be the trajectory of a robot to open a door which consists of low-level actions/movements in four directions.
 
     As described earlier, the idea for \gls{im} in \gls{rl} is derived from nature, especially by the animals' urge for exploration.
-    However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects a \gls{rl}-agent in an unknown environment.
+    However, a probably better fitting example would be a baby's task to solve existential problems as it best reflects an \gls{rl}-agent in an unknown environment.
     For instance, a baby who avoids suffering from hunger and thirst has to learn the consequences of its interactions.
     Although immediate needs might be satisfied for some time, the baby keeps on exploring by conducting various experiments.
     Questions on certain movements of, e.g.\ eyes, fingers, or the tongue and their expected sensory feedback are continually answered.
     Ultimately, this facilitates the baby's ability of prediction which allows for easier planning of actions.
-    Furthermore, the baby constantly strives to discover new effects, as it eventually gets bored by the things it has already grasped, thus allowing to learn very complex behaviour by building on previously gathered knowledge.
+    Furthermore, the baby constantly strives to discover new effects as it eventually gets bored by the things it has already grasped, thus allowing to learn very complex behaviours by building on previously gathered knowledge.
     By following this simple algorithm of maximizing the internal joy of discovering or creating new patterns, eventually, the baby might become a computer scientist~\citep{schmidhuber_formal_2010}.
     Concerning \gls{rl}, this process allows an agent to autonomously gather new skills and knowledge which then facilitates the mastering of a novel task.
 
     Besides the improved exploration, \gls{im} generates other benefits as well.
     For instance, an agent can learn skills incrementally and independently while not being dependant on its given main task.
-    Furthermore, the agent can decide on which skill might be adequate for a certain task and thus improve it selectively and additionally it might as well come up with a meaningful state representation.
+    Furthermore, the agent can decide on which skills might be adequate for a certain task and thus improve them selectively.
     This is all possible due to the broader intrinsic reward function and the fact that this spares the necessity of an expert or supervisor.
     Hence, without a supervisor, learning becomes more flexible and \gls{rl} algorithms generalize more across different environments~\citep{aubret_survey_2019}.
 
@@ -1074,31 +1074,31 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Challenges Tackled with Intrinsic Motivation}
 
-    In the following subsection the four main challenges of \gls{drl} are introduced where for each of these explained problems, \gls{im} provides a viable solution to them.
+    In the following subsection the four main challenges of \gls{drl} are introduced where for each of these explained problems, \gls{im} provides a viable solution.
 
     \subsection{Sparse Rewards}\label{subsec:sparse-rewards}
 
     As noticed in section~\ref{sec:problem-description}, traditional \gls{rl} algorithms perform best in environments which reward the agent densely.
-    By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add \textit{Gaussian noise} to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
+    By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add Gaussian noise to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
     However, even these improved exploration methods are incapable of achieving a good performance in sparsely rewarding settings such as \textit{Montezuma's Revenge} which is a typical benchmark for such environments.
     In order to receive a reward in this game, the agent has to collect different items such as keys and use them to open doors.
-    These events occur rather rarely and thus the agent does not receive immediate feedback concerning the impact of its performed actions, e.g.\ moving into a certain direction.
+    These events occur rather rarely and hence, the agent does not receive immediate feedback concerning the impact of its performed actions, e.g.\ moving into a certain direction.
     Therefore, it is not uncommon that an agent never reaches such a reward, thus preventing the creation of a good policy~\citep{aubret_survey_2019}.
 
-    This issue can be tackled by shaping a task-specific, intermediary function which rewards densely.
+    This issue can be tackled by shaping a task-specific intermediary function which rewards densely.
     Hence, additional rewards are created which should point the agent in the right direction.
     Although this approach might work out well, it is usually impractical as in order to craft this function, very high expert knowledge is needed to carefully design this rewarding system.
-    Additionally, such functions commonly pose many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the rewarding system.
+    Additionally, such functions commonly pose many side effects resulting in unexpected errors as the agent might pick up an undesired behaviour by exploiting the reward system.
 
     \subsection{Building a Good State Representation}\label{subsec:building-a-good-state-representation}
 
     According to \citeauthor{bohmer_autonomous_2015}, a good state representation allows for good generalization, is low-dimensional, should represent values of a policy truthfully, and fulfil the Markov property.
 
     By employing a good representation, the agent's learning process can be considerably accelerated.
-    For instance, considering a navigation task, it causes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly creating solely the need to check the distance between the target and itself.
+    For instance, considering a navigation task, it causes a significant difference whether an agent has to find out its location and the location of its target by accessing non-linear transformed raw pixels or by obtaining the positions directly, creating solely the need to check the distance between the target and itself.
 
     Normally, a state representation can be constructed using expert knowledge of a specific domain.
-    However, not task-specific, hence generic, priors can be used as well with the benefit that these priors can be learned by representation-learning algorithms, creating disentangled, minimal feature spaces~\citep{bengio_representation_2014}.
+    However, not task-specific, hence, generic priors can be used as well with the benefit that these priors can be learned by representation-learning algorithms, creating disentangled, minimal feature spaces~\citep{bengio_representation_2014}.
     In traditional \gls{rl}, the problem of learning a good state representation is exacerbated as in order to improve, the agent depends on optimizing the reward signal via backpropagation, thus depending on receiving rewards densely.
     With the additional possible obstacle of noise in the raw state representation, the agent will learn nothing from the interactions made in a sparse rewarding environment, although they might be rich in information.
     Even if the agent manages to learn a state representation based on a reward signal, the representation will not generalize across different tasks.
@@ -1106,8 +1106,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Temporal Abstraction of Actions}\label{subsec:temporal-abstraction-of-actions}
 
-    In the temporal abstraction of actions, a sequence of low-level actions is summarized with a so-called \textit{intra-option policy} that is referenced to a high-level action.
-    Therefore, a high-level action or a so-called \textit{option} consists of multiple low-level actions/other options.
+    In temporal abstraction of actions, a sequence of low-level actions is summarized with a so-called intra-option policy that is referenced to a high-level action.
+    Therefore, a high-level action or so-called option consists of multiple low-level actions/other options.
     By choosing an option in a certain state, the intra-option policy defines which low-level actions must be carried out in each subsequent state until the high-level action is completely executed.
     Furthermore, the sequence length of these actions is usually fixed~\citep{aubret_survey_2019}.
     By utilizing these abstractions, the learning process can be sped up significantly.
@@ -1126,25 +1126,25 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Another benefit of temporal abstractions of actions is that they allow for better exploration.
     Similarly to the previously made example, an exploration task can easily be combined to an option, thus enabling it to immediately receive a reward and therefore "making a sparse reward function dense".
     In order to obtain such an intra-option policy, there are two options: define it manually by using expert knowledge or teach it using a reward function.
-    However, the latter has the problem that the learned options are not generalizable across multiple tasks and hence are useless for exploration tasks~\citep{aubret_survey_2019}.
+    However, the former has the problem that the learned options are not generalizable across multiple tasks and hence are useless for exploration tasks~\citep{aubret_survey_2019}.
     Similar to the problem of~\nameref{subsec:building-a-good-state-representation}, by using \gls{im}, this challenge can be tackled.
 
     \subsection{Building a Curriculum}\label{subsec:building-a-curriculum}
     The challenge of building a curriculum deals with structuring tasks in a multi-task \gls{rl} scenario, a scenario where an agent has to solve multiple tasks at once.
-    In such scenarios, a so-called \textit{curriculum} is employed that acts as a schedule defining the order in which different tasks should be solved.
+    In such scenarios, a so-called curriculum is employed that acts as a schedule, defining the order in which different tasks should be solved.
     This idea comes from the observation that incrementally building upon gathered knowledge from similar but less complex tasks facilitates mastering more difficult ones~\citep{aubret_survey_2019}.
 
     For instance, a general task for an agent could be that it has to place objects such as cubes into boxes.
     However, this task can be divided in subtasks such as grabbing the cube and then putting it into a box.
-    By splitting up this task into the two subtasks, the agent can take advantage of the prior learnt skill of grabbing a cube for the task of putting it into a box.
+    By splitting up this task into the two subtasks, the agent can take advantage of the prior learned skill of grabbing a cube for the task of putting it into a box.
     Without this differentiation, the agent might be unable to ever fulfil the general task as it would take the agent a long list of subsequent actions/joint movements to succeed.
 
-    Usually, standard methods for decomposing a general task mostly rely on expert knowledge which unfortunately always goes along with the inability to scale and generalize well and thus \gls{im} finds its application to solve this issue as it does not only speed up the learning process but it also facilitates exploration.
+    Usually, standard methods for decomposing a general task mostly rely on expert knowledge which unfortunately always goes along with the inability to scale and generalize well and thus, \gls{im} finds its application to solve this issue as it does not only speed up the learning process but it also facilitates exploration.
 
 
     \section{Classification of Intrinsic Motivation}
 
-    Concerning the classification of \gls{im} in \gls{rl}, the authors \citeauthor{aubret_survey_2019} propose a new categorization, differentiating between \textit{knowledge acquisition} and \textit{skill learning}.
+    Concerning the classification of \gls{im} in \gls{rl}, the authors \citeauthor{aubret_survey_2019} propose a new categorization, differentiating between knowledge acquisition and skill learning.
     With this separation, emphasis is laid on skill abstraction and skill acquisition.
 
     Concerning the motivation based on \textbf{knowledge acquisition}, the agent's internal goal is to gather new knowledge about its surroundings.
@@ -1152,10 +1152,10 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Based on this definition, building an agent with this motivation can greatly improve exploration in settings with sparse rewards.
     This is usually done by giving an agent a feeling for state novelty or information gain which poses an intrinsic reward that it tries to maximize.
     Another benefit presents the idea of empowerment which means that an agent is rewarded by \gls{im} whenever it approaches an area that can be controlled.
-    Finally, this motivation might allow the agent to create a relevant state representation and thus this branch faces the challenges described in subsection~\ref{subsec:sparse-rewards} and~\ref{subsec:building-a-good-state-representation}.
+    Finally, this motivation might allow the agent to create a relevant state representation and thus, this branch faces the challenges described in subsection~\ref{subsec:sparse-rewards} and~\ref{subsec:building-a-good-state-representation}.
 
     The second branch, concerning motivation based on \textbf{skill learning}, is described as the ability of an agent to efficiently acquire skills that are task-independent and preferably reusable.
-    Here, one idea evolves around the agent's ability of abstracting skills in order to study them one by one or rather to create a skill representation which challenges the introduced problem of subsection~\ref{subsec:temporal-abstraction-of-actions}.
+    Here, one idea deals with the agent's ability of abstracting skills in order to study them one by one or rather to create a skill representation which challenges the introduced problem of subsection~\ref{subsec:temporal-abstraction-of-actions}.
     Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in subsection~\ref{subsec:building-a-curriculum}.
 
     An overview of the just described classification with practical approaches can be observed in Table~\ref{tab:clasification_im_rl}.
@@ -1190,7 +1190,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In order to embed \gls{im} into \gls{rl} a new framework is presented by \citeauthor{singh_intrinsically_2010}, splitting the reward signal into primary and secondary rewards.
     The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
     Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is again taken into consideration.
-    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the \textit{external part} and the \textit{internal part}, where the external part reflects the environment of the agent where it has to complete its assigned task and on the other hand the internal part which calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
+    Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the external part and the internal part, where the external part reflects the environment of the agent in which it has to complete its assigned task and on the other hand, the internal part which calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
 
     The newly adapted \gls{rl} framework can be observed in Figure~\ref{fig:adapted_rl_framework}.
     Here, the critic describes the part which computes the reward in either way and assigns the credit to the carried out actions.
@@ -1207,7 +1207,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext[4]{\citep[\p{2}]{singh_intrinsically_2010}}
 
     One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill allowing the agent to easily acquire different behaviour.
-    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour thus increasing the efficiency of the adopted framework by serving assigned goals when compared to the traditional one.
+    In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour, thus increasing the efficiency of the adopted framework by serving assigned goals when compared to the traditional one.
 
     When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
     The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.

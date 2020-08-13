@@ -1233,7 +1233,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item \usebibentry{pathak_self-supervised_2019}{title} (\citeauthor{pathak_self-supervised_2019})
     \end{itemize}
 
-    A more detailed list is provided by~\citet[see Table 3]{aubret_survey_2019} in their section on \textit{knowledge acquisition}.
+    A more detailed list is provided by~\citet[see Table 3]{aubret_survey_2019} in their section on \textit{Knowledge acquisition}.
 
     By not only considering the approach by \citet{burda_large-scale_2018-1}, this chapter also represents a state-of-the-art review for exploration via \gls{im}.
     Finally, at the end of this chapter "\usebibentry{ecoffet_go-explore_2019}{title}" by \citet{ecoffet_go-explore_2019} is presented which is currently the best performing method to solve the exploration challenge offered by \textit{Montezuma's Revenge} as of August 2020.
@@ -1241,27 +1241,27 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Prediction Error}\label{sec:prediction-error}
 
-    The idea of prediction-error based exploration is to point the agent in a direction where a prediction of the next state based on a state-action tuple is rather difficult.
+    The idea of prediction-error based exploration is to point the agent in a direction where a prediction of the next state, based on a state-action tuple, is rather difficult.
     Formally, this prediction-error based intrinsic reward\footnote{For uniformity reasons, the Greek letter $\phi$ will be used instead of $g$ throughout this chapter} can be denoted as
     \begin{equation}
-        R_{int}=||\phi(s_{t+1})-F(\phi(s_t),a_t)||_2
+        r_{int}=||\phi(s_{t+1})-F(\phi(s_t),a_t)||_2
     \end{equation}
     where $||x||_2$ is the L2 distance/the Euclidean distance~\citep{aubret_survey_2019}.
-    In this equation, $\phi$ stands for a generic function which encodes the raw state space into a space of features and $F$ denotes an \gls{nn}/forward dynamics network which predicts the following feature space depending on the current encoded state and the taken action.
+    In this equation, $\phi$ stands for a generic function which encodes the raw state space into a space of features and $F$ denotes a \gls{nn}/forward dynamics network which predicts the following feature space depending on the current encoded state and the taken action.
 
     In the core paper to this thesis, \citet{burda_large-scale_2018-1} deployed four different encodings for $\phi$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
     Concerning the properties of an encoding function $\phi$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
     Instead of the previously denoted intrinsic reward, \citet{burda_large-scale_2018-1} used the so-called surprisal:
     \begin{equation}
-        R_{int}=-\log p(\phi(s_{t+1})|s_t,a_t)
+        r_{int}=-\log p(\phi(s_{t+1})|s_t,a_t)
     \end{equation}
     Regarding the actual encoding functions used for their investigations, they started with the identity function, $\phi(s)=s$, which proved to be very inefficient as it lacked compactness even though the encoding was sufficient and stable.
     Additionally, the prediction-error based on this encoding is probably dominated by irrelevant small details.
 
     In contrast to that, they introduced so-called \glspl{rf} where features are extracted using a random initialized \gls{cnn}\footnote{For further information, the literature by \citet[\p{40ff}]{aggarwal_neural_2018} is recommended}.
     This network is not trained as its weights are fixed immediately after initialization.
-    Furthermore, the properties of this encoding are stability as the network was fixed and possible compactness depending on the amount of random features extracted.
-    However, this encoding function might fail to be sufficient as only random features are extracted and thus chances are that they do not convey all the relevant information.
+    Furthermore, the properties of this encoding are stability as the network was fixed and possible compactness depending on the amount of \glspl{rf} extracted.
+    However, this encoding function might fail to be sufficient as only \glspl{rf} are extracted and thus chances are that they do not convey all the relevant information.
 
     A further method for feature encoding posed the idea of \glspl{vae}\footnote{For further information, the literature by \citet[\p{207-214}]{aggarwal_neural_2018} is recommended}.
     In that case, a feedforward network/auto-encoder compresses the state space that is later used to predict the distance between the current state $s_t$ and $s_{t+1}$.
@@ -1296,26 +1296,26 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     With a similar action space as in the work by \citet{pathak_curiosity-driven_2017-1}, they managed to significantly improve the agent's performance in several Atari 2600 games.
     However, this fell at the expenses of multiple additional layers of complexity.
     Instead of training a complex forward model that predicts the next encoded state, they transformed the complexity into a maximization problem of mutual information $I$ between $I([s,a];s')$ and $I([s,s'];a)$ and only used a simple linear model for $F$ to represent the space~\citep{aubret_survey_2019}.
-    Concerning the problem with stochasticity, \citet{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional \textit{error model} which offloads non-linearity from the model $F$.
+    Concerning the problem with stochasticity, \citet{kim_emi_2019} were able to tackle occurring white-noise by proposing an additional error model which offloads non-linearity from the model $F$.
     By doing so, screen transitions, e.g.\ moving from one room to another in \textit{Montezuma's Revenge}, which are hard to predict and similar to white-noise, can be bypassed.
 
 
     \section{State Novelty}\label{sec:state-novelty}
 
     A further important approach to enable exploration by \gls{im} is the idea of state novelty where the agent earns intrinsic rewards when it enters states it has not visited before.
-    This kind of idea can be formalized as a \textit{count-based} function which decreases the agent's intrinsic reward for entering a certain state depending on how often it had already visited this state before.
+    This kind of idea can be formalized as a count-based function which decreases the agent's intrinsic reward for entering a certain state depending on how often it had already visited this state before.
     Formally, the count-based function is denoted as the following:
     \begin{equation}
-        R_{int}=\frac{1}{N(s_t)}
+        r_{int}=\frac{1}{N(s_t)}
     \end{equation}
     where $N(s_t)$ stands for a counter which represents the agent's number of visits of the state $s_t$~\citep{aubret_survey_2019}.
     As one can imagine, this method is only efficient in discrete state spaces as in continuous ones the agent hardly visits states multiple times.
 
-    A solution to this has been proposed by \citeauthor{bellemare_unifying_2016} which is based on density models that enable a \textit{pseudo-count}.
+    A solution to this has been proposed by \citeauthor{bellemare_unifying_2016} which is based on density models that enable a pseudo-count.
     By utilizing this method, the number of visits in a state as well as related neighbourhood states are combined to one counter which allows for better generalization.
     Therefore, the previously made notation is adapted to the following equation:
     \begin{equation}
-        R_{int}=\frac{1}{\hat{N}(s_t)}
+        r_{int}=\frac{1}{\hat{N}(s_t)}
     \end{equation}
     where $\hat{N}(s_t)$ defines the pseudo-count which is denoted as follows:
     \begin{equation}
@@ -1353,7 +1353,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Furthermore, under the usage of the parameter set $\theta$ which is used in a parametric model and the function $U$ which defines uncertainty, the information gain can be formalized as follows:
 
     \begin{equation}
-        R_{int}=U_{t+k}(\theta) - U_t(\theta)
+        r_{int}=U_{t+k}(\theta) - U_t(\theta)
     \end{equation}
 
     A well-suited example to introduce information-gain based approaches is "\usebibentry{pathak_self-supervised_2019}{title}" by \citet{pathak_self-supervised_2019}.
@@ -1433,23 +1433,23 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Implementation}\label{ch:implementation}
 
-    In order to answer the posed questions of section~\ref{sec:problem-description} and~\ref{sec:expected-results}, the thesis builds upon the released source code and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on their websites.\footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+    In order to answer the posed questions of section~\ref{sec:problem-description} and~\ref{sec:expected-results}, the thesis builds upon the released source codes and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on their websites.\footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
 
     The implementation relies on the same tools used by the preceding authors since it guarantees optimal reproducibility of their results.
-    In an overview, these tools are the \index{Python}\textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \index{TensorFlow}\textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \index{OpenAI Gym}\textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
-    Concerning the creation of plots to visually present the results the \index{Matplotlib}\textit{Matplotlib}\footnote{\url{https://matplotlib.org/}} library is used.
+    In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
+    Concerning the creation of plots to visually present the results, the \textit{Matplotlib}\footnote{\url{https://matplotlib.org/}} library is used.
 
     The implementation progress was structured into the following five milestones:
 
     \begin{enumerate}
-        \item Setting-up of the environment, including the installation of the \index{CUDA}\textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \index{cuDNN}\textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
+        \item Setting-up the environment, including the installation of the \textit{CUDA}\footnote{\url{https://developer.nvidia.com/cuda-toolkit}} toolkit and the \textit{cuDNN}\footnote{\url{https://developer.nvidia.com/cudnn}]} library
         \item Analyzing the implementation of the \gls{ppo} algorithm
         \item Analyzing the implementation of different auxiliary tasks such as \glspl{rf} and \glspl{idf}
-        \item Tuning of the coefficients $\alpha,\beta$ and comparison to state-of-the-art results for densely and sparsely rewarding environments
+        \item Tuning of the coefficients $\alpha,\beta$ and comparing them to state-of-the-art results for densely and sparsely rewarding environments
         \item Implementation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
 
-    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citet{burda_large-scale_2018-1}, namely \textit{Montezumas's revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway}.
+    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citet{burda_large-scale_2018-1}, namely \textit{Montezumas's Revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway}.
 
     Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citet{burda_large-scale_2018-1} are primarily the focus.
     Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
@@ -1461,8 +1461,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Proximal Policy Optimization and Auxiliary Tasks}\label{sec:proximal-policy-optimization-and-auxiliary-tasks}
 
     As aforementioned, the algorithm of choice is \gls{ppo} as it does not need a lot of hyperparameter tuning and thus allows for quick scalability across different environments and different auxiliary tasks.
-    Concerning its implementation, the pseudo code for the \gls{ppo} algorithm is denoted in section~\ref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
-    In order to optimize the objective~\ref{eq:ppo_objective}, a so-called \textit{Adam} optimizer with a learning rate of $0.0001$ is used.
+    Concerning its implementation, the pseudo-code for the \gls{ppo} algorithm is denoted in section~\ref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
+    In order to optimize the objective~\ref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
 
     Additionally, as the reward signal is non-stationary it is normalized since it helps the agent/the value function to learn more quickly.
     This is done by calculating the standard deviation continuously over the sum of the discounted rewards and further dividing the current rewards by the square root of the obtained value.
@@ -1524,7 +1524,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Concerning the observation during the training process, a stack including the current frame as well as three previous ones is used to train both the policy and the forward dynamics network.
     This is due to the fact that the agent is able to recognize partial observability within its environment, if multiple subsequent frames are taken into consideration.
-    Additionally, standard frame-skipping wrappers are used in the Atari games which enables the execution of an action four times in a row thus speeding up the training process linearly.
+    Additionally, standard frame-skipping wrappers are used in the Atari games which enables the execution of an action four times in a row, thus speeding up the training process linearly.
 
     In addition to the normalization of rewards and advantages, observations are normalized as well.
     Here, mean and standard deviation are calculated prior to the initialization of the embedding network which are based on data that is obtained by letting a random agent explore its environment for 10000 time-steps.
@@ -1544,7 +1544,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hfill~\cite[\p{9}]{burda_large-scale_2018-1}
     \end{quote}
 
-    However this poses only a minor change which is solely used as it facilitates the tuning during e.g.\ a gridsearch\footnote{For further information, the literature by \citet[\p{420ff}]{goodfellow_deep_2016} is recommended} by more or less bounding the search space.
+    This poses only a minor change which is solely taken into account as it facilitates the tuning during e.g.\ a gridsearch\footnote{For further information, the literature by \citet[\p{420ff}]{goodfellow_deep_2016} is recommended} by more or less bounding the search space.
     Besides using completely intrinsically motivated agents ($\alpha=1,\beta=0$) as in the work by \citet{burda_large-scale_2018-1} and also evaluating the performance of only extrinsically rewarded agents ($\alpha=0,\beta=1$), a mixed form is considered.
 
     In order to find good combinations of these coefficients, a gridsearch was implemented using a shell script.
@@ -1589,7 +1589,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning the question on how to combine extrinsic and intrinsic rewards and the possibility to observe certain patterns, the game \textit{Montezuma Revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway} were selected.
     The reasoning behind these two games is based on the categorization by \citeauthor{bellemare_unifying_2016} who classified these games to be among the hardest Atari 2600 games.
     However, in regards to their characteristics, the two games are very dissimilar as on the one hand, \textit{Montezuma Revenge} is one of the most sparsely rewarding games and on the other hand, \textit{Freeway} naturally contains a lot of randomness which causes similar problems as white-noise.
-    Hence, the \textit{Freeway} is especially challenging for intrinsically motivated agents.
+    Hence, \textit{Freeway} is especially challenging for intrinsically motivated agents.
 
     For the question regarding the possibility of a performance increase in dense environments, the game \textit{Breakout}~\eqref{fig:break} was selected as it is a densely rewarding game that is commonly used, e.g.\ by \citet{burda_large-scale_2018-1} for their experiments.
     Concerning the final posed question which deals with the impact of stochasticity and the chance of \gls{em} to reduce those effects, \textit{Breakout} was chosen again as its densely rewarding environment allows to see the consequences of deploying a noisy-TV more quickly and thus reduces the runtime immensely.
@@ -1641,7 +1641,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning the aforementioned stochasticity of these experiments, it is not sufficient to simply compare e.g.\ average returns of the baseline and of the newly/adapted one as they might have a highly different standard deviation.
     Therefore, 2-sample paired t-tests will be utilized to show the significance of the obtained results where necessary.
 
-    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards as well as the possibility of improving existing results in dense settings are started with a standard gridsearch which exhaustively tries out every possible combination of the coefficients ($\alpha,\beta$) within 0 and 1 and a rate of change of 0.1 ($\Delta$).
+    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards as well as the possibility of improving existing results in dense settings are started with a standard gridsearch which exhaustively tries out every possible combination of the coefficients ($\alpha,\beta$) within 0 and 1 and a rate of change ($\Delta$) of 0.1.
     In that case, only \glspl{rf} were considered for the tuning process.
     After this initial step, metrics such as the \textit{recent extrinsic episodic reward}, the \textit{mean return}, or the \textit{mean reward} were inspected.
     However, for the final evaluation mainly the recent extrinsic episodic reward was considered.
@@ -1903,7 +1903,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This phenomenon was also discovered by \citeauthor{burda_large-scale_2018-1} who state that they even achieved a run where their agent was able to visit as many as ten rooms.
     One would assume that this advancement would increase the agent's performance but this is not the case.
     What is more, it looks as if the agent is still more interested in pursuing its internal drive instead of collecting extrinsic rewards even tough it would be able to do so.
-    A further reason could be that the agent gets detached from the intrinsically rewarding area which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \gls{im}.
+    A further reason could be that the agent gets detached from the intrinsically rewarding area (see Figure \ref{fig:exploration_problem}) which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \gls{im}.
 
     Another example would be the much quicker and less varying convergence of the obtained episodic extrinsic rewards which was witnessed during the evaluation of \textit{Freeway}.
     Here, it seems like the mixed rewarded agent is able to find a good compromise between being completely distracted by the naturally occurring stochasticity of the game and dodging the initial hurdles with which an extrinsic rewarded agent has to deal with.

@@ -64,7 +64,7 @@ linkbordercolor = {Melon},                % The color of the borders of boxes ar
 pdfauthor       = {\authorname},          % The author's name in the document properties (optional).
 pdftitle        = {\thesistitle},         % The document's title in the document properties (optional).
 pdfsubject      = {Bachelor's thesis on \thesistitle; Written by \authorname in the context of TARO/INSO research group},         % The document's subject in the document properties (optional).
-pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, prediction-error based curiosity, balancing extrinsic and intrinsic rewards} % The document's keywords in the document properties (optional).
+pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, prediction-error based curiosity, weighting extrinsic and intrinsic rewards} % The document's keywords in the document properties (optional).
 }
 
 \setpnumwidth{2.5em}        % Avoid overfull hboxes in the table of contents (see memoir manual).
@@ -185,32 +185,54 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{acknowledgements*}
 
     \begin{kurzfassung}
+
+        Ein wichtiger Bestandteil von Algorithmen in Reinforcement Learning sind Belohnungen, welche Entscheidungen von sogenannten Agenten bewerten.
+        Durch gesammelte Erfahrung versucht der Agent diese zu maximieren wobei die Anzahl an möglichen Ausgangssituationen eine große Rolle spielt, da der Agent die Konsequenzen seiner Entscheidungen nur begreifen kann, falls er sich mehrmals in derselben Situation befindet.
+        Um bei einer großen Anzahl an möglichen Situationen dennoch in der Lage zu sein ein Verständnis für die Auswirkungen zu schaffen werden neuronale Netze eingesetzt.
+        Durch deren Verwendung konnten im letzten Jahrzehnt mehrere erstaunliche Ergebnisse erzielte werden.
+
+        Diese Ergebnisse basieren auf der Tatsache, dass Belohnungen normalerweise eher häufig vergeben werden.
+        Sollten jedoch Situationen auftreten, bei denen der Agent Belohnungen nur selten erhält, so ist dieser nicht in der Lage die Konsequenzen zu begreifen.
+        Dieses Problem wird üblicherweise durch die Miteinbeziehung von intrinsischen Anreizen gelöst.
+        Solch ein Anreiz kann beispielsweise Neugierde sein, welche als die Fähigkeit eines Agenten beschrieben wird, Konsequenzen seiner Entscheidungen richtig vorherzusagen.
+        Diese Art von intrinsischer Motivation wurde intensiv von~\cite{burda_large-scale_2018-1} erforscht.
+        Hierbei war es ihnen möglich zu zeigen, dass selbst ein rein intrinsisch motivierter Agent in der Lage ist extrinsische Belohnungen zu sammeln.
+        Jedoch veranschaulichten sie auch, dass Agent durch die Zuhilfenahme von zufälligem Rauschen abgelenkt werden können was deren Fähigkeit Belohnungen einzusammeln unterbindet.
+
+        Basierend auf diesen Erkenntnissen ist es das Ziel dieser Arbeit Fragen bezüglich der Kombination von extrinsischen und intrinsischen Belohnungen zu beantworten.
+        Gewonnenen Ergebnisse legen hierbei nahe, dass optimal kombinierte Belohnungen bestehende Ansätze nicht verbessern können, jedoch rein intrinsische Ansätze schon.
+        Abgesehen davon birgt eine optimale Kombination vorteilhafte Eigenschaften, wie z. B. schnellere und stabilere Konvergenz zu einer guten Performanz des Agenten.
+        Hierbei scheint es, dass extrinsische Belohnungen tendenziell stärker gewichtet werden und ihre Gewichtung mit der Häufigkeit von extrinsischen Belohnungen korreliert.
+        Zu guter Letzt werden die Auswirkungen von zufälligem Rauschen erforscht, wobei sich die Frage stellt, ob durch Miteinbeziehung von extrinsischer Motivation diese minimiert werden können.
+        Hierbei wurde beobachtet, dass sobald die extrinsische Gewichtung höher ist als die intrinsische, die Ablenkung nicht mehr signifikant ist.
+
+
     \end{kurzfassung}
 
     \begin{abstract}
 
         \begin{adjustwidth}{0cm}{0cm}
-    In reinforcement learning algorithms mainly depend on man-made reward functions which act as feedback to decisions made by a so-called agent.
-    In order to learn a desired behaviour, the agent has to optimize these functions via a trial-and-error paradigm.
-    This is only feasible if the number of states is low as it has to experience them several times.
-    However, states are usually described through images where each combination of pixels depicts a different state and thus, even an $84 \times 84$ gray-scale image would still allow for endless possibilities.
-    For this reason neural networks were employed which yielded several astonishing results over the last decade.
+            In reinforcement learning algorithms mainly depend on man-made reward functions which act as feedback to decisions made by a so-called agent.
+            In order to learn a desired behaviour, the agent has to optimize these functions via a trial-and-error paradigm.
+            This is only feasible if the number of states is low as it has to experience them several times.
+            However, states are usually described through images where each combination of pixels depicts a different state and thus, even an $84 \times 84$ gray-scale image would still allow for endless possibilities.
+            For this reason, neural networks were employed which yielded several astonishing results over the last decade.
 
-    Common for these results is the fact that rewards are awarded densely whereas if rewards are sparse the agent is unable to pick up the desired behaviour at all.
-    A prominent example is the game \textit{Montezuma's Revenge} where the agent's task depends on exploration.
-    This issue is tackled by incorporating intrinsic rewards which are based on the naturally occurring phenomenon that babies have an internal urge to discover and acquire new skills, both of which are beneficial to reinforcement learning.
+            Common for these results is the fact that rewards are awarded densely whereas if rewards are sparse the agent is unable to pick up the desired behaviour at all.
+            A prominent example is the game \textit{Montezuma's Revenge} where the agent's task depends on exploration.
+            This issue is tackled by incorporating intrinsic rewards which are based on the naturally occurring phenomenon that babies have an internal urge to discover and acquire new skills, both of which are beneficial to reinforcement learning.
 
-    An approach to implement intrinsic motivation is via curiosity which was profoundly explored by \citet{burda_large-scale_2018-1} where they expressed curiosity as an error reflecting the agents ability to predict the consequences of its decisions.
-    They showed that even a purely intrinsically motivated agent is able to obtain extrinsic rewards, and pointed out the limitations of such an approach by presenting the so-called noisy-TV problem where agents get distracted by random white-noise.
+            An approach to implement intrinsic motivation is via curiosity which was profoundly explored by \citet{burda_large-scale_2018-1} where they expressed curiosity as an error reflecting the agents ability to predict the consequences of its decisions.
+            They showed that even a purely intrinsically motivated agent is able to obtain extrinsic rewards, and pointed out the limitations of such an approach by presenting the so-called noisy-TV problem where agents get distracted by random white-noise.
 
-    Based on these findings, this thesis aims to solve multiple questions concerning the combination of extrinsic and intrinsic rewards.
-    Obtained results during the evaluation process suggest that optimally combined rewards do not improve existing approaches, however they certainly outperformed purely intrinsic ones.
-    Additionally, other beneficial properties have been discovered such as a faster and more stable convergence.
-    There also seems to be a pattern concerning optimally combined rewards as extrinsic reward signals tended to be weighted more heavily and their heaviness was also correlated with the sparseness of the extrinsic rewards.
-    Finally the impact of the noisy-TV problem had been explored with the posed question on whether or not it is possible tackle its effects via extrinsic motivation.
-    It was observed that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore.
+            Based on these findings, this thesis aims to solve multiple questions concerning the combination of extrinsic and intrinsic rewards.
+            Obtained results during the evaluation process suggest that optimally combined rewards do not improve existing approaches, however, they certainly outperformed pure intrinsic ones.
+            Additionally, other beneficial properties have been discovered such as a faster and more stable convergence.
+            There also seems to be a pattern concerning optimally combined rewards as extrinsic reward signals tended to be weighted more heavily and their heaviness was also correlated with the sparseness of the extrinsic rewards.
+            Finally, the impact of the noisy-TV problem had been explored with the posed question on whether or not it is possible to combat its effects via extrinsic motivation.
+            It was observed that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore.
 
-    \end{adjustwidth}
+        \end{adjustwidth}
     \end{abstract}
 
 % Select the language of the thesis, e.g., english or naustrian.
@@ -305,6 +327,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     For further information regarding the theory, the bibliography is recommended.
 
     \glsresetall
+
 
     \chapter{Reinforcement Learning Background}\label{ch:reinforcement-learning-background}
 
@@ -683,7 +706,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     As many ideas presented in this thesis, \glspl{nn} are also inspired by nature as its structure is a resemblance of the human brain.
-    The name already indicates that a \gls{nn} is composed of \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
+    The name already indicates that an \gls{nn} is composed of \textit{neurons} which are connected with one another by \textit{dendrites} and \textit{axons}.
     Additional connections between axons and dendrites, called \textit{synapses}, define how important a transferred signal between them is.
     Similar to a human synapse, the strength of an artificial one is changed via a learning process which refines the weighting of the signal~\citep[\p{1f}]{aggarwal_neural_2018}.
     This idea of representation was introduced by \citeauthor{mcculloch_logical_1943} who started with a simple model which was later on adapted and improved by \citeauthor{rosenblatt_perceptron_1957}~\citep[\p{167}]{awad_deep_2015}.
@@ -742,7 +765,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in Figure~\ref{fig:activation_functions}.
     As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
-    Furthermore, to enable the evaluation of the certitude of a \gls{nn}, the \textit{sigmoid activation function} is employed instead.
+    Furthermore, to enable the evaluation of the certitude of an \gls{nn}, the \textit{sigmoid activation function} is employed instead.
     Using this function allows for a mapping of the pre-activated value to a range between $[0,1]$, enabling an estimation of the network's certainty.
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
     In contrast to this, the \textit{identity activation function} is used to predict real numbers.
@@ -813,7 +836,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     By composing the additional layers via chain-like structures, the input is fed through multiple layers before it allows a prediction of $\hat{y}$.
     For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep[\p{163f}]{goodfellow_deep_2016}.
 
-    The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
+    The amount of layers or rather the length of the chain is known as the depth of an \gls{nn}/an \gls{mlp} which also established the name \textit{deep learning} (\gls{dl}).
     As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability to chain multiple functions enable the approximation of a complex value function in a high dimensional state-space.
 
     \begin{figure}[h]
@@ -825,7 +848,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{figure}
 
     \footnotetext{\cite[\p{168}]{goodfellow_deep_2016}}
-    The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of a \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
+    The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of an \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
     In detail, the XOR functions takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
     This described behaviour is also known as the target function $f^*(\bar{\boldsymbol{X}})$ of the XOR function the \gls{nn} should approximate.
     Observing Figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
@@ -1196,7 +1219,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     One of the most prominent \gls{im} is curiosity which is deployed because it acts as a meta-skill allowing the agent to easily acquire different behaviour.
     In general, the acquisition of task-unspecific skills by means of \gls{im} allows for more intelligent behaviour thus increasing the efficiency of the adopted framework by serving assigned goals when compared to the traditional one.
 
-    When implementing a \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
+    When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
     The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
     These coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
     As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
@@ -1234,7 +1257,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         R_{int}=||\phi(s_{t+1})-F(\phi(s_t),a_t)||_2
     \end{equation}
     where $||x||_2$ is the L2 distance/the Euclidean distance~\citep{aubret_survey_2019}.
-    In this equation, $\phi$ stands for a generic function which encodes the raw state space into a space of features and $F$ denotes a \gls{nn}/forward dynamics network which predicts the following feature space depending on the current encoded state and the taken action.
+    In this equation, $\phi$ stands for a generic function which encodes the raw state space into a space of features and $F$ denotes an \gls{nn}/forward dynamics network which predicts the following feature space depending on the current encoded state and the taken action.
 
     In the core paper to this thesis, \citet{burda_large-scale_2018-1} deployed four different encodings for $\phi$ and compared the auxiliary feature spaces in terms of compactness, sufficiency, as well as stability in order to find out whether or not an agent can fulfil tasks when purely driven by \gls{im}.
     Concerning the properties of an encoding function $\phi$, they describe compactness to be low in dimensionality, sufficiency to contain all the relevant information about the environment, and stability to be a stationary function.
@@ -1258,7 +1281,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Lastly, the encoding in \glspl{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
     The features of $s_t$ and $s_{t+1}$ learned by a predicting forward model correspond to parts of the environment which the agent is in immediate control of since it can estimate the consequences of its actions.
     This encoding yields the benefit of compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
-    On a note, this idea is mainly based on the \gls{icm}, as depicted in Figure~\ref{fig:icm}, proposed by \citet{pathak_curiosity-driven_2017-1}.
+    As a side note, this idea is mainly based on the \gls{icm}, as depicted in Figure~\ref{fig:icm}, proposed by \citet{pathak_curiosity-driven_2017-1}.
 
     \begin{figure}[h]
         \centering
@@ -1274,7 +1297,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     A good example for this is the simulated environment of the Atari 2600 gaming console where \glspl{rf} performed better in over 70\% when compared to an agent that chooses its actions arbitrarily.
     Although \glspl{rf} can perform astonishingly well, they generalize badly across different environments.
     Here, the encoding with \glspl{idf} performs better as it can transfer learned features from, e.g.\ one \textit{Mario Bros} level to another~\citep{burda_large-scale_2018-1}.
-    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of the Atari 2600 games and when compared to a \gls{rf}-curious agent, it performed better 55\% of the time, thus making \glspl{idf} the preferred encoding.
+    Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of the Atari 2600 games and when compared to an \gls{rf}-curious agent, it performed better 55\% of the time, thus making \glspl{idf} the preferred encoding.
     Concerning methods based on \glspl{vae} for $\phi$, they perform either worse or the same as \glspl{rf} or \glspl{idf} and additionally were somewhat unstable.
 
     Unfortunately, all of these feature encodings are unable to deal with the white-noise problem which was mentioned in section~\ref{sec:problem-description}.
@@ -1550,7 +1573,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \begin{subfigure}{.40\textwidth}
             \centering
             \includegraphics[width=.9\linewidth]{figures/TV.PNG}
-            \caption{Original input converted and rescaled to a $84 \times 84$ grayscale image}
+            \caption{Original input converted and rescaled to an $84 \times 84$ grayscale image}
             \label{fig:tv}
         \end{subfigure}%
         \hspace{0.05\textwidth}
@@ -1650,8 +1673,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In regards to the performance comparison of the games \textit{Montezuma's Revenge} and \textit{Freeway}, the result by \citet[see Table 2]{burda_large-scale_2018-1} act as a baseline.
     Similarly to the evaluation procedure which is employed in this thesis, they compared the last recent mean episodic reward ($\pm\text{\gls{se}}$) after 100 million frames across three different seeds.
-    Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01 for intrinsic ones, and another with a purely extrinsic motivated agent.
-    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsic ($\sim250$) and extrinsic ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answer has been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsic motivated agent than for the purely intrinsic one.
+    Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01 for intrinsic ones, and another with a purely extrinsically motivated agent.
+    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsically ($\sim250$) and extrinsically ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answer has been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsically motivated agent than for the purely intrinsically one.
 
     The plots in the following few sections represent only the most important findings and hence additional plots concerning the \textit{episodic return}, the \textit{average return} and the \textit{standard deviation} as well as the \textit{average reward} will be attached to the~\nameref{ch:appendix}.
 
@@ -1663,34 +1686,34 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Hence, such a comparison as depicted in Figure~\ref{fig:gridsearch_evaluation} is not applicable and other performance metrics had to be considered.
     With regards to the mean return, weighting the extrinsic reward with 0.6 and the intrinsic one with 0.4 yielded the highest value ($M\approx0.88,SD\approx0.07$) in the last episode which is directly followed by the the weights 0.7 and 0.3 ($M\approx0.78,SD\approx0.05$).
 
-    Based on these received results, the search space had been restricted, thus varying the intrinsic weight solely between 0.5 and 0.2 and the intrinsic weight between 0.5 and 0.8.
+    Based on these received results, the search space had been restricted, thus varying the intrinsic weight solely between 0.5 and 0.2 and the extrinsic weight between 0.5 and 0.8.
     After the second iteration, the optimal combination was yet again selected by analyzing the mean return.
-    This time, the optimal combination was 0.56 for the intrinsic reward and 0.44 for the extrinsic one.
-    This procedure was repeated once again which resulted in an optimal weighting of 0.57 and 0.43.
+    This time, the optimal combination was 0.56 for the extrinsic reward and 0.44 for the intrinsic one.
+    This procedure was repeated once again which resulted in an optimal weighting of $\alpha=0.43$ and $\beta=0.57$.
 
     According to the procedure of the baseline experiment which was conducted by \citet{burda_large-scale_2018-1}, the performance of this obtained combination was evaluated by executing a 3-fold cross validation with three different seeds utilizing both \glspl{rf} and \glspl{idf}.
-    Additionally, purely curiosity based agents as well as a solely extrinsic rewarded agent have been examined.
+    Additionally, purely curiosity based agents as well as a solely extrinsically rewarded agent have been examined.
     The results of this can be observed in Figure~\ref{fig:mz_normal}.
 
     Surprisingly the performance of the purely extrinsically rewarded agent was by far the best ($M\approx266.67,SD\approx188.56,SE\approx34.43$) followed by the mixed motivated \gls{rf}-curious agent ($M\approx133.33,SD\approx188.56,SE\approx34.43$).
-    Concerning the \gls{idf}-curious agents as wells as the purely intrinsic motivated \gls{rf}-curious agent, they almost continuously achieved a recent episodic reward of 0 ($M\approx0.0,SD\approx0.0,SE\approx0.0$).
+    Concerning the \gls{idf}-curious agents as wells as the purely intrinsically motivated \gls{rf}-curious agent, they almost continuously achieved a recent episodic reward of 0 ($M\approx0.0,SD\approx0.0,SE\approx0.0$).
 
-    However, \citet{burda_large-scale_2018-1} showed that purely intrinsic motivated agents can perform much better, if given enough time.
+    However, \citet{burda_large-scale_2018-1} showed that purely intrinsically motivated agents can perform much better, if given enough time.
     A the training duration of 100 million frames seems to be insufficient as e.g.\ the pure \gls{rf}-curious agent did not achieve a single extrinsic reward in the final episode whereas when trained for 400 million frames it is able to achieve an episodic reward of $\sim250$~\citep[compare Figure 2]{burda_large-scale_2018-1}.
     Usually, the authors evaluated the performance of those agents for at least 400 million frames which makes their proposed baseline of training mixed motivated agents for only 100 million frames questionable.
 
     Hence, the run time was increased to 400 million frames which allowed for a fairer overall comparison between different combinations of coefficients and dynamics.
     The results of this experiment can be observed in Figure~\ref{fig:mz_extended}.
-    Here, it is important to mention that the mixed motivated agents as well as the purely extrinsic one were solely evaluated with 1-fold cross validation due the massive amount of needed computational power.
-    Observing the results, one can clearly notice that the extrinsic motivated agent as well as the mixed \gls{rf}-curious agent performed equally well ($M\approx400.0,SD\approx0.0,SE\approx0.0$) with the extrinsically motivated agent converging around 140 million frames earlier.
+    Here, it is important to mention that the mixed motivated agents as well as the purely extrinsically one were solely evaluated with 1-fold cross validation due the massive amount of needed computational power.
+    Observing the results, one can clearly notice that the extrinsically motivated agent as well as the mixed \gls{rf}-curious agent performed equally well ($M\approx400.0,SD\approx0.0,SE\approx0.0$) with the extrinsically motivated agent converging around 140 million frames earlier.
     Although the purely motivated \gls{rf}-curious agent was able to drastically increase its performance ($M\approx249.33,SD\approx180.95,SE\approx33.04$) when compared to the previous evaluation, it still performed worse than the other two.
     However, it was the only one which was ever able to go beyond an extrinsic episodic reward of 400 as it achieved a maximum reward of 425.
     Lastly, the \gls{idf}-curious agents were almost always unable to obtain any extrinsic rewards.
 
     Although it seems that the extrinsically motivated agent as well as the optimally combined \gls{rf}-curious agent are identical performance-wise, there is a big difference between them.
     In fact, while they both achieved they same extrinsic episodic reward, the \gls{rf}-curious agent was able to discover far more rooms than the extrinsic one.
-    In total the mixed motivated \gls{rf}-curious agent visited five different rooms in \textit{Montezuma's Revenge} while the purely extrinsic one had only discovered two.
-    This phenomenon is depicted in Figure~\ref{fig:mz_rooms} where the number of rooms visited by the purely intrinsic motivated agents and the mixed \gls{idf}-curious one are plotted as well.
+    In total the mixed motivated \gls{rf}-curious agent visited five different rooms in \textit{Montezuma's Revenge} while the purely extrinsically one had only discovered two.
+    This phenomenon is depicted in Figure~\ref{fig:mz_rooms} where the number of rooms visited by the purely intrinsically motivated agents and the mixed \gls{idf}-curious one are plotted as well.
 
     \begin{figure}[!h]
         \centering
@@ -1794,7 +1817,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However this time, the gridsearch was only performed once while still varying the coefficients between 0 and 1 for a total of $4\times10^6$ frames.
     As it is expected within environments with dense rewards, the weighting tended to be more on the extrinsic side with an optimal combination of $\alpha=0.1$ and $\beta=0.9$ ($M\approx15.3,SD\approx2.12$).
 
-    With the obtained optimal weights for the mixed agent, the final evaluation was started considering only \gls{rf}-curious agents and purely extrinsic ones with an overall training duration of 200 million frames.
+    With the obtained optimal weights for the mixed agent, the final evaluation was started considering only \gls{rf}-curious agents and pure extrinsic ones with an overall training duration of 200 million frames.
     Furthermore, the results of this experiment are depicted in Figure~\ref{fig:breakout_performance}.
     The reason behind the omission of \gls{idf}-curious agents is based on the findings of \citet{burda_large-scale_2018-1} who state that \glspl{rf} usually deliver better results (see section~\ref{sec:prediction-error}).
     Evaluating the performance after 200 million frames shows that the pure intrinsic agent had the worst overall performance and \gls{se} ($M\approx194.95,SD\approx51.53,SE\approx9.43$).
@@ -1908,7 +1931,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Hence, it is concluded that a performance increase via a combination of intrinsic and extrinsic rewards is not possible in settings were rewards are credited densely.
     Although different weightings of rewards did not manage to beat existing extrinsically rewarding approaches, they perform significantly better than purely intrinsically rewarding methods.
 
-    For question~\ref{q:d}, an identical approach to the one proposed by \citet{pathak_curiosity-driven_2017-1} and \citet{burda_large-scale_2018-1} was reproduced as the observation which the agent receives was modified by adding a padding of white noise around each frame.
+    For question~\ref{q:d}, an identical approach to the one proposed by \citet{pathak_curiosity-driven_2017-1} and \citet{burda_large-scale_2018-1} was reproduced as the observation which the agent receives was modified by adding a padding of white-noise around each frame.
     Evaluating the obtained results of the four conducted experiments clearly showed that intrinsically motivated agents get distracted by the added noisy-TV and hence their performance is drastically decreased which reinforce the findings by the just mentioned authors.
     Furthermore, agents with different weightings were employed during these experiments in order to analyze their ability to tackle the caused distraction.
     In regards to different forward dynamics models, both \glspl{rf} as well as \glspl{idf} seem to be affected similarly as in both cases they took a drastic hit performance-wise.
@@ -1933,7 +1956,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Furthermore, the results showed that the promising performance of the selected prediction-error based approach carried out by a purely intrinsically motivated agent can certainly be undermined by means of a combined reward signal.
     Therefore, extrinsic rewards are still needed in order for an agent to achieve superhuman performance.
 
-    A final very interesting and promising further research direction would be to combine the algorithm introduced in "\usebibentry{ecoffet_go-explore_2019}{title}" \citep{ecoffet_go-explore_2019} with \gls{im} since so far the exploration process has solely been based on a random agent.
+    A final very interesting and promising further research direction would be to combine the algorithm introduced in "\usebibentry{ecoffet_go-explore_2019}{title}"~\citep{ecoffet_go-explore_2019} with \gls{im} since so far the exploration process has solely been based on a random agent.
 
     In conclusion, while all of the conducted experiments concerning the different weighting of intrinsic and extrinsic reward signals did not improve existing, mainly extrinsically motivated approaches, they certainly perform better than purely intrinsically motivated ones.
     Additionally, further beneficial properties had been observed such as a faster and a more stable convergence which, if employed in the right context, can establish an advantage.

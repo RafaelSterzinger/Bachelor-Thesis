@@ -60,4 +60,4 @@ Issuing this command creates the following plot which is identical to _Figure 7.
 ![Example Plot of Breakout](https://github.com/RafaelSterzinger/Bachelor-Thesis/blob/master/thesis/figures/breakout/Breakout_eprew_recent.png)
 
 This graph depicts the average episodic extrinsic reward during the game Breakout.
- Here, multiple agents were trained for 200 million frames comparing <span style="color:green">purely extrinsically</span>,<span style="color:blue"> purely intrinsically </span>, and <span style="color:purple"> mixed</span> motivated agents.
+ Here, multiple agents were trained for 200 million frames comparing purely extrinsically (green), purely intrinsically (blue), and mixed (purple) motivated agents.

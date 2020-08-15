@@ -32,13 +32,10 @@ Afterwards, the training process can be started which per default trains an agen
 python src/run.py
 ```
 
-This will produce a log file which is stored at "/tmp/{env_name}\_{seed}\_{feat_learning}\_INT-{int\_coeff}\_EXT-{ext\_coeff}".
+This will produce a log file which is stored at "/tmp/{env_name}\_{seed}\_{feat_learning}\_INT-{int\_coeff}\_EXT-{ext\_coeff}", e.g. of the following form:
 
 
 <table class="tg">
-<caption>
-Exemplary log entry from <i>Freeway</i> at episode 1148
-</caption>
   <tr>
     <td class="tg-cly1">advmean</td>
     <td class="tg-cly1">0.028340142</td>
@@ -158,8 +155,9 @@ Exemplary log entry from <i>Freeway</i> at episode 1148
 </table>
 
 
+With the obtained results, the plots can finally be created. For this purpose exemplary log files of the game _Breakout_ are already provided which are identical to the ones used to create _Figure 7.6_ in the thesis.
 
 ```
-python main.py -m test -d AAPL_test.csv -n model_18_17_06
+python plots.py
 ``````
 

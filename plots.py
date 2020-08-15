@@ -279,27 +279,21 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
         plt.savefig(save_filename, dpi=300)
         plt.close()
 
-
-def main():
+if __name__ == '__main__':
+    results_folder = './logs'
     global plot
     plot = True
-    xlim = 400
+    xlim = 200
     experiment = Experiments(os.path.join(results_folder), reload_logs=False)
-    generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,
-                              xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Number of Visited Rooms', y_series='visited_rooms', smoothen=False,
+    #                          xlim=xlim)
 
-    generate_three_seed_graph(experiment, name='Best Extrinsic Return', y_series='best_ext_ret', smoothen=False,
-                              xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Best Extrinsic Return', y_series='best_ext_ret', smoothen=False,
+    #                          xlim=xlim)
     generate_three_seed_graph(experiment, name='Extrinsic Reward per Episode', y_series='eprew_recent', xlim=xlim)
 
 
-    generate_three_seed_graph(experiment, name='Extrinsic Return per Episode', y_series='recent_best_ext_ret', xlim=xlim)
-    generate_three_seed_graph(experiment, name='Average Return', y_series='retmean', xlim=xlim)
-    generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
-    generate_three_seed_graph(experiment, name='Average Reward', y_series='rew_mean', xlim=xlim)
-
-
-if __name__ == '__main__':
-    results_folder = '../../plotting/MontezumaRevengeExtended'
-    os.chdir(results_folder)
-    main()
+    #generate_three_seed_graph(experiment, name='Extrinsic Return per Episode', y_series='recent_best_ext_ret', xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Average Return', y_series='retmean', xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Standard Deviation Return', y_series='retstd', xlim=xlim)
+    #generate_three_seed_graph(experiment, name='Average Reward', y_series='rew_mean', xlim=xlim)

@@ -42,7 +42,7 @@ Additionally, there is also the option to modify the default settings via differ
 |-------------------|----------------------------|-------------------------------------|---------------------------|
 |``--env``          | ``BreakoutNoFrameskip-v4`` | String                              | Environment ID            |
 |``--seed``         |  ``0``                     | Integer                             | Seed for RNG              |
-|``--feat_learning``| ``none``                   | Choice: none,idf,vaesph,vaenonsph,pix2pix |Type of forward dynamics |
+|``--feat_learning``| ``none``                   | Choice (none,idf,vaesph,vaenonsph,pix2pix) |Type of forward dynamics |
 |``--dyn_env``      |``False``                   | Boolean              | Boarder of random noise   |
 |``--num_timesteps`` |``1e6``                    | Integer              |Number of training steps   |
 |``--ext_coeff``     |``0.5``                    | Float                |Coefficient for extrinsic rewards   |
@@ -55,7 +55,9 @@ With the obtained results, the plots can finally be created. For this purpose, e
 python plots.py
 ```
 
-This creates the following plot which is identical to _Figure 7.6_ illustrated in this thesis:
+Issuing this command creates the following plot which is identical to _Figure 7.6_ illustrated in this thesis:
 
 ![Example Plot of Breakout](https://github.com/RafaelSterzinger/Bachelor-Thesis/blob/master/thesis/figures/breakout/Breakout_eprew_recent.png)
 
+This graph depicts the average episodic extrinsic reward during the game Breakout.
+ Here, multiple agents were trained for 200 million frames comparing <span style="color:green">purely extrinsically</span>,<span style="color:blue"> purely intrinsically </span>, and <span style="color:purple"> mixed</span> motivated agents.

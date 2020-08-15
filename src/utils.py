@@ -61,7 +61,11 @@ def setup_mpi_gpus():
     """
     Set CUDA_VISIBLE_DEVICES using MPI.
     """
-    available_gpus = guess_available_gpus()
+    try:
+        available_gpus = guess_available_gpus()
+    except Exception:
+        available_gpus = [0]
+
 
     node_id = platform.node()
     nodes_ordered_by_rank = MPI.COMM_WORLD.allgather(node_id)

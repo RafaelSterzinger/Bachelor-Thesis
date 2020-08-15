@@ -185,7 +185,7 @@ def add_experiment_params(parser):
     parser.add_argument('--env', help='environment ID', default='BreakoutNoFrameskip-v4',
                         type=str)
     parser.add_argument('--seed', help='RNG seed', type=int, default=0)
-    parser.add_argument('--feat_learning', type=str, default="idf",
+    parser.add_argument('--feat_learning', type=str, default="none",
                         choices=["none", "idf", "vaesph", "vaenonsph", "pix2pix"])
     parser.add_argument('--exp_name', type=str, default='')
 
@@ -198,8 +198,8 @@ def add_experiment_params(parser):
     parser.add_argument('--dyn_from_pixels', type=int, default=0)
     parser.add_argument('--use_news', type=int, default=0)
     parser.add_argument('--layernorm', type=int, default=0)
-    parser.add_argument('--ext_coeff', type=float, default=0.)
-    parser.add_argument('--int_coeff', type=float, default=1.)
+    parser.add_argument('--ext_coeff', type=float, default=0.5)
+    parser.add_argument('--int_coeff', type=float, default=0.5)
 
 
 if __name__ == '__main__':
@@ -211,13 +211,10 @@ if __name__ == '__main__':
     add_experiment_params(parser)
 
     args = parser.parse_args()
-    # int_coeff = args.__dict__["int_coeff"]
-    # ext_coeff = args.__dict__["ext_coeff"]
-    # EXPERIMENT_NAME = f"Breakout_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    int_coeff = args.__dict__["int_coeff"]
+    ext_coeff = args.__dict__["ext_coeff"]
+    env_name = args.__dict__["env"]
+    experiment_name = f"{env_name}_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
+    args.__setattr__("dir", f"/tmp/{experiment_name}")
 
-    # args.__setattr__("dir",
-    #               f"/home/rafael/Documents/experiments/BreakoutIDFNoTV/{EXPERIMENT_NAME}")
-
-
-    # default path = /tmp/
     start_experiment(**args.__dict__)

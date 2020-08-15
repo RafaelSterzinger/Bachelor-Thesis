@@ -1,6 +1,5 @@
 # Weighting Intrinsic and Extrinsic Rewards in Reinforcement Learning
 ## Abstract
-<p style="text-align: justify">
 In reinforcement learning, algorithms mainly depend on man-made reward functions which act as feedback to decisions made by a so-called agent.
         In order to learn a desired behaviour, the agent has to optimize these functions via a trial-and-error paradigm.
         This is only feasible if the number of states is low as it has to experience them several times.
@@ -20,21 +19,147 @@ Based on these findings, this thesis aims to solve multiple questions concerning
         There also seems to be a pattern concerning optimally combined rewards as extrinsic reward signals tended to be weighted more heavily and their heaviness was also correlated with the sparseness of the extrinsic rewards.
         Finally, the impact of the noisy-TV problem had been explored with the posed question on whether or not it is possible to combat its effects via extrinsic motivation.
         It was observed that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore.
-</p>      
 
-<!-- 
 ### Setup Guide
-To try own datasets download a training and test split from [Yahoo! Finance](https://ca.finance.yahoo.com/quote/%5EGSPC/history?p=%5EGSPC), preferably overlapping 30 days, into `data/`
 
-To install the needed dependencies run ```pip install requirements.txt```
-
-Afterwards you can train your own model by specifying the mode and the trainings data
+Before the training process can be started, the required dependencies must first be installed. 
 ```
-python main.py -m train -d AAPL_train.csv
+pip install -r requirements.txt
 ```
 
-Or you can use existing models for evaluation by specifying the mode, the testing data and the model
+Afterwards, the training process can be started which per default trains an agent on the game _Breakout_ for 4 x 10^6 frames with equal extrinsic and intrinsic weighting utilizing so-called random features.
+```
+python src/run.py
+```
+
+This will produce a log file which is stored at "/tmp/{env_name}\_{seed}\_{feat_learning}\_INT-{int\_coeff}\_EXT-{ext\_coeff}".
+
+
+<table class="tg">
+<caption>
+Exemplary log entry from <i>Freeway</i> at episode 1148
+</caption>
+  <tr>
+    <td class="tg-cly1">advmean</td>
+    <td class="tg-cly1">0.028340142</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">advstd</td>
+    <td class="tg-cly1">0.08429557</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">best_ext_ret</td>
+    <td class="tg-cly1">34</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">epcount</td>
+    <td class="tg-cly1">9.09e+03</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">eplen</td>
+    <td class="tg-cly1">2.04e+03</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">eprew</td>
+    <td class="tg-cly1">33.1</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">eprew_recent</td>
+    <td class="tg-cly1">33.1</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">ev</td>
+    <td class="tg-cly1">0.99</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">n_updates</td>
+    <td class="tg-cly1">1148</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_approxkl</td>
+    <td class="tg-cly1">1.5858127e-14</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_aux</td>
+    <td class="tg-cly1">0.0</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_clipfrac</td>
+    <td class="tg-cly1">0.0</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_dyn_loss</td>
+    <td class="tg-cly1">0.0025119937</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_ent</td>
+    <td class="tg-cly1">0.1387403</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_feat_var</td>
+    <td class="tg-cly1">0.034835648</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_pg</td>
+    <td class="tg-cly1">-0.036531404</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_tot</td>
+    <td class="tg-cly1">-0.033197492</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">opt_vf</td>
+    <td class="tg-cly1">0.0034726528</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">rank</td>
+    <td class="tg-cly1">0</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">recent_best_ext_ret</td>
+    <td class="tg-cly1">None</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">retmean</td>
+    <td class="tg-cly1">4.8263</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">retstd</td>
+    <td class="tg-cly1">0.8363703</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">rew_mean</td>
+    <td class="tg-cly1">0.01604179</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">tcount</td>
+    <td class="tg-cly1">1.86e+07</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">total_secs</td>
+    <td class="tg-cly1">1.77e+04</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">tps</td>
+    <td class="tg-cly1">1.06e+03</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">ups</td>
+    <td class="tg-cly1">0.0648</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">vpredmean</td>
+    <td class="tg-cly1">4.7979603</td>
+  </tr>
+  <tr>
+    <td class="tg-cly1">vpredstd</td>
+    <td class="tg-cly1">0.83044344</td>
+  </tr>
+</table>
+
+
+
 ```
 python main.py -m test -d AAPL_test.csv -n model_18_17_06
-```
--->
+``````
+

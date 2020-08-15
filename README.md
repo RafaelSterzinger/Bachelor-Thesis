@@ -20,7 +20,7 @@ Based on these findings, this thesis aims to solve multiple questions concerning
         Finally, the impact of the noisy-TV problem had been explored with the posed question on whether or not it is possible to combat its effects via extrinsic motivation.
         It was observed that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore.
 
-### Setup Guide
+## Setup Guide
 
 The required dependencies can be obtained by executing the following command: 
 ```

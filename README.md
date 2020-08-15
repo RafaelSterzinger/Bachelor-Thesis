@@ -22,146 +22,40 @@ Based on these findings, this thesis aims to solve multiple questions concerning
 
 ### Setup Guide
 
-Before the training process can be started, the required dependencies must first be installed. 
+The required dependencies can be obtained by executing the following command: 
 ```
 pip install -r requirements.txt
 ```
 
-Afterwards, the training process can be started which per default trains an agent on the game _Breakout_ for 4 x 10^6 frames with equal extrinsic and intrinsic weighting utilizing so-called random features.
+Afterwards, the training process can be start:
 ```
 python src/run.py
 ```
 
-This will produce a log file which is stored at "/tmp/{env_name}\_{seed}\_{feat_learning}\_INT-{int\_coeff}\_EXT-{ext\_coeff}", e.g. of the following form:
+Per default, this trains an agent on the game _Breakout_ for 4 x 10^6 frames with equal extrinsic and intrinsic weighting utilizing so-called random features.
+The generated data will stored at ``logs/{env}/{env}_{seed}_{feat_learning}_INT-{int_coeff}_EXT-{ext_coeff}``.
+Furthermore, the executables ``final_evaluation.sh`` and ``gridearch.sh`` maybe employed to search for an optimal weighting.
+
+Additionally, there is also the option to modify the default settings via different arguments. This project offers great adjustability (see _src/run.py_) and thus, the following table only poses a selection of the most used arguments:
+
+|Long               |Default                     |Type                                 |Description                |
+|-------------------|----------------------------|-------------------------------------|---------------------------|
+|``--env``          | ``BreakoutNoFrameskip-v4`` | String                              | Environment ID            |
+|``--seed``         |  ``0``                     | Integer                             | Seed for RNG              |
+|``--feat_learning``| ``none``                   | Choice: none,idf,vaesph,vaenonsph,pix2pix |Type of forward dynamics |
+|``--dyn_env``      |``False``                   | Boolean              | Boarder of random noise   |
+|``--num_timesteps`` |``1e6``                    | Integer              |Number of training steps   |
+|``--ext_coeff``     |``0.5``                    | Float                |Coefficient for extrinsic rewards   |
+|``--int_coeff``     |``0.5``                    | Float                |Coefficient for intrinsic rewards   |
 
 
-<table class="tg">
-  <tr>
-    <td class="tg-cly1">advmean</td>
-    <td class="tg-cly1">0.028340142</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">advstd</td>
-    <td class="tg-cly1">0.08429557</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">best_ext_ret</td>
-    <td class="tg-cly1">34</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">epcount</td>
-    <td class="tg-cly1">9.09e+03</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">eplen</td>
-    <td class="tg-cly1">2.04e+03</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">eprew</td>
-    <td class="tg-cly1">33.1</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">eprew_recent</td>
-    <td class="tg-cly1">33.1</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">ev</td>
-    <td class="tg-cly1">0.99</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">n_updates</td>
-    <td class="tg-cly1">1148</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_approxkl</td>
-    <td class="tg-cly1">1.5858127e-14</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_aux</td>
-    <td class="tg-cly1">0.0</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_clipfrac</td>
-    <td class="tg-cly1">0.0</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_dyn_loss</td>
-    <td class="tg-cly1">0.0025119937</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_ent</td>
-    <td class="tg-cly1">0.1387403</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_feat_var</td>
-    <td class="tg-cly1">0.034835648</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_pg</td>
-    <td class="tg-cly1">-0.036531404</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_tot</td>
-    <td class="tg-cly1">-0.033197492</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">opt_vf</td>
-    <td class="tg-cly1">0.0034726528</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">rank</td>
-    <td class="tg-cly1">0</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">recent_best_ext_ret</td>
-    <td class="tg-cly1">None</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">retmean</td>
-    <td class="tg-cly1">4.8263</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">retstd</td>
-    <td class="tg-cly1">0.8363703</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">rew_mean</td>
-    <td class="tg-cly1">0.01604179</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">tcount</td>
-    <td class="tg-cly1">1.86e+07</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">total_secs</td>
-    <td class="tg-cly1">1.77e+04</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">tps</td>
-    <td class="tg-cly1">1.06e+03</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">ups</td>
-    <td class="tg-cly1">0.0648</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">vpredmean</td>
-    <td class="tg-cly1">4.7979603</td>
-  </tr>
-  <tr>
-    <td class="tg-cly1">vpredstd</td>
-    <td class="tg-cly1">0.83044344</td>
-  </tr>
-</table>
-
-
-With the obtained results, the plots can finally be created. For this purpose, exemplary log files of the game _Breakout_ are already provided.
+With the obtained results, the plots can finally be created. For this purpose, exemplary log files of the game _Breakout_ are already provided:
 
 ```
 python plots.py
 ```
 
-This creates the following plot which is identical to _Figure 7.6_ of the thesis:
+This creates the following plot which is identical to _Figure 7.6_ illustrated in this thesis:
 
 ![Example Plot of Breakout](https://github.com/RafaelSterzinger/Bachelor-Thesis/blob/master/thesis/figures/breakout/Breakout_eprew_recent.png)
 

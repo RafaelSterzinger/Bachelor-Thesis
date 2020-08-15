@@ -1,8 +1,8 @@
 #!/bin/sh
 MAX=1
 MIN=0
-#DELTA=$(echo "($MAX - $MIN) / 10.0" | bc -l)
-DELTA=0.1
+DELTA=$(echo "($MAX - $MIN) / 10.0" | bc -l)
+
 for ((j = 0; j < 3; j++)); do
   echo "START WITH SEED $j"
   for ((i = 0; i < 11; i++)); do

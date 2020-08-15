@@ -155,9 +155,11 @@ This will produce a log file which is stored at "/tmp/{env_name}\_{seed}\_{feat_
 </table>
 
 
-With the obtained results, the plots can finally be created. For this purpose exemplary log files of the game _Breakout_ are already provided which are identical to the ones used to create _Figure 7.6_ in the thesis.
+With the obtained results, the plots can finally be created. For this purpose, exemplary log files of the game _Breakout_ are already provided which are identical to the ones used to create _Figure 7.6_ in the thesis.
 
 ```
 python plots.py
-``````
+```
+
+![Example Plot of Breakout](https://github.com/RafaelSterzinger/Bachelor-Thesis/blob/master/thesis/figures/breakout/Breakout_eprew_recent.png)
 

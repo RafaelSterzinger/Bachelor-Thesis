@@ -215,6 +215,6 @@ if __name__ == '__main__':
     ext_coeff = args.__dict__["ext_coeff"]
     env_name = args.__dict__["env"]
     experiment_name = f"{env_name}_{args.__dict__['seed']}_{args.__dict__['feat_learning']}_INT-{int_coeff}_EXT-{ext_coeff}"
-    args.__setattr__("dir", f"/tmp/{experiment_name}")
+    args.__setattr__("dir", f"../logs/{env_name.lower()}/{experiment_name}")
 
     start_experiment(**args.__dict__)

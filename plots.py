@@ -280,7 +280,7 @@ def generate_three_seed_graph(experiment, name, y_series='eprew_recent', smoothe
         plt.close()
 
 if __name__ == '__main__':
-    results_folder = './logs'
+    results_folder = './logs/breakout'
     global plot
     plot = True
     xlim = 200

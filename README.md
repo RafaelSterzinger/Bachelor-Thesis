@@ -22,19 +22,19 @@ Based on these findings, this thesis aims to solve multiple questions concerning
 
 ## Setup Guide
 
-The required dependencies can be obtained by executing the following command: 
+The following commands show how to get the necessary dependencies and how to start a basic training process:
+
 ```
 pip install -r requirements.txt
-```
-
-Afterwards, the training process can be start:
-```
 python src/run.py
 ```
 
-Per default, this trains an agent on the game _Breakout_ for 4 x 10^6 frames with equal extrinsic and intrinsic weighting utilizing so-called random features.
-The generated data will stored at ``logs/{env}/{env}_{seed}_{feat_learning}_INT-{int_coeff}_EXT-{ext_coeff}``.
-Furthermore, the executables ``final_evaluation.sh`` and ``gridearch.sh`` maybe employed to search for an optimal weighting.
+Regarding the compatibility, everything was implemented and tested with _Python 3.7.7_.
+
+
+Per default, this trains an agent on the game _Breakout_ for 10^6 time-steps (~4 x 10^6 frames) with equal extrinsic and intrinsic weighting utilizing so-called random features.
+The generated data will be stored at ``logs/{env}/{env}_{seed}_{feat_learning}_INT-{int_coeff}_EXT-{ext_coeff}``.
+As desired, the executables ``final_evaluation.sh`` and ``gridearch.sh`` can be employed to search for an optimal weighting.
 
 Additionally, there is also the option to modify the default settings via different arguments. This project offers great adjustability (see _src/run.py_) and thus, the following table only poses a selection of the most used arguments:
 
@@ -49,15 +49,16 @@ Additionally, there is also the option to modify the default settings via differ
 |``--int_coeff``     |``0.5``                    | Float                |Coefficient for intrinsic rewards   |
 
 
-With the obtained results, the plots can finally be created. For this purpose, exemplary log files of the game _Breakout_ are provided:
+With the generated results, the plots can be created by issuing the following command:
 
 ```
 python plots.py
 ```
 
-Issuing this command creates the following plot which is identical to _Figure 7.6_ illustrated in this thesis:
+For this purpose, exemplary log files of the game _Breakout_ are already provided.
+The created plot is identical to _Figure 7.6_, illustrated in this thesis.
 
 ![Example Plot of Breakout](https://github.com/RafaelSterzinger/Bachelor-Thesis/blob/master/thesis/figures/breakout/Breakout_eprew_recent.png)
 
 This graph depicts the average episodic extrinsic reward during the game _Breakout_.
- Here, multiple agents were trained for 200 million frames comparing purely extrinsically (green), purely intrinsically (blue), and mixed (purple) motivated agents.
+Here, multiple agents were trained for 200 million frames comparing purely extrinsically (green), purely intrinsically (blue), and mixed (purple) motivated agents.

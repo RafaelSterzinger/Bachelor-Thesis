@@ -32,7 +32,7 @@ python src/run.py
 Regarding the compatibility, everything was implemented and tested with _Python 3.7.7_.
 
 
-Per default, this trains an agent on the game _Breakout_ for 10^6 time-steps (~4 x 10^6 frames) with equal extrinsic and intrinsic weighting utilizing so-called random features.
+Per default, this trains an agent on the game _Breakout_ for 10^6 time-steps (4 x 10^6 frames) with equal extrinsic and intrinsic weighting utilizing so-called random features.
 The generated data will be stored at ``logs/{env}/{env}_{seed}_{feat_learning}_INT-{int_coeff}_EXT-{ext_coeff}``.
 As desired, the executables ``final_evaluation.sh`` and ``gridearch.sh`` can be employed to search for an optimal weighting.
 

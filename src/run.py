@@ -33,6 +33,7 @@ def start_experiment(**args):
     log, tf_sess = get_experiment_environment(**args)
     with log, tf_sess:
         logdir = logger.get_dir()
+        #writer = tf.summary.FileWriter('./tf_logs', tf_sess.graph)
         print("results will be saved to ", logdir)
         trainer.train()
 

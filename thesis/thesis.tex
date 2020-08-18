@@ -187,7 +187,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \begin{kurzfassung}
         Ein wichtiger Bestandteil von Algorithmen in Reinforcement Learning sind Belohnungen, welche Agenten nutzen, um ihre Entscheidungen zu bewerten.
-        Durch gesammelte Erfahrung versucht der Agent diese zu maximieren wobei die Anzahl an möglichen Ausgangssituationen eine große Rolle spielt.
+        Durch gesammelte Erfahrung versucht der Agent diese zu maximieren, wobei die Anzahl an möglichen Ausgangssituationen eine große Rolle spielt.
         Dies basiert darauf, dass der Agent die Konsequenzen seiner Entscheidungen nur begreifen kann, falls er sich mehrmals in derselben Situation befindet.
         Um bei einer großen Anzahl an möglichen Situationen dennoch in der Lage zu sein, ein Verständnis für die Auswirkungen zu schaffen, werden neuronale Netze eingesetzt.
         Durch deren Verwendung konnten im letzten Jahrzehnt mehrere erstaunliche Ergebnisse erzielte werden.
@@ -212,19 +212,19 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         An important part of algorithms in reinforcement learning are rewards that a so-called agent uses to evaluate its made decisions.
         The agent tries to maximize these rewards by gaining experience, whereby the number of possible initial situations plays a major role.
         This is based on the fact that the agent can only understand the consequences of its decisions if he is in the same situation several times.
-        In order to still be able to create an understanding of the consequences even in cases where the number of possible situations is big, neural networks are employed.
+        In order to still be able to create an understanding of the consequences in cases where the number of possible situations is too big, neural networks are employed.
         By using them, several astonishing results have been achieved in the last decade.
 
         Common for these results is the fact that rewards are awarded densely whereas if rewards are sparse the agent is unable to pick up the desired behaviour at all.
-        This issue is usually tackled by incorporating intrinsic rewards by means of intrinsic motivation.
+        This issue is usually tackled by incorporating further rewards by means of intrinsic motivation.
         An approach to implement intrinsic motivation is via curiosity which was profoundly explored by \citet{burda_large-scale_2018-1} where they expressed curiosity as an error reflecting the agent's ability to predict the consequences of its decisions.
         They showed that even a purely intrinsically motivated agent is able to obtain extrinsic rewards, and pointed out the limitations of such an approach by presenting the so-called noisy-TV problem where agents get distracted by random white-noise and thus are unable to collect rewards.
 
         Based on these findings, this thesis aims to solve multiple questions concerning the combination of extrinsic and intrinsic rewards.
-        Obtained results during the evaluation process suggest that optimally combined rewards do not improve existing approaches, however, they certainly outperformed pure intrinsic ones.
+        Obtained results during the evaluation process suggest that optimally combined rewards do not improve existing approaches, however, they certainly outperform pure intrinsic ones.
         Additionally, other beneficial properties have been discovered such as a faster and more stable convergence.
         There also seems to be a pattern concerning optimally combined rewards as extrinsic reward signals tended to be weighted more heavily and their heaviness was also correlated with the sparseness of the extrinsic rewards.
-        Finally, the impact of the noisy-TV problem had been explored with the posed question on whether or not it is possible to combat its effects via extrinsic motivation.
+        Finally, the impact of the noisy-TV problem has been explored with the posed question on whether or not it is possible to combat its effects via extrinsic motivation.
         It was observed that as soon as the extrinsic reward signal outweighs the intrinsic one the impact of of the noisy-TV is not significant anymore.
     \end{abstract}
 
@@ -416,7 +416,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Sometimes, this separation of episodes might not be as clear as the limit of the sequence might be infinite.
     This is called a continuing task, in contrast to episodic tasks where $T$ is finite.
-    Therefore, if the agent acts in an environment with a continuing task, the sum in equation~\pautoref{eq:sum_of_rewards} might not converge.
+    Therefore, if the agent acts in an environment with a continuing task, the sum in \autoref{eq:sum_of_rewards} might not converge.
     This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$, which avoids infinite rewards~\citep[\p{54f}]{sutton_reinforcement_2018}.
     Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\pautoref{eq:discounted_reward}.
 
@@ -494,7 +494,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \end{aligned}
     \end{equation}
 
-    The above-mentioned equation~\pautoref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
+    The above-mentioned equation is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
     However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citepOnline{silver_lecture_2015-1}.
 
     For larger \glspl{mdp} multiple iterative solutions exist:
@@ -509,7 +509,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of the three above-mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
     As for \gls{dp}, an iterative process is used.
-    This process is an interplay between the Bellman equation~\pautoref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\autoref{eq:optimal1} and~\autoref{eq:optimal2} which update the policy~\citepOnline{silver_lecture_2015}.
+    This process is an interplay between the Bellman equation~\pautoref{eq:bellman_equation}, used to calculate the value function for a given policy, as well as~\autoref{eq:optimal1} and~\autoref{eq:optimal2} which update the policy~\citepOnline{silver_lecture_2015}.
 
 
     \section{Temporal Difference Methods}
@@ -691,7 +691,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     A focus is laid on this approach because \gls{ppo} represents the algorithm which is used in the work of \citet{burda_large-scale_2018-1}, the core literature of this thesis.
 
 
-    \section{The Basic Architecture of Neural Networks}\label{subsec:the-basic-architecture-of-neural-networks}
+    \section{The Basic Architecture of Neural Networks}\label{sec:the-basic-architecture-of-neural-networks}
 
 
     As many ideas presented in this thesis, \glspl{nn} are also inspired by nature as its structure is a resemblance of the human brain.
@@ -721,7 +721,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \bar{\boldsymbol{X}}\cdot\bar{\boldsymbol{W}}=\sum_{j=0}^{d}x_j*w_j\label{eq:feed_forward_equation}
     \end{equation}
 
-    Finally, a prediction $\hat{y}$ for $y$, based on the equation~\pautoref{eq:feed_forward_equation}, is performed by activating the result making usage of an activation function.
+    Finally, a prediction $\hat{y}$ for $y$, based on \autoref{eq:feed_forward_equation}, is performed by activating the result making usage of an activation function.
     In the case of classification, the sign activation function is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
     After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\boldsymbol{X}}) = y - \hat{y}$~\citep[\p{5ff}]{aggarwal_neural_2018}.
     If the error $E(\bar{\boldsymbol{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction next time.
@@ -753,7 +753,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     By using non-linear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep[\p{13}]{aggarwal_neural_2018}.
 
     Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in \autoref{fig:activation_functions}.
-    As mentioned in \autoref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
+    As mentioned in \autoref{sec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
     Furthermore, to enable the evaluation of the certitude of a \gls{nn}, the Sigmoid activation function is employed instead.
     Using this function allows for a mapping of the pre-activated value to a range between $[0,1]$, enabling an estimation of the network's certainty.
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
@@ -782,7 +782,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is due to the fact that it facilitates the training process of \glspl{mlp} as they are less expensive to compute.
 
     \subsection{Loss Functions}\label{subsec:loss-functions}
-    In \autoref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ was introduced.
+    In \autoref{sec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ was introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better-suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep[\p{15}]{aggarwal_neural_2018}.
     For instance, regression tasks modelled by \glspl{nn} with an identity activation function commonly use the squared loss $(y - \hat{y})^2$ as an error measurement.
     In the case of classification tasks with multiple class labels, output values are normally activated employing the Softmax activation function~\citep[\p{78}]{goodfellow_deep_2016}, with $\boldsymbol{v}$ being the $n$ pre-activated output values.
@@ -845,7 +845,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is also known under the term of linear separability.
     However, after transforming the original space with the help of a hidden layer and a non-linear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep[\p{166ff}; \p{32ff}]{goodfellow_deep_2016,aggarwal_neural_2018}.
     This shows that an \gls{mlp} allows for much more complex function approximation.
-    With the newly introduced capability, the learning process mentioned in \autoref{eq:weight_adjusting} in \autoref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
+    With the newly introduced capability, the learning process mentioned in \autoref{eq:weight_adjusting} in \autoref{sec:the-basic-architecture-of-neural-networks} is not applicable anymore.
     Instead, a new algorithm named backpropagation was introduced by \citeauthor{rumelhart_learning_1986} which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
 %\subsection{(Optional)Convolutional Neural Networks}
@@ -924,7 +924,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hat{\mathbb{E}}_t\bigg [\text{KL}[\pi_{\theta_{\text{old}}}(\cdot|s_t),\pi_{\theta}(\cdot|s_t)]\bigg]\leq\delta\label{eq:trpo_constraint}
     \end{equation}
 
-    Instead of the constraint~\pautoref{eq:trpo_constraint}, a penalty is sometimes integrated with a corresponding weighting as well, combining the \autoref{eq:trpo_optimization} and \autoref{eq:trpo_constraint}.
+    Instead of the constraint, a penalty is sometimes integrated with a corresponding weighting as well, combining \autoref{eq:trpo_optimization} and \ref{eq:trpo_constraint}.
     Furthermore, KL in \autoref{eq:trpo_constraint} stands for the Kullback-Leibler divergence.
 
     With the ratio $r_t(\theta)=\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t$ the main objective for \gls{ppo} can now be constructed:
@@ -1463,7 +1463,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     As aforementioned, the algorithm of choice is \gls{ppo} as it does not need a lot of hyperparameter tuning and thus allows for quick scalability across different environments and different auxiliary tasks.
     Concerning its implementation, the pseudo-code for the \gls{ppo} algorithm is denoted in \autoref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
-    In order to optimize the objective \pautoref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
+    In order to optimize the objective defined in \pautoref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
 
     Additionally, as the reward signal is non-stationary it is normalized since it helps the agent/the value function to learn more quickly.
     This is done by calculating the standard deviation continuously over the sum of the discounted rewards and further dividing the current rewards by the square root of the obtained value.
@@ -1480,7 +1480,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     According to \citet{burda_large-scale_2018-1}, this is a commonly used network for experiments and benchmarks of Atari 2600 games.
     Furthermore, the \glspl{nn} responsible for learning \glspl{idf} or \glspl{rf}  were added on top of the embedding network.
-    These forward dynamics networks consist of multiple fully connected layers with a hidden layer size of 512 as well.
+    These forward dynamics networks consist of five fully connected layers with a hidden layer size of 512 as well.
+    Regarding their non-linearity, they all use the leaky \gls{relu}.
 
     In order to increase the stability of the deployed algorithm multiple actors which work in parallel are considered.
     Throughout all of the following conducted experiments, 128 parallel actors were employed in their own environment to solely gather data by interacting with their surroundings in order to train the agent.
@@ -1649,7 +1650,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In order to form the return, the advantages that utilize the normalized weighted rewards and the value predictions of the policy network are added together where advantages were normalized as well (see \autoref{sec:proximal-policy-optimization-and-auxiliary-tasks}).
     Furthermore, the reward is composed of the weighted extrinsic and intrinsic one where the intrinsic reward resembles the loss calculated by the forward dynamics model.
     Finally, the abbreviations \acrshort{m}, \acrshort{sd}, and \acrshort{se} will be utilized throughout the rest of this chapter in order to report the mean, the standard deviation as well as the standard error respectively all rounded to two decimal places.
-    These statistical key figures are calculate using the results of the last $\sim500.000$ frames.
+    These statistical key figures are calculated using the results of the last $\sim500.000$ frames.
 
     In \autoref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure was deployed.
     Depending on the performance of the different combinations with regards to the just mentioned metrics, the search space is further restricted.
@@ -1978,6 +1979,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter*{Appendix}\label{ch:appendix}
     \addcontentsline{toc}{chapter}{Appendix}
+    \section{Main Graph of TensorFlow Session}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.95\textwidth]{figures/main_graph.png}
+    \end{figure}
+    \newpage
+
     \section*{Montezuma's Revenge}
     \centering
     \begin{tabular}{|ccc|}

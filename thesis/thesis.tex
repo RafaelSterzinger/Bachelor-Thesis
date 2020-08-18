@@ -509,7 +509,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of the three above-mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
     As for \gls{dp}, an iterative process is used.
-    This process is an interplay between the Bellman equation~\pautoref{eq:bellman_equation}, used to calculate the value function for a given policy, as well as~\autoref{eq:optimal1} and~\autoref{eq:optimal2} which update the policy~\citepOnline{silver_lecture_2015}.
+    This process is an interplay between the Bellman equation~\pautoref{eq:bellman_equation}, used to calculate the value function for a given policy as well as~\autoref{eq:optimal1} and~\autoref{eq:optimal2} which update the policy~\citepOnline{silver_lecture_2015}.
 
 
     \section{Temporal Difference Methods}
@@ -965,7 +965,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hat{A}_t=-V(s_t)+r_t+\gamma r_{t+1} + \dots + \gamma^{T-t+1}r_{T-1} + \gamma^{T-t}V(s_T)\label{eq:advantage_estimator}
     \end{equation}
 
-    The \gls{ppo} algorithm~\pautoref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
+    The \gls{ppo} algorithm~(see Algorithm~\ref{alg:ppo}) puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
     \newpage
     \begin{algorithm}
         \caption[\acrlong{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
@@ -1463,7 +1463,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     As aforementioned, the algorithm of choice is \gls{ppo} as it does not need a lot of hyperparameter tuning and thus allows for quick scalability across different environments and different auxiliary tasks.
     Concerning its implementation, the pseudo-code for the \gls{ppo} algorithm is denoted in \autoref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
-    In order to optimize the objective defined in \pautoref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
+    In order to optimize the objective, defined in \pautoref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
 
     Additionally, as the reward signal is non-stationary it is normalized since it helps the agent/the value function to learn more quickly.
     This is done by calculating the standard deviation continuously over the sum of the discounted rewards and further dividing the current rewards by the square root of the obtained value.
@@ -1979,7 +1979,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter*{Appendix}\label{ch:appendix}
     \addcontentsline{toc}{chapter}{Appendix}
-    \section{Main Graph of TensorFlow Session}
+    \section*{Main Graph of the TensorFlow Session}
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.95\textwidth]{figures/main_graph.png}

@@ -22,7 +22,7 @@ Based on these findings, this thesis aims to solve multiple questions concerning
 
 ## Setup Guide
 
-The following commands get the necessary dependencies and start a basic training process:
+The following commands retrieve the necessary dependencies and start a basic training process:
 
 ```
 pip install -r requirements.txt

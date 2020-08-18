@@ -28,6 +28,7 @@
 \usepackage{usebib}
 \usepackage{enumitem}
 \usepackage{float}
+\usepackage{hyperref}
 \bibinput{core}
 \def\arraystretch{1.2}
 
@@ -48,6 +49,8 @@
 %  \ul{{\phantom{#2}}}\llap{\contour{white}{#2}} \textcolor{#1}{\tiny{$\blacksquare$}}%
 \endgroup%
 }}
+
+\newcommand{\pautoref}[1]{(\autoref{#1})}
 
 \newcites{Online}{Non-Scientific Bibliography}
 
@@ -97,7 +100,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 % Required data.
 \setregnumber{11778282}
-\setdate{12}{08}{2020} % Set date with 3 arguments: {day}{month}{year}.
+\setdate{18}{08}{2020} % Set date with 3 arguments: {day}{month}{year}.
 \settitle{\thesistitle}{\thesistitle} % Sets English and German version of the title (both can be English or German). If your title contains commas, enclose it with additional curvy brackets (i.e., {{your title}}) or define it as a macro as done with \thesistitle.
 \setsubtitle{\thesissubtitle}{\thesissubtitle} % Sets English and German version of the subtitle (both can be English or German).
 
@@ -206,18 +209,16 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{kurzfassung}
 
     \begin{abstract}
-        In reinforcement learning, algorithms mainly depend on man-made reward functions which act as feedback to decisions made by a so-called agent.
-        In order to learn a desired behaviour, the agent has to optimize these functions via a trial-and-error paradigm.
-        This is only feasible if the number of states is low as it has to experience them several times.
-        However, states are usually described through images where each combination of pixels depicts a different state and thus, even an $84 \times 84$ grey-scale image would still allow for endless possibilities.
-        For this reason, neural networks were employed which yielded several astonishing results over the last decade.
+        An important part of algorithms in reinforcement learning are rewards that a so-called agent uses to evaluate its made decisions.
+        The agent tries to maximize these rewards by gaining experience, whereby the number of possible initial situations plays a major role.
+        This is based on the fact that the agent can only understand the consequences of its decisions if he is in the same situation several times.
+        In order to still be able to create an understanding of the consequences even in cases where the number of possible situations is big, neural networks are employed.
+        By using them, several astonishing results have been achieved in the last decade.
 
         Common for these results is the fact that rewards are awarded densely whereas if rewards are sparse the agent is unable to pick up the desired behaviour at all.
-        A prominent example is the game \textit{Montezuma's Revenge} where the agent's task depends on exploration.
-        This issue is tackled by incorporating intrinsic rewards which are based on the naturally occurring phenomenon that babies have an internal urge to discover and acquire new skills, both of which are beneficial to reinforcement learning.
-
+        This issue is usually tackled by incorporating intrinsic rewards by means of intrinsic motivation.
         An approach to implement intrinsic motivation is via curiosity which was profoundly explored by \citet{burda_large-scale_2018-1} where they expressed curiosity as an error reflecting the agent's ability to predict the consequences of its decisions.
-        They showed that even a purely intrinsically motivated agent is able to obtain extrinsic rewards, and pointed out the limitations of such an approach by presenting the so-called noisy-TV problem where agents get distracted by random white-noise.
+        They showed that even a purely intrinsically motivated agent is able to obtain extrinsic rewards, and pointed out the limitations of such an approach by presenting the so-called noisy-TV problem where agents get distracted by random white-noise and thus are unable to collect rewards.
 
         Based on these findings, this thesis aims to solve multiple questions concerning the combination of extrinsic and intrinsic rewards.
         Obtained results during the evaluation process suggest that optimally combined rewards do not improve existing approaches, however, they certainly outperformed pure intrinsic ones.
@@ -327,7 +328,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The following chapter begins with a description of the \gls{rl} problem and its affiliation to the broader spectrum of \gls{ml}.
     Here, also the distinctions between the different \gls{ml} disciplines are pointed out.
     Furthermore, the described problem is then formally notated under the utilization of \glspl{mdp}.
-    In the section~\nameref{sec:functions-to-improve-the-policy}, the policy as well as the corresponding state-value and action-value function are introduced which act as measurements on how favourable a state or an action might be.
+    In~\nameref{sec:functions-to-improve-the-policy}, the policy as well as the corresponding state-value and action-value function are introduced which act as measurements on how favourable a state or an action might be.
     This is followed by several tabular solution methods such as \gls{dp} and \gls{td} learning where a clear focus is laid upon the latter.
     During these sections, \gls{mc} methods are broached as well.
     Finally, the chapter is concluded by considering \gls{pg} methods for approximate solutions which are very different to tabular ones.
@@ -362,7 +363,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     To formalize the \gls{rl} problem, the idea and notation of an \gls{mdp} is used to notate the sequential interactions between an agent and its environment.
     At every discrete time-step, $t = 0,1,2,3, \ldots \in \mathbb{N}$, the agent observes the current state, $S_t \in \mathcal{S}$, of the environment and selects an available action in a given state, $A_t \in \mathcal{A}(s)$.
     Sometimes this notation is simplified to $A_t \in \mathcal{A}$ assuming that the action set $\mathcal{A}$ does not depend on the state~\citep[\p{48}]{sutton_reinforcement_2018}.
-    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathcal{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$~\eqref{fig:rl_problem}.
+    Once the agent has selected an action, it obtains a scalar reward $R_{t+1} \in \mathcal{R} \subset \mathbb{R}$ and depending on the action, the environment transforms into a subsequent state $S_{t+1}$~\pautoref{fig:rl_problem}.
     By means of continuous interactions between the agent and the environment, a trajectory of the form $S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\ldots$ is created.
 
     \begin{figure}[h]
@@ -375,7 +376,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \footnotetext{\cite[\p{48}]{sutton_reinforcement_2018}}
 
     In a finite horizon, the agent has to plan only a fixed number of time-steps ahead and the sets $\mathcal{S},\mathcal{A}\text{, and }\mathcal{R}$ are limited~\citep[\p{47f}]{sutton_reinforcement_2018,kaelbling_reinforcement_1996}.
-    Furthermore, the possibility that the values $s'\in \mathcal{S}$ and $r \in \mathcal{R}$ may occur at a time-step $t+1$, can be described with a probability~\eqref{eq:distribution} solely depending on the action $a \in \mathcal{A}(s)$ taken in a preceding state $s \in \mathcal{S}$.
+    Furthermore, the possibility that the values $s'\in \mathcal{S}$ and $r \in \mathcal{R}$ may occur at a time-step $t+1$, can be described with a probability~\pautoref{eq:distribution} solely depending on the action $a \in \mathcal{A}(s)$ taken in a preceding state $s \in \mathcal{S}$.
 
     \begin{equation}
         p(s',r|s,a) = P\{S_{t+1}=s', R_{t+1}=r | S_t=s, A_t=a\}\label{eq:distribution}
@@ -384,13 +385,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Since $p$ describes a probability, the sum over all possible combinations of $s$ and $a$ must be equal to 1.
     Moreover, the individual probabilities of $p$ describe the dynamics of an \gls{mdp}.
     Observing this notation shows that the state $s$ must contain all the necessary information and must not depend on states preceding $s$.
-    If this is the case, the state is called to have the Markov property~\eqref{eq:markov_property}~\citep{francois-lavet_introduction_2018}.
+    If this is the case, the state is called to have the Markov property~\pautoref{eq:markov_property}~\citep{francois-lavet_introduction_2018}.
 
     \begin{equation}
         P\{S_{t+1}|S_t,A_t\} = P\{S_{t+1}|S_1,A_1,\ldots,S_t,A_t\} \label{eq:markov_property}
     \end{equation}
 
-    With the notation of $p$, properties of the \gls{mdp} like the state-transition probabilities~\eqref{eq:transition} or the expected value of rewards~\eqref{eq:expected_reward} can be computed given state-action tuples.
+    With the notation of $p$, properties of the \gls{mdp} like the state-transition probabilities~\pautoref{eq:transition} or the expected value of rewards~\pautoref{eq:expected_reward} can be computed given state-action tuples.
 
     \begin{equation}
         p(s'|s,a) = P\{S_{t+1}=s'| S_t=s, A_t=a\} = \sum_{r \in \mathcal{R}} p(s',r | s,a) \label{eq:transition}
@@ -403,7 +404,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     As mentioned in the~\nameref{sec:reinforcement-learning-problem}, rewards at each time-step $R_t$ are used to formalize a goal which the agent should pursue.
     This is possible due to the reward hypothesis which states that every goal one can possibly think of, can be formalized through a numeric reward signal and be achieved by maximizing the cumulative long-term rewards~\citep[\p{53}]{sutton_reinforcement_2018}.
 
-    Mathematically, the overall reward is denoted as the sum over all rewards~\eqref{eq:sum_of_rewards}, with $T$ as the final time-step.
+    Mathematically, the overall reward is denoted as the sum over all rewards~\pautoref{eq:sum_of_rewards}, with $T$ as the final time-step.
 
     \begin{equation}
         G_t=R_{t+1} + R_{t+2}+ \ldots + R_{T}  =\sum_{t=1}^{T} R_{t}\label{eq:sum_of_rewards}
@@ -415,9 +416,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     Sometimes, this separation of episodes might not be as clear as the limit of the sequence might be infinite.
     This is called a continuing task, in contrast to episodic tasks where $T$ is finite.
-    Therefore, if the agent acts in an environment with a continuing task, the sum in equation~\eqref{eq:sum_of_rewards} might not converge.
+    Therefore, if the agent acts in an environment with a continuing task, the sum in equation~\pautoref{eq:sum_of_rewards} might not converge.
     This issue is solved by introducing a discounting rate $\gamma$, $0 \leq \gamma \leq 1$, which avoids infinite rewards~\citep[\p{54f}]{sutton_reinforcement_2018}.
-    Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\eqref{eq:discounted_reward}.
+    Given this discounting rate, the agent now tries to maximize the discounted sum of cumulative long-term rewards~\pautoref{eq:discounted_reward}.
 
     \begin{equation}
         G_t = R_{t+1} + \gamma R_{t+2}+ \gamma^2 R_{t+3} + \ldots = R_{t+1} + \gamma G_{t+1} = \sum_{k=1}^{\infty} \gamma^k R_{t+k}\label{eq:discounted_reward}
@@ -429,7 +430,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Functions to Improve the Policy}\label{sec:functions-to-improve-the-policy}
-    As mentioned in section~\ref{sec:reinforcement-learning-problem}, the policy forms an important component of the \gls{rl} framework and is usually denoted as $\pi$.
+    As mentioned in \autoref{sec:reinforcement-learning-problem}, the policy forms an important component of the \gls{rl} framework and is usually denoted as $\pi$.
     By following a policy, the agent's probability to select a specific action at time-step $t$ is $\pi(a|s) = P\{A_t=a|S_t=s\}$ and therefore $\pi$ describes a probability distribution over actions given states~\citepOnline{silver_lecture_2015-1}.
     Additionally, the aforementioned value function component is dependent on the policy, since $\pi$ defines which action-state tuples are considered from the current state onwards.
     Formally, the state-value function for an \gls{mdp} is denoted by $v_\pi(s)$ which stands for the expected future rewards when following the policy, starting in state $s$ and "\textit{$\mathbb{E}_\pi[\cdot]$ denotes the expected value of a random variable given that the agent follows policy $\pi$}"~\citep[\p{58}]{sutton_reinforcement_2018}.
@@ -480,7 +481,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Dynamic Programming}
 
-    The state-value function, introduced in section~\ref{sec:functions-to-improve-the-policy}, has a similar recursive property as the equation for the discounted expected reward~\eqref{eq:discounted_reward}.
+    The state-value function, introduced in \autoref{sec:functions-to-improve-the-policy}, has a similar recursive property as the equation for the discounted expected reward~\pautoref{eq:discounted_reward}.
     Therefore, the state-value function can be expressed in an equal manner by decomposing it into the discounted descendant states $\gamma v_\pi(s')$ and the immediate reward $r$:
 
     \begin{equation}
@@ -493,7 +494,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \end{aligned}
     \end{equation}
 
-    The above-mentioned equation~\eqref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
+    The above-mentioned equation~\pautoref{eq:bellman_equation} is known as the Bellman equation for $v_\pi$~\citep[\p{59}]{sutton_reinforcement_2018} which can be directly solved due to its linearity.
     However, this calculation is only feasible for small \glspl{mdp} since its complexity is $O(n^3)$ for $n$ states~\citepOnline{silver_lecture_2015-1}.
 
     For larger \glspl{mdp} multiple iterative solutions exist:
@@ -508,7 +509,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of the three above-mentioned approaches are mainly used for two aspects in \gls{rl}: predicting the value function $v_\pi$ (planning) and calculating the optimal value function $v_{\pi_*}$ (controlling).
     As for \gls{dp}, an iterative process is used.
-    This process is an interplay between the Bellman equation~\eqref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\ref{eq:optimal1} and~\ref{eq:optimal2} which update the policy~\citepOnline{silver_lecture_2015}.
+    This process is an interplay between the Bellman equation~\pautoref{eq:bellman_equation}, used to calculate the value function for a given policy, and the equations mentioned in~\autoref{eq:optimal1} and~\autoref{eq:optimal2} which update the policy~\citepOnline{silver_lecture_2015}.
 
 
     \section{Temporal Difference Methods}
@@ -635,7 +636,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The parameters of a policy $\pi$ are normally denoted in vector notation by $\boldsymbol{\theta} \in \mathbb{R}^{d'}$ and the policy is rewritten as $\pi(a|s,\boldsymbol{\theta})=P\{A_t=a|S_t=s,\boldsymbol{\theta}_t=\boldsymbol{\theta}\}$.
     More precisely, at time-step $t$, the probability of an action $a$ is given by the current state $s$ of the environment and the given parameters $\boldsymbol{\theta}$.
     In order to learn a policy directly, the parameters are adapted based on the derivative with respect to $\boldsymbol{\theta}$ of a numeric performance measure $J(\boldsymbol{\theta})$.
-    As opposed to algorithms discussed in chapter~\ref{ch:deep-reinforcement-learning}, this derivative/gradient is used to maximize the policy's performance.
+    As opposed to algorithms discussed in \autoref{ch:deep-reinforcement-learning}, this derivative/gradient is used to maximize the policy's performance.
     With the usage of gradient ascent in $J$, the parameters are updated by the following equation:
 
     \begin{equation}
@@ -646,8 +647,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Methods which use this gradient ascent to approach the parameters $\boldsymbol{\theta_t}$ for the policy $\pi$ are so-called \gls{pg} methods.
 
     In a discrete action space with few choices, state-action pairs are usually parameterized by using a scalar preference function $h(s,a,\boldsymbol{\theta})$, e.g.\ a linear combination of features, $h(s,a,\boldsymbol{\theta})=\boldsymbol{\theta}^T\boldsymbol{x}(s,a)$~\citep[\p{321}]{sutton_reinforcement_2018},~\citepOnline{silver_lecture_2015-3}.
-    Moreover, policies are required to be stochastic and thus, the most preferred action in a given state obtains the highest probability to be selected, e.g.\ by a Softmax distribution~\eqref{eq:soft_max_policy}.
-    For additional information, see also subsection~\ref{subsec:loss-functions}.
+    Moreover, policies are required to be stochastic and thus, the most preferred action in a given state obtains the highest probability to be selected, e.g.\ by a Softmax distribution~\pautoref{eq:soft_max_policy}.
+    For additional information, see also \autoref{subsec:loss-functions}.
 
     \begin{equation}
         \pi(a|s,\boldsymbol{\theta})=\frac{e^{h(s,a,\boldsymbol{\theta})}}{\sum_{b}e^{h(s,b,\boldsymbol{\theta})}}=\frac{e^{\boldsymbol{\theta}^T\boldsymbol{x}(s,a)}}{\sum_{b}e^{\boldsymbol{\theta}^T\boldsymbol{x}(s,b)}}\label{eq:soft_max_policy}
@@ -666,7 +667,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         For instance, playing the game of rock, paper, scissors with a deterministic policy (e.g.\ always selecting rock) the strategy would be easily exploitable.
         In this case, a stochastic uniform random policy, which does not allow for predictions, is much better-suited ~\citepOnline{silver_lecture_2015-3}.
         \item In certain situations, it might be more efficient to parameterize the policy instead of the action-value parametrization as the approximation of policies could be less complex.
-        For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout}~\eqref{fig:break} from one point onward when moving left might be very difficult.
+        For instance, figuring out precisely how much score an agent can obtain in the Atari 2600 game \textit{Breakout}~\pautoref{fig:break} from one point onward when moving left might be very difficult.
         However, creating a policy that always moves left if the ball comes from a certain direction will be a lot easier to approximate~\citepOnline{silver_lecture_2015-3}.
         In these situations, policy based methods will achieve a superior policy and converge faster\citep[\p{323}]{sutton_reinforcement_2018}.
         \item Lastly, the initial configuration of a policy's parameters enables the possibility to supply an agent with prior knowledge about an optimal policy which is usually the main reason why policy based methods are taken into consideration.
@@ -679,7 +680,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     The preceding chapter has dealt with the~\nameref{ch:reinforcement-learning-background} while presenting multiple solutions to the \gls{rl} problem.
-    However, approaches such as SARSA~\eqref{subsec:sarsanullon-policynull} or Q-learning~\eqref{subsec:q-learningnulloff-policynull} only perform well if each state is visited countless times in order to estimate the optimal policy.
+    However, approaches such as SARSA~\pautoref{subsec:sarsanullon-policynull} or Q-learning~\pautoref{subsec:q-learningnulloff-policynull} only perform well if each state is visited countless times in order to estimate the optimal policy.
     In the case of video games where states are often represented as the current frame of the game, the dimension of the state space is intangible which is also known as the curse of dimensionality~\citep[\p{151}]{goodfellow_deep_2016}.
     That is because each frame consists of thousands of pixels and each of these pixels can accept various values ranging from 0 to 255.
     To solve this issue, \gls{dl} techniques which emerged from \glspl{nn} are applied to \gls{rl} due to their capability of estimating very complex functions such as the value function for a high dimensional state space.
@@ -720,7 +721,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \bar{\boldsymbol{X}}\cdot\bar{\boldsymbol{W}}=\sum_{j=0}^{d}x_j*w_j\label{eq:feed_forward_equation}
     \end{equation}
 
-    Finally, a prediction $\hat{y}$ for $y$, based on the equation~\eqref{eq:feed_forward_equation}, is performed by activating the result making usage of an activation function.
+    Finally, a prediction $\hat{y}$ for $y$, based on the equation~\pautoref{eq:feed_forward_equation}, is performed by activating the result making usage of an activation function.
     In the case of classification, the sign activation function is used to map the prediction $\hat{y}$ to the previously specified range of $[-1,1]$.
     After the activation of the output value, an error between the prediction and the actual outcome can be calculated, $E(\bar{\boldsymbol{X}}) = y - \hat{y}$~\citep[\p{5ff}]{aggarwal_neural_2018}.
     If the error $E(\bar{\boldsymbol{X}})$ is non-zero, the weights must be adapted in order to perform a closer prediction next time.
@@ -751,8 +752,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     However, they are especially significant for \glspl{mlp} as they determine the modelling power of the network.
     By using non-linear functions, more sophisticated compositions can be created as they are not reducible to simple perceptrons~\citep[\p{13}]{aggarwal_neural_2018}.
 
-    Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in Figure~\ref{fig:activation_functions}.
-    As mentioned in subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
+    Apart from the previously noted sign function, other activation functions exist as well and a selection of them can be observed in \autoref{fig:activation_functions}.
+    As mentioned in \autoref{subsec:the-basic-architecture-of-neural-networks}, the sign function allows for binary classification of class labels.
     Furthermore, to enable the evaluation of the certitude of a \gls{nn}, the Sigmoid activation function is employed instead.
     Using this function allows for a mapping of the pre-activated value to a range between $[0,1]$, enabling an estimation of the network's certainty.
     Therefore, $\hat{y}$ indicates the likeliness of an input being a certain target class.
@@ -781,7 +782,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is due to the fact that it facilitates the training process of \glspl{mlp} as they are less expensive to compute.
 
     \subsection{Loss Functions}\label{subsec:loss-functions}
-    In subsection~\ref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ was introduced.
+    In \autoref{subsec:the-basic-architecture-of-neural-networks}, a generic loss function $E(\bar{\boldsymbol{X}})$ was introduced.
     However, depending on the target and the prediction $\hat{y}$, another loss function may be better-suited as certain loss functions are more sensitive to errors for classification than for predicting real numbers~\citep[\p{15}]{aggarwal_neural_2018}.
     For instance, regression tasks modelled by \glspl{nn} with an identity activation function commonly use the squared loss $(y - \hat{y})^2$ as an error measurement.
     In the case of classification tasks with multiple class labels, output values are normally activated employing the Softmax activation function~\citep[\p{78}]{goodfellow_deep_2016}, with $\boldsymbol{v}$ being the $n$ pre-activated output values.
@@ -825,7 +826,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     For instance, an \gls{mlp} with three layers approximates the function $f(\bar{\boldsymbol{X}})$ by chaining three functions $f^{(3)}(f^{(2)}(f^{(1)}(\bar{\boldsymbol{X}})))$ together for a prediction~\citep[\p{163f}]{goodfellow_deep_2016}.
 
     The amount of layers or rather the length of the chain is known as the depth of a \gls{nn}/an \gls{mlp} which also established the name \acrlong{dl}.
-    As aforementioned in the introduction to chapter~\ref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability to chain multiple functions enable the approximation of a complex value function in a high dimensional state space.
+    As aforementioned in the introduction to \autoref{ch:deep-reinforcement-learning}, only \glspl{mlp} with their ability to chain multiple functions enable the approximation of a complex value function in a high dimensional state space.
 
     \begin{figure}[h]
         \vspace{0.5cm}
@@ -839,12 +840,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     The reason why \glspl{mlp} are the preferred choice instead of a perceptron is illustrated by an example of an \gls{nn} which should estimate a model for the logical operator XOR, the "exclusive or".
     In detail, the XOR function takes two binary values $x_0,x_1$ and returns 1 if $x_1 \neq x_2$ and 0 otherwise.
     This described behaviour is also known as the target function $f^*(\bar{\boldsymbol{X}})$ of the XOR function, the \gls{nn} should approximate.
-    Observing Figure~\ref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
+    Observing \autoref{fig:xor_problem}, the learned linear function of a perceptron would no be able to correctly implement the XOR function.
     Applying the model learned by the perceptron to the left, the original space, an approximated linear function cannot separate these values and thus would not be able to return the correct $y$.
     This is also known under the term of linear separability.
     However, after transforming the original space with the help of a hidden layer and a non-linear activation function (e.g. \gls{relu}) to the space on the right side, the XOR function can be solved as the space is now linear separable~\citep[\p{166ff}; \p{32ff}]{goodfellow_deep_2016,aggarwal_neural_2018}.
     This shows that an \gls{mlp} allows for much more complex function approximation.
-    With the newly introduced capability, the learning process mentioned in equation~\ref{eq:weight_adjusting} in section~\ref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
+    With the newly introduced capability, the learning process mentioned in \autoref{eq:weight_adjusting} in \autoref{subsec:the-basic-architecture-of-neural-networks} is not applicable anymore.
     Instead, a new algorithm named backpropagation was introduced by \citeauthor{rumelhart_learning_1986} which can be looked up either in \citet[\p{21}]{aggarwal_neural_2018} or in a more formal way in \citet[\p{197}]{goodfellow_deep_2016}.
 
 %\subsection{(Optional)Convolutional Neural Networks}
@@ -861,7 +862,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item Video games are a classic example where \gls{drl} excelled over the course of the last few years.
         Especially, games from the Atari 2600 gaming console are famous environments where \gls{drl} algorithms are applied, receiving only the raw pixels as an input.
         Based on the pixels, a state representation is formed on which the agent takes actions, makes mistakes, gains experience and finally improves its decision making.
-        This procedure is equivalent to the traditional \gls{rl} approach known from chapter~\ref{ch:reinforcement-learning-background}.
+        This procedure is equivalent to the traditional \gls{rl} approach known from \autoref{ch:reinforcement-learning-background}.
         However, it is now applied to a much richer state space and thanks to \gls{dl}, the agent can surpass humans in these games~\citep{mnih_playing_2013,schulman_trust_2015}.
         Furthermore, the reason why video games are so popular even in modern \gls{rl} is that they function as simulations of real-life microcosms that are perfectly suitable for testing algorithms before being applied in the real world.
 
@@ -881,7 +882,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     All of these accomplishments are based on different \gls{drl} approaches.
     However, an exhaustive explanation of each of these algorithms would go beyond the scope of this thesis.
-    Therefore, solely an overview is provided by Figure~\ref{fig:drl_taxonomy} and solely \gls{ppo} is introduced.
+    Therefore, solely an overview is provided by \autoref{fig:drl_taxonomy} and solely \gls{ppo} is introduced.
     For further information, the paper by \citeauthor{francois-lavet_introduction_2018} is recommended.
 
     \begin{figure}[h]
@@ -895,8 +896,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
 
     \section{Proximal Policy Optimization}\label{sec:proximal-policy-optimization}
-    \gls{ppo} belongs to the family of \gls{pg}~\eqref{sec:policy-gradient-methods}, model-free based methods that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
-    In comparison to equation~\ref{eq:parameter_update}, \citet{schulman_proximal_2017} denote the estimator for the gradient slightly different:
+    \gls{ppo} belongs to the family of \gls{pg}~\pautoref{sec:policy-gradient-methods}, model-free based methods that switches between gathering data by interacting with the environment and a stochastic gradient ascent optimization process of a surrogate target function.
+    In comparison to \autoref{eq:parameter_update}, \citet{schulman_proximal_2017} denote the estimator for the gradient slightly different:
 
     \begin{equation}
         \hat{g}=\hat{\mathbb{E}}_t \bigg [\nabla_\theta \text{log}\pi_\theta(a_t|s_t)\hat{A}_t\bigg]\label{eq:policy_gradient_method_maximization}
@@ -914,7 +915,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         L^{PG}(\theta)=\hat{\mathbb{E}}_t\bigg [\text{log}\pi(a_t|s_t)\hat{A}_t\bigg]\label{eq:no_clip_no_penalty}
     \end{equation}
 
-    Additionally, \gls{ppo} is based on an idea named \gls{trpo} where objective function~\ref{eq:policy_gradient_method_maximization} is replaced by a surrogate objective~\eqref{eq:trpo_optimization} with an additional constraint~\eqref{eq:trpo_constraint} on the update size of the policy~\citep{schulman_trust_2015}.
+    Additionally, \gls{ppo} is based on an idea named \gls{trpo} where objective function~\pautoref{eq:policy_gradient_method_maximization} is replaced by a surrogate objective~\pautoref{eq:trpo_optimization} with an additional constraint~\pautoref{eq:trpo_constraint} on the update size of the policy~\citep{schulman_trust_2015}.
 
     \begin{equation}
         \hat{\mathbb{E}}_t\bigg [\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t\bigg]\label{eq:trpo_optimization}
@@ -923,8 +924,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hat{\mathbb{E}}_t\bigg [\text{KL}[\pi_{\theta_{\text{old}}}(\cdot|s_t),\pi_{\theta}(\cdot|s_t)]\bigg]\leq\delta\label{eq:trpo_constraint}
     \end{equation}
 
-    Instead of the constraint~\ref{eq:trpo_constraint}, a penalty is sometimes integrated with a corresponding weighting as well, combining the equations~\ref{eq:trpo_optimization} and~\ref{eq:trpo_constraint}.
-    Furthermore, KL in equation~\ref{eq:trpo_constraint} stands for the Kullback-Leibler divergence.
+    Instead of the constraint~\pautoref{eq:trpo_constraint}, a penalty is sometimes integrated with a corresponding weighting as well, combining the \autoref{eq:trpo_optimization} and \autoref{eq:trpo_constraint}.
+    Furthermore, KL in \autoref{eq:trpo_constraint} stands for the Kullback-Leibler divergence.
 
     With the ratio $r_t(\theta)=\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}\hat{A}_t$ the main objective for \gls{ppo} can now be constructed:
 
@@ -932,13 +933,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         L^{CLIP}(\theta)=\hat{\mathbb{E}}_t\bigg[\text{min}(r_t(\theta)\hat{A}_t,\text{clip}(r_t(\theta),1-\epsilon,1+\epsilon)\hat{A}_t)\bigg]\label{eq:ppo_clip}
     \end{equation}
 
-    This objective differs mainly from the surrogate objective of \gls{trpo}~\eqref{eq:trpo_optimization} as it does not allow for excessively large changes to the policy.
+    This objective differs mainly from the surrogate objective of \gls{trpo}~\pautoref{eq:trpo_optimization} as it does not allow for excessively large changes to the policy.
     This is done by clipping the initial objective if the probability ratio $r_t$ moves too far away from 1 and whether or not the advantage $\hat{A}_t$ is negative or positive.
     Thus, a restriction is placed upon the incentive to move outside of $[1-\epsilon,1+\epsilon]$, with $\epsilon$ being a hyperparameter.
-    Moreover, the minimum of the equation~\ref{eq:ppo_clip} functions as a lower bound for the objective~\ref{eq:trpo_optimization}.
+    Moreover, the minimum of the \autoref{eq:ppo_clip} functions as a lower bound for the objective~\pautoref{eq:trpo_optimization}.
 
-    Referring to the results of \citeauthor{francois-lavet_introduction_2018} where the authors tried different surrogate objectives on seven environments with three different seeds, clipping the objective~\eqref{eq:ppo_clip} with an $\epsilon=0.2$ resulted in the best normalized averaged score of 0.82.
-    By using different $\epsilon \in [0.1,0.3]$, the score varies between $[0.70,0.82]$ whereas KL-penalized objectives achieved scores between $[0.62,0.72]$ and a non-clipped and penalized objective~\eqref{eq:no_clip_no_penalty} performed the worst with an average score of $-0.39$~\citep[see Table 1]{francois-lavet_introduction_2018}.
+    Referring to the results of \citeauthor{francois-lavet_introduction_2018} where the authors tried different surrogate objectives on seven environments with three different seeds, clipping the objective~\pautoref{eq:ppo_clip} with an $\epsilon=0.2$ resulted in the best normalized averaged score of 0.82.
+    By using different $\epsilon \in [0.1,0.3]$, the score varies between $[0.70,0.82]$ whereas KL-penalized objectives achieved scores between $[0.62,0.72]$ and a non-clipped and penalized objective~\pautoref{eq:no_clip_no_penalty} performed the worst with an average score of $-0.39$~\citep[see Table 1]{francois-lavet_introduction_2018}.
 
     When comparing \gls{ppo} algorithms to similar approaches such as \gls{trpo}, \citeauthor{francois-lavet_introduction_2018} list the following advantages:
 
@@ -956,15 +957,15 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{equation}
 
     In this equation, $S$ is the bonus in form of an entropy, $L_t^{VF}$ denotes the squared-error loss $(V_\theta(s_t)-V_t^{\text{targ}})^2$ and $c_1,c_2$ are coefficients which control the influence of these two terms.
-    Implementing and optimizing the objective~\ref{eq:ppo_objective} is carried out by following the policy and collecting samples of interactions with the environment for $T$ time-steps.
-    The gathered data is then used to apply an update to~\ref{eq:ppo_objective}.
-    Additionally, the advantage function needed for objective~\ref{eq:ppo_clip} is approximated by an estimator which only considers $T$ time-steps with an index $t\in [0,T]$ as well and is denoted as follows:
+    Implementing and optimizing the objective~\pautoref{eq:ppo_objective} is carried out by following the policy and collecting samples of interactions with the environment for $T$ time-steps.
+    The gathered data is then used to apply an update.
+    Additionally, the advantage function needed for \autoref{eq:ppo_clip} is approximated by an estimator which only considers $T$ time-steps with an index $t\in [0,T]$ as well and is denoted as follows:
 
     \begin{equation}
         \hat{A}_t=-V(s_t)+r_t+\gamma r_{t+1} + \dots + \gamma^{T-t+1}r_{T-1} + \gamma^{T-t}V(s_T)\label{eq:advantage_estimator}
     \end{equation}
 
-    The \gls{ppo} algorithm~\eqref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
+    The \gls{ppo} algorithm~\pautoref{alg:ppo} puts theory into practice where in each iteration, $N$ workers gather data for $T$ time-steps, calculate the loss with these $NT$ time-steps and apply the just calculated loss in minibatches for $K$ epochs~\citep{francois-lavet_introduction_2018}.
     \newpage
     \begin{algorithm}
         \caption[\acrlong{ppo}, Actor-Critic Style]{\gls{ppo}, Actor-Critic Style\protect\footnotemark}
@@ -1001,7 +1002,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     This chapter begins with an introduction to the psychological aspects of \gls{im} as well as the term motivation in general and is continued with the role of \gls{im} in the \gls{rl} framework.
     Afterwards, current challenges of \gls{rl} which are tackled by \gls{im} are pointed out (see Listing~\ref{enm:challenges} for a summary), and the embedding of \gls{im} in \gls{rl} is presented.
-    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: knowledge acquisition and skill learning where a subdomain of knowledge acquisition is more deeply investigated in chapter~\ref{sec:state_of_the_art} as it represents the domain on which the implementation~\eqref{ch:implementation} is based on.
+    Finally, this chapter is concluded with the classification of \gls{im} in \gls{rl}: knowledge acquisition and skill learning where a subdomain of knowledge acquisition is more deeply investigated in \autoref{sec:state_of_the_art} as it represents the domain on which the implementation~\pautoref{ch:implementation} is based on.
 
 
     \section{Natural Human Motivation}
@@ -1049,7 +1050,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This is all possible due to the broader intrinsic reward function and the fact that this spares the necessity of an expert or supervisor.
     Hence, without a supervisor, learning becomes more flexible and \gls{rl} algorithms generalize more across different environments~\citep{aubret_survey_2019}.
 
-    Additionally to the classification of subfields in \gls{ml} in section~\ref{sec:reinforcement-learning-problem}, \citeauthor{aubret_survey_2019} add a fourth field to the spectrum of learning types, differentiating between reinforced and intrinsically motivated learning (see Table~\ref{tab:type_learning}).
+    Additionally to the classification of subfields in \gls{ml} in \autoref{sec:reinforcement-learning-problem}, \citeauthor{aubret_survey_2019} add a fourth field to the spectrum of learning types, differentiating between reinforced and intrinsically motivated learning (see \autoref{tab:type_learning}).
     Therefore, a distinction is drawn depending on whether or not expert supervision, which gives feedback, is involved.
 
     \begin{table}
@@ -1076,7 +1077,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \subsection{Sparse Rewards}\label{subsec:sparse-rewards}
 
-    As noticed in section~\ref{sec:problem-description}, traditional \gls{rl} algorithms perform best in environments which reward the agent densely.
+    As noticed in \autoref{sec:problem-description}, traditional \gls{rl} algorithms perform best in environments which reward the agent densely.
     By using naive exploration approaches, e.g. $\epsilon\text{-greedy}$, good results can be accomplished with an additional option, for instance, to add Gaussian noise to the action selection process which further improves exploration~\citep{lillicrap_continuous_2019}.
     However, even these improved exploration methods are incapable of achieving a good performance in sparsely rewarding settings such as \textit{Montezuma's Revenge} which is a typical benchmark for such environments.
     In order to receive a reward in this game, the agent has to collect different items such as keys and use them to open doors.
@@ -1109,7 +1110,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     By choosing an option in a certain state, the intra-option policy defines which low-level actions must be carried out in each subsequent state until the high-level action is completely executed.
     Furthermore, the sequence length of these actions is usually fixed~\citep{aubret_survey_2019}.
     By utilizing these abstractions, the learning process can be sped up significantly.
-    An additional consequence of allowing these abstractions is that the problem of delayed rewards, as described in section~\ref{sec:reinforcement-learning-problem}, is tackled since the option can be credited directly.
+    An additional consequence of allowing these abstractions is that the problem of delayed rewards, as described in \autoref{sec:reinforcement-learning-problem}, is tackled since the option can be credited directly.
     \citeauthor{aubret_survey_2019} describe this with the following example:
 
     \begin{quote}
@@ -1150,13 +1151,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Based on this definition, building an agent with this motivation can greatly improve exploration in settings with sparse rewards.
     This is usually done by giving an agent a feeling for state novelty or information gain which poses an intrinsic reward that it tries to maximize.
     Another benefit presents the idea of empowerment which means that an agent is rewarded by \gls{im} whenever it approaches an area that can be controlled.
-    Finally, this motivation might allow the agent to create a relevant state representation and thus, this branch faces the challenges described in subsection~\ref{subsec:sparse-rewards} and~\ref{subsec:building-a-good-state-representation}.
+    Finally, this motivation might allow the agent to create a relevant state representation and thus, this branch faces the challenges described in \autoref{subsec:sparse-rewards} and \autoref{subsec:building-a-good-state-representation}.
 
     The second branch, concerning motivation based on \textbf{skill learning}, is described as the ability of an agent to efficiently acquire skills that are task-independent and preferably reusable.
-    Here, one idea deals with the agent's ability of abstracting skills in order to study them one by one or rather to create a skill representation which challenges the introduced problem of subsection~\ref{subsec:temporal-abstraction-of-actions}.
-    Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in subsection~\ref{subsec:building-a-curriculum}.
+    Here, one idea deals with the agent's ability of abstracting skills in order to study them one by one or rather to create a skill representation which challenges the introduced problem of \autoref{subsec:temporal-abstraction-of-actions}.
+    Finally, choosing the best-suited skills to fulfil a given task and the order in which they should be obtained is another \gls{im} that can tackle the challenge mentioned in \autoref{subsec:building-a-curriculum}.
 
-    An overview of the just described classification with practical approaches can be observed in Table~\ref{tab:clasification_im_rl}.
+    An overview of the just described classification with practical approaches can be observed in \autoref{tab:clasification_im_rl}.
 
     \newpage
     \begin{table}[h]
@@ -1185,14 +1186,14 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Embedding Intrinsic Motivation into Reinforcement Learning}\label{sec:embeddingglsinto-theglsframework}
 
     In order to embed \gls{im} into \gls{rl} a new framework is presented by \citeauthor{singh_intrinsically_2010}, splitting the reward signal into primary and secondary rewards.
-    The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\eqref{eq:quality_function} denoted in section~\ref{sec:functions-to-improve-the-policy}.
+    The primary reward signal represents the standard one whereas the secondary reward describes a local reward signal which value is similarly computed as the value function~\pautoref{eq:quality_function} denoted in \autoref{sec:functions-to-improve-the-policy}.
     Additionally, the representation of the \gls{rl} framework as a \gls{mdp} is again taken into consideration.
     Instead of describing the agent's surroundings traditionally, they suggested a division of the environment into two separate parts: the external part and the internal part, where the external part reflects the environment of the agent in which it has to complete its assigned task and on the other hand, the internal part which calculates the intrinsic reward based on previously made interactions~\citep{aubret_survey_2019}.
 
-    The newly adapted \gls{rl} framework can be observed in Figure~\ref{fig:adapted_rl_framework}.
+    The newly adapted \gls{rl} framework can be observed in \autoref{fig:adapted_rl_framework}.
     Here, the critic describes the part which computes the reward in either way and assigns the credit to the carried out actions.
     Additionally, the state now includes sensations optionally combined with the agent's performed actions.
-    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in section~\ref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards derive from the internal part~\citep{singh_intrinsically_2010}.
+    However, the left panel yet describes the traditional \gls{rl} framework in a slightly different notation to the one presented in \autoref{sec:markov-decision-processes} whereas the right panel includes the new refinements where all rewards derive from the internal part~\citep{singh_intrinsically_2010}.
 
     \begin{figure}[h]
         \centering
@@ -1209,7 +1210,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     When implementing an \gls{rl} algorithm, there are multiple ways to include an intrinsic reward signal.
     The most common approach is to simply combine the existing extrinsic reward signal $(r_{ext})$ with the new intrinsic one $(r_{int})$ by defining coefficients $\alpha$ and $\beta$.
     These coefficients serve the purpose of weighting the two signals depending on how important either one should be to the agent.
-    As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in section~\ref{sec:expected-results}.
+    As this approach poses the core research question of this thesis, that is, how to optimally combine these two rewards, the equation $r = \alpha r_{int} + \beta r_{ext}$ has already been introduced in \autoref{sec:expected-results}.
     Additionally, when the intrinsic reward is dependant on the value of the extrinsic one, the sum is solely computed on the level of the value function, i.e. $V(s)=\alpha V_{int}(s) + \beta V_{ext}(s)$ as it is the case in the work of \citet{kim_curiosity-bottleneck_2019-1}.
     This work as well as many other exploration based methods such as the paper by \citet{burda_exploration_2018} are discussed in the following chapter.
     Besides that, the papers by \citeauthor{gregor_variational_2016}, \citeauthor{vezhnevets_feudal_2017}, and \citeauthor{huang_learning_2019} are also worth mentioning as they combine extrinsic and intrinsic rewards as well but on the other hand consider \gls{im} in the context of skill learning which is not a focus of this thesis.
@@ -1268,7 +1269,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Lastly, the encoding in \glspl{idf} was explored where the task is to predict the action $a_t$ which led from state $s_t$ to $s_{t+1}$.
     The features of $s_t$ and $s_{t+1}$ learned by a predicting forward model correspond to parts of the environment which the agent is in immediate control of since it can estimate the consequences of its actions.
     This encoding yields the benefit of compactness as it successfully encodes the raw feature space but fails to be stable and additionally might be insufficient in containing all the significant information.
-    As a side note, this idea is mainly based on the \gls{icm}, as depicted in Figure~\ref{fig:icm}, proposed by \citet{pathak_curiosity-driven_2017-1}.
+    As a side note, this idea is mainly based on the \gls{icm}, as depicted in \autoref{fig:icm}, proposed by \citet{pathak_curiosity-driven_2017-1}.
 
     \begin{figure}[h]
         \centering
@@ -1287,7 +1288,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Additionally, the \gls{idf}-curious agent was able to achieve a better score than a random agent in over 75\% of the Atari 2600 games and when compared to an \gls{rf}-curious agent, it performed better 55\% of the time, thus making \glspl{idf} the preferred encoding.
     Concerning methods based on \glspl{vae} for $\phi$, they perform either worse or the same as \glspl{rf} or \glspl{idf} and additionally were somewhat unstable.
 
-    Unfortunately, all of these feature encodings are unable to deal with the white-noise problem which was mentioned in section~\ref{sec:problem-description}.
+    Unfortunately, all of these feature encodings are unable to deal with the white-noise problem which was mentioned in \autoref{sec:problem-description}.
 
     Another selected approach is the paper "\usebibentry{kim_emi_2019}{title}" by \citet{kim_emi_2019}.
     With a similar action space as in the work by \citet{pathak_curiosity-driven_2017-1}, they managed to significantly improve the agent's performance in several Atari 2600 games.
@@ -1338,7 +1339,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hfill~\cite[\p{12}]{aubret_survey_2019}
     \end{quote}
 
-    Referring to section~\ref{sec:embeddingglsinto-theglsframework}, \citet{kim_curiosity-bottleneck_2019-1} also made usage of \gls{em} by utilizing an extrinsic reward signal to tackle stochasticity which originates from white-noise.
+    Referring to \autoref{sec:embeddingglsinto-theglsframework}, \citet{kim_curiosity-bottleneck_2019-1} also made usage of \gls{em} by utilizing an extrinsic reward signal to tackle stochasticity which originates from white-noise.
 
 
     \section{Information Gain}\label{sec:information-gain}
@@ -1357,7 +1358,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Here, the authors use multiple \glspl{nn}/forward models to predict the next state $s_{t+1}$ based on a state-action tuple.
     Further, the different predictions of the subsequent state $s_{t+1}$ are composed and their variance acts as the intrinsic reward.
     Depending on the number of trained networks, the more forward models are learned, the better the performance of the agent will be as the models' predictions will converge to the expected observation of state $s_{t+1}$.
-    Moreover, for illustration purposes, the algorithm is visualized in Figure~\ref{fig:ensemble_dissagreement}.
+    Moreover, for illustration purposes, the algorithm is visualized in \autoref{fig:ensemble_dissagreement}.
 
 
     \begin{figure}[h]
@@ -1381,7 +1382,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Despite the fact that \gls{im} algorithms are usually the best performing solutions to encourage exploration in sparse environments, by the introduction of their paper "\usebibentry{ecoffet_go-explore_2019}{title}", the authors presented a promising solution which however is not based on \gls{im}.
     Surprisingly, their exploration method is based on an agent that selects actions randomly, an approach which on its own would usually not perform well.
     However, they added a significant prior step to exploration as they teach the agent to re-enter a previously visited promising position before it starts exploring again.
-    This step solves a fundamental issue of intrinsically motivated exploration which can be observed in Figure~\ref{fig:exploration_problem}.
+    This step solves a fundamental issue of intrinsically motivated exploration which can be observed in \autoref{fig:exploration_problem}.
     Although \gls{im} is normally the standard approach to environments with sparse rewards, they all have one fundamental problem in common where the agent fails to re-enter already visited states as the path which leads to these states is not interesting anymore and thus hinders the agent to further discover its environment.
 
     \begin{figure}[h]
@@ -1393,11 +1394,12 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \footnotetext{\citep[\p{3}]{ecoffet_go-explore_2019}}
 
-    In Figure~\ref{fig:exploration_problem}, this problem is illustrated where the white path denotes already discovered parts of an agent's environment, the green one stands for intrinsic rewards it has yet to obtain, and the purple area marks the path it has explored in the current episode.
+    In \autoref{fig:exploration_problem}, this problem is illustrated where the white path denotes already discovered parts of an agent's environment, the green one stands for intrinsic rewards it has yet to obtain, and the purple area marks the path it has explored in the current episode.
     This example shows the problem of an agent who is uninterested in visiting known states again and thus unable to ever discover the green intrinsically rewarding area.
 
     According to the authors, their exploration algorithm is structured as follows:
 
+    \newpage
 
     \begin{quote}
         "It exploits the following principles: (1) remember states that have
@@ -1409,7 +1411,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \hfill~\cite[\p{1}]{ecoffet_go-explore_2019}
     \end{quote}
 
-    A graphical illustration of this algorithm can be inspected in Figure~\ref{fig:go_explore} where states are encoded in so-called cells which are low-resolution, grey-scale images.
+    A graphical illustration of this algorithm can be inspected in \autoref{fig:go_explore} where states are encoded in so-called cells which are low-resolution, grey-scale images.
 
     With this algorithm, the trained agent was able to achieve superhuman performance and thus surpass human players in the game of \textit{Montezuma's Revenge}.
     Furthermore, in another difficult exploration game called \textit{Pitfall}, their algorithm was the first one which managed a score above zero.
@@ -1432,7 +1434,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Implementation}\label{ch:implementation}
 
-    In order to answer the posed questions of section~\ref{sec:problem-description} and~\ref{sec:expected-results}, the thesis builds upon the released source codes and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on their websites.\footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
+    In order to answer the posed questions of \autoref{sec:methodological-approach}, the thesis builds upon the released source codes and environments from~\cite{burda_large-scale_2018-1} and~\cite{pathak_curiosity-driven_2017-1} which can be found on their websites.\footnote{\url{https://pathak22.github.io/large-scale-curiosity}}\footnote{\url{https://pathak22.github.io/noreward-rl/}}
 
     The implementation relies on the same tools used by the preceding authors since it guarantees optimal reproducibility of their results.
     In an overview, these tools are the \textit{Python}\footnote{\url{https://www.python.org/}} programming language, the \gls{ml} platform \textit{TensorFlow}\footnote{\url{https://www.tensorflow.org/}}, and lastly the \textit{OpenAI Gym}\footnote{\url{https://gym.openai.com/}} which is a toolkit for developing and comparing \gls{rl} algorithms.
@@ -1448,7 +1450,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
         \item Implementation of the synthetic generated noisy-TV problem, proposed by~\cite{burda_large-scale_2018-1}
     \end{enumerate}
 
-    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citet{burda_large-scale_2018-1}, namely \textit{Montezumas's Revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway}.
+    During this incremental process, an emphasis is laid on two out of five sparse Atari 2600 games which were categorized by~\cite{bellemare_unifying_2016} and picked by~\citet{burda_large-scale_2018-1}, namely \textit{Montezumas's Revenge}~\pautoref{fig:mz} and \textit{Freeway}~\pautoref{fig:fway}.
 
     Regarding milestone three, \textit{Random Features} and \textit{Inverse Dynamics Features} as introduced by~\citet{burda_large-scale_2018-1} are primarily the focus.
     Concerning milestone four and the comparison to state-of-the-art approaches, results from methods based on knowledge acquisition via exploration by the preceding authors are considered.
@@ -1460,8 +1462,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Proximal Policy Optimization and Auxiliary Tasks}\label{sec:proximal-policy-optimization-and-auxiliary-tasks}
 
     As aforementioned, the algorithm of choice is \gls{ppo} as it does not need a lot of hyperparameter tuning and thus allows for quick scalability across different environments and different auxiliary tasks.
-    Concerning its implementation, the pseudo-code for the \gls{ppo} algorithm is denoted in section~\ref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
-    In order to optimize the objective~\ref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
+    Concerning its implementation, the pseudo-code for the \gls{ppo} algorithm is denoted in \autoref{sec:proximal-policy-optimization} where all the objective functions are described in detail as well.
+    In order to optimize the objective \pautoref{eq:ppo_objective}, a so-called Adam optimizer with a learning rate of $0.0001$ is used.
 
     Additionally, as the reward signal is non-stationary it is normalized since it helps the agent/the value function to learn more quickly.
     This is done by calculating the standard deviation continuously over the sum of the discounted rewards and further dividing the current rewards by the square root of the obtained value.
@@ -1479,14 +1481,13 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     According to \citet{burda_large-scale_2018-1}, this is a commonly used network for experiments and benchmarks of Atari 2600 games.
     Furthermore, the \glspl{nn} responsible for learning \glspl{idf} or \glspl{rf}  were added on top of the embedding network.
     These forward dynamics networks consist of multiple fully connected layers with a hidden layer size of 512 as well.
-    However, the fully connected layers use the standard \gls{relu} as an activation function.
 
     In order to increase the stability of the deployed algorithm multiple actors which work in parallel are considered.
     Throughout all of the following conducted experiments, 128 parallel actors were employed in their own environment to solely gather data by interacting with their surroundings in order to train the agent.
-    According to the algorithm~\ref{alg:ppo}, this also affects the batch size.
+    According to \autoref{alg:ppo}, this also affects the batch size.
     Concerning the optimization step of the algorithm, for each iteration, three epochs were used to optimize the policy as this allows for faster progression.
 
-    A summary which not only includes the hyperparameter just mentioned but also the other ones used by the \gls{ppo} algorithm is provided by Table~\ref{tab:ppo_params}
+    A summary which not only includes the hyperparameter just mentioned but also the other ones used by the \gls{ppo} algorithm is provided by \autoref{tab:ppo_params}
 
     \begin{table}[h]
         \centering
@@ -1506,7 +1507,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
             Entropy coeff. ($c_2$)               & 0.001              \\
             \hline
         \end{tabular}
-        \caption[\acrlong{ppo} hyperparameters for the conducted experiments]{\gls{ppo} hyperparameters for the conducted experiments utilizing the notations introduced in section~\ref{sec:proximal-policy-optimization}}
+        \caption[\acrlong{ppo} hyperparameters for the conducted experiments]{\gls{ppo} hyperparameters for the conducted experiments utilizing the notations introduced in \autoref{sec:proximal-policy-optimization}}
         \label{tab:ppo_params}
     \end{table}
 
@@ -1515,11 +1516,11 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Therefore, the death of an agent turns just into another state transition which solely can be avoided if passing away is considered to be boring.
     Although the agent is now given an option, \citet{burda_large-scale_2018-1} state that it usually avoids death since dying would only reset the game which puts it back into a well-known area.
     Unfortunately, sooner or later the agent will eventually lose and hence the agent must restart at the beginning where it might get detached from the rewarding area.
-    This problem has been depicted in Figure~\ref{fig:exploration_problem}.
+    This problem has been depicted in \autoref{fig:exploration_problem}.
 
     Apart from the policy and its optimization, the implementation of the auxiliary tasks that are responsible for the embedding are also worth mentioning.
     Before the embedding occurs, the raw observation which consists of pixels is pre-processed in order to reduce dimensionality.
-    This is done by resizing the current frame to a size of $84 \times 84$ and converting it into a single colour channel, resulting in only grey-scale images with reduced dimensionality~\eqref{fig:tv}.
+    This is done by resizing the current frame to a size of $84 \times 84$ and converting it into a single colour channel, resulting in only grey-scale images with reduced dimensionality~\pautoref{fig:tv}.
 
     Concerning the observation during the training process, a stack including the current frame as well as three previous ones is used to train both the policy and the forward dynamics network.
     This is due to the fact that the agent is able to recognize partial observability within its environment, if multiple subsequent frames are taken into consideration.
@@ -1532,7 +1533,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Hyperparameter Tuning}\label{sec:hyperparameter-tuning}
 
-    In addition to the hyperparameters mentioned in Table~\ref{tab:ppo_params}, the coefficients $\alpha$ and $\beta$, responsible for the weighting of intrinsic and extrinsic rewards, are used as well and must be tuned depending on the conducted experiment.
+    In addition to the hyperparameters mentioned in \autoref{tab:ppo_params}, the coefficients $\alpha$ and $\beta$, responsible for the weighting of intrinsic and extrinsic rewards, are used as well and must be tuned depending on the conducted experiment.
     During the tuning process only coefficients within a range of 0 and 1 are taken into consideration with an additionally added constraint that $\alpha + \beta$ must be equal to 1.
     However, the authors did not add this limitation:
     \begin{quote}
@@ -1552,9 +1553,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \section{Noisy-TV Problem}\label{sec:noisy-tv-problem}
 
-    For the implementation of the noisy-TV problem, introduced by \citeauthor{schmidhuber_formal_2010} and described in section~\ref{sec:problem-description}, an additional wrapper was implemented which wraps around the the pre-processed observation and adds a fixed region of random noise.
+    For the implementation of the noisy-TV problem, introduced by \citeauthor{schmidhuber_formal_2010} and described in \autoref{sec:problem-description}, an additional wrapper was implemented which wraps around the the pre-processed observation and adds a fixed region of random noise.
     Besides the task of combining the coefficients of the rewards, the problem of stochasticity is implemented as experiments are conducted to analyze the impact of \gls{em} on a distracted, intrinsically motivated agent.
-    The modified agent's observation which is caused by the additional wrapper can be observed in Figure~\ref{fig:tv_noise}.
+    The modified agent's observation which is caused by the additional wrapper can be observed in \autoref{fig:tv_noise}.
 
     \begin{figure}[h]
         \centering
@@ -1571,7 +1572,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
             \caption{Pre-processed input with a 20\% padding of random noise}
             \label{fig:tv_noise}
         \end{subfigure}
-        \caption[What the agent sees: a pre-processed frame during a game of Breakout]{What the agent sees: a pre-processed frame during a game of Breakout where Figure~\ref{fig:tv} is the preprocessed frame and Figure~\ref{fig:tv_noise} depicts the additional added layer of random noise}
+        \caption[What the agent sees: a pre-processed frame during a game of Breakout]{What the agent sees: a pre-processed frame during a game of Breakout where \autoref{fig:tv} is the preprocessed frame and \autoref{fig:tv_noise} depicts the additional added layer of random noise}
         \label{fig:observation}
     \end{figure}
 
@@ -1581,18 +1582,18 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     \chapter{Results}\label{ch:results}
 
-    In this chapter the findings and results of the conducted experiments are presented which were carried out in order to find answers to the posed questions in section~\ref{sec:methodological-approach}.
+    In this chapter the findings and results of the conducted experiments are presented which were carried out in order to find answers to the posed questions in \autoref{sec:methodological-approach}.
     Depending on the question various games with different properties have to be selected.
 
-    Concerning the question on how to combine extrinsic and intrinsic rewards and the possibility to observe certain patterns, the game \textit{Montezuma Revenge}~\eqref{fig:mz} and \textit{Freeway}~\eqref{fig:fway} were selected.
+    Concerning the question on how to combine extrinsic and intrinsic rewards and the possibility to observe certain patterns, the game \textit{Montezuma Revenge}~\pautoref{fig:mz} and \textit{Freeway}~\pautoref{fig:fway} were selected.
     The reasoning behind these two games is based on the categorization by \citeauthor{bellemare_unifying_2016} who classified these games to be among the hardest Atari 2600 games.
     However, in regards to their characteristics, the two games are very dissimilar as on the one hand, \textit{Montezuma Revenge} is one of the most sparsely rewarding games and on the other hand, \textit{Freeway} naturally contains a lot of randomness which causes similar problems as white-noise.
     Hence, \textit{Freeway} is especially challenging for intrinsically motivated agents.
 
-    For the question regarding the possibility of a performance increase in dense environments, the game \textit{Breakout}~\eqref{fig:break} was selected as it is a densely rewarding game that is commonly used, e.g.\ by \citet{burda_large-scale_2018-1} for their experiments.
+    For the question regarding the possibility of a performance increase in dense environments, the game \textit{Breakout}~\pautoref{fig:break} was selected as it is a densely rewarding game that is commonly used, e.g.\ by \citet{burda_large-scale_2018-1} for their experiments.
     Concerning the final posed question which deals with the impact of stochasticity and the chance of \gls{em} to reduce those effects, \textit{Breakout} was chosen again as its densely rewarding environment allows to see the consequences of deploying a noisy-TV more quickly and thus reduces the runtime immensely.
 
-    The gameplay of the just three mentioned games is displayed in Figure~\ref{fig:games}.
+    The gameplay of the just three mentioned games is displayed in \autoref{fig:games}.
 
     \begin{figure}[h]
         \centering
@@ -1621,9 +1622,9 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Evalutation}
     All of the experiments presented in this chapter were run on a single machine with a 4-core and 8-thread Intel Xeon E3-1230 CPU which has a maximum clock speed of 3.8 GHz.
     For the GPU and the RAM, solely one NVIDIA GeForce GTX 1070 card and 16 GB of DDR4 memory were used.
-    Details about the employed software can be looked up in chapter~\ref{ch:implementation}.
+    Details about the employed software can be looked up in \autoref{ch:implementation}.
     Experiments were executed for either $4 \times 10^6, 1 \times 10^8, 2 \times 10^8$, or $4 \times 10^8$ frames with a runtime duration of approximately 15 minutes, 6 hours, 12 hours, and 24 hours respectively, resulting in a linearly growing time complexity.
-    Regarding the addressed frame-skipping in section~\ref{sec:proximal-policy-optimization-and-auxiliary-tasks}, the standard \textit{OpenAI} environments "BreakoutNoFrameskip-v4", "FreewayNoFrameskip-v4", and "MontezumaRevengeNoFrameskip-v4" were used.
+    Regarding the addressed frame-skipping in \autoref{sec:proximal-policy-optimization-and-auxiliary-tasks}, the standard \textit{OpenAI} environments "BreakoutNoFrameskip-v4", "FreewayNoFrameskip-v4", and "MontezumaRevengeNoFrameskip-v4" were used.
     Therefore, one time-step in the implementation is equal to four consecutive frames where for each frame the same action is taken by the agent.
 
     Benchmarking algorithms in \gls{drl} is a very challenging problem as this process includes a lot of stochasticity.
@@ -1639,17 +1640,18 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Concerning the aforementioned stochasticity of these experiments, it is not sufficient to simply compare e.g.\ average returns of the baseline and of the newly/adapted one as they might have a highly different standard deviation.
     Therefore, 2-sample paired t-tests will be utilized to show the significance of the obtained results where necessary.
 
-    As mentioned in section~\ref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards as well as the possibility of improving existing results in dense settings are started with a standard gridsearch which exhaustively tries out every possible combination of the coefficients ($\alpha,\beta$) within 0 and 1 and a rate of change ($\Delta$) of 0.1.
+    As mentioned in \autoref{sec:hyperparameter-tuning}, experiments regarding the optimal combination of rewards as well as the possibility of improving existing results in dense settings are started with a standard gridsearch which exhaustively tries out every possible combination of the coefficients ($\alpha,\beta$) within 0 and 1 and a rate of change ($\Delta$) of 0.1.
     In that case, only \glspl{rf} were considered for the tuning process.
     After this initial step, metrics such as the \textit{recent extrinsic episodic reward}, the \textit{mean return}, or the \textit{mean reward} were inspected.
-    However, for the final evaluation mainly the recent extrinsic episodic reward was considered.
+    However, for the final evaluation mainly the recent extrinsic episodic reward was considered which stands for the sum of extrinsic rewards an agent receives per episode solely awarded by the environment's reward function.
+    With regards to games, the recent extrinsic episodic reward is equivalent to points an agent achieves during a game.
 
-    In order to form the return, the advantages that utilize the normalized weighted rewards and the value predictions of the policy network are added together where advantages were normalized as well (see section~\ref{sec:proximal-policy-optimization-and-auxiliary-tasks}).
+    In order to form the return, the advantages that utilize the normalized weighted rewards and the value predictions of the policy network are added together where advantages were normalized as well (see \autoref{sec:proximal-policy-optimization-and-auxiliary-tasks}).
     Furthermore, the reward is composed of the weighted extrinsic and intrinsic one where the intrinsic reward resembles the loss calculated by the forward dynamics model.
     Finally, the abbreviations \acrshort{m}, \acrshort{sd}, and \acrshort{se} will be utilized throughout the rest of this chapter in order to report the mean, the standard deviation as well as the standard error respectively all rounded to two decimal places.
     These statistical key figures are calculate using the results of the last $\sim500.000$ frames.
 
-    In Figure~\ref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure was deployed.
+    In \autoref{fig:gridsearch_evaluation}, the initial gridsearch of the game \textit{Freeway} is depicted which acts as a general example on how the evaluation procedure was deployed.
     Depending on the performance of the different combinations with regards to the just mentioned metrics, the search space is further restricted.
 
     \begin{figure}[h]
@@ -1662,7 +1664,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     In regards to the performance comparison of the games \textit{Montezuma's Revenge} and \textit{Freeway}, the result by \citet[see Table 2]{burda_large-scale_2018-1} act as a baseline.
     Similarly to the evaluation procedure which is employed in this thesis, they compared the last recent mean episodic reward ($\pm\text{\gls{se}}$) after 100 million frames across three different seeds.
     Furthermore, they executed two different runs: one combined approach with initial weights of 1.0 for extrinsic rewards and 0.01 for intrinsic ones, and another with a purely extrinsically motivated agent.
-    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsically ($\sim250$) and extrinsically ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answer has been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error in magnitude.} for the purely extrinsically motivated agent than for the purely intrinsically one.
+    Unfortunately only the results for \textit{Freeway} can be compared as their results on \textit{Montezuma's Revenge} do not align with the rest of their work since they reported a significantly higher score\footnote{The difference between the purely intrinsically ($\sim250$) and extrinsically ($\sim1800$) motivated agent is about~$\sim1550$. After asking the authors \citet{burda_large-scale_2018-1} for clarification, no answer has been received. Therefore, it is assumed that these differences are based on different extrinsic reward signals or an error by a power of ten.} for the purely extrinsically motivated agent than for the purely intrinsically one.
 
     The plots in the following few sections represent only the most important findings and hence additional plots concerning the \textit{episodic return}, the \textit{average return} and the \textit{standard deviation} as well as the \textit{average reward} will be attached to the~\nameref{ch:appendix}.
 
@@ -1671,7 +1673,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     In order to find good weights which maximize an agent's episodic reward, a gridsearch is executed for $4 \times 10^6$ frames.
     Here, the challenge lies in analyzing the performance metrics as the agent is normally unable to obtain any extrinsic episodic rewards in \textit{Montezuma's Revenge} given such little time.
-    Hence, such a comparison as depicted in Figure~\ref{fig:gridsearch_evaluation} is not applicable and other performance metrics had to be considered.
+    Hence, such a comparison as depicted in \autoref{fig:gridsearch_evaluation} is not applicable and other performance metrics had to be considered.
     With regards to the mean return, weighting the extrinsic reward with 0.6 and the intrinsic one with 0.4 yielded the highest value ($M\approx0.88,SD\approx0.07$) in the last episode which is directly followed by the the weights 0.7 and 0.3 ($M\approx0.78,SD\approx0.05$).
 
     Based on these received results, the search space had been restricted, thus varying the intrinsic weight solely between 0.5 and 0.2 and the extrinsic weight between 0.5 and 0.8.
@@ -1681,7 +1683,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
 
     According to the procedure of the baseline experiment which was conducted by \citet{burda_large-scale_2018-1}, the performance of this obtained combination was evaluated by executing a 3-fold cross validation with three different seeds utilizing both \glspl{rf} and \glspl{idf}.
     Additionally, purely curiosity based agents as well as a solely extrinsically rewarded agent have been examined.
-    The results of this can be observed in Figure~\ref{fig:mz_normal}.
+    The results of this can be observed in \autoref{fig:mz_normal}.
 
     Surprisingly the performance of the purely extrinsically rewarded agent was by far the best ($M\approx266.67,SD\approx188.56,SE\approx34.43$) followed by the mixed motivated \gls{rf}-curious agent ($M\approx133.33,SD\approx188.56,SE\approx34.43$).
     Concerning the \gls{idf}-curious agents as wells as the purely intrinsically motivated \gls{rf}-curious agent, they almost continuously achieved a recent episodic reward of 0 ($M\approx0.0,SD\approx0.0,SE\approx0.0$).
@@ -1691,7 +1693,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Usually, the authors evaluated the performance of those agents for at least 400 million frames which makes their proposed baseline of training mixed motivated agents for only 100 million frames questionable.
 
     Hence, the run time was increased to 400 million frames which allowed for a fairer overall comparison between different combinations of coefficients and dynamics.
-    The results of this experiment can be observed in Figure~\ref{fig:mz_extended}.
+    The results of this experiment can be observed in \autoref{fig:mz_extended}.
     Here, it is important to mention that the mixed motivated agents as well as the purely extrinsically one were solely evaluated with 1-fold cross validation due the massive amount of needed computational power.
     Observing the results, one can clearly notice that the extrinsically motivated agent as well as the mixed \gls{rf}-curious agent performed equally well ($M\approx400.0,SD\approx0.0,SE\approx0.0$) with the extrinsically motivated agent converging around 140 million frames earlier.
     Although the purely motivated \gls{rf}-curious agent was able to drastically increase its performance ($M\approx249.33,SD\approx180.95,SE\approx33.04$) when compared to the previous evaluation, it still performed worse than the other two.
@@ -1701,7 +1703,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Although it seems that the extrinsically motivated agent as well as the optimally combined \gls{rf}-curious agent are identical performance-wise, there is a big difference between them.
     In fact, while they both achieved they same extrinsic episodic reward, the \gls{rf}-curious agent was able to discover far more rooms than the extrinsic one.
     In total the mixed motivated \gls{rf}-curious agent visited five different rooms in \textit{Montezuma's Revenge} while the purely extrinsically one had only discovered two.
-    This phenomenon is depicted in Figure~\ref{fig:mz_rooms} where the number of rooms visited by the purely intrinsically motivated agents and the mixed \gls{idf}-curious one are plotted as well.
+    This phenomenon is depicted in \autoref{fig:mz_rooms} where the number of rooms visited by the purely intrinsically motivated agents and the mixed \gls{idf}-curious one are plotted as well.
 
     \begin{figure}[!h]
         \centering
@@ -1758,7 +1760,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \section{Freeway}
     In regards to the evaluation of the game \textit{Freeway}, the same gridsearch method was applied again with a runtime of $4\times10^6$ frames.
     However, due to the fact that this game credits rewards far more densely than \textit{Montezuma's Revenge}, it is now possible to compare the performance of the different coefficients by utilizing the recent extrinsic episodic reward as a metric.
-    The initial run for \textit{Freeway} where coefficients are varied between 0 and 1 is depicted in the example Figure~\ref{fig:gridsearch_evaluation}.
+    The initial run for \textit{Freeway} where coefficients are varied between 0 and 1 is depicted in the example \autoref{fig:gridsearch_evaluation}.
     When evaluating the performance of the first iteration, it is clearly noticeable that the coefficient tuples of $\alpha=0.1$,$\beta=0.9$ ($M\approx28.90,SD\approx0.14$) and $\alpha=0.2$,$\beta=0.8$ ($M\approx28.37,SD\approx0.26$) achieved the highest extrinsic episodic reward.
 
     Hence, the search space was restricted to exhaustively evaluate intrinsic weights between 0.3 and 0.0 and extrinsic weights between 0.7 and 1.0 respectively.
@@ -1766,7 +1768,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     Since the optimal combination was once again achieved with a weighting of intrinsic rewards between 0.1 and 0.2, the final iteration was executed varying the coefficients solely within these seemingly optimal bounds.
 
     After the final iteration and the obtained optimal coefficients of $\alpha=0.12$ and $\beta=0.88$, an exhaustive evaluation of purely motivated and mixed motivated agents was conducted.
-    The results of this evaluation can be observed in Figure~\ref{fig:fway_performance}.
+    The results of this evaluation can be observed in \autoref{fig:fway_performance}.
     Here, the purely intrinsically motivated \gls{rf}-curious agent ($M\approx0.06,SD\approx0.06,SE\approx0.01$) as well as the \gls{idf}-curious agent ($M\approx0.18,SD\approx0.12,SE\approx0.02$) performed the worst.
     Concerning the three other agents, they performed almost equally well and they all achieved a maximum extrinsic episodic reward of 34.
     Since \citet{burda_large-scale_2018-1} used a purely extrinsically motivated agent as a baseline, the performances of the mixed \gls{rf}-curious agent ($M\approx33.68,SD\approx0.2,SE\approx0.04$) and the \gls{idf}-curious agent ($M\approx33.46,SD\approx0.16,SE\approx0.03$) are compared to the extrinsic one ($M\approx33.54,SD\approx0.43,SE\approx0.08$).
@@ -1806,8 +1808,8 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     As it is expected within environments with dense rewards, the weighting tended to be more on the extrinsic side with an optimal combination of $\alpha=0.1$ and $\beta=0.9$ ($M\approx15.3,SD\approx2.12$).
 
     With the obtained optimal weights for the mixed agent, the final evaluation was started considering only \gls{rf}-curious agents and pure extrinsic ones with an overall training duration of 200 million frames.
-    Furthermore, the results of this experiment are depicted in Figure~\ref{fig:breakout_performance}.
-    The reason behind the omission of \gls{idf}-curious agents is based on the findings of \citet{burda_large-scale_2018-1} who state that \glspl{rf} usually deliver better results (see section~\ref{sec:prediction-error}).
+    Furthermore, the results of this experiment are depicted in \autoref{fig:breakout_performance}.
+    The reason behind the omission of \gls{idf}-curious agents is based on the findings of \citet{burda_large-scale_2018-1} who state that \glspl{rf} usually deliver better results (see \autoref{sec:prediction-error}).
     Evaluating the performance after 200 million frames shows that the pure intrinsic agent had the worst overall performance and \gls{se} ($M\approx194.95,SD\approx51.53,SE\approx9.43$).
     In regards to the mixed agent ($M\approx393.53,SD\approx32.53,SE\approx5.93$) as well as the pure extrinsic one ($M\approx385.27,SD\approx23.78,SE\approx4.34$), they almost had an identical performance with the mixed agent seemingly performing slightly better.
     However, after analyzing the mean with a two-sided t-test ($t(58)=-1.10,p=0.27$) with a significance level of 0.05 the null hypothesis cannot be rejected and hence the speculation that the mixed agent performs better turned out to be false.
@@ -1837,7 +1839,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     \end{figure}
 
     In order to pursue the final posed question regarding the impact of white-noise using different forward dynamics models, the agents were evaluated twice: once with a TV turned on and once with a TV turned off.
-    The results of this experiment are depicted in Figure~\ref{fig:tv_problem} where the curves represent the average extrinsic reward per episode.
+    The results of this experiment are depicted in \autoref{fig:tv_problem} where the curves represent the average extrinsic reward per episode.
     The \gls{se} is omitted to improve readability.
 
     On a first glance, it is immediately apparent that agents which were exposed to white-noise performed worse than non-exposed ones and additionally, the range between the best and the worst performing agent is much broader as well.
@@ -1901,7 +1903,7 @@ pdfkeywords     = {deep reinforcement learning, sparse rewarding environments, p
     This phenomenon was also discovered by \citeauthor{burda_large-scale_2018-1} who state that they even achieved a run where their agent was able to visit as many as ten rooms.
     One would assume that this advancement would increase the agent's performance but this is not the case.
     What is more, it looks as if the agent is still more interested in pursuing its internal drive instead of collecting extrinsic rewards even tough it would be able to do so.
-    A further reason could be that the agent gets detached from the intrinsically rewarding area (see Figure \ref{fig:exploration_problem}) which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \gls{im}.
+    A further reason could be that the agent gets detached from the intrinsically rewarding area (see \autoref{fig:exploration_problem}) which, according to \citet{ecoffet_go-explore_2019}, is a fundamental problem of \gls{im}.
 
     Another example would be the much quicker and less varying convergence of the obtained episodic extrinsic rewards which was witnessed during the evaluation of \textit{Freeway}.
     Here, it seems like the mixed rewarded agent is able to find a good compromise between being completely distracted by the naturally occurring stochasticity of the game and dodging the initial hurdles with which an extrinsic rewarded agent has to deal with.

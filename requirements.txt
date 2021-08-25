@@ -3,7 +3,7 @@
 # cudnn 7.4.2.24-1
 # tensorflow-gpu==1.15.2
 
-tensorflow==1.15.4
+tensorflow==2.5.1
 numpy==1.17.4
 gym==0.10.5
 baselines==0.1.5
